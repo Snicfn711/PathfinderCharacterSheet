@@ -8,4 +8,32 @@ public class AbilityScore implements IAbilityScore
 {
     AbilityScoreEnum Stat;
     int Amount;
+
+    public AbilityScore()
+    {
+        //Default Constructor
+    }
+    public AbilityScore(AbilityScoreEnum stat, int amount)
+    {
+        Stat = stat;
+        Amount = amount;
+    }
+
+    public void setAmount(int amount)
+    {
+        Amount = amount;
+    }
+    public void setStat(AbilityScoreEnum stat)
+    {
+        Stat = stat;
+    }
+    public int getAmount()
+    {
+        return Amount;
+    }
+    public AbilityScoreEnum getStat()
+    {
+        return Stat;
+    }
+
 }
