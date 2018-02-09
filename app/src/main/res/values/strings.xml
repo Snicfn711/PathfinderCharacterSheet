@@ -4,4 +4,8 @@
     <string name="title_activity_stats_screen">StatsScreen</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="StatName">Name</string>
+    <string name="StatScore">Score</string>
+    <string name="StatModifier">Modifier</string>
+    <string name="Roll">Roll</string>
 </resources>

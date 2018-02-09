@@ -16,16 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".viewmodels.StatsScreen"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_stats_screen"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/FullscreenTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pathfinderstattracker.pathfindercharactersheet.MainActivity" />
-        </activity>
+        <activity android:name=".viewmodels.StatsScreen"></activity>
     </application>
 
 </manifest>

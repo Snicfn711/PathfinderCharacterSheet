@@ -15,7 +15,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 /**
  * TODO: document your custom view class.
  */
-public class StatsScreen extends View
+public class StatRowView extends View
 {
     private String mExampleString; // TODO: use a default from R.string...
     private int mExampleColor = Color.RED; // TODO: use a default from R.color...
@@ -26,19 +26,19 @@ public class StatsScreen extends View
     private float mTextWidth;
     private float mTextHeight;
 
-    public StatsScreen(Context context)
+    public StatRowView(Context context)
     {
         super(context);
         init(null, 0);
     }
 
-    public StatsScreen(Context context, AttributeSet attrs)
+    public StatRowView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public StatsScreen(Context context, AttributeSet attrs, int defStyle)
+    public StatRowView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
@@ -48,25 +48,7 @@ public class StatsScreen extends View
     {
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.StatsScreen, defStyle, 0);
-
-        mExampleString = a.getString(
-                R.styleable.StatsScreen_exampleString);
-        mExampleColor = a.getColor(
-                R.styleable.StatsScreen_exampleColor,
-                mExampleColor);
-        // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
-        // values that should fall on pixel boundaries.
-        mExampleDimension = a.getDimension(
-                R.styleable.StatsScreen_exampleDimension,
-                mExampleDimension);
-
-        if (a.hasValue(R.styleable.StatsScreen_exampleDrawable))
-        {
-            mExampleDrawable = a.getDrawable(
-                    R.styleable.StatsScreen_exampleDrawable);
-            mExampleDrawable.setCallback(this);
-        }
+                attrs, R.styleable.StatRowView, defStyle, 0);
 
         a.recycle();
 

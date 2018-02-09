@@ -1,12 +1,16 @@
 package com.pathfinderstattracker.pathfindercharactersheet.adapters;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 
@@ -26,6 +30,7 @@ public class AbilityScoreAdapter extends BaseAdapter
     {
         this.abilityScoreList = abilityScoreList;
     }
+
     public AbilityScoreAdapter(Activity context, AbilityScore[] abilityScore)
     {
         setAbilityScoreList(abilityScore);
@@ -50,51 +55,45 @@ public class AbilityScoreAdapter extends BaseAdapter
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup)
+    public View getView(int position, View convertView, ViewGroup parent)
     {
-        int row = getRow(i);
-        int column = getColumn(i);
+        TextView textView;
 
-        TextView textView = new TextView(context);
-        if(row == 0)
+        int row = getRow(position);
+        int column = getColumn(position);
+
+        if(convertView == null)
         {
-            textView.setBackgroundColor(Color.argb(50, 0,0,0));
-            textView.setTextColor(Color.rgb(255, 215, 0));
-            switch(column)
+            textView = new TextView(context);
+            if (row == 0)
             {
-                case 0:
-                    textView.setText("Name");
-                    break;
-                case 1:
-                    textView.setText("Score");
-                    break;
-                case 2:
-                    textView.setText("Modifier");
-                    break;
-                case 3:
-                    textView.setText("Roll");
-                    break;
-                default:
-                    textView.setText("You shouldn't be here");
+                textView.setBackgroundColor(Color.argb(50, 0, 0, 0));
+                textView.setTextColor(Color.rgb(255, 215, 0));
+            }
+            else if (column == 0 && row > 0)
+            {
+                textView.setText(abilityScoreList[row - 1].getStat().toString());
+            }
+            else if (column == 1 && row > 0)
+            {
+                textView.setText((abilityScoreList[row - 1].getAmount()));
+            }
+            else if (column == 2 && row > 0)
+            {
+                textView.setText(calculateModifier(row));
+            }
+            else if(column == 3 && row > 0)
+            {
+                textView.setBackgroundColor(Color.RED);
             }
         }
-        if(column == 0 && row > 0)
+        else
         {
-            textView.setText(abilityScoreList[row - 1].getStat().toString());
+            textView  = (TextView)convertView;
         }
-        if(column == 1 && row > 0)
-        {
-            textView.setText((abilityScoreList[row -1].getAmount()));
-        }
-        if(column == 2 && row > 0)
-        {
-            textView.setText(calculateModifier(row));
-        }
-        if(column == 3 && row > 0)
-        {
-            textView.setBackgroundColor(Color.RED);
-        }
+
         return textView;
+
     }
 
     private int getRow(int pos)
