@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsScreen">
+    tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsScreen"
+    android:background="@drawable/knight_bg">
     <RelativeLayout android:layout_height="match_parent"
         android:layout_width="match_parent">
-    <GridView android:id="@+id/acGrid"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:numColumns="4"
-        android:verticalSpacing="1dp"
-        android:horizontalSpacing="1dp"
-        android:gravity="center"
-        android:background="@android:color/black"
-        android:columnWidth="10dp"
-        android:layout_margin="5dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"/>
+
+        <ListView android:id="@+id/movementList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="15dp"/>
+
+        <ListView android:id="@+id/statsList"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/movementList"/>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

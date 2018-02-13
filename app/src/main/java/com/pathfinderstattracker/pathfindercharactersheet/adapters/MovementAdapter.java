@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.races.Movement;
 import com.pathfinderstattracker.pathfindercharactersheet.views.StatRowView;
 
 import org.w3c.dom.Text;
@@ -22,22 +23,22 @@ import org.w3c.dom.Text;
  * Created by Stephen Hagen on 2/6/2018.
  */
 
-public class AbilityScoreAdapter extends BaseAdapter
+public class MovementAdapter extends BaseAdapter
 {
     private Activity context = null;
     public void setContext(Activity context)
     {
         this.context = context;
     }
-    private AbilityScore[] abilityScoreList = null;
-    public void setAbilityScoreList(AbilityScore[] abilityScoreList)
+    private Movement[] movementList = null;
+    public void setAbilityScoreList(Movement[] movementList)
     {
-        this.abilityScoreList = abilityScoreList;
+        this.movementList = movementList;
     }
 
     private static LayoutInflater inflater;
 
-    public AbilityScoreAdapter(Activity context, AbilityScore[] abilityScore)
+    public MovementAdapter(Activity context, Movement[] abilityScore)
     {
         setAbilityScoreList(abilityScore);
         setContext(context);
@@ -46,13 +47,13 @@ public class AbilityScoreAdapter extends BaseAdapter
     @Override
     public int getCount()
     {
-        return (abilityScoreList.length + 1);
+        return (movementList.length + 1);
     }
 
     @Override
     public Object getItem(int i)
     {
-        return abilityScoreList[i];
+        return movementList[i];
     }
 
     @Override
@@ -67,32 +68,29 @@ public class AbilityScoreAdapter extends BaseAdapter
         View vi = convertView;
         if(vi == null)
         {
-            vi = inflater.inflate(R.layout.stat_row_view, null);
+            vi = inflater.inflate(R.layout.movement_row_view, null);
             if(position != 0)
             {
                 TextView name = vi.findViewById(R.id.Name);
-                TextView value = vi.findViewById(R.id.Value);
-                TextView modifier = vi.findViewById(R.id.Modifier);
-                TextView roll = vi.findViewById(R.id.Roll);
+                TextView feet = vi.findViewById(R.id.Feet);
+                TextView squares = vi.findViewById(R.id.Squares);
 
-                name.setText(abilityScoreList[position - 1].getStat().toString());
+                name.setText(movementList[position - 1].getName());
 
-                value.setText((Integer.toString(abilityScoreList[position - 1].getAmount())));
-                value.setBackgroundResource(R.drawable.field_border);
+                feet.setText((Integer.toString(movementList[position - 1].getSpeed())));
+                feet.setBackgroundResource(R.drawable.field_border);
 
-                modifier.setText(Integer.toString(calculateModifier(position)));
-                modifier.setBackgroundResource(R.drawable.field_border);
-
-                roll.setBackgroundResource(R.drawable.field_border);
+                squares.setText(Integer.toString(calculateSquares(position)));
+                squares.setBackgroundResource(R.drawable.field_border);
             }
         }
 
         return vi;
     }
 
-    private int calculateModifier(int row)
+    private int calculateSquares(int row)
     {
-        int temp = abilityScoreList[row - 1].getAmount();
-        return ((temp - 10) / 2);
+        int temp = movementList[row - 1].getSpeed();
+        return (temp/5);
     }
 }

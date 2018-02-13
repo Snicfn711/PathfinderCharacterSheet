@@ -7,37 +7,29 @@
         android:id="@+id/Name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".25"
+        android:layout_weight=".33"
         android:gravity="center"
         android:text="@string/Name"
         android:background="@drawable/header_border"
         android:textColor="@color/colorGoldText"/>
     <TextView
-        android:id="@+id/Value"
+        android:id="@+id/Feet"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".25"
+        android:layout_weight=".33"
         android:gravity="center"
-        android:text="@string/StatScore"
+        android:text="@string/MovementFeet"
         android:background="@drawable/header_border"
         android:textColor="@color/colorGoldText"/>
     <TextView
-        android:id="@+id/Modifier"
+        android:id="@+id/Squares"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight=".25"
+        android:layout_weight=".33"
         android:gravity="center"
-        android:text="@string/StatModifier"
+        android:text="@string/MovementSquares"
         android:background="@drawable/header_border"
         android:textColor="@color/colorGoldText"/>
-    <TextView
-        android:id="@+id/Roll"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".25"
-        android:gravity="center"
-        android:text="@string/Roll"
-        android:background="@drawable/header_border"
-        android:textColor="@color/colorGoldText"/>
+
 
 </LinearLayout>

@@ -4,8 +4,14 @@
     <string name="title_activity_stats_screen">StatsScreen</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="StatName">Name</string>
+    <!--Generic Strings-->
+    <string name="Name">Name</string>
+    <string name="Roll">Roll</string>
+    <!--Stat Strings-->
     <string name="StatScore">Score</string>
     <string name="StatModifier">Modifier</string>
-    <string name="Roll">Roll</string>
+    <!--Movement Strings-->
+    <string name="MovementFeet">Feet</string>
+    <string name="MovementSquares">Squares</string>
+
 </resources>

@@ -15,8 +15,8 @@ public class AbilityScore implements IAbilityScore
     }
     public AbilityScore(AbilityScoreEnum stat, int amount)
     {
-        Stat = stat;
-        Amount = amount;
+        setStat(stat);
+        setAmount(amount);
     }
 
     public void setAmount(int amount)

@@ -15,9 +15,9 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 /**
  * TODO: document your custom view class.
  */
-public class StatRowView extends View
+public class MovementRowView extends View
 {
-    private String mExampleString = "poo"; // TODO: use a default from R.string...
+    private String mExampleString; // TODO: use a default from R.string...
     private int mExampleColor = Color.RED; // TODO: use a default from R.color...
     private float mExampleDimension = 0; // TODO: use a default from R.dimen...
     private Drawable mExampleDrawable;
@@ -26,19 +26,19 @@ public class StatRowView extends View
     private float mTextWidth;
     private float mTextHeight;
 
-    public StatRowView(Context context)
+    public MovementRowView(Context context)
     {
         super(context);
         init(null, 0);
     }
 
-    public StatRowView(Context context, AttributeSet attrs)
+    public MovementRowView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public StatRowView(Context context, AttributeSet attrs, int defStyle)
+    public MovementRowView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
@@ -48,7 +48,7 @@ public class StatRowView extends View
     {
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.StatRowView, defStyle, 0);
+                attrs, R.styleable.MovementRowView, defStyle, 0);
 
         a.recycle();
 
