@@ -8,18 +8,51 @@
     <RelativeLayout android:layout_height="match_parent"
         android:layout_width="match_parent">
 
-        <ListView android:id="@+id/movementList"
+        <LinearLayout android:id="@+id/movementSection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="15dp"/>
+            android:layout_marginBottom="15dp">
+            <ListView android:id="@+id/movementList"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"/>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="50"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:orientation="vertical">
+                    <ListView android:id="@+id/savesList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginBottom="5dp"/>
+                    <ListView android:id="@+id/combatManueverList"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentBottom="true"/>
 
-        <ListView android:id="@+id/statsList"
-            android:layout_height="wrap_content"
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/movementList"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/movementSection">
+                <ListView android:id="@+id/statsList"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="50"/>
+
+                <ListView android:id="@+id/initiativeList"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="50"/>
+        </LinearLayout>
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

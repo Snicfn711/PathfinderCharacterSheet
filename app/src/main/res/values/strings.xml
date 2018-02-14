@@ -7,11 +7,21 @@
     <!--Generic Strings-->
     <string name="Name">Name</string>
     <string name="Roll">Roll</string>
+    <string name="Value">Value</string>
+    <string name="Error">Error</string>
     <!--Stat Strings-->
     <string name="StatScore">Score</string>
-    <string name="StatModifier">Modifier</string>
+    <string name="StatModifier">Mod</string>
     <!--Movement Strings-->
     <string name="MovementFeet">Feet</string>
     <string name="MovementSquares">Squares</string>
-
+    <!--Initiative String-->
+    <string name="Initiative">Initiative</string>
+    <!--Combat Manuever Strings -->
+    <string name="CMB">CMB</string>
+    <string name="CMD">CMD</string>
+    <!--Saves strings-->
+    <string name="Fort">Fortitude</string>
+    <string name="Ref">Reflex</string>
+    <string name="Will">Will</string>
 </resources>

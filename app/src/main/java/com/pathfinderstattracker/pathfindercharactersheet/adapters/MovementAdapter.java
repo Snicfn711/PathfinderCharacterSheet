@@ -31,16 +31,16 @@ public class MovementAdapter extends BaseAdapter
         this.context = context;
     }
     private Movement[] movementList = null;
-    public void setAbilityScoreList(Movement[] movementList)
+    public void setMovementList(Movement[] movementList)
     {
         this.movementList = movementList;
     }
 
     private static LayoutInflater inflater;
 
-    public MovementAdapter(Activity context, Movement[] abilityScore)
+    public MovementAdapter(Activity context, Movement[] movementList)
     {
-        setAbilityScoreList(abilityScore);
+        setMovementList(movementList);
         setContext(context);
         inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.views.StatRowView;
 
 import org.w3c.dom.Text;
@@ -29,15 +30,15 @@ public class AbilityScoreAdapter extends BaseAdapter
     {
         this.context = context;
     }
-    private AbilityScore[] abilityScoreList = null;
-    public void setAbilityScoreList(AbilityScore[] abilityScoreList)
+    private IAbilityScore[] abilityScoreList = null;
+    public void setAbilityScoreList(IAbilityScore[] abilityScoreList)
     {
         this.abilityScoreList = abilityScoreList;
     }
 
     private static LayoutInflater inflater;
 
-    public AbilityScoreAdapter(Activity context, AbilityScore[] abilityScore)
+    public AbilityScoreAdapter(Activity context, IAbilityScore[] abilityScore)
     {
         setAbilityScoreList(abilityScore);
         setContext(context);

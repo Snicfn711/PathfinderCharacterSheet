@@ -9,7 +9,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public interface ICharacter
+public interface IPlayerCharacter
 {
     double ExperiencePoints = 0;
     int CharacterLevel = 0;

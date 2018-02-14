@@ -8,7 +8,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnu
 
 public interface ICasterClass extends IClass
 {
-    AbilityScoreEnum CastingStat = AbilityScoreEnum.Intelligence;
+    AbilityScoreEnum CastingStat = AbilityScoreEnum.INT;
     int CasterLevel = 0;
     int DifficultyClass = 0;
 }

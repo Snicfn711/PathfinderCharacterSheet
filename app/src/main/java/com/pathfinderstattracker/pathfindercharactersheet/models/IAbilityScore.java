@@ -8,4 +8,10 @@ public interface IAbilityScore
 {
     AbilityScoreEnum Stat = null;
     int Amount = 0;
+
+    void setStat(AbilityScoreEnum stat);
+    AbilityScoreEnum getStat();
+    void setAmount(int amount);
+    int getAmount();
+
 }

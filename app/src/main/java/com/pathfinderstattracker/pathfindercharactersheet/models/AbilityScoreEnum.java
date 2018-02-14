@@ -6,10 +6,10 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 public enum AbilityScoreEnum
 {
-    Strength,
-    Dexterity,
-    Constitution,
-    Intelligence,
-    Wisdom,
-    Charisma
+    STR,
+    DEX,
+    CON,
+    INT,
+    WIS,
+    CHA
 }

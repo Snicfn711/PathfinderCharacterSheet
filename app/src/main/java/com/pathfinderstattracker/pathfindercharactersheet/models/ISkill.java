@@ -9,6 +9,6 @@ public interface ISkill
     boolean Proficiency = false;
     int PointsInvested = 0;
     int FavoredClassPointsInvested = 0;
-    AbilityScoreEnum AddedStat = AbilityScoreEnum.Strength;
+    AbilityScoreEnum AddedStat = AbilityScoreEnum.STR;
     boolean ArmorCheckPenaltyApplied = false;
 }

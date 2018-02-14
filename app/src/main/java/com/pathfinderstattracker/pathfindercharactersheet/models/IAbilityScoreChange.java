@@ -6,6 +6,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 public interface IAbilityScoreChange
 {
-    AbilityScoreEnum StatChanged = AbilityScoreEnum.Strength;
+    AbilityScoreEnum StatChanged = AbilityScoreEnum.STR;
     int AmountChanged = 0;
 }

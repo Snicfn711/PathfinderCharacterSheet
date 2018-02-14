@@ -9,7 +9,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnu
 public interface IClassResource
 {
     String Name = null;
-    AbilityScoreEnum AddedStat = AbilityScoreEnum.Strength;
+    AbilityScoreEnum AddedStat = AbilityScoreEnum.STR;
     int StartingLevel = 0;
     String Formula = null; //It looks like Java has a scriptmanager object for interpreting this
     boolean HasMinimumValue = false;

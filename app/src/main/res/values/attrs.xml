@@ -8,7 +8,9 @@
         <attr name="metaButtonBarStyle" format="reference" />
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
-    <declare-styleable name="MovementRowView"></declare-styleable>
-    <declare-styleable name="StatRowView"></declare-styleable>
+    <declare-styleable name="MovementRowView"/>
+    <declare-styleable name="StatRowView"/>
+    <declare-styleable name="InitiativeRowView"/>
+    <declare-styleable name="SavesRowView"/>
 
 </resources>
