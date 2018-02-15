@@ -6,14 +6,21 @@ import android.widget.ListView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.AbilityScoreAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.ArmorAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.CombatManueverAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.HP_BAB_SR_Adapter;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.InitiativeAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.MovementAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.SavesAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.ArmorItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IArmorItem;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IHitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.Movement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementManeuverabilityEnum;
 
@@ -45,6 +52,17 @@ public class StatsScreen extends Activity
     private PlayerCharacter tempCharacter = new PlayerCharacter();
     //endregion
 
+    //region Test Armor Items
+    private ArmorItem armorBonus = new ArmorItem("armorBonus",ArmorTypesEnum.Armor,5);
+    private ArmorItem naturalArmorBonus = new ArmorItem("naturalArmorBonus", ArmorTypesEnum.NaturalArmor,5);
+    private ArmorItem shieldArmorBonus = new ArmorItem("shieldArmorBonus", ArmorTypesEnum.Shield,5);
+    private ArmorItem dodgeArmorBonus = new ArmorItem("dodgeArmorBonus", ArmorTypesEnum.Dodge, 5);
+    private ArmorItem[] tempArmorItems = new ArmorItem[]{armorBonus, naturalArmorBonus, shieldArmorBonus, dodgeArmorBonus};
+    //endregion
+
+    //region Temp Hit Points
+    private IHitPoints tempHitPoints = new HitPoints(0,30);
+    //endregion
 
 
     @Override
@@ -60,6 +78,11 @@ public class StatsScreen extends Activity
         tempCharacter.setFortitudeSave(4);
         tempCharacter.setReflexSave(5);
         tempCharacter.setWillSave(6);
+        tempCharacter.setTotalAC(35);
+        tempCharacter.setEquippedArmor(tempArmorItems);
+        tempCharacter.setHitPoints(tempHitPoints);
+        tempCharacter.setTotalBaseAttackBonus(5);
+        tempCharacter.setSpellResistance(5);
         //endregion
 
         //Populate and bind our stats list
@@ -86,5 +109,15 @@ public class StatsScreen extends Activity
         ListView savesView = findViewById(R.id.savesList);
         SavesAdapter savesAdapter = new SavesAdapter(this, tempCharacter.getFortitudeSave(), tempCharacter.getReflexSave(), tempCharacter.getWillSave());
         savesView.setAdapter(savesAdapter);
+
+        //Populate and bind our AC list
+        ListView armorView = findViewById(R.id.armorList);
+        ArmorAdapter armorAdapter = new ArmorAdapter(this, tempCharacter.getTotalAC(), tempCharacter.CalculateTouchAC(), tempCharacter.CalculateFlatFootedAC());
+        armorView.setAdapter(armorAdapter);
+
+        //Populate and bind our HP, BAB, SR section
+        ListView hp_BAB_SRView = findViewById(R.id.hp_bab_srList);
+        HP_BAB_SR_Adapter hp_bab_sr_adapter = new HP_BAB_SR_Adapter(this, tempCharacter.getHitPoints(), tempCharacter.getTotalBaseAttackBonus(), tempCharacter.getSpellResistance());
+        hp_BAB_SRView.setAdapter(hp_bab_sr_adapter);
     }
 }

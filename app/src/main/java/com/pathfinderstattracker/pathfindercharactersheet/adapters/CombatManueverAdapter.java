@@ -15,7 +15,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.characters.ICom
 /**
  * Created by Stephen Hagen on 2/14/2018.
  */
-
+//TODO: IF performance is an issue, come back and see if a list view is necessary here, or if we can avoid using an adapter
 public class CombatManueverAdapter extends BaseAdapter
 {
     private Activity context = null;

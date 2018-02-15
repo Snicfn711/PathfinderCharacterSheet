@@ -64,7 +64,7 @@ public class SavesAdapter extends BaseAdapter
     @Override
     public Object getItem(int i)
     {
-        return savesArray[i];
+        return savesArray[i - 1];
     }
 
     @Override

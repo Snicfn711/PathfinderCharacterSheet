@@ -13,7 +13,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 /**
  * Created by Stephen Hagen on 2/14/2018.
  */
-
+//TODO: IF performance is an issue, come back and see if a list view is necessary here, or if we can avoid using an adapter
 public class InitiativeAdapter extends BaseAdapter
 {
     private Activity context = null;

@@ -24,4 +24,12 @@
     <string name="Fort">Fortitude</string>
     <string name="Ref">Reflex</string>
     <string name="Will">Will</string>
+    <!--Armor Strings-->
+    <string name="FlatFootedAC">Flat Footed</string>
+    <string name="TouchAC">Touch</string>
+    <string name="TotalAC">Armor Class</string>
+    <!--Hit Point Strings-->
+    <string name="HitPoints">Hit Points</string>
+    <string name="BaseAttackBonus">Base Attack Bonus</string>
+    <string name="SpellResistance">Spell Resistance</string>
 </resources>

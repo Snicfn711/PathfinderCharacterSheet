@@ -11,25 +11,25 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
 
 public class PlayerCharacter implements IPlayerCharacter
 {
-    double ExperiencePoints;
-    int CharacterLevel;
-    int ConcentrationCheck;
-    AlignmentEnum Alignment;
-    int TotalBaseAttackBonus;
-    IRace CharacterRace;
-    IHitPoints TotalHitPoints;
-    int TotalAC;
-    IFeat[] Feats;
-    IArmorItems[] EquippedArmor;
-    IDamageReduction DR;
-    String[] LanguagesKnown;
-    IAbilityScore[] AbilityScores;
-    ICombatManeuver CombatManeuverStats;
-    int SpellResistance;
-    int Initiative;
-    int FortitudeSave;
-    int ReflexSave;
-    int WillSave;
+    private double ExperiencePoints;
+    private int CharacterLevel;
+    private int ConcentrationCheck;
+    private AlignmentEnum Alignment;
+    private int TotalBaseAttackBonus;
+    private IRace CharacterRace;
+    private IHitPoints TotalHitPoints;
+    private int TotalAC;
+    private IFeat[] Feats;
+    private IArmorItem[] EquippedArmor;
+    private IDamageReduction DR;
+    private String[] LanguagesKnown;
+    private IAbilityScore[] AbilityScores;
+    private ICombatManeuver CombatManeuverStats;
+    private int SpellResistance;
+    private int Initiative;
+    private int FortitudeSave;
+    private int ReflexSave;
+    private int WillSave;
 
     public double getExperiencePoints()
     {
@@ -86,19 +86,21 @@ public class PlayerCharacter implements IPlayerCharacter
         return CharacterRace;
     }
 
-    public void setCharacterRace(IRace characterRace)
+    @Override
+    public void setHitPoints(IHitPoints hitPoints)
     {
-        CharacterRace = characterRace;
+        TotalHitPoints = hitPoints;
     }
 
-    public IHitPoints getTotalHitPoints()
+    @Override
+    public IHitPoints getHitPoints()
     {
         return TotalHitPoints;
     }
 
-    public void setTotalHitPoints(IHitPoints totalHitPoints)
+    public void setCharacterRace(IRace characterRace)
     {
-        TotalHitPoints = totalHitPoints;
+        CharacterRace = characterRace;
     }
 
     public int getTotalAC()
@@ -121,12 +123,12 @@ public class PlayerCharacter implements IPlayerCharacter
         Feats = feats;
     }
 
-    public IArmorItems[] getEquippedArmor()
+    public IArmorItem[] getEquippedArmor()
     {
         return EquippedArmor;
     }
 
-    public void setEquippedArmor(IArmorItems[] equippedArmor)
+    public void setEquippedArmor(IArmorItem[] equippedArmor)
     {
         EquippedArmor = equippedArmor;
     }
@@ -228,4 +230,59 @@ public class PlayerCharacter implements IPlayerCharacter
         //Default Constructor
     }
 
+    private int CalculateModifier(IAbilityScore stat)
+    {
+        return (stat.getAmount() - 10)/2;
+    }
+
+    public int CalculateTouchAC()
+    {
+        int armorBonus = 0;
+        int naturalArmorBonus = 0;
+        int shieldBonus = 0;
+        for(IArmorItem x:EquippedArmor)
+        {
+            switch(x.getArmorType())
+            {
+                case Armor:
+                    armorBonus = x.getValue();
+                    break;
+                case NaturalArmor:
+                    naturalArmorBonus = x.getValue();
+                    break;
+                case Shield:
+                    shieldBonus = x.getValue();
+                    break;
+            }
+            //Since we don't care about the other armor types, we'll leave out a default case
+        }
+        return TotalAC - armorBonus - naturalArmorBonus - shieldBonus;
+    }
+
+    public int CalculateFlatFootedAC()
+    {
+        int dodgeBonus = 0;
+        int dexterityBonus = 0;
+        for(IArmorItem x:EquippedArmor)
+        {
+            switch(x.getArmorType())
+            {
+                case Dodge:
+                    dodgeBonus = x.getValue();
+                    break;
+            }
+            //Since we don't care about the other armor types, we'll leave out a default case
+        }
+        for(IAbilityScore x:AbilityScores)
+        {
+            switch (x.getStat())
+            {
+                case DEX:
+                    dexterityBonus = CalculateModifier(x);
+                    break;
+            }
+            //Again, we don't care about other stats
+        }
+        return TotalAC - dodgeBonus - dexterityBonus;
+    }
 }

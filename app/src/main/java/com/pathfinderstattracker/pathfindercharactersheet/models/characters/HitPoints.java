@@ -6,6 +6,40 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 
 public class HitPoints implements IHitPoints
 {
-    public int FavoredClassPointsInvested;
-    public int Value;
+    int FavoredClassPointsInvested;
+    int Value;
+
+    public HitPoints()
+    {
+        //Default Constructor
+    }
+    public HitPoints(int favoredClassPointsInvested, int value)
+    {
+        setFavoredClassPointsInvested(favoredClassPointsInvested);
+        setValue(value);
+    }
+
+    @Override
+    public void setFavoredClassPointsInvested(int pointsInvested)
+    {
+        FavoredClassPointsInvested = pointsInvested;
+    }
+
+    @Override
+    public int getFavoredClassPointsInvested()
+    {
+        return FavoredClassPointsInvested;
+    }
+
+    @Override
+    public void setValue(int value)
+    {
+        Value = value;
+    }
+
+    @Override
+    public int getValue()
+    {
+        return Value;
+    }
 }
