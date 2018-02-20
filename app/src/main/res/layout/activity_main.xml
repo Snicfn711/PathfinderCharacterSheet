@@ -5,8 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.pathfinderstattracker.pathfindercharactersheet.MainActivity">
+<android.support.v4.view.ViewPager
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
+    <android.support.v4.view.PagerTitleStrip
+        android:id="@+id/pager_title_strip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="#33b5e5"
+        android:textColor="#fff"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp" />
+
+    <fragment android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsScreenFragment"
+        android:id="@+id/StatsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <fragment android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsScreenFragment"
+        android:id="@+id/StatsFragment2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</android.support.v4.view.ViewPager>
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -16,6 +42,6 @@
     <Button android:id="@+id/navigateButton"
         android:text="Go to Stats Screen"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content" />
+        android:layout_width="wrap_content" />-->
 
 </android.support.constraint.ConstraintLayout>

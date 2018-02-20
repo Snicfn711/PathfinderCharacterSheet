@@ -32,4 +32,7 @@
     <string name="HitPoints">Hit Points</string>
     <string name="BaseAttackBonus">Base Attack Bonus</string>
     <string name="SpellResistance">Spell Resistance</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
