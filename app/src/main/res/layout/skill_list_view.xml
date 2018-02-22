@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.v7.widget.RecyclerView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/StatsRecycler"
+        android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment"
+        tools:listitem="@layout/skill_row_view"
+        android:layout_weight="9"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorTransparentHeader"
+        android:layout_weight="1">
+        <Button android:id="@+id/SortByIsClassSkill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by CS"/>
+        <TextView android:id="@+id/TotalRanks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"/>
+        <TextView android:id="@+id/FavoredClassRanks"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1" />
+        <Button android:id="@+id/SortByRanks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sort by Ranks"/>
+        <Button android:id="@+id/AddNewSkill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add New Skill"/>
+    </LinearLayout>
+</LinearLayout>

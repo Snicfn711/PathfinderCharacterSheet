@@ -6,9 +6,18 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 public interface ISkill
 {
-    boolean Proficiency = false;
-    int PointsInvested = 0;
-    int FavoredClassPointsInvested = 0;
-    AbilityScoreEnum AddedStat = AbilityScoreEnum.STR;
-    boolean ArmorCheckPenaltyApplied = false;
+
+
+    void setProficiency(boolean proficiency);
+    boolean isProficiency();
+    void setPointsInvested(int pointsInvested);
+    int getPointsInvested();
+    void setFavoredClassPointsInvested(int favoredClassPointsInvested);
+    int getFavoredClassPointsInvested();
+    void setAddedStat(AbilityScoreEnum addedStat);
+    AbilityScoreEnum getAddedStat();
+    void setArmorCheckPenaltyApplied(boolean armorCheckPenaltyApplied);
+    boolean isArmorCheckPenaltyApplied();
+    void setSkillName(String skillName);
+    String getSkillName();
 }

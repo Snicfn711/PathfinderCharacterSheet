@@ -1,20 +1,17 @@
 package com.pathfinderstattracker.pathfindercharactersheet;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsScreen;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsScreenFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.ReferenceStatsFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment;
 
-public class MainActivity extends FragmentActivity implements StatsScreenFragment.OnFragmentInteractionListener
+public class MainActivity extends FragmentActivity implements ReferenceStatsFragment.OnFragmentInteractionListener, SkillsFragment.OnListFragmentInteractionListener
 {
     ReferenceFragmentAdapter referenceFragmentAdapter;
     ViewPager mViewPager;
@@ -29,14 +26,14 @@ public class MainActivity extends FragmentActivity implements StatsScreenFragmen
 
     }
 
-    public void navigateToStatsScreen()
+    @Override
+    public void onFragmentInteraction(Uri uri)
     {
-        Intent intent = new Intent(this, StatsScreen.class);
-        startActivity(intent);
+
     }
 
     @Override
-    public void onFragmentInteraction(Uri uri)
+    public void onListFragmentInteraction(ISkill item)
     {
 
     }

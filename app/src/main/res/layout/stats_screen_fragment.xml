@@ -2,9 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsScreen"
-    android:background="@drawable/knight_bg">
+    android:layout_height="match_parent">
+    <!--tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsScreen"-->
     <RelativeLayout android:layout_height="match_parent"
         android:layout_width="match_parent">
         <LinearLayout android:id="@+id/armorSection"
