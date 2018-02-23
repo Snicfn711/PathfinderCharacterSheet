@@ -10,8 +10,6 @@
         android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment"
         tools:listitem="@layout/skill_row_view"

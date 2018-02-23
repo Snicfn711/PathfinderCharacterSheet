@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
@@ -85,6 +87,7 @@ public class SavesAdapter extends BaseAdapter
                 TextView name = vi.findViewById(R.id.Name);
                 TextView value = vi.findViewById(R.id.Value);
                 TextView roll = vi.findViewById(R.id.Roll);
+                ImageButton roll_button = vi.findViewById(R.id.RollSave);
 
                 switch(position)
                 {
@@ -105,7 +108,11 @@ public class SavesAdapter extends BaseAdapter
                 value.setText((Integer.toString(savesArray[position - 1])));
                 value.setBackgroundResource(R.drawable.field_border);
 
-                roll.setBackgroundResource(R.drawable.field_border);
+                LinearLayout.LayoutParams shrink_roll = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0);
+                roll.setLayoutParams(shrink_roll);
+
+                LinearLayout.LayoutParams expand_button = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, .33f);
+                roll_button.setLayoutParams(expand_button);
             }
         }
 

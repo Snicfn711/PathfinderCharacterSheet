@@ -5,8 +5,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
@@ -63,6 +66,7 @@ public class SkillsAdapter extends BaseAdapter
         if(vi == null)
         {
             vi = inflater.inflate(R.layout.skill_row_view, null);
+
             if(position != 0)
             {
                 CheckBox isClassSkill = vi.findViewById(R.id.IsClassSkill);

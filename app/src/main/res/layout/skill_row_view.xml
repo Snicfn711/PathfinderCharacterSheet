@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@color/colorTransparentField">
+    android:background="@drawable/field_border">
     <CheckBox
         android:id="@+id/IsClassSkill"
         android:layout_width="0dp"
@@ -37,9 +37,13 @@
         android:layout_gravity="center"
         android:textColor="@color/colorGoldText"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageButton android:id="@+id/RollSkill"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:text="@string/Roll"        />
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:layout_weight="1"
+        android:src="@drawable/d20_image"/>
 </LinearLayout>
