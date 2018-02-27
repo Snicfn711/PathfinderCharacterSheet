@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -41,6 +43,7 @@ public class SavesAdapter extends BaseAdapter
 
     private int[] savesArray;
     private static LayoutInflater inflater;
+    private Animation click;
 
     public SavesAdapter()
     {
@@ -60,7 +63,7 @@ public class SavesAdapter extends BaseAdapter
     @Override
     public int getCount()
     {
-        return savesArray.length + 1;
+        return savesArray.length;
     }
 
     @Override
@@ -78,44 +81,44 @@ public class SavesAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+        click = AnimationUtils.loadAnimation(parent.getContext(), R.anim.roll_button_click);
+
         View vi = convertView;
         if(vi == null)
         {
             vi = inflater.inflate(R.layout.saves_row_view, null);
-            if(position != 0)
+
+            TextView name = vi.findViewById(R.id.Name);
+            TextView value = vi.findViewById(R.id.Value);
+            final ImageButton rollButton = vi.findViewById(R.id.RollSave);
+
+            switch(position)
             {
-                TextView name = vi.findViewById(R.id.Name);
-                TextView value = vi.findViewById(R.id.Value);
-                TextView roll = vi.findViewById(R.id.Roll);
-                ImageButton roll_button = vi.findViewById(R.id.RollSave);
-
-                switch(position)
-                {
-                    case 1:
-                        name.setText(R.string.Fort);
-                        break;
-                    case 2:
-                        name.setText(R.string.Ref);
-                        break;
-                    case 3:
-                        name.setText(R.string.Will);
-                        break;
-                    default:
-                        name.setText(R.string.Error);
-                        break;
-                }
-
-                value.setText((Integer.toString(savesArray[position - 1])));
+                case 0:
+                    name.setText(R.string.Fort);
+                    break;
+                case 1:
+                    name.setText(R.string.Ref);
+                    break;
+                case 2:
+                    name.setText(R.string.Will);
+                    break;
+                default:
+                    name.setText(R.string.Error);
+                    break;
+            }
+                value.setText((Integer.toString(savesArray[position])));
                 value.setBackgroundResource(R.drawable.field_border);
 
-                LinearLayout.LayoutParams shrink_roll = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0);
-                roll.setLayoutParams(shrink_roll);
-
-                LinearLayout.LayoutParams expand_button = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, .33f);
-                roll_button.setLayoutParams(expand_button);
+            rollButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    rollButton.startAnimation(click);
+                }
+            });
             }
-        }
-
         return vi;
     }
 }

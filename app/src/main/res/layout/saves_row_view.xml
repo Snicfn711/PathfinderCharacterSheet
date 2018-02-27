@@ -1,38 +1,33 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
     <TextView
         android:id="@+id/Name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/Name"
         android:background="@drawable/header_border"
-        android:textColor="@color/colorGoldText"/>
+        android:textColor="@color/colorGoldText"
+        android:layout_weight=".33"/>
     <TextView
         android:id="@+id/Value"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/Value"
         android:background="@drawable/header_border"
-        android:textColor="@color/colorGoldText"/>
-    <TextView
-        android:id="@+id/Roll"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/Roll"
-        android:background="@drawable/header_border"
-        android:textColor="@color/colorGoldText"/>
-
+        android:textColor="@color/colorGoldText"
+        android:layout_weight=".33"/>
     <ImageButton android:id="@+id/RollSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:background="@drawable/header_border"
         android:scaleType="centerInside"
         android:adjustViewBounds="true"
-        android:src="@drawable/d20_image"/>
-</android.support.constraint.ConstraintLayout>
+        android:layout_weight=".33"
+        android:src="@drawable/d20_image"
+        android:contentDescription="@string/Roll" />
+</LinearLayout>

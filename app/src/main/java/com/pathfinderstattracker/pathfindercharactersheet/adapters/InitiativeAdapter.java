@@ -5,7 +5,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
@@ -28,6 +31,7 @@ public class InitiativeAdapter extends BaseAdapter
     }
 
     private static LayoutInflater inflater;
+    private Animation click;
 
     public InitiativeAdapter()
     {
@@ -62,13 +66,23 @@ public class InitiativeAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+        click = AnimationUtils.loadAnimation(parent.getContext(), R.anim.roll_button_click);
         View vi = convertView;
         if(vi == null)
         {
             vi = inflater.inflate(R.layout.initiative_view, null);
             TextView value = vi.findViewById(R.id.Value);
+            final ImageButton rollButton = vi.findViewById(R.id.RollInitiative);
 
             value.setText(Integer.toString(initiative));
+            rollButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    rollButton.startAnimation(click);
+                }
+            });
         }
         return vi;
     }

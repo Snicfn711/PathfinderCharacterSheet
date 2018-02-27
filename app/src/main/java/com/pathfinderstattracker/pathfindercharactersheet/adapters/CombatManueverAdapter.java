@@ -5,8 +5,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Adapter;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
@@ -30,6 +33,7 @@ public class CombatManueverAdapter extends BaseAdapter
     }
 
     private static LayoutInflater inflater;
+    private Animation click;
 
     public CombatManueverAdapter(Activity context, ICombatManeuver combatManuever)
     {
@@ -58,16 +62,28 @@ public class CombatManueverAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+        click = AnimationUtils.loadAnimation(parent.getContext(), R.anim.roll_button_click);
         View vi = convertView;
+
         if(vi == null)
         {
             vi = inflater.inflate(R.layout.combat_manuever_view, null);
             TextView CMBValue = vi.findViewById(R.id.CMBValue);
             TextView CMDValue = vi.findViewById(R.id.CMDValue);
+            final ImageButton rollButton = vi.findViewById(R.id.RollManuever);
 
             CMBValue.setText((Integer.toString(combatManuever.getCombatManeuverCheck())));
 
             CMDValue.setText(Integer.toString(combatManuever.getCombatManeuverDefense()));
+
+            rollButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    rollButton.startAnimation(click);
+                }
+            });
         }
         return vi;
     }

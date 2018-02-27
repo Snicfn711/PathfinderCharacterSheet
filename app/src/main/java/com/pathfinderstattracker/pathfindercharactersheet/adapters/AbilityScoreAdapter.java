@@ -7,7 +7,10 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +40,7 @@ public class AbilityScoreAdapter extends BaseAdapter
     }
 
     private static LayoutInflater inflater;
+    private Animation click;
 
     public AbilityScoreAdapter(Activity context, IAbilityScore[] abilityScore)
     {
@@ -47,7 +51,7 @@ public class AbilityScoreAdapter extends BaseAdapter
     @Override
     public int getCount()
     {
-        return (abilityScoreList.length + 1);
+        return (abilityScoreList.length);
     }
 
     @Override
@@ -65,27 +69,33 @@ public class AbilityScoreAdapter extends BaseAdapter
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
+        click = AnimationUtils.loadAnimation(parent.getContext(), R.anim.roll_button_click);
         View vi = convertView;
         if(vi == null)
         {
             vi = inflater.inflate(R.layout.stat_row_view, null);
-            if(position != 0)
-            {
+
                 TextView name = vi.findViewById(R.id.Name);
                 TextView value = vi.findViewById(R.id.Value);
                 TextView modifier = vi.findViewById(R.id.Modifier);
-                TextView roll = vi.findViewById(R.id.Roll);
+                final ImageButton rollButton = vi.findViewById(R.id.RollStats);
 
-                name.setText(abilityScoreList[position - 1].getStat().toString());
+                name.setText(abilityScoreList[position].getStat().toString());
 
-                value.setText((Integer.toString(abilityScoreList[position - 1].getAmount())));
+                value.setText((Integer.toString(abilityScoreList[position].getAmount())));
                 value.setBackgroundResource(R.drawable.field_border);
 
                 modifier.setText(Integer.toString(calculateModifier(position)));
                 modifier.setBackgroundResource(R.drawable.field_border);
 
-                roll.setBackgroundResource(R.drawable.field_border);
-            }
+                rollButton.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View view)
+                    {
+                        rollButton.startAnimation(click);
+                    }
+                });
         }
 
         return vi;
@@ -93,7 +103,7 @@ public class AbilityScoreAdapter extends BaseAdapter
 
     private int calculateModifier(int row)
     {
-        int temp = abilityScoreList[row - 1].getAmount();
+        int temp = abilityScoreList[row].getAmount();
         return ((temp - 10) / 2);
     }
 }

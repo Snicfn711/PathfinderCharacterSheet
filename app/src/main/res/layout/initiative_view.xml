@@ -20,15 +20,14 @@
         android:gravity="center"
         android:background="@drawable/field_border"
         android:textColor="@color/colorGoldText"/>
-    <TextView
-        android:id="@+id/Roll"
+    <ImageButton android:id="@+id/RollInitiative"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@drawable/header_border"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
         android:layout_weight=".33"
-        android:gravity="center"
-        android:text="@string/Roll"
-        android:background="@drawable/field_border"
-        android:textColor="@color/colorGoldText"/>
-
-
+        android:src="@drawable/d20_image"
+        android:contentDescription="@string/Roll" />
 </LinearLayout>
