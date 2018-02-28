@@ -23,16 +23,21 @@
             android:text="@string/Value"
             android:background="@drawable/field_border"
             android:textColor="@color/colorGoldText"/>
-        <ImageButton android:id="@+id/RollManuever"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@drawable/header_border"
-            android:scaleType="centerInside"
-            android:adjustViewBounds="true"
             android:layout_weight=".33"
-            android:src="@drawable/d20_image"
-            android:contentDescription="@string/Roll" />
+            android:background="@drawable/header_border">
+            <ImageButton android:id="@+id/RollManuever"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:adjustViewBounds="true"
+                android:background="@null"
+                android:src="@drawable/d20_image"
+                android:contentDescription="@string/Roll" />
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"

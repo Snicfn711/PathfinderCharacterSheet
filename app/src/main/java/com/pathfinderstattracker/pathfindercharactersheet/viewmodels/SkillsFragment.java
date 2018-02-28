@@ -10,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
+
+import org.w3c.dom.Text;
 
 /**
  * A fragment representing a list of Items.
@@ -28,7 +31,7 @@ public class SkillsFragment extends Fragment
     //region Temp Skills
     private Skill dance = new Skill("Dance", false,5, 5, AbilityScoreEnum.DEX, true);
     private Skill climb = new Skill("Climb", true, 100, 0, AbilityScoreEnum.STR, true);
-    private Skill[] TempSkills = new Skill[] {dance, climb};
+    private Skill[] TempSkills = new Skill[] {climb, dance};
     //endregion
 
     // TODO: Customize parameter argument names
@@ -74,7 +77,6 @@ public class SkillsFragment extends Fragment
     {
 
         View rootView = inflater.inflate(R.layout.skill_list_view, container, false);
-
         // Set the adapter
         //Todo: This may be a misuse of Recyclerview, since it doesn't check whether the rootView actually is a recycler view. Come back and fix if necessary
             Context context = rootView.getContext();
@@ -87,6 +89,13 @@ public class SkillsFragment extends Fragment
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(new MySkillRecyclerViewAdapter(TempSkills, mListener));
+
+            //Get and set our points invested
+            TextView skillPointsInvested = rootView.findViewById(R.id.TotalRanks);
+            TextView favoredClassPointsInvested = rootView.findViewById(R.id.FavoredClassRanks);
+
+            skillPointsInvested.setText(Integer.toString(GetTotalSkillPointsInvested(TempSkills)));
+            favoredClassPointsInvested.setText(Integer.toString(GetFavoredClassSkillPointsInvested(TempSkills)));
 
         return rootView;
     }
@@ -127,5 +136,25 @@ public class SkillsFragment extends Fragment
     {
         // TODO: Update argument type and name
         void onListFragmentInteraction(ISkill item);
+    }
+
+    private int GetTotalSkillPointsInvested(ISkill[] skillList)
+    {
+        int skillPoints = 0;
+        for(ISkill skill:skillList)
+        {
+            skillPoints += skill.getPointsInvested();
+        }
+        return skillPoints;
+    }
+
+    private int GetFavoredClassSkillPointsInvested(ISkill[] skillList)
+    {
+        int skillPoints = 0;
+        for(ISkill skill:skillList)
+        {
+            skillPoints += skill.getFavoredClassPointsInvested();
+        }
+        return skillPoints;
     }
 }

@@ -32,6 +32,10 @@
     <string name="HitPoints">Hit Points</string>
     <string name="BaseAttackBonus">Base Attack Bonus</string>
     <string name="SpellResistance">Spell Resistance</string>
+    <!--Skill Strings-->
+    <string name="SortByClassSkills">Sort by Class Skills</string><!--TODO: Not so much sort by class skills as bring class skills to top. Is there a better way to say that?-->
+    <string name="SortByTotalRanks">Sort by Total Ranks</string>
+    <string name="AddNewSkill">Add New Skill</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
