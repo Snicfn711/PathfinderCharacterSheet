@@ -9,15 +9,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.MySkillRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 
-import org.w3c.dom.Text;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * A fragment representing a list of Items.
@@ -39,6 +44,7 @@ public class SkillsFragment extends Fragment
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private Animation click;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -77,25 +83,80 @@ public class SkillsFragment extends Fragment
     {
 
         View rootView = inflater.inflate(R.layout.skill_list_view, container, false);
+
         // Set the adapter
         //Todo: This may be a misuse of Recyclerview, since it doesn't check whether the rootView actually is a recycler view. Come back and fix if necessary
-            Context context = rootView.getContext();
-            RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
-            if (mColumnCount <= 1)
+        Context context = rootView.getContext();
+        click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
+        final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
+        final MySkillRecyclerViewAdapter skillAdapter = new MySkillRecyclerViewAdapter(TempSkills, mListener);
+        if (mColumnCount <= 1)
+        {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        } else
+        {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+        }
+        recyclerView.setAdapter(skillAdapter);
+
+        //Get and set our points invested
+        TextView skillPointsInvested = rootView.findViewById(R.id.TotalRanks);
+        TextView favoredClassPointsInvested = rootView.findViewById(R.id.FavoredClassRanks);
+        skillPointsInvested.setText("Total Ranks: " + Integer.toString(GetTotalSkillPointsInvested(TempSkills)));
+        favoredClassPointsInvested.setText("Favored Ranks: " + Integer.toString(GetFavoredClassSkillPointsInvested(TempSkills)));
+
+        //Get our buttons and set their onClickListeners
+        final ImageButton isClassSkillSortButton = rootView.findViewById(R.id.SortByIsClassSkill);
+        final ImageButton sortByRanksButton = rootView.findViewById(R.id.SortByRanks);
+        final ImageButton addNewSkillButton = rootView.findViewById(R.id.AddNewSkill);
+
+        isClassSkillSortButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
             {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else
-            {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                isClassSkillSortButton.startAnimation(click);
+                Arrays.sort(TempSkills, new Comparator<ISkill>()
+                {
+                    @Override
+                    public int compare(ISkill s1, ISkill s2)
+                    {
+                        int b1 = s1.isProficiency() ? 1:0;
+                        int b2 = s2.isProficiency() ? 1:0;
+                        return b1 - b2;
+                    }
+                });
+                skillAdapter.notifyDataSetChanged();
             }
-            recyclerView.setAdapter(new MySkillRecyclerViewAdapter(TempSkills, mListener));
+        });
+        sortByRanksButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                sortByRanksButton.startAnimation(click);
+                Arrays.sort(TempSkills, new Comparator<ISkill>()
+                {
+                    @Override
+                    public int compare(ISkill s1, ISkill s2)
+                    {
+                        Integer p1 = s1.getPointsInvested();
+                        Integer p2 = s2.getPointsInvested();
 
-            //Get and set our points invested
-            TextView skillPointsInvested = rootView.findViewById(R.id.TotalRanks);
-            TextView favoredClassPointsInvested = rootView.findViewById(R.id.FavoredClassRanks);
-
-            skillPointsInvested.setText(Integer.toString(GetTotalSkillPointsInvested(TempSkills)));
-            favoredClassPointsInvested.setText(Integer.toString(GetFavoredClassSkillPointsInvested(TempSkills)));
+                        return p1.compareTo(p2);
+                    }
+                });
+                skillAdapter.notifyDataSetChanged();
+            }
+        });
+        addNewSkillButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                addNewSkillButton.startAnimation(click);
+            }
+        });
 
         return rootView;
     }
