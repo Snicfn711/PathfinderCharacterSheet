@@ -36,7 +36,10 @@ public class SkillsFragment extends Fragment
     //region Temp Skills
     private Skill dance = new Skill("Dance", false,5, 5, AbilityScoreEnum.DEX, true);
     private Skill climb = new Skill("Climb", true, 100, 0, AbilityScoreEnum.STR, true);
-    private Skill[] TempSkills = new Skill[] {climb, dance};
+    private Skill swim = new Skill("Swim", false, 0, 0, AbilityScoreEnum.STR, true);
+    private Skill appraise = new Skill("Appraise", true, 3, 2, AbilityScoreEnum.INT, false);
+    private Skill ride = new Skill("Ride", true, 15, 3, AbilityScoreEnum.DEX, true);
+    private Skill[] TempSkills = new Skill[] {climb, dance, appraise, swim, ride};
     //endregion
 
     // TODO: Customize parameter argument names
@@ -83,6 +86,7 @@ public class SkillsFragment extends Fragment
     {
 
         View rootView = inflater.inflate(R.layout.skill_list_view, container, false);
+        Arrays.sort(TempSkills);
 
         // Set the adapter
         //Todo: This may be a misuse of Recyclerview, since it doesn't check whether the rootView actually is a recycler view. Come back and fix if necessary
@@ -116,16 +120,14 @@ public class SkillsFragment extends Fragment
             public void onClick(View view)
             {
                 isClassSkillSortButton.startAnimation(click);
-                Arrays.sort(TempSkills, new Comparator<ISkill>()
+                if(!Skill.checkIfSortedByProficiency(TempSkills))
                 {
-                    @Override
-                    public int compare(ISkill s1, ISkill s2)
-                    {
-                        int b1 = s1.isProficiency() ? 1:0;
-                        int b2 = s2.isProficiency() ? 1:0;
-                        return b1 - b2;
-                    }
-                });
+                    Arrays.sort(TempSkills, Skill.compareByIsClassSkill);
+                }
+                else
+                {
+                    Arrays.sort(TempSkills);
+                }
                 skillAdapter.notifyDataSetChanged();
             }
         });
@@ -135,17 +137,14 @@ public class SkillsFragment extends Fragment
             public void onClick(View view)
             {
                 sortByRanksButton.startAnimation(click);
-                Arrays.sort(TempSkills, new Comparator<ISkill>()
+                if(!Skill.checkIfSortedByTotalRanks(TempSkills))
                 {
-                    @Override
-                    public int compare(ISkill s1, ISkill s2)
-                    {
-                        Integer p1 = s1.getPointsInvested();
-                        Integer p2 = s2.getPointsInvested();
-
-                        return p1.compareTo(p2);
-                    }
-                });
+                    Arrays.sort(TempSkills, Skill.compareByTotalRanks);
+                }
+                else
+                {
+                    Arrays.sort(TempSkills);
+                }
                 skillAdapter.notifyDataSetChanged();
             }
         });
