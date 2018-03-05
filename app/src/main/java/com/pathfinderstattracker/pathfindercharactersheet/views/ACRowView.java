@@ -15,7 +15,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 /**
  * TODO: document your custom view class.
  */
-public class ArmorRowView extends View
+public class ACRowView extends View
 {
     private String mExampleString; // TODO: use a default from R.string...
     private int mExampleColor = Color.RED; // TODO: use a default from R.color...
@@ -26,19 +26,19 @@ public class ArmorRowView extends View
     private float mTextWidth;
     private float mTextHeight;
 
-    public ArmorRowView(Context context)
+    public ACRowView(Context context)
     {
         super(context);
         init(null, 0);
     }
 
-    public ArmorRowView(Context context, AttributeSet attrs)
+    public ACRowView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public ArmorRowView(Context context, AttributeSet attrs, int defStyle)
+    public ACRowView(Context context, AttributeSet attrs, int defStyle)
     {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
@@ -48,7 +48,7 @@ public class ArmorRowView extends View
     {
         // Load attributes
         final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.ArmorRowView, defStyle, 0);
+                attrs, R.styleable.ACRowView, defStyle, 0);
 
 
         a.recycle();

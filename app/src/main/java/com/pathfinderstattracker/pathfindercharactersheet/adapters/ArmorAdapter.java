@@ -54,7 +54,7 @@ public class ArmorAdapter extends BaseAdapter
         View vi = convertview;
         if(vi == null)
         {
-            vi = inflater.inflate(R.layout.armor_row_view, null);
+            vi = inflater.inflate(R.layout.ac_row_view, null);
             if(position != 0)
             {
                 TextView name = vi.findViewById(R.id.Name);

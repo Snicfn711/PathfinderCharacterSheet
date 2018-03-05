@@ -15,14 +15,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.MySkillRecyclerViewAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.SkillRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * A fragment representing a list of Items.
@@ -93,7 +91,7 @@ public class SkillsFragment extends Fragment
         Context context = rootView.getContext();
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
-        final MySkillRecyclerViewAdapter skillAdapter = new MySkillRecyclerViewAdapter(TempSkills, mListener);
+        final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(TempSkills, mListener);
         if (mColumnCount <= 1)
         {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));

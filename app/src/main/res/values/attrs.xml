@@ -13,6 +13,6 @@
     <declare-styleable name="InitiativeRowView"/>
     <declare-styleable name="SavesRowView"/>
     <declare-styleable name="HP_BAB_SR_View"/>
-    <declare-styleable name="ArmorRowView"/>
+    <declare-styleable name="ACRowView"/>
 
 </resources>

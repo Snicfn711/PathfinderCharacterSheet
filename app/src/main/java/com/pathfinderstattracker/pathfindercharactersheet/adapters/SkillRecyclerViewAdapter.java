@@ -17,14 +17,14 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragm
 /**
  * TODO: Replace the implementation with code for your data type.
  */
-public class MySkillRecyclerViewAdapter extends RecyclerView.Adapter<MySkillRecyclerViewAdapter.ViewHolder>
+public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecyclerViewAdapter.ViewHolder>
 {
 
     private final ISkill[] mValues;
     private final OnListFragmentInteractionListener mListener;
     private Animation click;
 
-    public MySkillRecyclerViewAdapter(ISkill[] items, OnListFragmentInteractionListener listener)
+    public SkillRecyclerViewAdapter(ISkill[] items, OnListFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
