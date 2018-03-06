@@ -39,4 +39,6 @@
     <!--Equipment Strings-->
     <string name="MagicBonus">Magic Bonus</string>
     <string name="EquipmentAbilities">Abilities</string>
+    <string name="ArmorAndWeapons">Armor and Weapons</string>
+    <string name="WondrousItems">Wondrous Items</string>
 </resources>

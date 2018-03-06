@@ -27,4 +27,5 @@ public class Weapon implements IWeapon
     public String material;
     public boolean masterwork;
     public boolean isMagic;
+    public int magicBonus;
 }

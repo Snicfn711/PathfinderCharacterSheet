@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.ReferenceStatsFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment;
 
@@ -38,6 +39,12 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
                 args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
+            case 2:
+                fragment = new EquipmentFragment();
+                args = new Bundle();
+                args.putString("Foo", "Bar");
+                fragment.setArguments(args);
+                return fragment;
             default:
                 return fragment;
         }
@@ -52,7 +59,7 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
         //We should be able to get away with hardcoding this because FragmentPagerAdapter assumes a  //
         //small, static group of fragments.                                                          //
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        return 2;
+        return 3;
     }
 
     public CharSequence getPageTitle(int position)

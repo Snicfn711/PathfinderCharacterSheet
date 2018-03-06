@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/list"
-    android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    app:layoutManager="LinearLayoutManager"
-    tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment"
-    tools:listitem="@layout/equipment_row_view" />
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.RecyclerView
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/list"
+        android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment"
+        tools:listitem="@layout/equipment_row_view"
+        android:layout_weight="10"/>
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        android:background="@color/colorTransparentHeader">
+        <Button android:id="@+id/ArmorAndWeaponsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/header_border"
+            android:textColor="@color/colorGoldText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/WondrousItemsButton"
+            android:gravity="center"
+            android:text="@string/ArmorAndWeapons"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+        <Button android:id="@+id/WondrousItemsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/header_border"
+            android:textColor="@color/colorGoldText"
+            app:layout_constraintLeft_toLeftOf="@id/ArmorAndWeaponsButton"
+            app:layout_constraintRight_toRightOf="parent"
+            android:gravity="center"
+            android:text="@string/WondrousItems"/>
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.EquipmentRecyclerViewAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.dummy.DummyContent;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.dummy.DummyContent.DummyItem;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Weapon;
+
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -23,6 +26,10 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.dummy.Dummy
  */
 public class EquipmentFragment extends Fragment
 {
+
+    private Weapon sword = new Weapon();
+    private Armor plate = new Armor();
+    private IEquipment[] tempEquipment = new IEquipment[]{sword, plate};
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -78,7 +85,7 @@ public class EquipmentFragment extends Fragment
             {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new EquipmentRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new EquipmentRecyclerViewAdapter(tempEquipment, mListener));
         }
         return view;
     }
@@ -118,6 +125,6 @@ public class EquipmentFragment extends Fragment
     public interface OnListFragmentInteractionListener
     {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(IEquipment item);
     }
 }

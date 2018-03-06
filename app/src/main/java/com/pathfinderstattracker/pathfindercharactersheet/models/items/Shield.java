@@ -17,4 +17,5 @@ public class Shield implements IShield
     public ShieldWeightCategoryEnum weightCategory;
     public SizeCategoryEnum armorSize;
     public boolean isMagic;
+    public int magicBonnus;
 }

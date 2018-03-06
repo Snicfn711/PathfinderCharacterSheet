@@ -10,6 +10,7 @@ public class Armor implements IArmor
 {
     public double Cost;
     public int armorBonus;
+    public int magicBonus;
     public Integer maximumDexBonus;
     public Integer armorCheckPenalty;
     public Integer arcaneSpellFailureChance;

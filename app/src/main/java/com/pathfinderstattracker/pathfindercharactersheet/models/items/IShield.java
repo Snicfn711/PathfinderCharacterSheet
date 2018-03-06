@@ -6,6 +6,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 public interface IShield extends IProtection
 {
-    double shieldBonus = 0;
+    int shieldBonus = 0;
+    int magicBonus=0;
     ShieldWeightCategoryEnum weightCategory = ShieldWeightCategoryEnum.Light;
 }

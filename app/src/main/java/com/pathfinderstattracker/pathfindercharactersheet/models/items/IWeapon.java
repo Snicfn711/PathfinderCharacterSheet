@@ -14,6 +14,7 @@ public interface IWeapon extends IEquipment
     boolean projectile = false;
     WeaponWeightClassEnum weightClass = WeaponWeightClassEnum.Light;
     boolean improvised = false;
+    int magicBonus = 0;
     double cost = 0;
     Damage damage = new Damage(0,0);
     int criticalMultiplier = 2;

@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment.OnListFragmentInteractionListener;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ import java.util.List;
 public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<EquipmentRecyclerViewAdapter.ViewHolder>
 {
 
-    private final List<DummyItem> mValues;
+    private final IEquipment[] mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public EquipmentRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener)
+    public EquipmentRecyclerViewAdapter(IEquipment[] items, OnListFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -40,9 +40,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mItem = mValues[position];
 
         holder.mView.setOnClickListener(new View.OnClickListener()
         {
@@ -62,7 +60,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
     @Override
     public int getItemCount()
     {
-        return mValues.size();
+        return mValues.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
@@ -70,7 +68,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public IEquipment mItem;
 
         public ViewHolder(View view)
         {
