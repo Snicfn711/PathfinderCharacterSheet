@@ -9,6 +9,37 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AuraStrengthEnu
 
 public class ArcaneAura
 {
-    public ArcaneSchoolEnum AuraSchool;
-    public AuraStrengthEnum AuraStrength;
+    private ArcaneSchoolEnum auraSchool;
+    private AuraStrengthEnum auraStrength;
+
+    public ArcaneSchoolEnum getAuraSchool()
+    {
+        return auraSchool;
+    }
+
+    public void setAuraSchool(ArcaneSchoolEnum auraSchool)
+    {
+        this.auraSchool = auraSchool;
+    }
+
+    public AuraStrengthEnum getAuraStrength()
+    {
+        return auraStrength;
+    }
+
+    public void setAuraStrength(AuraStrengthEnum auraStrength)
+    {
+        this.auraStrength = auraStrength;
+    }
+
+    public ArcaneAura()
+    {
+        //Default constructor
+    }
+
+    public ArcaneAura(ArcaneSchoolEnum auraSchool, AuraStrengthEnum auraStrength)
+    {
+        setAuraSchool(auraSchool);
+        setAuraStrength(auraStrength);
+    }
 }

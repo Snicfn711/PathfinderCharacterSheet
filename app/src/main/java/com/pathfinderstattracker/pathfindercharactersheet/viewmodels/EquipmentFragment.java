@@ -12,9 +12,17 @@ import android.view.ViewGroup;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.EquipmentRecyclerViewAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Weapon;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDamageTypeEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponFamilyEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
 
 import java.util.List;
 
@@ -27,9 +35,56 @@ import java.util.List;
 public class EquipmentFragment extends Fragment
 {
 
-    private Weapon sword = new Weapon();
-    private Armor plate = new Armor();
-    private IEquipment[] tempEquipment = new IEquipment[]{sword, plate};
+    private Weapon sword = new Weapon("Longsword",
+                                     WeaponFamilyEnum.Martial,
+                                     0,
+                                     false,
+                                     false,
+                                     false,
+                                     false,
+                                     WeaponWeightClassEnum.OneHanded,
+                                     false,
+                                     315,
+                                     new Damage(1, 8),
+                                     2,
+                                     2,
+                                     false,
+                                     new WeaponDamageTypeEnum[1],
+                                     false,
+                                     false,
+                                     false,
+                                     false,
+                                     "Steel",
+                                     true,
+                                     false,
+                                     0,
+                                     SizeCategoryEnum.Medium,
+                                     4);
+    private Armor plate = new Armor("Plate Armor",
+                                    1650,
+                                    9,
+                                    0,
+                                    1,
+                                    6,
+                                    35,
+                                    20,
+                                    ArmorWeightCategoryEnum.Heavy,
+                                    50,
+                                    SizeCategoryEnum.Medium,
+                                    false);
+    private Shield tower = new Shield("Tower Shield",
+                                      180,
+                                      4,
+                                      2,
+                                      10,
+                                      50,
+                                      45,
+                                      ShieldWeightCategoryEnum.Tower,
+                                      SizeCategoryEnum.Medium,
+                                      false,
+                                      0,
+                                      true);
+    private IEquipment[] TempEquipment = new IEquipment[]{sword, plate, tower};
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -71,13 +126,13 @@ public class EquipmentFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.equipment_list_view, container, false);
+        View rootView = inflater.inflate(R.layout.equipment_list_view, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView)
-        {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+
+            Context context = rootView.getContext();
+            final RecyclerView recyclerView =  rootView.findViewById(R.id.EquipmentRecycler);
+            final EquipmentRecyclerViewAdapter equipmentAdapter = new EquipmentRecyclerViewAdapter(TempEquipment, mListener);
             if (mColumnCount <= 1)
             {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -85,9 +140,9 @@ public class EquipmentFragment extends Fragment
             {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new EquipmentRecyclerViewAdapter(tempEquipment, mListener));
-        }
-        return view;
+            recyclerView.setAdapter(new EquipmentRecyclerViewAdapter(TempEquipment, mListener));
+
+        return rootView;
     }
 
 

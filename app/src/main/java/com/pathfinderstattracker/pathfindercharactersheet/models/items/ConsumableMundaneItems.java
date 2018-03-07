@@ -6,7 +6,69 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 public class ConsumableMundaneItems implements IItem
 {
-    public String effect;
-    public double cost;
-    public double weight;
+    private String name;
+    private String effect;
+    private double cost;
+    private double weightAtMediumSize;
+
+    //region Getters and Setters
+    @Override
+    public String getName()
+    {
+        return name;
+    }
+
+    @Override
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    @Override
+    public double getCost()
+    {
+        return cost;
+    }
+
+    @Override
+    public void setCost(double cost)
+    {
+        this.cost = cost;
+    }
+
+    @Override
+    public double getWeightAtMediumSize()
+    {
+        return weightAtMediumSize;
+    }
+
+    @Override
+    public void setWeightAtMediumSize(double weightAtMediumSize)
+    {
+        this.weightAtMediumSize = weightAtMediumSize;
+    }
+
+    public String getEffect()
+    {
+        return effect;
+    }
+
+    public void setEffect(String effect)
+    {
+        this.effect = effect;
+    }
+    //endregion
+
+    public ConsumableMundaneItems()
+    {
+        //Default constructor
+    }
+
+    public ConsumableMundaneItems(String name, String effect, double cost, double weightAtMediumSize)
+    {
+        setName(name);
+        setEffect(effect);
+        setCost(cost);
+        setWeightAtMediumSize(weightAtMediumSize);
+    }
 }

@@ -13,8 +13,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFr
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<EquipmentRecyclerViewAdapter.ViewHolder>
@@ -40,9 +38,12 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
-        holder.mItem = mValues[position];
+        holder.mEquipment = mValues[position];
+        holder.magicBonus.setText(Integer.toString(mValues[position].getMagicBonus()));
+        holder.abilities.setText("None"); //Todo: We're copping out here until abilities get implemented.
+        holder.equipmentName.setText(mValues[position].getName());
 
-        holder.mView.setOnClickListener(new View.OnClickListener()
+        holder.recycledRow.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -51,7 +52,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
                 {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.mEquipment);
                 }
             }
         });
@@ -65,23 +66,25 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public IEquipment mItem;
+        public final View recycledRow;
+        public final TextView magicBonus;
+        public final TextView abilities;
+        public final TextView equipmentName;
+        public IEquipment mEquipment;
 
         public ViewHolder(View view)
         {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            recycledRow = view;
+            magicBonus =  view.findViewById(R.id.MagicBonus);
+            abilities = view.findViewById(R.id.EquipmentAbilities);
+            equipmentName = view.findViewById(R.id.EquipmentName);
         }
 
         @Override
         public String toString()
         {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + equipmentName.getText() + "'";
         }
     }
 }

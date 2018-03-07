@@ -6,7 +6,10 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 public interface IProtection extends IEquipment
 {
-    Double maximumDexBonus = null;
-    Double checkPenalty = null;
-    Integer arcaneSpellFailureChance = null;
+    int getMaximumDexBonus();
+    void setMaximumDexBonus(int maximumDexBonus);
+    int getArmorCheckPenalty();
+    void setArmorCheckPenalty(int armorCheckPenalty);
+    int getArcanceSpellFailureChance();
+    void setArcaneSpellFailureChance(int arcaneSpellFailureChance);
 }

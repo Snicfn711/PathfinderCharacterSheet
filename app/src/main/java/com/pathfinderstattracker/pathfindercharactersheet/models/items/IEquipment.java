@@ -8,7 +8,10 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnu
 
 public interface IEquipment extends IItem
 {
-    double weight = 0;//This represents the item's weight at medium size
-    SizeCategoryEnum sizeCategory = SizeCategoryEnum.Medium;
-    boolean isMagic = false;
+    SizeCategoryEnum getSizeCategory();
+    void setSizeCategory(SizeCategoryEnum sizeCategory);
+    boolean isMagic();
+    void setIsMagic(boolean isMagic);
+    int getMagicBonus();
+    void setMagicBonus(int magicBonus);
 }

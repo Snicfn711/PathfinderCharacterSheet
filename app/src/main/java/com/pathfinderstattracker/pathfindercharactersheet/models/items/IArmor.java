@@ -6,8 +6,10 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 public interface IArmor extends IProtection
 {
-    int armorBonus = 0;
-    int magicBonus = 0;
-    Integer maxSpeed = null;
-    ArmorWeightCategoryEnum weightCategory = ArmorWeightCategoryEnum.Medium;
+    int getArmorBonus();
+    void setArmorBonus(int armorBonus);
+    int getMaxSpeed();
+    void setMaxSpeed(int maxSpeed);
+    ArmorWeightCategoryEnum getWeightCategory();
+    void setWeightCategory(ArmorWeightCategoryEnum weightCategory);
 }

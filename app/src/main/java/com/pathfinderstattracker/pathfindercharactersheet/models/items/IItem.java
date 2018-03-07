@@ -6,6 +6,10 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 public interface IItem
 {
-    double cost = 0; //Measured in Gold, with silver and copper coming after the decimal
-    double weight = 0; //Measured in lbs
+    double getCost();
+    void setCost(double cost); //Measured in Gold, with silver and copper coming after the decimal
+    double getWeightAtMediumSize();
+    void setWeightAtMediumSize(double weightAtMediumSize);//Measured in lbs
+    String getName();
+    void setName(String name);
 }
