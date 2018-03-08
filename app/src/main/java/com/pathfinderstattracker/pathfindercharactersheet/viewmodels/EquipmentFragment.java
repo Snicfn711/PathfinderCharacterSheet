@@ -35,6 +35,7 @@ import java.util.List;
 public class EquipmentFragment extends Fragment
 {
 
+    //region Temp Equipment List
     private Weapon sword = new Weapon("Longsword",
                                      WeaponFamilyEnum.Martial,
                                      0,
@@ -63,7 +64,7 @@ public class EquipmentFragment extends Fragment
     private Armor plate = new Armor("Plate Armor",
                                     1650,
                                     9,
-                                    0,
+                                    2,
                                     1,
                                     6,
                                     35,
@@ -85,6 +86,7 @@ public class EquipmentFragment extends Fragment
                                       0,
                                       true);
     private IEquipment[] TempEquipment = new IEquipment[]{sword, plate, tower};
+    //endregion
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -92,12 +94,12 @@ public class EquipmentFragment extends Fragment
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public EquipmentFragment()
     {
+        /**
+         * Mandatory empty constructor for the fragment manager to instantiate the
+         * fragment (e.g. upon screen orientation changes).
+         */
     }
 
     // TODO: Customize parameter initialization
@@ -140,7 +142,7 @@ public class EquipmentFragment extends Fragment
             {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new EquipmentRecyclerViewAdapter(TempEquipment, mListener));
+            recyclerView.setAdapter(equipmentAdapter);
 
         return rootView;
     }

@@ -1,29 +1,51 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:background="@drawable/field_border">
+    <TextView android:id="@+id/EquipmentLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorGoldText"
+        android:textAlignment="center"
+        android:background="@drawable/header_border"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
     <TextView
         android:id="@+id/MagicBonus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/MagicBonus"
-        android:background="@drawable/field_border"
-        android:textColor="@color/colorGoldText"/>
+        android:textColor="@color/colorGoldText"
+        app:layout_constraintLeft_toLeftOf="@id/EquipmentLabel"
+        app:layout_constraintRight_toLeftOf="@id/EquipmentAbilities"
+        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"/>
     <TextView
         android:id="@+id/EquipmentAbilities"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/EquipmentAbilities"
-        android:background="@drawable/field_border"
-        android:textColor="@color/colorGoldText"/>
+        android:textColor="@color/colorGoldText"
+        app:layout_constraintLeft_toRightOf="@id/MagicBonus"
+        app:layout_constraintRight_toLeftOf="@id/EquipmentName"
+        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"/>
     <TextView
         android:id="@+id/EquipmentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/Name"
-        android:background="@drawable/field_border"
-        android:textColor="@color/colorGoldText"/>
-</LinearLayout>
+        android:textColor="@color/colorGoldText"
+        app:layout_constraintLeft_toRightOf="@id/EquipmentAbilities"
+        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"/>
+</android.support.constraint.ConstraintLayout>

@@ -47,13 +47,12 @@ public class SkillsFragment extends Fragment
     private OnListFragmentInteractionListener mListener;
     private Animation click;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public SkillsFragment()
     {
-
+        /**
+         * Mandatory empty constructor for the fragment manager to instantiate the
+         * fragment (e.g. upon screen orientation changes).
+         */
     }
 
     // TODO: Customize parameter initialization

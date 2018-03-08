@@ -31,7 +31,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.equipment_list_view, parent, false);
+                .inflate(R.layout.equipment_row_view, parent, false);
         return new ViewHolder(view);
     }
 
@@ -39,9 +39,24 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mEquipment = mValues[position];
-        holder.magicBonus.setText(Integer.toString(mValues[position].getMagicBonus()));
-        holder.abilities.setText("None"); //Todo: We're copping out here until abilities get implemented.
+        if(mValues[position].getMagicBonus() > 0)
+        {
+            holder.magicBonus.setText("+" + Integer.toString(mValues[position].getMagicBonus()));
+        }
+        else
+        {
+            holder.magicBonus.setVisibility(View.GONE);
+        }
+        if(position == 1)
+        {
+            holder.abilities.setText("Flaming"); //Todo: We're copping out here until abilities get implemented.
+        }
+        else
+        {
+            holder.abilities.setVisibility(View.GONE);
+        }
         holder.equipmentName.setText(mValues[position].getName());
+        holder.equipmentLabel.setText(mValues[position].getClass().getSimpleName());
 
         holder.recycledRow.setOnClickListener(new View.OnClickListener()
         {
@@ -66,11 +81,12 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public final View recycledRow;
-        public final TextView magicBonus;
-        public final TextView abilities;
-        public final TextView equipmentName;
-        public IEquipment mEquipment;
+        private final View recycledRow;
+        private final TextView magicBonus;
+        private final TextView abilities;
+        private final TextView equipmentName;
+        private final TextView equipmentLabel;
+        private IEquipment mEquipment;
 
         public ViewHolder(View view)
         {
@@ -79,6 +95,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
             magicBonus =  view.findViewById(R.id.MagicBonus);
             abilities = view.findViewById(R.id.EquipmentAbilities);
             equipmentName = view.findViewById(R.id.EquipmentName);
+            equipmentLabel = view.findViewById(R.id.EquipmentLabel);
         }
 
         @Override
