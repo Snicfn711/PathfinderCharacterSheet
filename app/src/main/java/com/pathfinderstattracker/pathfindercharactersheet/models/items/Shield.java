@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
+import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
 /**
@@ -20,6 +22,7 @@ public class Shield implements IShield
     private boolean isMagic;
     private int magicBonus;
     private boolean isMasterwork;
+    private Ability[] abilities;
 
     //region Getters and Setters
     @Override
@@ -159,6 +162,19 @@ public class Shield implements IShield
     public boolean isMasterwork(){return isMasterwork;}
 
     public void setIsMasterwork(boolean isMasterwork){this.isMasterwork = isMasterwork;}
+
+    @Override
+    public Ability[] getAbilities()
+    {
+        return abilities;
+    }
+
+    @Override
+    public void setAbilities(Ability[] abilities)
+    {
+        this.abilities = abilities;
+    }
+
     //endregion
 
     public Shield()
@@ -166,7 +182,7 @@ public class Shield implements IShield
         //Default constructor
     }
 
-    public Shield(String name, double cost, int shieldBonus, Integer maximumDexBonus, Integer armorCheckPenalty, int arcaneSpellFailureChance, double weightAtMediumSize, ShieldWeightCategoryEnum weightCategory, SizeCategoryEnum armorSize, boolean isMagic, int magicBonus, boolean isMasterwork)
+    public Shield(String name, double cost, int shieldBonus, Integer maximumDexBonus, Integer armorCheckPenalty, int arcaneSpellFailureChance, double weightAtMediumSize, ShieldWeightCategoryEnum weightCategory, SizeCategoryEnum armorSize, boolean isMagic, int magicBonus, boolean isMasterwork, Ability[] abilities)
     {
         setName(name);
         setCost(cost);
@@ -180,5 +196,16 @@ public class Shield implements IShield
         setIsMagic(isMagic);
         setMagicBonus(magicBonus);
         setIsMasterwork(isMasterwork);
+        setAbilities(abilities);
+    }
+
+    public String createAbilitiesString()
+    {
+        String abilitiesString = new String();
+        for(IAbility ability:abilities)
+        {
+            abilitiesString += ability.getName() + " ";
+        }
+        return abilitiesString;
     }
 }

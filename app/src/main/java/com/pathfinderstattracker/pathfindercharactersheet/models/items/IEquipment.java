@@ -1,5 +1,6 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
+import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
 /**
@@ -14,4 +15,7 @@ public interface IEquipment extends IItem
     void setIsMagic(boolean isMagic);
     int getMagicBonus();
     void setMagicBonus(int magicBonus);
+    Ability[] getAbilities();
+    void setAbilities(Ability[] abilities);
+    String createAbilitiesString();
 }

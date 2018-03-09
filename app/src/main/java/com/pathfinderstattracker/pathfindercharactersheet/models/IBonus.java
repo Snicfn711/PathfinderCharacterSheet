@@ -6,8 +6,12 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 public interface IBonus
 {
-    Object[] objectsAffected = null;
-    double value = 0;
-    String conditions = " ";
-    Object source = null;
+    Object getObjectAffected();
+    void setObjectAffected(Object objectAffected);
+    double getValue();
+    void setValue(double value);
+    String getConditions();
+    void setConditions(String conditions);
+    Object getSource();
+    void setSource(Object source);
 }

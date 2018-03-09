@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
+import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
 /**
@@ -20,6 +22,7 @@ public class Armor implements IArmor
     private double weightAtMediumSize;
     private SizeCategoryEnum armorSize;
     private boolean isMagic;
+    private Ability[] abilities;
 
     //region Getters and Setters
     @Override
@@ -166,6 +169,19 @@ public class Armor implements IArmor
     {
         this.isMagic = isMagic;
     }
+
+    @Override
+    public Ability[] getAbilities()
+    {
+        return abilities;
+    }
+
+    @Override
+    public void setAbilities(Ability[] abilities)
+    {
+        this.abilities = abilities;
+    }
+
     //endregion
 
     public Armor()
@@ -173,7 +189,7 @@ public class Armor implements IArmor
         //Default constructor
     }
 
-    public Armor(String name, double cost, int armorBonus, int magicBonus, Integer maximumDexBonus, Integer armorCheckPenalty, Integer arcaneSpellFailureChance, Integer maxSpeed, ArmorWeightCategoryEnum weightCategory, double weightAtMediumSize, SizeCategoryEnum armorSize, boolean isMagic)
+    public Armor(String name, double cost, int armorBonus, int magicBonus, Integer maximumDexBonus, Integer armorCheckPenalty, Integer arcaneSpellFailureChance, Integer maxSpeed, ArmorWeightCategoryEnum weightCategory, double weightAtMediumSize, SizeCategoryEnum armorSize, boolean isMagic, Ability[] abilities)
     {
         setName(name);
         setCost(cost);
@@ -187,5 +203,16 @@ public class Armor implements IArmor
         setWeightAtMediumSize(weightAtMediumSize);
         setSizeCategory(armorSize);
         setIsMagic(isMagic);
+        setAbilities(abilities);
+    }
+
+    public String createAbilitiesString()
+    {
+        String abilitiesString = new String();
+        for(IAbility ability:abilities)
+        {
+            abilitiesString += ability.getName() + " ";
+        }
+        return abilitiesString;
     }
 }

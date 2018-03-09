@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment.OnListFragmentInteractionListener;
 
@@ -41,15 +42,17 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
         holder.mEquipment = mValues[position];
         if(mValues[position].getMagicBonus() > 0)
         {
-            holder.magicBonus.setText("+" + Integer.toString(mValues[position].getMagicBonus()));
+            holder.magicBonus.setText("+" + Integer.toString(mValues[position].getMagicBonus()) + " ");
         }
         else
         {
             holder.magicBonus.setVisibility(View.GONE);
         }
-        if(position == 1)
+
+        if(mValues[position].getAbilities()!= null && mValues[position].getAbilities().length > 1)
         {
-            holder.abilities.setText("Flaming"); //Todo: We're copping out here until abilities get implemented.
+            String abilitiesOnEquipment = holder.mEquipment.createAbilitiesString();
+            holder.abilities.setText(abilitiesOnEquipment); //Todo: We're copping out here until abilities get implemented.
         }
         else
         {

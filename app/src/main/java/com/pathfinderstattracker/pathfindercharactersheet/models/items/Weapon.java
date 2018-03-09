@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
+import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
 /**
@@ -33,6 +35,8 @@ public class Weapon implements IWeapon
     private int magicBonus;
     private SizeCategoryEnum sizeCategory;
     private double weightAtMediumSize;
+    private int requiredStrength;
+    private Ability[] abilities;
 
     //region Getters and Setters
     @Override
@@ -334,6 +338,29 @@ public class Weapon implements IWeapon
     {
         this.weightAtMediumSize = weightAtMediumSize;
     }
+
+    public int getRequiredStrength()
+    {
+        return requiredStrength;
+    }
+
+    public void setRequiredStrength(int requiredStrength)
+    {
+        this.requiredStrength = requiredStrength;
+    }
+
+    @Override
+    public Ability[] getAbilities()
+    {
+        return abilities;
+    }
+
+    @Override
+    public void setAbilities(Ability[] abilities)
+    {
+        this.abilities = abilities;
+    }
+
     //endregion
 
 
@@ -342,7 +369,7 @@ public class Weapon implements IWeapon
         //Default constructor
     }
 
-    public Weapon(String name, WeaponFamilyEnum family, int range, boolean reach, boolean thrown, boolean doubleheaded, boolean projectile, WeaponWeightClassEnum weightClass, boolean improvised, double cost, Damage damage, int criticalMultiplier, int criticalRange, boolean brace, WeaponDamageTypeEnum[] damageType, boolean disarm, boolean monk, boolean trip, boolean nonLethal, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize)
+    public Weapon(String name, WeaponFamilyEnum family, int range, boolean reach, boolean thrown, boolean doubleheaded, boolean projectile, WeaponWeightClassEnum weightClass, boolean improvised, double cost, Damage damage, int criticalMultiplier, int criticalRange, boolean brace, WeaponDamageTypeEnum[] damageType, boolean disarm, boolean monk, boolean trip, boolean nonLethal, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize, int requiredStrength, Ability[] abilities)
     {
         setName(name);
         setFamily(family);
@@ -369,5 +396,17 @@ public class Weapon implements IWeapon
         setMagicBonus(magicBonus);
         setSizeCategory(sizeCategory);
         setWeightAtMediumSize(weightAtMediumSize);
+        setRequiredStrength(requiredStrength);
+        setAbilities(abilities);
+    }
+
+    public String createAbilitiesString()
+    {
+        String abilitiesString = new String();
+        for(IAbility ability:abilities)
+        {
+            abilitiesString += ability.getName() + " ";
+        }
+        return abilitiesString;
     }
 }

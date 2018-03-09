@@ -46,4 +46,7 @@ public interface IWeapon extends IEquipment
     void setMaterial(String material);
     boolean isMasterwork();
     void setMasterwork(boolean masterwork);
+    int getRequiredStrength();
+    void setRequiredStrength(int requiredStrength);
+
 }

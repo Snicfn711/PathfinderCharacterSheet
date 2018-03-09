@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.EquipmentRecyclerViewAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
@@ -58,9 +59,12 @@ public class EquipmentFragment extends Fragment
                                      "Steel",
                                      true,
                                      false,
-                                     0,
+                                     1,
                                      SizeCategoryEnum.Medium,
-                                     4);
+                                     4,
+                                     0,
+                                     new Ability[]{new Ability("Flaming", null, "Add 1d6 flaming damage to each attack made with this weapon", null, null, null),
+                                                   new Ability("Returning", null, "Item returns to hand after being thrown", null, null, null)});
     private Armor plate = new Armor("Plate Armor",
                                     1650,
                                     9,
@@ -72,7 +76,8 @@ public class EquipmentFragment extends Fragment
                                     ArmorWeightCategoryEnum.Heavy,
                                     50,
                                     SizeCategoryEnum.Medium,
-                                    false);
+                                    false,
+                                    null);
     private Shield tower = new Shield("Tower Shield",
                                       180,
                                       4,
@@ -84,7 +89,8 @@ public class EquipmentFragment extends Fragment
                                       SizeCategoryEnum.Medium,
                                       false,
                                       0,
-                                      true);
+                                      true,
+                                      null);
     private IEquipment[] TempEquipment = new IEquipment[]{sword, plate, tower};
     //endregion
 

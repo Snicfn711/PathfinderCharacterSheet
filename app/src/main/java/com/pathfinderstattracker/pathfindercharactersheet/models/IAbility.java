@@ -1,15 +1,23 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models;
 
+import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
+
 /**
  * Created by Stephen Hagen on 1/2/2018.
  */
 
 public interface IAbility
 {
-    String Name = null;
-    AbilityTypeEnum Type = AbilityTypeEnum.ExtraOrdinary;
-    String EffectText = null;
-    String SpellCopied = null; //This needs to be changed to a spell object once those are implemented
-    IBonus[] Bonuses = null;
-    IPenalty[] Penalties = null;
+    String getName();
+    void setName(String name);
+    AbilityTypeEnum getAbilityType();
+    void setAbilityType(AbilityTypeEnum abilityType);
+    String getEffectText();
+    void setEffectText(String effectText);
+    ISpell getSpellCopied();
+    void setSpellCopied(ISpell spellCopied);
+    IBonus[] getBonuses();
+    void setBonuses(IBonus[] bonuses);
+    IPenalty[] getPenalties();
+    void setPenalties(IPenalty[] penalties);
 }
