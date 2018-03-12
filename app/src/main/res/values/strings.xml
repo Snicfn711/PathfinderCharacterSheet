@@ -9,6 +9,7 @@
     <string name="Roll">Roll</string>
     <string name="Value">Value</string>
     <string name="Error">Error</string>
+    <string name="None">None</string>
     <!--Stat Strings-->
     <string name="StatScore">Score</string>
     <string name="StatModifier">Mod</string>
@@ -41,4 +42,8 @@
     <string name="EquipmentAbilities">Abilities</string>
     <string name="ArmorAndWeapons">Armor and Weapons</string>
     <string name="WondrousItems">Wondrous Items</string>
+    <string name="Critical">Critical</string>
+    <string name="DamageTypes">Damage Types</string>
+    <string name="Range">Range</string>
+    <string name="Damage">Damage</string>
 </resources>

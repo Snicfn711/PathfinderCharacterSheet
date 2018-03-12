@@ -20,9 +20,9 @@ public class Weapon implements IWeapon
     private WeaponWeightClassEnum weightClass;
     private boolean improvised;
     private double cost;
-    private Damage damage;
+    private Damage[] damage;
     private int criticalMultiplier;
-    private int criticalRange;
+    private int criticalRange; //Rather than being an actual range like 19-20, this is instead the number of critical values, so the default is 1, 19-20 is 2, 18-20 is 3, etc
     private boolean brace;
     private WeaponDamageTypeEnum[] damageType;
     private boolean disarm;
@@ -172,13 +172,13 @@ public class Weapon implements IWeapon
     }
 
     @Override
-    public Damage getDamage()
+    public Damage[] getDamage()
     {
         return damage;
     }
 
     @Override
-    public void setDamage(Damage damage)
+    public void setDamage(Damage[] damage)
     {
         this.damage = damage;
     }
@@ -369,7 +369,7 @@ public class Weapon implements IWeapon
         //Default constructor
     }
 
-    public Weapon(String name, WeaponFamilyEnum family, int range, boolean reach, boolean thrown, boolean doubleheaded, boolean projectile, WeaponWeightClassEnum weightClass, boolean improvised, double cost, Damage damage, int criticalMultiplier, int criticalRange, boolean brace, WeaponDamageTypeEnum[] damageType, boolean disarm, boolean monk, boolean trip, boolean nonLethal, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize, int requiredStrength, Ability[] abilities)
+    public Weapon(String name, WeaponFamilyEnum family, int range, boolean reach, boolean thrown, boolean doubleheaded, boolean projectile, WeaponWeightClassEnum weightClass, boolean improvised, double cost, Damage[] damage, int criticalMultiplier, int criticalRange, boolean brace, WeaponDamageTypeEnum[] damageType, boolean disarm, boolean monk, boolean trip, boolean nonLethal, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize, int requiredStrength, Ability[] abilities)
     {
         setName(name);
         setFamily(family);
@@ -408,5 +408,54 @@ public class Weapon implements IWeapon
             abilitiesString += ability.getName() + " ";
         }
         return abilitiesString;
+    }
+
+    public int calculateCriticalRange()
+    {
+        return 20 - criticalRange;
+    }
+
+    public String returnCriticalString()
+    {
+        String criticalString = new String();
+        int criticalRange = calculateCriticalRange();
+        if(criticalRange < 20)
+        {
+            criticalString = Integer.toString(criticalRange) + "-20/x" + Integer.toString(criticalMultiplier);
+        }
+        else
+        {
+            criticalString = "20/x" + Integer.toString(criticalMultiplier);
+        }
+        return criticalString;
+    }
+
+    public String returnDamageTypes()
+    {
+        //As written, this can crash the program if a weapon doesn't have any damage types
+        //However, UNDER NO CIRCUMSTANCES should a weapon not have a weapon type, so we're leaving this as is
+        String damageTypesString = new String();
+        for(WeaponDamageTypeEnum damageType : damageType)
+        {
+            damageTypesString += damageType.toString() + ", ";
+        }
+        return damageTypesString;
+    }
+
+    public String returnDamageDice()
+    {
+       String damageDiceString = new String();
+       for(int i = 0; i < damage.length; i++)
+       {
+           if(i < damage.length - 1)
+           {
+               damageDiceString += Integer.toString(damage[i].numberOfDice) + "d" + Integer.toString(damage[i].sizeOfDice) + "+";
+           }
+           else
+           {
+               damageDiceString += Integer.toString(damage[i].numberOfDice) + "d" + Integer.toString(damage[i].sizeOfDice);
+           }
+       }
+       return damageDiceString;
     }
 }

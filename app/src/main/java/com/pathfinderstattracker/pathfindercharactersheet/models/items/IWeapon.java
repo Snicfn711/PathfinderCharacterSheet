@@ -24,8 +24,8 @@ public interface IWeapon extends IEquipment
     void setImprovised(boolean isImprovised);
     double getCost();
     void setCost(double cost);
-    Damage getDamage();
-    void setDamage(Damage damage);
+    Damage[] getDamage();
+    void setDamage(Damage[] damage);
     int getCriticalMultiplier();
     void setCriticalMultiplier(int criticalMultiplier);
     int getCriticalRange();
@@ -48,5 +48,8 @@ public interface IWeapon extends IEquipment
     void setMasterwork(boolean masterwork);
     int getRequiredStrength();
     void setRequiredStrength(int requiredStrength);
-
+    int calculateCriticalRange();
+    String returnCriticalString();
+    String returnDamageTypes();
+    String returnDamageDice();
 }
