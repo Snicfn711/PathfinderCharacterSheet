@@ -209,10 +209,28 @@ public class Armor implements IArmor
     public String createAbilitiesString()
     {
         String abilitiesString = new String();
-        for(IAbility ability:abilities)
-        {
-            abilitiesString += ability.getName() + " ";
+        if(abilities != null && abilities.length > 1) {
+            for (IAbility ability : abilities) {
+                abilitiesString += ability.getName() + " ";
+            }
+            return abilitiesString;
         }
-        return abilitiesString;
+        else
+        {
+            return "None";
+        }
+    }
+
+    public double getCurrentWeight()
+    {
+        if(armorSize == SizeCategoryEnum.Small)
+        {
+            return weightAtMediumSize * .5;
+        }
+        else if(armorSize == SizeCategoryEnum.Large)
+        {
+            return weightAtMediumSize * 2;
+        }
+        return weightAtMediumSize;
     }
 }

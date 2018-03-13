@@ -10,4 +10,5 @@ public interface IShield extends IProtection
     void setShieldBonus(int shieldBonus);
     ShieldWeightCategoryEnum getWeightCategory();
     void setWeightCategory(ShieldWeightCategoryEnum weightCategory);
+    double getCurrentWeight();
 }

@@ -50,4 +50,12 @@
         app:layout_constraintRight_toRightOf="@id/EquipmentLabel"
         app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
         android:visibility="gone"/>
+    <com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView
+        android:layout_width="match_parent"
+        android:id="@+id/ProtectionDetailView"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/EquipmentLabel"
+        app:layout_constraintRight_toRightOf="@id/EquipmentLabel"
+        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
+        android:visibility="gone"/>
 </android.support.constraint.ConstraintLayout>

@@ -14,5 +14,7 @@
     <declare-styleable name="SavesRowView"/>
     <declare-styleable name="HP_BAB_SR_View"/>
     <declare-styleable name="ACRowView"/>
+    <declare-styleable name="WeaponDetailView"/>
+    <declare-styleable name="ProtectionDetailView"/>
 
 </resources>

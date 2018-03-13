@@ -12,6 +12,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment.OnListFragmentInteractionListener;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView;
@@ -55,12 +57,9 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
             holder.magicBonus.setVisibility(View.GONE);
         }
 
-        if(holder.mEquipment.getAbilities()!= null && holder.mEquipment.getAbilities().length > 1)
-        {
-            String abilitiesOnEquipment = holder.mEquipment.createAbilitiesString();
-            holder.abilities.setText(abilitiesOnEquipment);
-        }
-        else
+        String abilitiesOnEquipment = holder.mEquipment.createAbilitiesString();
+        holder.abilities.setText(abilitiesOnEquipment);
+        if(abilitiesOnEquipment.equals("None"))
         {
             holder.abilities.setVisibility(View.GONE);
         }
@@ -75,6 +74,28 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
                                               ((IWeapon) holder.mEquipment).returnDamageTypes(),
                                               ((IWeapon) holder.mEquipment).getRange(),
                                               ((IWeapon) holder.mEquipment).returnDamageDice());
+        }
+        else if(holder.mEquipment instanceof IArmor)
+        {
+            holder.protectionDetailView.setValues(holder.mEquipment.getMagicBonus(),
+                                                  holder.mEquipment.createAbilitiesString(),
+                                                  holder.mEquipment.getName(),
+                                                  ((IArmor) holder.mEquipment).getWeightCategory().toString(),
+                                                  ((IArmor) holder.mEquipment).getArmorCheckPenalty(),
+                                                  ((IArmor) holder.mEquipment).getMaximumDexBonus(),
+                                                  ((IArmor) holder.mEquipment).getArcanceSpellFailureChance(),
+                                                  ((IArmor) holder.mEquipment).getCurrentWeight());
+        }
+        else if(holder.mEquipment instanceof IShield)
+        {
+            holder.protectionDetailView.setValues(holder.mEquipment.getMagicBonus(),
+                                                  holder.mEquipment.createAbilitiesString(),
+                                                  holder.mEquipment.getName(),
+                                                  ((IShield) holder.mEquipment).getWeightCategory().toString(),
+                                                  ((IShield) holder.mEquipment).getArmorCheckPenalty(),
+                                                  ((IShield) holder.mEquipment).getMaximumDexBonus(),
+                                                  ((IShield) holder.mEquipment).getArcanceSpellFailureChance(),
+                                                  ((IShield) holder.mEquipment).getCurrentWeight());
         }
 
 
@@ -100,6 +121,10 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
                     if(holder.mEquipment instanceof IWeapon)
                     {
                         SwitchVisibility(holder.weaponDetailView);
+                    }
+                    else if(holder.mEquipment instanceof IProtection)
+                    {
+                        SwitchVisibility(holder.protectionDetailView);
                     }
                 }
             }

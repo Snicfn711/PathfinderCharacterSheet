@@ -403,11 +403,16 @@ public class Weapon implements IWeapon
     public String createAbilitiesString()
     {
         String abilitiesString = new String();
-        for(IAbility ability:abilities)
-        {
-            abilitiesString += ability.getName() + " ";
+        if(abilities != null && abilities.length > 1) {
+            for (IAbility ability : abilities) {
+                abilitiesString += ability.getName() + " ";
+            }
+            return abilitiesString;
         }
-        return abilitiesString;
+        else
+        {
+            return "None";
+        }
     }
 
     public int calculateCriticalRange()
