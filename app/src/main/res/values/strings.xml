@@ -43,7 +43,12 @@
     <string name="ArmorAndWeapons">Armor and Weapons</string>
     <string name="WondrousItems">Wondrous Items</string>
     <string name="Critical">Critical</string>
-    <string name="DamageTypes">Damage Types</string>
+    <string name="DamageTypes">Type</string>
     <string name="Range">Range</string>
     <string name="Damage">Damage</string>
+    <string name="Category">Category</string>
+    <string name="CheckPenalty">Check Penalty</string>
+    <string name="SpellFailure">Spell Failure</string>
+    <string name="MaxDex">Max Dex</string>
+    <string name="Weight">Weight</string>
 </resources>

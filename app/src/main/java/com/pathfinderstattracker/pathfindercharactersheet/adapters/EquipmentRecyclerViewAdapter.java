@@ -1,6 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment.OnListFragmentInteractionListener;
+import com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView;
 
 import java.util.List;
 
@@ -46,7 +49,6 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
         if(holder.mEquipment.getMagicBonus() > 0)
         {
             holder.magicBonus.setText("+" + Integer.toString(mValues[position].getMagicBonus()) + " ");
-            holder.magicBonusDropdown.setText("+" + Integer.toString(mValues[position].getMagicBonus()) + " ");
         }
         else
         {
@@ -57,22 +59,24 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
         {
             String abilitiesOnEquipment = holder.mEquipment.createAbilitiesString();
             holder.abilities.setText(abilitiesOnEquipment);
-            holder.equipmentAbilitiesDropdown.setText(abilitiesOnEquipment);
         }
         else
         {
             holder.abilities.setVisibility(View.GONE);
         }
         holder.equipmentName.setText(holder.mEquipment.getName());
-        holder.equipmentNameDropdown.setText(holder.mEquipment.getName());
         holder.equipmentLabel.setText(holder.mEquipment.getClass().getSimpleName());
         if(holder.mEquipment instanceof IWeapon)
         {
-            holder.equipmentCriticalDropdown.setText(((IWeapon) holder.mEquipment).returnCriticalString());
-            holder.damageTypeDropdown.setText(((IWeapon) holder.mEquipment).returnDamageTypes());
-            holder.equipmentRangeDropdown.setText(Integer.toString(((IWeapon) holder.mEquipment).getRange()));
-            holder.equipmentDamageDropdown.setText(((IWeapon) holder.mEquipment).returnDamageDice());
+            holder.weaponDetailView.setValues(holder.mEquipment.getMagicBonus(),
+                                              holder.mEquipment.createAbilitiesString(),
+                                              holder.mEquipment.getName(),
+                                              ((IWeapon) holder.mEquipment).returnCriticalString(),
+                                              ((IWeapon) holder.mEquipment).returnDamageTypes(),
+                                              ((IWeapon) holder.mEquipment).getRange(),
+                                              ((IWeapon) holder.mEquipment).returnDamageDice());
         }
+
 
         holder.recycledRow.setOnClickListener(new View.OnClickListener()
         {
@@ -93,22 +97,9 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
                         SwitchVisibility(holder.abilities);
                     }
                     SwitchVisibility(holder.equipmentName);
-                    SwitchVisibility(holder.magicBonusDropdownLabel);
-                    SwitchVisibility(holder.magicBonusDropdown);
-                    SwitchVisibility(holder.equipmentAbilitiesDropdownLabel);
-                    SwitchVisibility(holder.equipmentAbilitiesDropdown);
-                    SwitchVisibility(holder.equipmentNameDropdownLabel);
-                    SwitchVisibility(holder.equipmentNameDropdown);
-                    if(!(holder.mEquipment instanceof IArmor))
+                    if(holder.mEquipment instanceof IWeapon)
                     {
-                        SwitchVisibility(holder.equipmentCriticalDropdownLabel);
-                        SwitchVisibility(holder.equipmentCriticalDropdown);
-                        SwitchVisibility(holder.damageTypeDropdownLabel);
-                        SwitchVisibility(holder.damageTypeDropdown);
-                        SwitchVisibility(holder.equipmentRangeDropdownLabel);
-                        SwitchVisibility(holder.equipmentRangeDropdown);
-                        SwitchVisibility(holder.equipmentDamageDropdownLabel);
-                        SwitchVisibility(holder.equipmentDamageDropdown);
+                        SwitchVisibility(holder.weaponDetailView);
                     }
                 }
             }
@@ -129,20 +120,8 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
         private final TextView abilities;
         private final TextView equipmentName;
         private final TextView equipmentLabel;
-        private final TextView magicBonusDropdownLabel;
-        private final TextView magicBonusDropdown;
-        private final TextView equipmentAbilitiesDropdownLabel;
-        private final TextView equipmentAbilitiesDropdown;
-        private final TextView equipmentNameDropdownLabel;
-        private final TextView equipmentNameDropdown;
-        private final TextView equipmentCriticalDropdownLabel;
-        private final TextView equipmentCriticalDropdown;
-        private final TextView damageTypeDropdownLabel;
-        private final TextView damageTypeDropdown;
-        private final TextView equipmentRangeDropdownLabel;
-        private final TextView equipmentRangeDropdown;
-        private final TextView equipmentDamageDropdownLabel;
-        private final TextView equipmentDamageDropdown;
+        private final WeaponDetailView weaponDetailView;
+        private final ProtectionDetailView protectionDetailView;
         private IEquipment mEquipment;
 
         public ViewHolder(View view)
@@ -153,20 +132,8 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
             abilities = view.findViewById(R.id.EquipmentAbilities);
             equipmentName = view.findViewById(R.id.EquipmentName);
             equipmentLabel = view.findViewById(R.id.EquipmentLabel);
-            magicBonusDropdownLabel = view.findViewById(R.id.MagicBonusDropdownLabel);
-            magicBonusDropdown = view.findViewById(R.id.MagicBonusDropdown);
-            equipmentAbilitiesDropdownLabel = view.findViewById(R.id.EquipmentAbilitiesDropdownLabel);
-            equipmentAbilitiesDropdown = view.findViewById(R.id.EquipmentAbilitiesDropdown);
-            equipmentNameDropdownLabel = view.findViewById(R.id.EquipmentNameDropdownLabel);
-            equipmentNameDropdown = view.findViewById(R.id.EquipmentNameDropdown);
-            equipmentCriticalDropdownLabel = view.findViewById(R.id.EquipmentCriticalDropdownLabel);
-            equipmentCriticalDropdown = view.findViewById(R.id.EquipmentCriticalDropdown);
-            damageTypeDropdownLabel = view.findViewById(R.id.DamageTypeDropdownLabel);
-            damageTypeDropdown = view.findViewById(R.id.DamageTypeDropdown);
-            equipmentRangeDropdownLabel = view.findViewById(R.id.EquipmentRangeDropdownLabel);
-            equipmentRangeDropdown = view.findViewById(R.id.EquipmentRangeDropdown);
-            equipmentDamageDropdownLabel = view.findViewById(R.id.EquipmentDamageDropdownLabel);
-            equipmentDamageDropdown = view.findViewById(R.id.EquipmentDamageDropdown);
+            weaponDetailView = view.findViewById(R.id.WeaponDetailView);
+            protectionDetailView = view.findViewById(R.id.ProtectionDetailView);
         }
 
         @Override
@@ -176,7 +143,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
         }
     }
 
-    private void SwitchVisibility(TextView in)
+    private void SwitchVisibility(View in)
     {
         if(in.getVisibility() == View.VISIBLE)
         {

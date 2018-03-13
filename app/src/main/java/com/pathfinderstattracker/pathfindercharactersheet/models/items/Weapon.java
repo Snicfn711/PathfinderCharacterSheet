@@ -439,23 +439,20 @@ public class Weapon implements IWeapon
         {
             damageTypesString += damageType.toString() + ", ";
         }
+        damageTypesString = damageTypesString.substring(0, damageTypesString.length() - 2);
         return damageTypesString;
     }
 
     public String returnDamageDice()
     {
+        //Similar to returnDamageTypes, this will crash if a weapon has no damage dice
+        //Again however, there should be NO CIRCUMSTANCES where that's the case
        String damageDiceString = new String();
-       for(int i = 0; i < damage.length; i++)
+       for(Damage damageDice : damage)
        {
-           if(i < damage.length - 1)
-           {
-               damageDiceString += Integer.toString(damage[i].numberOfDice) + "d" + Integer.toString(damage[i].sizeOfDice) + "+";
-           }
-           else
-           {
-               damageDiceString += Integer.toString(damage[i].numberOfDice) + "d" + Integer.toString(damage[i].sizeOfDice);
-           }
+           damageDiceString += Integer.toString(damageDice.numberOfDice) + "d" + Integer.toString(damageDice.sizeOfDice) + "+";
        }
+       damageDiceString = damageDiceString.substring(0, damageDiceString.length() - 1);
        return damageDiceString;
     }
 }
