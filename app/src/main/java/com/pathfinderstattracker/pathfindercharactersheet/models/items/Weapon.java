@@ -1,6 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 

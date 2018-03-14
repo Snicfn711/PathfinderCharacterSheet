@@ -54,9 +54,9 @@ public class ProtectionDetailView extends ConstraintLayout
         this.equipmentAbilities.setText(equipmentAbilities);
         this.equipmentName.setText(equipmentName);
         this.equipmentWeightCategory.setText(equipmentWeightCategory);
-        this.checkPenalty.setText(Integer.toString(checkPenalty));
+        this.checkPenalty.setText("-" + Integer.toString(checkPenalty));
         this.maxDex.setText(Integer.toString(maxDex));
-        this.spellFailure.setText(Integer.toString(spellFailure));
+        this.spellFailure.setText(Integer.toString(spellFailure) + "%");
         this.weight.setText(Double.toString(weight) + " lbs");
     }
 

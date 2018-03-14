@@ -19,24 +19,35 @@
         android:layout_height="0dp"
         android:layout_weight=".5"
         android:background="@color/colorTransparentHeader">
-        <Button android:id="@+id/ArmorAndWeaponsButton"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ArmorAndWeaponsButtonContainer"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@drawable/header_border"
-            android:textColor="@color/colorGoldText"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/WondrousItemsButton"
-            android:gravity="center"
-            android:text="@string/ArmorAndWeapons"
-            app:layout_constraintHorizontal_chainStyle="spread_inside"/>
-        <Button android:id="@+id/WondrousItemsButton"
-            android:layout_width="wrap_content"
+            app:layout_constraintRight_toLeftOf="@id/WondrousItemsButtonContainer">
+            <Button android:id="@+id/ArmorAndWeaponsButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:textColor="@color/colorGoldText"
+                android:gravity="center"
+                android:text="@string/ArmorAndWeapons"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/WondrousItemsButtonContainer"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:background="@drawable/header_border"
-            android:textColor="@color/colorGoldText"
-            app:layout_constraintLeft_toLeftOf="@id/ArmorAndWeaponsButton"
-            app:layout_constraintRight_toRightOf="parent"
-            android:gravity="center"
-            android:text="@string/WondrousItems"/>
+            app:layout_constraintLeft_toRightOf="@id/ArmorAndWeaponsButtonContainer"
+            app:layout_constraintRight_toRightOf="parent">
+            <Button android:id="@+id/WondrousItemsButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:textColor="@color/colorGoldText"
+                android:gravity="center"
+                android:text="@string/WondrousItems"/>
+        </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

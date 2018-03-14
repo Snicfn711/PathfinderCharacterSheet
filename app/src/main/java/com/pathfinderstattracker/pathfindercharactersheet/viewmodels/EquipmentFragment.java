@@ -9,6 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.EquipmentRecyclerViewAdapter;
@@ -16,7 +19,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.Damage;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
@@ -24,8 +27,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.Weapon;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDamageTypeEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponFamilyEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
-
-import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -99,6 +100,7 @@ public class EquipmentFragment extends Fragment
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private Animation click;
 
     public EquipmentFragment()
     {
@@ -141,6 +143,7 @@ public class EquipmentFragment extends Fragment
             Context context = rootView.getContext();
             final RecyclerView recyclerView =  rootView.findViewById(R.id.EquipmentRecycler);
             final EquipmentRecyclerViewAdapter equipmentAdapter = new EquipmentRecyclerViewAdapter(TempEquipment, mListener);
+            click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
             if (mColumnCount <= 1)
             {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -149,7 +152,26 @@ public class EquipmentFragment extends Fragment
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(equipmentAdapter);
+            final Button armorAndWeaponsButton = rootView.findViewById(R.id.ArmorAndWeaponsButton);
+            final Button wondrousItemsButton = rootView.findViewById(R.id.WondrousItemsButton);
 
+            armorAndWeaponsButton.setOnClickListener((new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    armorAndWeaponsButton.startAnimation(click);
+                }
+            }));
+
+            wondrousItemsButton.setOnClickListener((new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    wondrousItemsButton.startAnimation(click);
+                }
+            }));
         return rootView;
     }
 

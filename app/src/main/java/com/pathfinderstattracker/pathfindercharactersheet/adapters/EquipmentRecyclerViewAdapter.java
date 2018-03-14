@@ -139,7 +139,6 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        //Todo:Low priority, but see if we can clean this up at some point. Trying to maintain 18 views is ugly
         private final View recycledRow;
         private final TextView magicBonus;
         private final TextView abilities;

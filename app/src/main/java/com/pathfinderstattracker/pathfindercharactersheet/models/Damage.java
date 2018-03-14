@@ -1,4 +1,4 @@
-package com.pathfinderstattracker.pathfindercharactersheet.models.items;
+package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 /**
  * Created by Stephen Hagen on 12/26/2017.
