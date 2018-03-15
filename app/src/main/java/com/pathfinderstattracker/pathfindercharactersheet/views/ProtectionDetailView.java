@@ -36,17 +36,17 @@ public class ProtectionDetailView extends ConstraintLayout
     }
 
     protected void onFinishInflate()
-    {
-        super.onFinishInflate();
-        magicBonus = this.findViewById(R.id.MagicBonusDropdown);
-        equipmentAbilities = this.findViewById(R.id.EquipmentAbilitiesDropdown);
-        equipmentName = this.findViewById(R.id.EquipmentNameDropdown);
-        equipmentWeightCategory= this.findViewById(R.id.WeightCategoryDropdown);
-        checkPenalty = this.findViewById(R.id.CheckPenaltyDropdown);
-        maxDex = this.findViewById(R.id.MaxDexDropdown);
-        spellFailure = this.findViewById(R.id.SpellFailureDropdown);
-        weight = this.findViewById(R.id.WeightDropdown);
-    }
+{
+    super.onFinishInflate();
+    magicBonus = this.findViewById(R.id.MagicBonusDropdown);
+    equipmentAbilities = this.findViewById(R.id.EquipmentAbilitiesDropdown);
+    equipmentName = this.findViewById(R.id.EquipmentNameDropdown);
+    equipmentWeightCategory= this.findViewById(R.id.WeightCategoryDropdown);
+    checkPenalty = this.findViewById(R.id.CheckPenaltyDropdown);
+    maxDex = this.findViewById(R.id.MaxDexDropdown);
+    spellFailure = this.findViewById(R.id.SpellFailureDropdown);
+    weight = this.findViewById(R.id.WeightDropdown);
+}
 
     public void setValues(int magicBonus, String equipmentAbilities, String equipmentName, String equipmentWeightCategory, int checkPenalty, int maxDex, int spellFailure, double weight)
     {
@@ -59,5 +59,4 @@ public class ProtectionDetailView extends ConstraintLayout
         this.spellFailure.setText(Integer.toString(spellFailure) + "%");
         this.weight.setText(Double.toString(weight) + " lbs");
     }
-
 }

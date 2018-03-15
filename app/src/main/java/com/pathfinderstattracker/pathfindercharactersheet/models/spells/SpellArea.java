@@ -6,6 +6,30 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.spells;
 
 public class SpellArea implements ISpellArea
 {
-    public SpellAreaEnum Area;
-    public int Size;
+    private SpellAreaEnum SpellArea;
+    private Integer NumberOfFeetInArea;
+
+    @Override
+    public SpellAreaEnum getSpellArea()
+    {
+        return SpellArea;
+    }
+
+    @Override
+    public void setSpellArea(SpellAreaEnum spellArea)
+    {
+        SpellArea = spellArea;
+    }
+
+    @Override
+    public Integer getNumberOfFeetInArea()
+    {
+        return NumberOfFeetInArea;
+    }
+
+    @Override
+    public void setNumberOfFeetInArea(Integer numberOfFeetInArea)
+    {
+        NumberOfFeetInArea = numberOfFeetInArea;
+    }
 }

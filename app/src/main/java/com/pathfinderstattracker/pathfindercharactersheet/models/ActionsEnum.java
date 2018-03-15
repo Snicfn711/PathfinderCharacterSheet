@@ -11,5 +11,6 @@ public enum ActionsEnum
     Move,
     Swift,
     Free,
-    FullRound
+    FullRound,
+    More //More here means an action that isn't measure in combat time, but rather in real time (i.e. minutes, hours, days, etc). It's likely only going to be applied to spells
 }

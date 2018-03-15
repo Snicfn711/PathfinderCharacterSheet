@@ -6,6 +6,8 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.spells;
 
 public interface ISpellArea
 {
-    SpellAreaEnum Area = SpellAreaEnum.Burst;
-    int Feet = 0;
+    SpellAreaEnum getSpellArea();
+    void setSpellArea(SpellAreaEnum spellArea);
+    Integer getNumberOfFeetInArea();
+    void setNumberOfFeetInArea(Integer numberOfFeetInArea);
 }

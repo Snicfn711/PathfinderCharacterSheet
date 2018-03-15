@@ -51,4 +51,12 @@
     <string name="SpellFailure">Spell Failure</string>
     <string name="MaxDex">Max Dex</string>
     <string name="Weight">Weight</string>
+    <!--Spell Strings-->
+    <string name="CastingTime">Casting Time</string>
+    <string name="Targets">Targets</string>
+    <string name="Duration">Duration</string>
+    <string name="SavingThrow">Saving Throw</string><!--Saving throw and spell resistance aren't descriptive as labels, may want to change at some point-->
+    <string name="AttacksSpellResistance">Spell Resistance</string>
+    <string name="Components">Required Components</string>
+    <string name="SpellSchool">Spell School [Descriptors]</string>
 </resources>

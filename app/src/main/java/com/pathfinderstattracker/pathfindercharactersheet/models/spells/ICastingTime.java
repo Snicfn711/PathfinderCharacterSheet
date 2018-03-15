@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.spells;
 
+import android.drm.DrmStore;
+
 import com.pathfinderstattracker.pathfindercharactersheet.models.ActionsEnum;
 
 /**
@@ -8,7 +10,10 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.ActionsEnum;
 
 public interface ICastingTime
 {
-    ActionsEnum Action = ActionsEnum.Free;
-    String Interval = null; //Interval here is minutes, hours, days, etc
-    int Period = 0; //This then is the actual number that is applied to Interval
+    ActionsEnum getAction();
+    void setAction(ActionsEnum action);
+    String getInterval();//For casting times longer than a single round, this can be set as minutes, hours, day, etc.
+    void setInterval(String interval);
+    int getNumberOfActions();//This is the number of actions, rounds, intervals the spell takes to cast (i.e. 3 full rounds, 1 hour, 2 days, etc)
+    void setNumberOfActions(int numberOfActions);
 }

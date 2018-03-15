@@ -6,7 +6,10 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.spells;
 
 public interface ISpellDuration
 {
-    SpellDurationEnum DurationEnum = SpellDurationEnum.Instant;
-    int Frequency = 0;
-    String TimeIncrement = null;
+    SpellDurationEnum getSpellDuration();
+    void setSpellDuration(SpellDurationEnum spellDuration);
+    Integer getNumberOfIncrements();
+    void setNumberOfIncrements(Integer numberOfIncrements);
+    String getTimeIncrement();
+    void setTimeIncrement(String timeIncrement);
 }

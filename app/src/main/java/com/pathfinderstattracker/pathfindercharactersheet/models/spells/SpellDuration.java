@@ -6,7 +6,47 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.spells;
 
 public class SpellDuration implements ISpellDuration
 {
-    public SpellDurationEnum DurationEnum;
-    public int Frequency;
-    public String TimeIncrement;
+
+    private SpellDurationEnum SpellDuration;
+    private Integer NumberOfIncrements;
+    private String TimeIncrement;
+
+    //region Getters and Setters
+    @Override
+    public SpellDurationEnum getSpellDuration()
+    {
+        return SpellDuration;
+    }
+
+    @Override
+    public void setSpellDuration(SpellDurationEnum spellDuration)
+    {
+        SpellDuration = spellDuration;
+    }
+
+    @Override
+    public Integer getNumberOfIncrements()
+    {
+        return NumberOfIncrements;
+    }
+
+    @Override
+    public void setNumberOfIncrements(Integer numberOfIncrements)
+    {
+        NumberOfIncrements = numberOfIncrements;
+    }
+
+    @Override
+    public String getTimeIncrement()
+    {
+        return TimeIncrement;
+    }
+
+    @Override
+    public void setTimeIncrement(String timeIncrement)
+    {
+        TimeIncrement = timeIncrement;
+    }
+    //endregion
+
 }

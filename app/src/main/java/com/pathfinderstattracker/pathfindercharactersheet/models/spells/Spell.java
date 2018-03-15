@@ -11,6 +11,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.classes.IClass;
 
 public class Spell implements ISpell
 {
+    private String SpellName;
     private ArcaneSchoolEnum School;
     private DescriptorEnum[] Descriptors;
     private String SavingThrow; //This should be okay as a string, as it's just telling the player which save is being targeted and what happens on a successful save
@@ -32,6 +33,17 @@ public class Spell implements ISpell
     private Integer CasterLevelsPerIncrement;
     private boolean targetsSpellResistance;
     //region Getters and Setters
+    @Override
+    public String getSpellName()
+    {
+        return SpellName;
+    }
+
+    @Override
+    public void setSpellName(String spellName)
+    {
+        SpellName = spellName;
+    }
     @Override
     public ArcaneSchoolEnum getSchool()
     {
@@ -280,8 +292,9 @@ public class Spell implements ISpell
         //Default Constructor
     }
 
-    public Spell(ArcaneSchoolEnum school, DescriptorEnum[] descriptors, String savingThrow, String materialComponents, boolean hasVerbal, boolean hasSomatic, boolean hasFocus, boolean hasDivineFocus, ICastingTime castingTime, ISpellRange range, String target, ISpellDuration duration, ISpellArea area, IClass sourceClass, String fullDescription, String shortDescription, Integer maximumNumberOfDice, Damage damageIncrements, Integer casterLevelsPerIncrement, boolean targetsSpellResistance)
+    public Spell(String spellName, ArcaneSchoolEnum school, DescriptorEnum[] descriptors, String savingThrow, String materialComponents, boolean hasVerbal, boolean hasSomatic, boolean hasFocus, boolean hasDivineFocus, ICastingTime castingTime, ISpellRange range, String target, ISpellDuration duration, ISpellArea area, IClass sourceClass, String fullDescription, String shortDescription, Integer maximumNumberOfDice, Damage damageIncrements, Integer casterLevelsPerIncrement, boolean targetsSpellResistance)
     {
+        setSpellName(spellName);
         setSchool(school);
         setDescriptors(descriptors);
         setSavingThrow(savingThrow);
