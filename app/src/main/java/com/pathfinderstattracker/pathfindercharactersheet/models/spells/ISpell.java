@@ -46,9 +46,9 @@ public interface ISpell
 
     void setCastingTime(ICastingTime castingTime);
 
-    ISpellRange getSpellRange();
+    SpellRangeEnum getSpellRange();
 
-    void setSpellRange(ISpellRange spellRange);
+    void setSpellRange(SpellRangeEnum spellRange);
 
     String getTarget();
 

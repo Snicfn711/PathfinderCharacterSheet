@@ -34,7 +34,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWei
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class EquipmentFragment extends Fragment
+public class EquipmentReferenceFragment extends Fragment
 {
 
     //region Temp Equipment List
@@ -102,7 +102,7 @@ public class EquipmentFragment extends Fragment
     private OnListFragmentInteractionListener mListener;
     private Animation click;
 
-    public EquipmentFragment()
+    public EquipmentReferenceFragment()
     {
         /**
          * Mandatory empty constructor for the fragment manager to instantiate the
@@ -112,9 +112,9 @@ public class EquipmentFragment extends Fragment
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static EquipmentFragment newInstance(int columnCount)
+    public static EquipmentReferenceFragment newInstance(int columnCount)
     {
-        EquipmentFragment fragment = new EquipmentFragment();
+        EquipmentReferenceFragment fragment = new EquipmentReferenceFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);

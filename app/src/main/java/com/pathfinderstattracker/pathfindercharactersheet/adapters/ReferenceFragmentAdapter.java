@@ -5,9 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.ReferenceStatsFragment;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
 
 /**
  * Created by Stephen Hagen on 2/20/2018.
@@ -28,19 +28,19 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
         switch(position)
         {
             case 0:
-                fragment = new ReferenceStatsFragment();
+                fragment = new StatsReferenceFragment();
                 args = new Bundle();
                 args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             case 1:
-                fragment = new SkillsFragment();
+                fragment = new SkillsReferenceFragment();
                 args = new Bundle();
                 args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             case 2:
-                fragment = new EquipmentFragment();
+                fragment = new EquipmentReferenceFragment();
                 args = new Bundle();
                 args.putString("Foo", "Bar");
                 fragment.setArguments(args);

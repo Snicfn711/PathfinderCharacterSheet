@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment.OnListFragmentInteractionListener;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment.OnListFragmentInteractionListener;
 
 /**
  * TODO: Replace the implementation with code for your data type.

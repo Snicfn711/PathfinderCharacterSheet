@@ -59,4 +59,13 @@
     <string name="AttacksSpellResistance">Spell Resistance</string>
     <string name="Components">Required Components</string>
     <string name="SpellSchool">Spell School [Descriptors]</string>
+    <string name="FirstLevelSpells">First Level Spells</string>
+    <string name="SecondLevelSpells">Second Level Spells</string>
+    <string name="ThirdLevelSpells">Third Level Spells</string>
+    <string name="FourthLevelSpells">Fourth Level Spells</string>
+    <string name="FifthLevelSpells">Fifth Level Spells</string>
+    <string name="SixthLevelSpells">Sixth Level Spells</string>
+    <string name="SeventhLevelSpells">Seventh Level Spells</string>
+    <string name="EighthLevelSpells">Eighth Level Spells</string>
+    <string name="NinthLevelSpells">Ninth Level Spells</string>
 </resources>

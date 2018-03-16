@@ -3,17 +3,16 @@ package com.pathfinderstattracker.pathfindercharactersheet;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentFragment;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.ReferenceStatsFragment;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
 
-public class MainActivity extends FragmentActivity implements ReferenceStatsFragment.OnFragmentInteractionListener, SkillsFragment.OnListFragmentInteractionListener, EquipmentFragment.OnListFragmentInteractionListener
+public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener
 {
     ReferenceFragmentAdapter referenceFragmentAdapter;
     ViewPager mViewPager;

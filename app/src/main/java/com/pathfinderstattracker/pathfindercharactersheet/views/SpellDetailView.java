@@ -62,9 +62,17 @@ public class SpellDetailView extends ConstraintLayout
 
     public void setValues(ISpell spell)
     {
+        //Todo:A lot of these values are terribly formatted, we'll have to come back and fix them up.
         spellName.setText(spell.getSpellName());
         castingTime.setText(spell.getCastingTime().toString());
+        spellRange.setText(spell.getSpellRange().toString());
         spellTargets.setText(spell.getTarget());
+        spellDuration.setText(spell.getSpellDuration().toString());
+        requiresSavingThrow.setText(spell.getSavingThrow());
+        targetsSpellResistance.setText(Boolean.toString(spell.targetsSpellResistance()));
+        requiredSpellComponents.setText(spell.getMaterialComponents());
+        spellSchoolAndDescriptors.setText(spell.getSchool().toString());
+        longSpellDescription.setText(spell.getFullDescription());
     }
 
 

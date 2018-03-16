@@ -32,13 +32,13 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementM
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ReferenceStatsFragment.OnFragmentInteractionListener} interface
+ * {@link StatsReferenceFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link ReferenceStatsFragment#newInstance} factory method to
+ * Use the {@link StatsReferenceFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
 
-public class ReferenceStatsFragment extends Fragment
+public class StatsReferenceFragment extends Fragment
 {
     //region Test Ability Scores
     private AbilityScore strength = new AbilityScore(AbilityScoreEnum.STR, 10);
@@ -88,7 +88,7 @@ public class ReferenceStatsFragment extends Fragment
 
     private OnFragmentInteractionListener mListener;
 
-    public ReferenceStatsFragment()
+    public StatsReferenceFragment()
     {
         // Required empty public constructor
     }
@@ -99,12 +99,12 @@ public class ReferenceStatsFragment extends Fragment
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ReferenceStatsFragment.
+     * @return A new instance of fragment StatsReferenceFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ReferenceStatsFragment newInstance(String param1, String param2)
+    public static StatsReferenceFragment newInstance(String param1, String param2)
     {
-        ReferenceStatsFragment fragment = new ReferenceStatsFragment();
+        StatsReferenceFragment fragment = new StatsReferenceFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

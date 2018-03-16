@@ -28,7 +28,7 @@ import java.util.Arrays;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class SkillsFragment extends Fragment
+public class SkillsReferenceFragment extends Fragment
 {
 
     //region Temp Skills
@@ -47,7 +47,7 @@ public class SkillsFragment extends Fragment
     private OnListFragmentInteractionListener mListener;
     private Animation click;
 
-    public SkillsFragment()
+    public SkillsReferenceFragment()
     {
         /**
          * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,9 +57,9 @@ public class SkillsFragment extends Fragment
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static SkillsFragment newInstance(int columnCount)
+    public static SkillsReferenceFragment newInstance(int columnCount)
     {
-        SkillsFragment fragment = new SkillsFragment();
+        SkillsReferenceFragment fragment = new SkillsReferenceFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);

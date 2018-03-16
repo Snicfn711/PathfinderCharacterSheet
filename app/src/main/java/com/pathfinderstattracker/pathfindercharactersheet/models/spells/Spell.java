@@ -21,7 +21,7 @@ public class Spell implements ISpell
     private boolean HasFocus;
     private boolean HasDivineFocus;
     private ICastingTime CastingTime;
-    private ISpellRange Range;
+    private SpellRangeEnum Range;
     private String Target;
     private ISpellDuration Duration;
     private ISpellArea Area;
@@ -153,13 +153,13 @@ public class Spell implements ISpell
     }
 
     @Override
-    public ISpellRange getSpellRange()
+    public SpellRangeEnum getSpellRange()
     {
         return Range;
     }
 
     @Override
-    public void setSpellRange(ISpellRange range)
+    public void setSpellRange(SpellRangeEnum range)
     {
         Range = range;
     }
@@ -292,7 +292,7 @@ public class Spell implements ISpell
         //Default Constructor
     }
 
-    public Spell(String spellName, ArcaneSchoolEnum school, DescriptorEnum[] descriptors, String savingThrow, String materialComponents, boolean hasVerbal, boolean hasSomatic, boolean hasFocus, boolean hasDivineFocus, ICastingTime castingTime, ISpellRange range, String target, ISpellDuration duration, ISpellArea area, IClass sourceClass, String fullDescription, String shortDescription, Integer maximumNumberOfDice, Damage damageIncrements, Integer casterLevelsPerIncrement, boolean targetsSpellResistance)
+    public Spell(String spellName, ArcaneSchoolEnum school, DescriptorEnum[] descriptors, String savingThrow, String materialComponents, boolean hasVerbal, boolean hasSomatic, boolean hasFocus, boolean hasDivineFocus, ICastingTime castingTime, SpellRangeEnum range, String target, ISpellDuration duration, ISpellArea area, IClass sourceClass, String fullDescription, String shortDescription, Integer maximumNumberOfDice, Damage damageIncrements, Integer casterLevelsPerIncrement, boolean targetsSpellResistance)
     {
         setSpellName(spellName);
         setSchool(school);
