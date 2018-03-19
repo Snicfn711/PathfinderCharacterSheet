@@ -133,7 +133,7 @@ public class StatsReferenceFragment extends Fragment
         View rootView = inflater.inflate(R.layout.stats_screen_fragment, container, false);
         Activity context = this.getActivity();
         //region Populate Test Character Data
-        tempCharacter.setInitiative(3); //TODO: Replace test data
+        tempCharacter.setInitiative(3); //TODO: Replace test character data
         tempCharacter.setCombatManeuverStats(new CombatManeuver(3,16));
         tempCharacter.setAbilityScores(tempStats);
         tempCharacter.setFortitudeSave(4);

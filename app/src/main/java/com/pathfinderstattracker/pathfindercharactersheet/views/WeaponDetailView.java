@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
 
 /**
  * TODO: document your custom view class.
@@ -46,15 +47,15 @@ public class WeaponDetailView extends ConstraintLayout
         equipmentDamage = this.findViewById(R.id.EquipmentDamageDropdown);
     }
 
-    public void setValues(int magicBonus, String equipmentAbilities, String equipmentName, String equipmentCritical, String damageTypes, int equipmentRange, String equipmentDamage)
+    public void setValues(IWeapon weapon)
     {
-        this.magicBonus.setText("+" + Integer.toString(magicBonus) + " ");
-        this.equipmentAbilities.setText(equipmentAbilities);
-        this.equipmentName.setText(equipmentName);
-        this.equipmentCritical.setText(equipmentCritical);
-        this.damageTypes.setText(damageTypes);
-        this.equipmentRange.setText(Integer.toString(equipmentRange));
-        this.equipmentDamage.setText(equipmentDamage);
+        this.magicBonus.setText("+" + Integer.toString(weapon.getMagicBonus()) + " ");
+        this.equipmentAbilities.setText(weapon.createAbilitiesString());
+        this.equipmentName.setText(weapon.getName());
+        this.equipmentCritical.setText(weapon.returnCriticalString());
+        this.damageTypes.setText(weapon.returnDamageTypes());
+        this.equipmentRange.setText(Integer.toString(weapon.getRange()));
+        this.equipmentDamage.setText(weapon.returnDamageDice());
     }
 
 }

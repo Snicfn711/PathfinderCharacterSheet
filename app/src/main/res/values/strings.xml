@@ -59,6 +59,7 @@
     <string name="AttacksSpellResistance">Spell Resistance</string>
     <string name="Components">Required Components</string>
     <string name="SpellSchool">Spell School [Descriptors]</string>
+    <string name="CantripSpells">Cantrips</string>
     <string name="FirstLevelSpells">First Level Spells</string>
     <string name="SecondLevelSpells">Second Level Spells</string>
     <string name="ThirdLevelSpells">Third Level Spells</string>

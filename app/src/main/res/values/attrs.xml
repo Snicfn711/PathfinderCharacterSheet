@@ -16,5 +16,6 @@
     <declare-styleable name="ACRowView"/>
     <declare-styleable name="WeaponDetailView"/>
     <declare-styleable name="ProtectionDetailView"/>
+    <declare-styleable name="SpellDetailView"/>
 
 </resources>

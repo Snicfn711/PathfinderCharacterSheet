@@ -32,6 +32,7 @@ public class Spell implements ISpell
     private Damage DamageIncrements;
     private Integer CasterLevelsPerIncrement;
     private boolean targetsSpellResistance;
+    private int spellLevel;
     //region Getters and Setters
     @Override
     public String getSpellName()
@@ -284,6 +285,13 @@ public class Spell implements ISpell
     {
         this.targetsSpellResistance = targetsSpellResistance;
     }
+
+    @Override
+    public int getSpellLevel() {return spellLevel;}
+
+    @Override
+    public void setSpellLevel(int spellLevel)
+    {this.spellLevel = spellLevel;}
     //endregion
 
 
@@ -292,7 +300,11 @@ public class Spell implements ISpell
         //Default Constructor
     }
 
-    public Spell(String spellName, ArcaneSchoolEnum school, DescriptorEnum[] descriptors, String savingThrow, String materialComponents, boolean hasVerbal, boolean hasSomatic, boolean hasFocus, boolean hasDivineFocus, ICastingTime castingTime, SpellRangeEnum range, String target, ISpellDuration duration, ISpellArea area, IClass sourceClass, String fullDescription, String shortDescription, Integer maximumNumberOfDice, Damage damageIncrements, Integer casterLevelsPerIncrement, boolean targetsSpellResistance)
+    public Spell(String spellName, ArcaneSchoolEnum school, DescriptorEnum[] descriptors, String savingThrow,
+                 String materialComponents, boolean hasVerbal, boolean hasSomatic, boolean hasFocus, boolean hasDivineFocus,
+                 ICastingTime castingTime, SpellRangeEnum range, String target, ISpellDuration duration, ISpellArea area, IClass sourceClass,
+                 String fullDescription, String shortDescription, Integer maximumNumberOfDice, Damage damageIncrements, Integer casterLevelsPerIncrement,
+                 boolean targetsSpellResistance, int spellLevel)
     {
         setSpellName(spellName);
         setSchool(school);
@@ -315,5 +327,6 @@ public class Spell implements ISpell
         setDamageIncrements(damageIncrements);
         setCasterLevelsPerIncrement(casterLevelsPerIncrement);
         setTargetsSpellResistance(targetsSpellResistance);
+        setSpellLevel(spellLevel); //Todo: It might make sense later to associate spell level with the source class, rather than the spell, since multiple classes can cast the same spell, but at different levels.
     }
 }

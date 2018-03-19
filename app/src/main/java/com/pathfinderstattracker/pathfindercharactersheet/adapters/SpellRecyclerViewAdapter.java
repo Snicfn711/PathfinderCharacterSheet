@@ -1,28 +1,28 @@
 package com.pathfinderstattracker.pathfindercharactersheet.adapters;
 
+import android.icu.util.IslamicCalendar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment.OnListFragmentInteractionListener;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.dummy.DummyContent.DummyItem;
+import com.pathfinderstattracker.pathfindercharactersheet.views.SpellDetailView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
 public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecyclerViewAdapter.ViewHolder>
 {
 
-    private final List<DummyItem> mValues;
+    private final ISpell[] mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public SpellRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener)
+    public SpellRecyclerViewAdapter(ISpell[] items, OnListFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -32,18 +32,18 @@ public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecycler
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_ispell, parent, false);
+                .inflate(R.layout.spell_row_view, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mSpell = mValues[position];
+        holder.spellName.setText(mValues[position].getSpellName());
+        holder.shortSpellDescription.setText(mValues[position].getShortDescription());
 
-        holder.mView.setOnClickListener(new View.OnClickListener()
+        holder.recycledRow.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -52,7 +52,7 @@ public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecycler
                 {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onListFragmentInteraction(holder.mSpell);
                 }
             }
         });
@@ -61,28 +61,44 @@ public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecycler
     @Override
     public int getItemCount()
     {
-        return mValues.size();
+        return mValues.length;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final View recycledRow;
+        public final TextView spellName;
+        public final TextView shortSpellDescription;
+        public final SpellDetailView spellDetailView;
+        public ISpell mSpell;
 
         public ViewHolder(View view)
         {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            recycledRow = view;
+            spellName = view.findViewById(R.id.SpellName);
+            shortSpellDescription = view.findViewById(R.id.SpellShortDescription);
+            spellDetailView = view.findViewById(R.id.SpellDetailView);
         }
 
         @Override
         public String toString()
         {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mSpell.toString() + "'";
         }
+    }
+
+    private void SwitchVisibility(View in)
+    {
+        if(in.getVisibility() == View.VISIBLE)
+        {
+            in.setVisibility(View.GONE);
+        }
+        else if(in.getVisibility() == View.GONE)
+        {
+            in.setVisibility(View.VISIBLE);
+        }
+        //If the view is invisible, we'll just leave it. While we may need to worry about visibilities elsewhere
+        //this particular implementation probably won't be used many other places.
     }
 }

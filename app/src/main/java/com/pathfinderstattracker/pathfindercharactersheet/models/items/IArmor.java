@@ -12,5 +12,4 @@ public interface IArmor extends IProtection
     void setMaxSpeed(int maxSpeed);
     ArmorWeightCategoryEnum getWeightCategory();
     void setWeightCategory(ArmorWeightCategoryEnum weightCategory);
-    double getCurrentWeight();
 }

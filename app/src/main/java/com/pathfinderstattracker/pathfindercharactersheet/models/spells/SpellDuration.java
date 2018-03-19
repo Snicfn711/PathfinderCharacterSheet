@@ -49,4 +49,15 @@ public class SpellDuration implements ISpellDuration
     }
     //endregion
 
+    public SpellDuration()
+    {
+        //Default constructor
+    }
+
+    public SpellDuration(SpellDurationEnum spellDuration, Integer numberOfIncrements, String timeIncrement)
+    {
+        setSpellDuration(spellDuration);
+        setNumberOfIncrements(numberOfIncrements);
+        setTimeIncrement(timeIncrement);
+    }
 }

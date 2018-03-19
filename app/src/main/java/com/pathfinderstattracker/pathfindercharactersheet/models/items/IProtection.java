@@ -12,4 +12,5 @@ public interface IProtection extends IEquipment
     void setArmorCheckPenalty(int armorCheckPenalty);
     int getArcanceSpellFailureChance();
     void setArcaneSpellFailureChance(int arcaneSpellFailureChance);
+    double getCurrentWeight();
 }

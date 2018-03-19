@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 
 /**
  * TODO: document your custom view class.
@@ -48,15 +51,22 @@ public class ProtectionDetailView extends ConstraintLayout
     weight = this.findViewById(R.id.WeightDropdown);
 }
 
-    public void setValues(int magicBonus, String equipmentAbilities, String equipmentName, String equipmentWeightCategory, int checkPenalty, int maxDex, int spellFailure, double weight)
+    public void setValues(IProtection protectionItem)
     {
-        this.magicBonus.setText("+" + Integer.toString(magicBonus) + " ");
-        this.equipmentAbilities.setText(equipmentAbilities);
-        this.equipmentName.setText(equipmentName);
-        this.equipmentWeightCategory.setText(equipmentWeightCategory);
-        this.checkPenalty.setText("-" + Integer.toString(checkPenalty));
-        this.maxDex.setText(Integer.toString(maxDex));
-        this.spellFailure.setText(Integer.toString(spellFailure) + "%");
-        this.weight.setText(Double.toString(weight) + " lbs");
+        this.magicBonus.setText("+" + Integer.toString(protectionItem.getMagicBonus()) + " ");
+        this.equipmentAbilities.setText(protectionItem.createAbilitiesString());
+        this.equipmentName.setText(protectionItem.getName());
+        if(protectionItem instanceof IShield)
+        {
+            this.equipmentWeightCategory.setText(((IShield)protectionItem).getWeightCategory().toString());
+        }
+        else if(protectionItem instanceof IArmor)
+        {
+            this.equipmentWeightCategory.setText(((IArmor)protectionItem).getWeightCategory().toString());
+        }
+        this.checkPenalty.setText("-" + Integer.toString(protectionItem.getArmorCheckPenalty()));
+        this.maxDex.setText(Integer.toString(protectionItem.getMaximumDexBonus()));
+        this.spellFailure.setText(Integer.toString(protectionItem.getArcanceSpellFailureChance()) + "%");
+        this.weight.setText(Double.toString(protectionItem.getCurrentWeight()) + " lbs");
     }
 }

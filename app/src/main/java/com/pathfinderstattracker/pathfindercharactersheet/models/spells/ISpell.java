@@ -93,4 +93,7 @@ public interface ISpell
     String getSpellName();
 
     void setSpellName(String spellName);
+
+    int getSpellLevel();
+    void setSpellLevel(int spellLevel);
 }

@@ -62,35 +62,15 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
         holder.equipmentLabel.setText(holder.mEquipment.getClass().getSimpleName());
         if(holder.mEquipment instanceof IWeapon)
         {
-            holder.weaponDetailView.setValues(holder.mEquipment.getMagicBonus(),
-                                              holder.mEquipment.createAbilitiesString(),
-                                              holder.mEquipment.getName(),
-                                              ((IWeapon) holder.mEquipment).returnCriticalString(),
-                                              ((IWeapon) holder.mEquipment).returnDamageTypes(),
-                                              ((IWeapon) holder.mEquipment).getRange(),
-                                              ((IWeapon) holder.mEquipment).returnDamageDice());
+            holder.weaponDetailView.setValues((IWeapon)holder.mEquipment);
         }
         else if(holder.mEquipment instanceof IArmor)
         {
-            holder.protectionDetailView.setValues(holder.mEquipment.getMagicBonus(),
-                                                  holder.mEquipment.createAbilitiesString(),
-                                                  holder.mEquipment.getName(),
-                                                  ((IArmor) holder.mEquipment).getWeightCategory().toString(),
-                                                  ((IArmor) holder.mEquipment).getArmorCheckPenalty(),
-                                                  ((IArmor) holder.mEquipment).getMaximumDexBonus(),
-                                                  ((IArmor) holder.mEquipment).getArcanceSpellFailureChance(),
-                                                  ((IArmor) holder.mEquipment).getCurrentWeight());
+            holder.protectionDetailView.setValues((IArmor)holder.mEquipment);
         }
         else if(holder.mEquipment instanceof IShield)
         {
-            holder.protectionDetailView.setValues(holder.mEquipment.getMagicBonus(),
-                                                  holder.mEquipment.createAbilitiesString(),
-                                                  holder.mEquipment.getName(),
-                                                  ((IShield) holder.mEquipment).getWeightCategory().toString(),
-                                                  ((IShield) holder.mEquipment).getArmorCheckPenalty(),
-                                                  ((IShield) holder.mEquipment).getMaximumDexBonus(),
-                                                  ((IShield) holder.mEquipment).getArcanceSpellFailureChance(),
-                                                  ((IShield) holder.mEquipment).getCurrentWeight());
+            holder.protectionDetailView.setValues((IShield)holder.mEquipment);
         }
 
 
@@ -104,6 +84,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mEquipment);
+                    //Replace the summary view with the detail view
                     if(holder.mEquipment.getMagicBonus() > 0)
                     {
                         SwitchVisibility(holder.magicBonus);
