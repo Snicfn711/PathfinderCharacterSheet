@@ -1,6 +1,5 @@
 package com.pathfinderstattracker.pathfindercharactersheet.adapters;
 
-import android.icu.util.IslamicCalendar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,8 +39,9 @@ public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecycler
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mSpell = mValues[position];
-        holder.spellName.setText(mValues[position].getSpellName());
-        holder.shortSpellDescription.setText(mValues[position].getShortDescription());
+        holder.spellName.setText(holder.mSpell.getSpellName());
+        holder.shortSpellDescription.setText(holder.mSpell.getShortDescription());
+        holder.spellDetailView.setValues(holder.mSpell);
 
         holder.recycledRow.setOnClickListener(new View.OnClickListener()
         {
@@ -53,6 +53,9 @@ public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecycler
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mSpell);
+                    SwitchVisibility(holder.spellName);
+                    SwitchVisibility(holder.shortSpellDescription);
+                    SwitchVisibility(holder.spellDetailView);
                 }
             }
         });

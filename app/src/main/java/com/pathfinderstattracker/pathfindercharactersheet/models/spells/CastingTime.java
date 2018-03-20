@@ -72,7 +72,7 @@ public class CastingTime implements ICastingTime
         }
         else
         {
-            return Action.toString();
+            return Action.toString() + "Action";
         }
     }
 }

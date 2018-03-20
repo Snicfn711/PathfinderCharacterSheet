@@ -60,4 +60,10 @@ public class SpellDuration implements ISpellDuration
         setNumberOfIncrements(numberOfIncrements);
         setTimeIncrement(timeIncrement);
     }
+
+    @Override
+    public String toString()
+    {
+        return SpellDuration.toString();
+    }
 }

@@ -146,7 +146,7 @@ public class SpellReferenceFragment extends Fragment
             false,
             1);
 
-    private Spell[] tempFirstLevelSpells = new Spell[]{acidSplash, notAcidSplash};
+    private Spell[] tempFirstLevelSpells = new Spell[]{firstLevelAcidSplash, notFirstLevelAcidSplash};
     //endregion
 
     // TODO: Customize parameter argument names
@@ -192,7 +192,7 @@ public class SpellReferenceFragment extends Fragment
         final ConstraintLayout rootView = (ConstraintLayout)inflater.inflate(R.layout.spell_list_view, container, false);
         BindOnClickListeners(rootView);
         
-        final RecyclerView cantripRecyclerView = rootView.findViewById(R.id.CantripsSpellsList);
+        final RecyclerView cantripRecyclerView = rootView.findViewById(R.id.CantripSpellsList);
         final SpellRecyclerViewAdapter cantripAdapter = new SpellRecyclerViewAdapter(tempCantrips, mListener);
         cantripRecyclerView.setAdapter(cantripAdapter);
 
@@ -255,25 +255,11 @@ public class SpellReferenceFragment extends Fragment
         //this particular implementation probably won't be used many other places.
     }
 
-
-    //Closes all spell lists by searching through the given layout to set their visiblities to gone
-    private void CloseAllSpellLists(ConstraintLayout rootLayout)
-    {
-        for(int i = 0; i < rootLayout.getChildCount(); i++)
-        {
-            View v = rootLayout.getChildAt(i);
-            if(v instanceof RecyclerView && v.getVisibility() != View.GONE)
-            {
-                v.setVisibility(View.GONE);
-            }
-        }
-    }
-
     private void BindOnClickListeners(final ConstraintLayout rootLayout)
     {
         //Todo: It's weird to think that we need to set each onClickListener like this. See if we can't refactor this at some point
         //region Grab the spell lists
-        final RecyclerView cantripsList = rootLayout.findViewById(R.id.CantripsSpellsList);
+        final RecyclerView cantripsList = rootLayout.findViewById(R.id.CantripSpellsList);
         final RecyclerView firstLevelList = rootLayout.findViewById(R.id.FirstLevelSpellsList);
         final RecyclerView secondLevelList = rootLayout.findViewById(R.id.SecondLevelSpellsList);
         final RecyclerView thirdLevelList = rootLayout.findViewById(R.id.ThirdLevelSpellsList);
@@ -286,16 +272,16 @@ public class SpellReferenceFragment extends Fragment
         //endregion
 
         //region Grab the headers
-        RelativeLayout cantripsSectionHeader = rootLayout.findViewById(R.id.CantripsSpellSectionHeader);
-        RelativeLayout firstLevelSectionHeader = rootLayout.findViewById(R.id.FirstLevelSpellSectionHeader);
-        RelativeLayout secondLevelSectionHeader = rootLayout.findViewById(R.id.SecondLevelSpellSectionHeader);
-        RelativeLayout thirdLevelSectionHeader = rootLayout.findViewById(R.id.ThirdLevelSpellSectionHeader);
-        RelativeLayout fourthLevelSectionHeader = rootLayout.findViewById(R.id.FourthLevelSpellSectionHeader);
-        RelativeLayout fifthLevelSectionHeader = rootLayout.findViewById(R.id.FifthLevelSpellSectionHeader);
-        RelativeLayout sixthLevelSectionHeader = rootLayout.findViewById(R.id.SixthLevelSpellSectionHeader);
-        RelativeLayout seventhLevelSectionHeader = rootLayout.findViewById(R.id.SeventhLevelSpellSectionHeader);
-        RelativeLayout eightLevelSectionHeader = rootLayout.findViewById(R.id.EighthLevelSpellSectionHeader);
-        RelativeLayout ninthLevelSectionHeader = rootLayout.findViewById(R.id.NinthLevelSpellSectionHeader);
+        RelativeLayout cantripsSectionHeader = rootLayout.findViewById(R.id.CantripSpellsHeaderWrapper);
+        RelativeLayout firstLevelSectionHeader = rootLayout.findViewById(R.id.FirstLevelSpellsHeaderWrapper);
+        RelativeLayout secondLevelSectionHeader = rootLayout.findViewById(R.id.SecondLevelSpellsHeaderWrapper);
+        RelativeLayout thirdLevelSectionHeader = rootLayout.findViewById(R.id.ThirdLevelSpellsHeaderWrapper);
+        RelativeLayout fourthLevelSectionHeader = rootLayout.findViewById(R.id.FourthLevelSpellsHeaderWrapper);
+        RelativeLayout fifthLevelSectionHeader = rootLayout.findViewById(R.id.FifthLevelSpellsHeaderWrapper);
+        RelativeLayout sixthLevelSectionHeader = rootLayout.findViewById(R.id.SixthLevelSpellsHeaderWrapper);
+        RelativeLayout seventhLevelSectionHeader = rootLayout.findViewById(R.id.SeventhLevelSpellsHeaderWrapper);
+        RelativeLayout eightLevelSectionHeader = rootLayout.findViewById(R.id.EighthLevelSpellsHeaderWrapper);
+        RelativeLayout ninthLevelSectionHeader = rootLayout.findViewById(R.id.NinthLevelSpellsHeaderWrapper);
         //endregion
 
         //region Set the OnClickListeners
@@ -304,8 +290,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                cantripsList.setVisibility(View.VISIBLE);
+                SwitchVisibility(cantripsList);
             }
         });
 
@@ -314,8 +299,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                firstLevelList.setVisibility(View.VISIBLE);
+                SwitchVisibility(firstLevelList);
             }
         });
 
@@ -324,8 +308,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                secondLevelList.setVisibility(View.VISIBLE);
+                SwitchVisibility(secondLevelList);
             }
         });
 
@@ -334,8 +317,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                thirdLevelList.setVisibility(View.VISIBLE);
+                SwitchVisibility(thirdLevelList);
             }
         });
 
@@ -344,8 +326,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                fourthLevelList.setVisibility(View.VISIBLE);
+                SwitchVisibility(fourthLevelList);
             }
         });
 
@@ -354,8 +335,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                fifthLevelList.setVisibility(View.VISIBLE);
+                SwitchVisibility(fifthLevelList);
             }
         });
 
@@ -364,8 +344,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                sixthLevelList.setVisibility(View.VISIBLE);
+                SwitchVisibility(sixthLevelList);
             }
         });
 
@@ -374,8 +353,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                seventhLevelList.setVisibility(View.VISIBLE);
+                SwitchVisibility(seventhLevelList);
             }
         });
 
@@ -384,8 +362,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                eightLevelList.setVisibility(View.VISIBLE);
+                SwitchVisibility(eightLevelList);
             }
         });
 
@@ -394,8 +371,7 @@ public class SpellReferenceFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                CloseAllSpellLists(rootLayout);
-                ninthLevelList.setVisibility(View.VISIBLE);
+                SwitchVisibility(ninthLevelList);
             }
         });
         //endregion
