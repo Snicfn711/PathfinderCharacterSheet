@@ -4,12 +4,14 @@
               android:layout_height="wrap_content"
               xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto">
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/CantripSpellsSection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <RelativeLayout
             android:id="@+id/CantripSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -40,6 +42,7 @@
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/CantripSpellsList"
@@ -49,21 +52,18 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/CantripSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view" />
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/FirstLevelSpellSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/CantripSpellsSection">
         <RelativeLayout
             android:id="@+id/FirstLevelSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -94,6 +94,7 @@
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/FirstLevelSpellsList"
@@ -103,19 +104,18 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/FirstLevelSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/SecondLevelSpellSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/FirstLevelSpellSection">
         <RelativeLayout
             android:id="@+id/SecondLevelSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -146,6 +146,7 @@
                     android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/SecondLevelSpellsList"
@@ -155,19 +156,18 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/SecondLevelSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/ThirdLevelSpellSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/SecondLevelSpellSection">
         <RelativeLayout
             android:id="@+id/ThirdLevelSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -198,6 +198,7 @@
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/ThirdLevelSpellsList"
@@ -207,19 +208,18 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/ThirdLevelSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/FourthLevelSpellSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/ThirdLevelSpellSection">
         <RelativeLayout
             android:id="@+id/FourthLevelSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -250,6 +250,7 @@
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/FourthLevelSpellsList"
@@ -259,19 +260,18 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/FourthLevelSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/FifthLevelSpellSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/FourthLevelSpellSection">
         <RelativeLayout
             android:id="@+id/FifthLevelSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -302,6 +302,7 @@
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/FifthLevelSpellsList"
@@ -311,19 +312,18 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/FifthLevelSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/SixthLevelSpellSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/FifthLevelSpellSection">
         <RelativeLayout
             android:id="@+id/SixthLevelSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -354,6 +354,7 @@
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/SixthLevelSpellsList"
@@ -363,19 +364,18 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/SixthLevelSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/SeventhLevelSpellSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/SixthLevelSpellSection">
         <RelativeLayout
             android:id="@+id/SeventhLevelSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -406,6 +406,7 @@
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/SeventhLevelSpellsList"
@@ -415,19 +416,18 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/SeventhLevelSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/EighthLevelSpellSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/SeventhLevelSpellSection">
         <RelativeLayout
             android:id="@+id/EighthLevelSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -458,6 +458,7 @@
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/EighthLevelSpellsList"
@@ -467,19 +468,18 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/EighthLevelSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view"/>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/NinthLevelSpellSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/EighthLevelSpellSection">
         <RelativeLayout
             android:id="@+id/NinthLevelSpellsHeaderWrapper"
+            android:tag="SpellHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border">
@@ -510,6 +510,7 @@
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
         <android.support.v7.widget.RecyclerView
+            android:tag="SpellList"
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/NinthLevelSpellsList"
@@ -519,9 +520,6 @@
             android:visibility="gone"
             app:layoutManager="LinearLayoutManager"
             tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment"
-            tools:listitem="@layout/spell_row_view"
-            android:layout_below="@id/NinthLevelSpellsHeaderWrapper"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+            tools:listitem="@layout/spell_row_view"/>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

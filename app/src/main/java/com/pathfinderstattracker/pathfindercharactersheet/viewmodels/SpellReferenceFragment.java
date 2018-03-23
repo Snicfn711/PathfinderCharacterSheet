@@ -27,6 +27,10 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellDur
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellDurationEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellRangeEnum;
 
+import java.util.ArrayList;
+
+import static com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher.SwitchVisibility;
+
 /**
  * A fragment representing a list of Items.
  * <p/>
@@ -241,140 +245,35 @@ public class SpellReferenceFragment extends Fragment
         void onListFragmentInteraction(ISpell item);
     }
 
-    private void SwitchVisibility(View in)
-    {
-        if(in.getVisibility() == View.VISIBLE)
-        {
-            in.setVisibility(View.GONE);
-        }
-        else if(in.getVisibility() == View.GONE)
-        {
-            in.setVisibility(View.VISIBLE);
-        }
-        //If the view is invisible, we'll just leave it. While we may need to worry about visibilities elsewhere
-        //this particular implementation probably won't be used many other places.
-    }
-
     private void BindOnClickListeners(final ConstraintLayout rootLayout)
     {
-        //Todo: It's weird to think that we need to set each onClickListener like this. See if we can't refactor this at some point
-        //region Grab the spell lists
-        final RecyclerView cantripsList = rootLayout.findViewById(R.id.CantripSpellsList);
-        final RecyclerView firstLevelList = rootLayout.findViewById(R.id.FirstLevelSpellsList);
-        final RecyclerView secondLevelList = rootLayout.findViewById(R.id.SecondLevelSpellsList);
-        final RecyclerView thirdLevelList = rootLayout.findViewById(R.id.ThirdLevelSpellsList);
-        final RecyclerView fourthLevelList = rootLayout.findViewById(R.id.FourthLevelSpellsList);
-        final RecyclerView fifthLevelList = rootLayout.findViewById(R.id.FifthLevelSpellsList);
-        final RecyclerView sixthLevelList = rootLayout.findViewById(R.id.SixthLevelSpellsList);
-        final RecyclerView seventhLevelList = rootLayout.findViewById(R.id.SeventhLevelSpellsList);
-        final RecyclerView eightLevelList = rootLayout.findViewById(R.id.EighthLevelSpellsList);
-        final RecyclerView ninthLevelList = rootLayout.findViewById(R.id.NinthLevelSpellsList);
-        //endregion
+        int sectionCount = rootLayout.getChildCount();
 
-        //region Grab the headers
-        RelativeLayout cantripsSectionHeader = rootLayout.findViewById(R.id.CantripSpellsHeaderWrapper);
-        RelativeLayout firstLevelSectionHeader = rootLayout.findViewById(R.id.FirstLevelSpellsHeaderWrapper);
-        RelativeLayout secondLevelSectionHeader = rootLayout.findViewById(R.id.SecondLevelSpellsHeaderWrapper);
-        RelativeLayout thirdLevelSectionHeader = rootLayout.findViewById(R.id.ThirdLevelSpellsHeaderWrapper);
-        RelativeLayout fourthLevelSectionHeader = rootLayout.findViewById(R.id.FourthLevelSpellsHeaderWrapper);
-        RelativeLayout fifthLevelSectionHeader = rootLayout.findViewById(R.id.FifthLevelSpellsHeaderWrapper);
-        RelativeLayout sixthLevelSectionHeader = rootLayout.findViewById(R.id.SixthLevelSpellsHeaderWrapper);
-        RelativeLayout seventhLevelSectionHeader = rootLayout.findViewById(R.id.SeventhLevelSpellsHeaderWrapper);
-        RelativeLayout eightLevelSectionHeader = rootLayout.findViewById(R.id.EighthLevelSpellsHeaderWrapper);
-        RelativeLayout ninthLevelSectionHeader = rootLayout.findViewById(R.id.NinthLevelSpellsHeaderWrapper);
-        //endregion
+        final ArrayList<View> spellLists = new ArrayList<>();
+        ArrayList<View> headerList = new ArrayList<>();
 
-        //region Set the OnClickListeners
-        cantripsSectionHeader.setOnClickListener(new View.OnClickListener()
+        //For each section of spells(Cantrips, First Level Spells, etc)  find the tagged views for the spell list and it's headers
+        for(int i = 0; i < sectionCount; i++)
         {
-            @Override
-            public void onClick(View view)
-            {
-                SwitchVisibility(cantripsList);
-            }
-        });
+            final ViewGroup sectionView = (ViewGroup)rootLayout.getChildAt(i);
+            spellLists.add(sectionView.findViewWithTag("SpellList"));
+            headerList.add(sectionView.findViewWithTag("SpellHeader"));
+        }
 
-        firstLevelSectionHeader.setOnClickListener(new View.OnClickListener()
+        //Iterate through our list of headers, and for each header, bind our onClickListener to open/close the appropriate SpellList
+        for(int i = 0; i < headerList.size(); i++)
         {
-            @Override
-            public void onClick(View view)
-            {
-                SwitchVisibility(firstLevelList);
-            }
-        });
+            View currentHeader = headerList.get(i);
+            final View currentSpellList = spellLists.get(i);
 
-        secondLevelSectionHeader.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
+            currentHeader.setOnClickListener(new View.OnClickListener()
             {
-                SwitchVisibility(secondLevelList);
-            }
-        });
-
-        thirdLevelSectionHeader.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                SwitchVisibility(thirdLevelList);
-            }
-        });
-
-        fourthLevelSectionHeader.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                SwitchVisibility(fourthLevelList);
-            }
-        });
-
-        fifthLevelSectionHeader.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                SwitchVisibility(fifthLevelList);
-            }
-        });
-
-        sixthLevelSectionHeader.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                SwitchVisibility(sixthLevelList);
-            }
-        });
-
-        seventhLevelSectionHeader.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                SwitchVisibility(seventhLevelList);
-            }
-        });
-
-        eightLevelSectionHeader.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                SwitchVisibility(eightLevelList);
-            }
-        });
-
-        ninthLevelSectionHeader.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                SwitchVisibility(ninthLevelList);
-            }
-        });
-        //endregion
+                @Override
+                public void onClick(View view)
+                {
+                    SwitchVisibility(currentSpellList);
+                }
+            });
+        }
     }
-
 }

@@ -16,6 +16,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentRe
 import com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView;
 
+import static com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher.SwitchVisibility;
+
 /**
  * TODO: Replace the implementation with code for your data type.
  */
@@ -141,19 +143,5 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
         {
             return super.toString() + " '" + equipmentName.getText() + "'";
         }
-    }
-
-    private void SwitchVisibility(View in)
-    {
-        if(in.getVisibility() == View.VISIBLE)
-        {
-            in.setVisibility(View.GONE);
-        }
-        else if(in.getVisibility() == View.GONE)
-        {
-            in.setVisibility(View.VISIBLE);
-        }
-        //If the view is invisible, we'll just leave it. While we may need to worry about visibilities elsewhere
-        //this particular implementation probably won't be used many other places.
     }
 }

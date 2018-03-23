@@ -10,10 +10,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment.OnListFragmentInteractionListener;
 import com.pathfinderstattracker.pathfindercharactersheet.views.SpellDetailView;
-
-import org.w3c.dom.Text;
-
-import java.util.List;
+import static com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher.SwitchVisibility;
 
 public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecyclerViewAdapter.ViewHolder>
 {
@@ -69,13 +66,13 @@ public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public final View recycledRow;
-        public final TextView spellName;
-        public final TextView shortSpellDescription;
-        public final SpellDetailView spellDetailView;
-        public ISpell mSpell;
+        private final View recycledRow;
+        private final TextView spellName;
+        private final TextView shortSpellDescription;
+        private final SpellDetailView spellDetailView;
+        private ISpell mSpell;
 
-        public ViewHolder(View view)
+        private ViewHolder(View view)
         {
             super(view);
             recycledRow = view;
@@ -89,19 +86,5 @@ public class SpellRecyclerViewAdapter extends RecyclerView.Adapter<SpellRecycler
         {
             return super.toString() + " '" + mSpell.toString() + "'";
         }
-    }
-
-    private void SwitchVisibility(View in)
-    {
-        if(in.getVisibility() == View.VISIBLE)
-        {
-            in.setVisibility(View.GONE);
-        }
-        else if(in.getVisibility() == View.GONE)
-        {
-            in.setVisibility(View.VISIBLE);
-        }
-        //If the view is invisible, we'll just leave it. While we may need to worry about visibilities elsewhere
-        //this particular implementation probably won't be used many other places.
     }
 }
