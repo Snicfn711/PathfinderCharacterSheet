@@ -9,6 +9,7 @@ public class SpellArea implements ISpellArea
     private SpellAreaEnum SpellArea;
     private Integer NumberOfFeetInArea;
 
+    //region Getters and Setters
     @Override
     public SpellAreaEnum getSpellArea()
     {
@@ -32,4 +33,24 @@ public class SpellArea implements ISpellArea
     {
         NumberOfFeetInArea = numberOfFeetInArea;
     }
+    //endregion
+
+
+    public SpellArea()
+    {
+        //Default Constructor
+    }
+
+    public SpellArea(SpellAreaEnum spellArea, Integer numberOfFeetInArea)
+    {
+        setSpellArea(spellArea);
+        setNumberOfFeetInArea(numberOfFeetInArea);
+    }
+
+    @Override
+    public String toString()
+    {
+        return Integer.toString(NumberOfFeetInArea) + " Foot " + SpellArea.toString();
+    }
+
 }

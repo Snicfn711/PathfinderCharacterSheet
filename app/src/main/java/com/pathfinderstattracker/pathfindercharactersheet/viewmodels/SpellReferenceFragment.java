@@ -23,6 +23,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.spells.Descript
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.Spell;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellArea;
+import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellAreaEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellDuration;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellDurationEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellRangeEnum;
@@ -84,9 +85,9 @@ public class SpellReferenceFragment extends Fragment
             new SpellDuration(SpellDurationEnum.Instant,
                     null,
                     null),
+            new SpellArea(SpellAreaEnum.Cone, 30),
             null,
-            null,
-            "Throw an orb of acid stupid that does 1d3 damage to a single target in range. Touch attack",
+            "This spell doesn't actually exist",
             "Hawk a loogie",
             1,
             new Damage(1,3),
@@ -250,7 +251,7 @@ public class SpellReferenceFragment extends Fragment
         int sectionCount = rootLayout.getChildCount();
 
         final ArrayList<View> spellLists = new ArrayList<>();
-        ArrayList<View> headerList = new ArrayList<>();
+        final ArrayList<View> headerList = new ArrayList<>();
 
         //For each section of spells(Cantrips, First Level Spells, etc)  find the tagged views for the spell list and it's headers
         for(int i = 0; i < sectionCount; i++)
@@ -272,6 +273,23 @@ public class SpellReferenceFragment extends Fragment
                 public void onClick(View view)
                 {
                     SwitchVisibility(currentSpellList);
+                    if(currentSpellList.getVisibility() == View.GONE)
+                    {
+                        final ArrayList<View> spellSummaryList = new ArrayList<>();
+                        final ArrayList<View> spellDetailList = new ArrayList<>();
+
+                        spellSummaryList.add(currentSpellList.findViewWithTag("SpellSummary"));
+                        spellDetailList.add(currentSpellList.findViewWithTag("SpellDetail"));
+
+                        for(View i: spellSummaryList)
+                        {
+                            i.setVisibility(View.VISIBLE);
+                        }
+                        for(View i: spellDetailList)
+                        {
+                            i.setVisibility(View.GONE);
+                        }
+                    }
                 }
             });
         }

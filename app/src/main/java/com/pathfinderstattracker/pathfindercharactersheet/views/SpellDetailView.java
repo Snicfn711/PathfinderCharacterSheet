@@ -19,6 +19,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpellDuration;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpellRange;
 
+import static com.pathfinderstattracker.pathfindercharactersheet.tools.BooleanToEnglishConverter.BooleanToYesNo;
+
 /**
  * TODO: document your custom view class.
  */
@@ -28,6 +30,7 @@ public class SpellDetailView extends ConstraintLayout
     private TextView castingTime;
     private TextView spellRange;
     private TextView spellTargets;
+    private TextView spellArea;
     private TextView spellDuration;
     private TextView requiresSavingThrow;//Even though the name implies this could be a boolean, it's also being used to tell the user the effects of a successful save, thus it's a string
     private TextView targetsSpellResistance;
@@ -53,6 +56,7 @@ public class SpellDetailView extends ConstraintLayout
         castingTime = this.findViewById(R.id.SpellCastingTime);
         spellRange = this.findViewById(R.id.SpellRange);
         spellTargets= this.findViewById(R.id.SpellTargets);
+        spellArea = this.findViewById(R.id.SpellArea);
         spellDuration = this.findViewById(R.id.SpellDuration);
         requiresSavingThrow = this.findViewById(R.id.RequiresSavingThrow);
         targetsSpellResistance = this.findViewById(R.id.TargetsSpellResistance);
@@ -64,18 +68,24 @@ public class SpellDetailView extends ConstraintLayout
     public void setValues(ISpell spell)
     {
         //Todo:A lot of these values are terribly formatted, we'll have to come back and fix them up.
-        spellName.setText("Name: " + spell.getSpellName());
-        castingTime.setText("Casting Time: " + spell.getCastingTime().toString());
-        spellRange.setText("Range: " + spell.getSpellRange().toString());
-        spellTargets.setText("Target(s): " + spell.getTarget());
-        spellDuration.setText("Duration: " + spell.getSpellDuration().toString());
-        requiresSavingThrow.setText("Saving Throw:" + spell.getSavingThrow());
-        targetsSpellResistance.setText("Spell Resistance: " + Boolean.toString(spell.targetsSpellResistance()));
-        requiredSpellComponents.setText("Material Components: " + spell.getMaterialComponents());
-        spellSchoolAndDescriptors.setText("Spell School: " + spell.getSchool().toString());
-        longSpellDescription.setText("Description: " + spell.getFullDescription());
+        spellName.setText(String.format("Name: %s", spell.getSpellName()));
+        castingTime.setText(String.format("Casting Time: %s", spell.getCastingTime().toString()));
+        spellRange.setText(String.format("Range: %s", spell.getSpellRange().toString()));
+        spellTargets.setText(String.format("Target(s): %s", spell.getTarget()));
+        spellDuration.setText(String.format("Duration: %s", spell.getSpellDuration().toString()));
+        requiresSavingThrow.setText(String.format("Saving Throw: %s", spell.getSavingThrow()));
+        targetsSpellResistance.setText(String.format("Spell Resistance: %s", BooleanToYesNo(spell.targetsSpellResistance())));
+        requiredSpellComponents.setText(String.format("Material Components: %s", spell.getMaterialComponents()));
+        spellSchoolAndDescriptors.setText(String.format("Spell School: %s", spell.getSchool().toString()));
+        longSpellDescription.setText(String.format("Description: %s", spell.getFullDescription()));
+
+        if(spell.getSpellArea() == null)
+        {
+            spellArea.setVisibility(GONE);
+        }
+        else if(spell.getSpellArea() != null)
+        {
+            spellArea.setText(String.format("Area: %s", spell.getSpellArea().toString()));
+        }
     }
-
-
-
 }

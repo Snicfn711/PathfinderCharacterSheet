@@ -10,4 +10,5 @@ public interface ISpellArea
     void setSpellArea(SpellAreaEnum spellArea);
     Integer getNumberOfFeetInArea();
     void setNumberOfFeetInArea(Integer numberOfFeetInArea);
+    String toString();
 }

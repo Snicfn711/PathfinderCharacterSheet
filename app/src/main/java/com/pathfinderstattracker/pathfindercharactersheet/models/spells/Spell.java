@@ -33,6 +33,7 @@ public class Spell implements ISpell
     private Integer CasterLevelsPerIncrement;
     private boolean targetsSpellResistance;
     private int spellLevel;
+
     //region Getters and Setters
     @Override
     public String getSpellName()

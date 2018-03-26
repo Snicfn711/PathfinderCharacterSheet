@@ -1,32 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/field_border">
+    android:background="@drawable/field_border"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/SpellName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/SpellShortDescription"
-        app:layout_constraintEnd_toStartOf="@id/SpellShortDescription"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"/>
+    <android.support.constraint.ConstraintLayout
+        android:tag="SpellSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/SpellName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/SpellShortDescription"
+            app:layout_constraintEnd_toStartOf="@id/SpellShortDescription"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"/>
 
-    <TextView
-        android:id="@+id/SpellShortDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@id/SpellName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/SpellName"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/SpellShortDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/SpellName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/SpellName"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
 
     <com.pathfinderstattracker.pathfindercharactersheet.views.SpellDetailView
+        android:tag="SpellDetail"
         android:id="@+id/SpellDetailView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,6 +43,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
 
