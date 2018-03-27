@@ -136,7 +136,7 @@ public class EquipmentReferenceFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.equipment_list_view, container, false);
+        View rootView = inflater.inflate(R.layout.equipment_fragment_view, container, false);
 
         // Set the adapter
 

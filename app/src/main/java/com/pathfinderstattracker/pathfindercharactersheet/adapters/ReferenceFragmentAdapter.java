@@ -82,6 +82,8 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
             case 3:
                 return "Spells";
             case 4:
+                return "Inventory";
+            case 5:
                 return "Equipment";
             default:
                 return "Error";

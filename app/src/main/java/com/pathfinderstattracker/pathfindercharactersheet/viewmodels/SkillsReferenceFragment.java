@@ -82,7 +82,7 @@ public class SkillsReferenceFragment extends Fragment
                              Bundle savedInstanceState)
     {
 
-        View rootView = inflater.inflate(R.layout.skill_list_view, container, false);
+        View rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
         Arrays.sort(TempSkills);
 
         // Set the adapter

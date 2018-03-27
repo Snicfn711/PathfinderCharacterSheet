@@ -19,7 +19,7 @@
         android:layout_height="0dp"
         android:layout_weight=".5"
         android:background="@color/colorTransparentHeader">
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/ArmorAndWeaponsButtonContainer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -30,11 +30,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:gravity="center"
                 android:text="@string/ArmorAndWeapons"/>
-        </LinearLayout>
-        <LinearLayout
+        </FrameLayout>
+        <FrameLayout
             android:id="@+id/WondrousItemsButtonContainer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -45,9 +45,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:gravity="center"
                 android:text="@string/WondrousItems"/>
-        </LinearLayout>
+        </FrameLayout>
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

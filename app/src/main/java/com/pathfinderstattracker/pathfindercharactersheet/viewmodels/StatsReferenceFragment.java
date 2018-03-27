@@ -130,7 +130,7 @@ public class StatsReferenceFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.stats_screen_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
         Activity context = this.getActivity();
         //region Populate Test Character Data
         tempCharacter.setInitiative(3); //TODO: Replace test character data

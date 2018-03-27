@@ -7,7 +7,7 @@
     <TextView android:id="@+id/EquipmentLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         android:textAlignment="center"
         android:background="@drawable/header_border"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/MagicBonus"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="@id/EquipmentLabel"
         app:layout_constraintRight_toLeftOf="@id/EquipmentAbilities"
         app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"/>
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/EquipmentAbilities"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toRightOf="@id/MagicBonus"
         app:layout_constraintRight_toLeftOf="@id/EquipmentName"
         app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"/>
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/Name"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toRightOf="@id/EquipmentAbilities"
         app:layout_constraintTop_toBottomOf="@id/EquipmentLabel" />
     <com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView

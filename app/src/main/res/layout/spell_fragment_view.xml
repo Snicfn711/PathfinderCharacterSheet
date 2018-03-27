@@ -18,7 +18,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:text="@string/CantripSpells"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -28,7 +28,7 @@
                 android:id="@+id/NumberOfCantripsSpellsKnown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignStart="@id/NumberOfCantripsSpellsPerDay"
                 android:layout_alignLeft="@id/NumberOfCantripsSpellsPerDay"
                 android:layout_toLeftOf="@id/NumberOfCantripsSpellsPerDay"
@@ -37,7 +37,7 @@
                 android:id="@+id/NumberOfCantripsSpellsPerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -70,7 +70,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:text="@string/FirstLevelSpells"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -80,7 +80,7 @@
                 android:id="@+id/NumberOfFirstLevelSpellsKnown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignStart="@id/NumberOfFirstLevelSpellsPerDay"
                 android:layout_alignLeft="@id/NumberOfFirstLevelSpellsPerDay"
                 android:layout_toLeftOf="@id/NumberOfFirstLevelSpellsPerDay"
@@ -89,7 +89,7 @@
                 android:id="@+id/NumberOfFirstLevelSpellsPerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -122,7 +122,7 @@
                 <TextView
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/colorGoldText"
+                    android:textColor="@color/colorPlainText"
                     android:text="@string/SecondLevelSpells"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
@@ -132,7 +132,7 @@
                     android:id="@+id/NumberOfSecondLevelSpellsKnown"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorGoldText"
+                    android:textColor="@color/colorPlainText"
                     android:layout_alignStart="@id/NumberOfSecondLevelSpellsPerDay"
                     android:layout_alignLeft="@id/NumberOfSecondLevelSpellsPerDay"
                     android:layout_toLeftOf="@id/NumberOfSecondLevelSpellsPerDay"
@@ -141,7 +141,7 @@
                     android:id="@+id/NumberOfSecondLevelSpellsPerDay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorGoldText"
+                    android:textColor="@color/colorPlainText"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -174,7 +174,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:text="@string/ThirdLevelSpells"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -184,7 +184,7 @@
                 android:id="@+id/NumberOfThirdLevelSpellsKnown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignStart="@id/NumberOfThirdLevelSpellsPerDay"
                 android:layout_alignLeft="@id/NumberOfThirdLevelSpellsPerDay"
                 android:layout_toLeftOf="@id/NumberOfThirdLevelSpellsPerDay"
@@ -193,7 +193,7 @@
                 android:id="@+id/NumberOfThirdLevelSpellsPerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -226,7 +226,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:text="@string/FourthLevelSpells"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -236,7 +236,7 @@
                 android:id="@+id/NumberOfFourthLevelSpellsKnown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignStart="@id/NumberOfFourthLevelSpellsPerDay"
                 android:layout_alignLeft="@id/NumberOfFourthLevelSpellsPerDay"
                 android:layout_toLeftOf="@id/NumberOfFourthLevelSpellsPerDay"
@@ -245,7 +245,7 @@
                 android:id="@+id/NumberOfFourthLevelSpellsPerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -278,7 +278,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:text="@string/FifthLevelSpells"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -288,7 +288,7 @@
                 android:id="@+id/NumberOfFifthLevelSpellsKnown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignStart="@id/NumberOfFifthLevelSpellsPerDay"
                 android:layout_alignLeft="@id/NumberOfFifthLevelSpellsPerDay"
                 android:layout_toLeftOf="@id/NumberOfFifthLevelSpellsPerDay"
@@ -297,7 +297,7 @@
                 android:id="@+id/NumberOfFifthLevelSpellsPerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -330,7 +330,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:text="@string/SixthLevelSpells"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -340,7 +340,7 @@
                 android:id="@+id/NumberOfSixthLevelSpellsKnown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignStart="@id/NumberOfSixthLevelSpellsPerDay"
                 android:layout_alignLeft="@id/NumberOfSixthLevelSpellsPerDay"
                 android:layout_toLeftOf="@id/NumberOfSixthLevelSpellsPerDay"
@@ -349,7 +349,7 @@
                 android:id="@+id/NumberOfSixthLevelSpellsPerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -382,7 +382,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:text="@string/SeventhLevelSpells"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -392,7 +392,7 @@
                 android:id="@+id/NumberOfSeventhLevelSpellsKnown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignStart="@id/NumberOfSeventhLevelSpellsPerDay"
                 android:layout_alignLeft="@id/NumberOfSeventhLevelSpellsPerDay"
                 android:layout_toLeftOf="@id/NumberOfSeventhLevelSpellsPerDay"
@@ -401,7 +401,7 @@
                 android:id="@+id/NumberOfSeventhLevelSpellsPerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -434,7 +434,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:text="@string/EighthLevelSpells"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -444,7 +444,7 @@
                 android:id="@+id/NumberOfEighthLevelSpellsKnown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignStart="@id/NumberOfEighthLevelSpellsPerDay"
                 android:layout_alignLeft="@id/NumberOfEighthLevelSpellsPerDay"
                 android:layout_toLeftOf="@id/NumberOfEighthLevelSpellsPerDay"
@@ -453,7 +453,7 @@
                 android:id="@+id/NumberOfEighthLevelSpellsPerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>
@@ -486,7 +486,7 @@
             <TextView
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:text="@string/NinthLevelSpells"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -496,7 +496,7 @@
                 android:id="@+id/NumberOfNinthLevelSpellsKnown"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignStart="@id/NumberOfNinthLevelSpellsPerDay"
                 android:layout_alignLeft="@id/NumberOfNinthLevelSpellsPerDay"
                 android:layout_toLeftOf="@id/NumberOfNinthLevelSpellsPerDay"
@@ -505,7 +505,7 @@
                 android:id="@+id/NumberOfNinthLevelSpellsPerDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorGoldText"
+                android:textColor="@color/colorPlainText"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"/>
         </RelativeLayout>

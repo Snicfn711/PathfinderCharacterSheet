@@ -4,14 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.SpellRecyclerViewAdapter;
@@ -194,7 +190,7 @@ public class SpellReferenceFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        final ConstraintLayout rootView = (ConstraintLayout)inflater.inflate(R.layout.spell_list_view, container, false);
+        final ConstraintLayout rootView = (ConstraintLayout)inflater.inflate(R.layout.spell_fragment_view, container, false);
         BindOnClickListeners(rootView);
         
         final RecyclerView cantripRecyclerView = rootView.findViewById(R.id.CantripSpellsList);

@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:background="@color/colorTransparentHeader"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         android:paddingTop="4dp"
         android:paddingBottom="4dp" />
 

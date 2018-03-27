@@ -51,6 +51,7 @@
     <string name="SpellFailure">Spell Failure</string>
     <string name="MaxDex">Max Dex</string>
     <string name="Weight">Weight</string>
+    <string name="EquippedShort">E</string>
     <!--Spell Strings-->
     <string name="CastingTime">Casting Time</string>
     <string name="Targets">Targets</string>
@@ -69,4 +70,8 @@
     <string name="SeventhLevelSpells">Seventh Level Spells</string>
     <string name="EighthLevelSpells">Eighth Level Spells</string>
     <string name="NinthLevelSpells">Ninth Level Spells</string>
+    <!--Inventory Strings-->
+    <string name="SortByEquipped">Sort by Equipped</string>
+    <string name="SortByCost">Sort by Cost</string>
+    <string name="SortByWeight">Sort by Weight</string>
 </resources>

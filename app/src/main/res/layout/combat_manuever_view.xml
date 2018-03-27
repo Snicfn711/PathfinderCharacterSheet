@@ -13,7 +13,7 @@
             android:gravity="center"
             android:text="@string/CMB"
             android:background="@drawable/header_border"
-            android:textColor="@color/colorGoldText"/>
+            android:textColor="@color/colorPlainText"/>
         <TextView
             android:id="@+id/CMBValue"
             android:layout_width="0dp"
@@ -22,7 +22,7 @@
             android:gravity="center"
             android:text="@string/Value"
             android:background="@drawable/field_border"
-            android:textColor="@color/colorGoldText"/>
+            android:textColor="@color/colorPlainText"/>
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -50,7 +50,7 @@
             android:gravity="center"
             android:text="@string/CMD"
             android:background="@drawable/header_border"
-            android:textColor="@color/colorGoldText"/>
+            android:textColor="@color/colorPlainText"/>
         <TextView
             android:id="@+id/CMDValue"
             android:layout_width="0dp"
@@ -58,6 +58,6 @@
             android:layout_weight=".66"
             android:gravity="center"
             android:background="@drawable/field_border"
-            android:textColor="@color/colorGoldText"/>
+            android:textColor="@color/colorPlainText"/>
     </LinearLayout>
 </LinearLayout>

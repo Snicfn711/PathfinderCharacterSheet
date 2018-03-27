@@ -11,7 +11,7 @@
         android:gravity="center"
         android:text="@string/Name"
         android:background="@drawable/header_border"
-        android:textColor="@color/colorGoldText"/>
+        android:textColor="@color/colorPlainText"/>
     <TextView
         android:id="@+id/Feet"
         android:layout_width="0dp"
@@ -20,7 +20,7 @@
         android:gravity="center"
         android:text="@string/MovementFeet"
         android:background="@drawable/header_border"
-        android:textColor="@color/colorGoldText"/>
+        android:textColor="@color/colorPlainText"/>
     <TextView
         android:id="@+id/Squares"
         android:layout_width="0dp"
@@ -29,5 +29,5 @@
         android:gravity="center"
         android:text="@string/MovementSquares"
         android:background="@drawable/header_border"
-        android:textColor="@color/colorGoldText"/>
+        android:textColor="@color/colorPlainText"/>
 </LinearLayout>

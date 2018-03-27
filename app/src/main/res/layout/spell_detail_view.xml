@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
     <TextView
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/SpellName"/>
     <TextView
@@ -23,7 +23,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/SpellCastingTime"
         app:layout_constraintRight_toLeftOf="@id/SpellTargets"
@@ -33,7 +33,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toRightOf="@id/SpellRange"
         app:layout_constraintTop_toBottomOf="@id/SpellCastingTime"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/SpellRange"/>
@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/SpellArea"/>
     <TextView
@@ -59,7 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/SpellDuration"
         app:layout_constraintRight_toLeftOf="@id/TargetsSpellResistance"
@@ -69,7 +69,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toRightOf="@id/RequiresSavingThrow"
         app:layout_constraintTop_toBottomOf="@id/SpellDuration"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/RequiresSavingThrow"/>
     <TextView
@@ -86,7 +86,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/RequiredSpellComponents"/>
     <TextView
@@ -94,7 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="start"
-        android:textColor="@color/colorGoldText"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/SpellSchoolAndDescriptors"/>
 </android.support.constraint.ConstraintLayout>
