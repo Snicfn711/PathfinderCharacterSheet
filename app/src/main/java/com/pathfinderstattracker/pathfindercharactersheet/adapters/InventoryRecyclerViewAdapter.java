@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryFragment.OnListFragmentInteractionListener;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 

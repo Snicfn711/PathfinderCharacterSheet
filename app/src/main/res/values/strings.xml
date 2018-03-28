@@ -74,4 +74,13 @@
     <string name="SortByEquipped">Sort by Equipped</string>
     <string name="SortByCost">Sort by Cost</string>
     <string name="SortByWeight">Sort by Weight</string>
+    <string name="MediumEncumbrance">You are at Medium Encumbrance</string>
+    <string name="HeavyEncumbrance">You are at Heavy Encumbrance</string>
+    <string name="PlatinumLabel">Platinum: </string>
+    <string name="GoldLabel">Gold: </string>
+    <string name="SilverLabel">Silver: </string>
+    <string name="CopperLabel">Copper: </string>
+    <string name="TotalWeight">Total Weight: </string>
+    <string name="TotalCost">Total Cost of Items: </string>
+    <string name="AddItemToInventroy">Add Item to Inventory</string>
 </resources>

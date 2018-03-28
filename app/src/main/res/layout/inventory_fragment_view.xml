@@ -13,15 +13,17 @@
         android:layout_height="0dp"
         android:layout_weight="8"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryFragment"
+        tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment"
         tools:listitem="@layout/inventory_list_row" />
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="2">
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:padding="0dp"
+        android:background="@drawable/field_border">
         <FrameLayout
             android:id="@+id/SortByEquippedWrapper"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -32,8 +34,8 @@
             app:layout_constraintHorizontal_chainStyle="spread_inside">
             <Button
                 android:id="@+id/SortByEquippedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@null"
                 android:textColor="@color/colorPlainText"
                 android:gravity="center"
@@ -41,7 +43,7 @@
         </FrameLayout>
         <FrameLayout
             android:id="@+id/SortByCostWrapper"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border"
             app:layout_constraintLeft_toRightOf="@id/SortByEquippedWrapper"
@@ -51,8 +53,8 @@
             app:layout_constraintEnd_toStartOf="@id/SortByWeightWrapper">
             <Button
                 android:id="@+id/SortByCost"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@null"
                 android:textColor="@color/colorPlainText"
                 android:gravity="center"
@@ -60,7 +62,7 @@
         </FrameLayout>
         <FrameLayout
             android:id="@+id/SortByWeightWrapper"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border"
             app:layout_constraintLeft_toRightOf="@id/SortByCostWrapper"
@@ -70,12 +72,135 @@
             app:layout_constraintEnd_toEndOf="parent">
             <Button
                 android:id="@+id/SortByWeight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:background="@null"
                 android:textColor="@color/colorPlainText"
                 android:gravity="center"
                 android:text="@string/SortByWeight"/>
         </FrameLayout>
+
+        <TextView
+            android:id="@+id/PlatinumLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="@string/PlatinumLabel"
+            android:textColor="@color/colorPlainText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/SortByEquippedWrapper" />
+
+        <TextView
+            android:id="@+id/GoldLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="@string/GoldLabel"
+            android:textColor="@color/colorPlainText"
+            app:layout_constraintLeft_toRightOf="@id/VerticalGoldGuideline"
+            app:layout_constraintStart_toEndOf="@id/VerticalGoldGuideline"
+            app:layout_constraintTop_toBottomOf="@id/SortByEquippedWrapper" />
+
+        <TextView
+            android:id="@+id/SilverLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="@string/SilverLabel"
+            android:textColor="@color/colorPlainText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/PlatinumLabel" />
+
+        <TextView
+            android:id="@+id/CopperLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:textAlignment="viewStart"
+            android:text="@string/CopperLabel"
+            android:textColor="@color/colorPlainText"
+            app:layout_constraintLeft_toRightOf="@id/VerticalGoldGuideline"
+            app:layout_constraintStart_toEndOf="@id/VerticalGoldGuideline"
+            app:layout_constraintTop_toBottomOf="@id/GoldLabel" />
+        <TextView
+            android:id="@+id/TotalWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/TotalWeight"
+            android:textColor="@color/colorPlainText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/SilverLabel"/>
+        <FrameLayout
+            android:id="@+id/EncumbranceWarningLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/TotalWeight"
+            android:visibility="invisible">
+            <TextView
+                android:id="@+id/MediumeEncumbranceWarning"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/MediumEncumbrance"
+                android:textColor="@color/colorCaution"
+                android:visibility="invisible"/>
+            <TextView
+                android:id="@+id/HeavyEncumbranceWarning"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/HeavyEncumbrance"
+                android:textColor="@color/colorWarning"
+                android:visibility="gone"/>
+        </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/TotalCost"
+            android:textColor="@color/colorPlainText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/VerticalAddItemGuideline"
+            app:layout_constraintEnd_toStartOf="@id/VerticalAddItemGuideline"
+            app:layout_constraintTop_toBottomOf="@id/EncumbranceWarningLabel"/>
+        <android.support.constraint.Guideline
+            android:id="@+id/VerticalGoldGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".5"/>
+        <android.support.constraint.Guideline
+            android:id="@+id/VerticalAddItemGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".8"/>
+
+        <ImageButton
+            android:id="@+id/AddItemToInventory"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:adjustViewBounds="false"
+            android:background="@null"
+            android:contentDescription="@string/AddItemToInventroy"
+            android:scaleType="centerInside"
+            android:src="@drawable/add_icon"
+            app:layout_constraintTop_toBottomOf="@id/CopperLabel"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/VerticalAddItemGuideline"
+            app:layout_constraintStart_toEndOf="@id/VerticalAddItemGuideline"/>
     </android.support.constraint.ConstraintLayout>
+
 </LinearLayout>

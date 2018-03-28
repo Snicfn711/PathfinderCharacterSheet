@@ -23,7 +23,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class InventoryFragment extends Fragment
+public class InventoryReferenceFragment extends Fragment
 {
 
     List<IItem> tempItems = new ArrayList<IItem>();
@@ -38,15 +38,15 @@ public class InventoryFragment extends Fragment
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public InventoryFragment()
+    public InventoryReferenceFragment()
     {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static InventoryFragment newInstance(int columnCount)
+    public static InventoryReferenceFragment newInstance(int columnCount)
     {
-        InventoryFragment fragment = new InventoryFragment();
+        InventoryReferenceFragment fragment = new InventoryReferenceFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
