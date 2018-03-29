@@ -137,41 +137,35 @@ public class EquipmentReferenceFragment extends Fragment
                              Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.equipment_fragment_view, container, false);
+        Context context = rootView.getContext();
 
         // Set the adapter
+        final RecyclerView recyclerView =  rootView.findViewById(R.id.EquipmentRecycler);
+        final EquipmentRecyclerViewAdapter equipmentAdapter = new EquipmentRecyclerViewAdapter(TempEquipment, mListener);
+        recyclerView.setAdapter(equipmentAdapter);
 
-            Context context = rootView.getContext();
-            final RecyclerView recyclerView =  rootView.findViewById(R.id.EquipmentRecycler);
-            final EquipmentRecyclerViewAdapter equipmentAdapter = new EquipmentRecyclerViewAdapter(TempEquipment, mListener);
-            click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
-            if (mColumnCount <= 1)
+        //Set up the animations for clicking our sort buttons
+        click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
+        final Button armorAndWeaponsButton = rootView.findViewById(R.id.ArmorAndWeaponsButton);
+        final Button wondrousItemsButton = rootView.findViewById(R.id.WondrousItemsButton);
+        armorAndWeaponsButton.setOnClickListener((new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
             {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else
-            {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                armorAndWeaponsButton.startAnimation(click);
             }
-            recyclerView.setAdapter(equipmentAdapter);
-            final Button armorAndWeaponsButton = rootView.findViewById(R.id.ArmorAndWeaponsButton);
-            final Button wondrousItemsButton = rootView.findViewById(R.id.WondrousItemsButton);
+        }));
 
-            armorAndWeaponsButton.setOnClickListener((new View.OnClickListener()
+        wondrousItemsButton.setOnClickListener((new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
             {
-                @Override
-                public void onClick(View view)
-                {
-                    armorAndWeaponsButton.startAnimation(click);
-                }
-            }));
+                wondrousItemsButton.startAnimation(click);
+            }
+        }));
 
-            wondrousItemsButton.setOnClickListener((new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    wondrousItemsButton.startAnimation(click);
-                }
-            }));
         return rootView;
     }
 

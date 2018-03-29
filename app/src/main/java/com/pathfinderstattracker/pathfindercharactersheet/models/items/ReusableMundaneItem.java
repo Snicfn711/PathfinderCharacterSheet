@@ -1,13 +1,15 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by Stephen Hagen on 12/26/2017.
  */
 
-public class ConsumableMundaneItems implements IItem
+public class ReusableMundaneItem extends Item
 {
     private String name;
-    private String effect;
+    private String description;
     private double cost;
     private double weightAtMediumSize;
 
@@ -48,27 +50,27 @@ public class ConsumableMundaneItems implements IItem
         this.weightAtMediumSize = weightAtMediumSize;
     }
 
-    public String getEffect()
+    public String getDescription()
     {
-        return effect;
+        return  description;
     }
 
-    public void setEffect(String effect)
+    public void setDescription(String description)
     {
-        this.effect = effect;
+        this.description = description;
     }
     //endregion
 
-    public ConsumableMundaneItems()
+    public ReusableMundaneItem()
     {
         //Default constructor
     }
 
-    public ConsumableMundaneItems(String name, String effect, double cost, double weightAtMediumSize)
+    public ReusableMundaneItem(String name, String description, double cost, double weightAtMediumSize)
     {
-        setName(name);
-        setEffect(effect);
-        setCost(cost);
-        setWeightAtMediumSize(weightAtMediumSize);
+       setName(name);
+       setDescription(description);
+       setCost(cost);
+       setWeightAtMediumSize(weightAtMediumSize);
     }
 }

@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
+import android.support.annotation.NonNull;
+
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
@@ -9,7 +11,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnu
  * Created by Stephen Hagen on 12/27/2017.
  */
 
-public class Weapon implements IWeapon
+public class Weapon extends Item implements IWeapon
 {
     private String name;
     private WeaponFamilyEnum family;

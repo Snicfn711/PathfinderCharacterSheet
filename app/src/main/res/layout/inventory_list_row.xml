@@ -2,12 +2,12 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/field_border">
     <LinearLayout
         android:id="@+id/ItemSummary"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/field_border">
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/IsEquipped"
             android:visibility="invisible"
@@ -15,34 +15,44 @@
             android:layout_height="wrap_content"
             android:layout_weight="5"
             android:text="@string/EquippedShort"
+            android:textAlignment="center"
             android:textColor="@color/colorEmphasisText"/>
         <TextView
             android:id="@+id/ItemName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="62"
+            android:textAlignment="center"
             android:textColor="@color/colorPlainText"/>
         <TextView
             android:id="@+id/ItemCost"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="17"
+            android:textAlignment="center"
             android:textColor="@color/colorPlainText"/>
         <TextView
             android:id="@+id/ItemWeight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="16"
+            android:textAlignment="center"
             android:textColor="@color/colorPlainText"/>
     </LinearLayout>
+    <android.support.constraint.Guideline
+        android:id="@+id/IsEquippedGuideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".05"/>
     <TextView
         android:id="@+id/ItemDetails"
         android:visibility="gone"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/IsEquippedGuideLine"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ItemSummary"
-        android:background="@drawable/field_border"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:textColor="@color/colorPlainText"/>
 </android.support.constraint.ConstraintLayout>

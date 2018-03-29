@@ -3,18 +3,28 @@ package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.InventoryRecyclerViewAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ConsumableMundaneItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Item;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ReusableMundaneItem;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,13 +36,31 @@ import java.util.List;
 public class InventoryReferenceFragment extends Fragment
 {
 
+    //region Temp Items
+    ConsumableMundaneItem potion = new ConsumableMundaneItem("Potion", "Heal 1d8", 15.6, 0);
+    ReusableMundaneItem rope = new ReusableMundaneItem("Hemp Rope", "Use as a rope", .05, 10);
+    private Shield tower = new Shield("Tower Shield",
+            180,
+            4,
+            2,
+            10,
+            50,
+            45,
+            ShieldWeightCategoryEnum.Tower,
+            SizeCategoryEnum.Medium,
+            false,
+            0,
+            true,
+            null);
     List<IItem> tempItems = new ArrayList<IItem>();
+    //endregion
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private Animation click;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -56,6 +84,13 @@ public class InventoryReferenceFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        //region Temporary items
+        tower.setDescription("Is a shield");
+        tempItems.add(tower);
+        tempItems.add(potion);
+        tempItems.add(rope);
+        //endregion
+
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null)
@@ -68,23 +103,78 @@ public class InventoryReferenceFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.inventory_fragment_view, container, false);
+        View rootView = inflater.inflate(R.layout.inventory_fragment_view, container, false);
+        Context context = rootView.getContext();
 
-        // Set the adapter
-        if (view instanceof RecyclerView)
+        //Set up our adapter
+        final RecyclerView inventoryRecyclerView = rootView.findViewById(R.id.InventoryRecycler);
+        final InventoryRecyclerViewAdapter inventoryRecyclerViewAdapter = new InventoryRecyclerViewAdapter(tempItems, mListener);
+        inventoryRecyclerView.setAdapter(inventoryRecyclerViewAdapter);
+
+        //Set up the click animations for our sort/add buttons
+        click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
+        final Button sortByEquippedButton = rootView.findViewById(R.id.SortByEquipped);
+        final Button sortByCostButton = rootView.findViewById(R.id.SortByCost);
+        final Button sortByWeightButton = rootView.findViewById(R.id.SortByWeight);
+        final ImageButton addNewItemButton = rootView.findViewById(R.id.AddItemToInventory);
+
+        sortByEquippedButton.setOnClickListener((new View.OnClickListener()
         {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1)
+            @Override
+            public void onClick(View view)
             {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else
-            {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
+                sortByEquippedButton.startAnimation(click);
             }
-            recyclerView.setAdapter(new InventoryRecyclerViewAdapter(tempItems, mListener));
-        }
-        return view;
+        }));
+
+        sortByCostButton.setOnClickListener((new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                sortByCostButton.startAnimation(click);
+                if(!Item.checkIfSortedByCost(tempItems))
+                {
+                    Collections.sort(tempItems, Item.compareByCost);
+                }
+                else
+                {
+                    //Todo: Clicking the button again should restore the original order. As is, it just leaves things alone
+                    Collections.sort(tempItems);
+                }
+                inventoryRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        }));
+
+        sortByWeightButton.setOnClickListener((new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                sortByWeightButton.startAnimation(click);
+                if(!Item.checkIfSortedByWeight(tempItems))
+                {
+                    Collections.sort(tempItems, Item.compareByWeight);
+                }
+                else
+                {
+                    //Todo: Clicking the button again should restore the original order. As is, it just leaves things alone
+                    Collections.sort(tempItems);
+                }
+                inventoryRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        }));
+
+        addNewItemButton.setOnClickListener((new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                addNewItemButton.startAnimation(click);
+            }
+        }));
+
+        return rootView;
     }
 
 

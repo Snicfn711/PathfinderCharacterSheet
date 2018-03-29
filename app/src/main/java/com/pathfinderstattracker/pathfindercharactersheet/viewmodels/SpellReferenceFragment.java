@@ -192,7 +192,7 @@ public class SpellReferenceFragment extends Fragment
     {
         final ConstraintLayout rootView = (ConstraintLayout)inflater.inflate(R.layout.spell_fragment_view, container, false);
         BindOnClickListeners(rootView);
-        
+
         final RecyclerView cantripRecyclerView = rootView.findViewById(R.id.CantripSpellsList);
         final SpellRecyclerViewAdapter cantripAdapter = new SpellRecyclerViewAdapter(tempCantrips, mListener);
         cantripRecyclerView.setAdapter(cantripAdapter);
@@ -200,6 +200,38 @@ public class SpellReferenceFragment extends Fragment
         final RecyclerView firstLevelRecyclerView = rootView.findViewById(R.id.FirstLevelSpellsList);
         final SpellRecyclerViewAdapter firstLevelAdapter = new SpellRecyclerViewAdapter(tempFirstLevelSpells, mListener);
         firstLevelRecyclerView.setAdapter(firstLevelAdapter);
+
+        final RecyclerView secondLevelRecyclerView = rootView.findViewById(R.id.SecondLevelSpellsList);
+        final SpellRecyclerViewAdapter secondLevelAdapter = new SpellRecyclerViewAdapter(tempFirstLevelSpells, mListener);
+        firstLevelRecyclerView.setAdapter(secondLevelAdapter);
+
+        final RecyclerView thirdLevelRecyclerView = rootView.findViewById(R.id.ThirdLevelSpellsList);
+        final SpellRecyclerViewAdapter thirdLevelAdapter = new SpellRecyclerViewAdapter(tempFirstLevelSpells, mListener);
+        firstLevelRecyclerView.setAdapter(thirdLevelAdapter);
+
+        final RecyclerView fourthLevelRecyclerView = rootView.findViewById(R.id.FourthLevelSpellsList);
+        final SpellRecyclerViewAdapter fourthLevelAdapter = new SpellRecyclerViewAdapter(tempFirstLevelSpells, mListener);
+        firstLevelRecyclerView.setAdapter(fourthLevelAdapter);
+
+        final RecyclerView fifthLevelRecyclerView = rootView.findViewById(R.id.FifthLevelSpellsList);
+        final SpellRecyclerViewAdapter fifthLevelAdapter = new SpellRecyclerViewAdapter(tempFirstLevelSpells, mListener);
+        firstLevelRecyclerView.setAdapter(fifthLevelAdapter);
+
+        final RecyclerView sixthLevelRecyclerView = rootView.findViewById(R.id.SixthLevelSpellsList);
+        final SpellRecyclerViewAdapter sixthLevelAdapter = new SpellRecyclerViewAdapter(tempFirstLevelSpells, mListener);
+        firstLevelRecyclerView.setAdapter(sixthLevelAdapter);
+
+        final RecyclerView seventhLevelRecyclerView = rootView.findViewById(R.id.SeventhLevelSpellsList);
+        final SpellRecyclerViewAdapter seventhLevelAdapter = new SpellRecyclerViewAdapter(tempFirstLevelSpells, mListener);
+        firstLevelRecyclerView.setAdapter(seventhLevelAdapter);
+
+        final RecyclerView eighthLevelRecyclerView = rootView.findViewById(R.id.EighthLevelSpellsList);
+        final SpellRecyclerViewAdapter eighthLevelAdapter = new SpellRecyclerViewAdapter(tempFirstLevelSpells, mListener);
+        firstLevelRecyclerView.setAdapter(eighthLevelAdapter);
+
+        final RecyclerView ninthLevelRecyclerView = rootView.findViewById(R.id.NinthLevelSpellsList);
+        final SpellRecyclerViewAdapter ninthLevelAdapter = new SpellRecyclerViewAdapter(tempFirstLevelSpells, mListener);
+        firstLevelRecyclerView.setAdapter(ninthLevelAdapter);
 
         return rootView;
     }

@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
+import android.support.annotation.NonNull;
+
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 
@@ -7,7 +9,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
  * Created by Stephen Hagen on 1/4/2018.
  */
 
-public class MagicEquipment implements IMagicEquipment
+public class MagicEquipment extends Item implements IMagicEquipment
 {
     private String name;
     private double cost;

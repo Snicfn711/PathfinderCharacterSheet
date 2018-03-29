@@ -5,14 +5,82 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <!--TODO: Our look is an okay product right now, but could stand to be cleaned up-->
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight=".5">
+        <android.support.constraint.Guideline
+            android:id="@+id/EquippedShortGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".05"/>
+        <android.support.constraint.Guideline
+            android:id="@+id/ItemNameGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".67"/>
+        <android.support.constraint.Guideline
+            android:id="@+id/ItemCostGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".84"/>
+        <TextView
+            android:text="@string/EquippedShort"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/colorEmphasisText"
+            android:background="@drawable/header_border"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/EquippedShortGuideline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/ItemName"
+            android:textColor="@color/colorPlainText"
+            android:background="@drawable/header_border"
+            app:layout_constraintLeft_toRightOf="@id/EquippedShortGuideline"
+            app:layout_constraintRight_toLeftOf="@id/ItemNameGuideline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/ItemCost"
+            android:textColor="@color/colorPlainText"
+            android:background="@drawable/header_border"
+            app:layout_constraintLeft_toRightOf="@id/ItemNameGuideline"
+            app:layout_constraintRight_toLeftOf="@id/ItemCostGuideline"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/ItemWeight"
+            android:textColor="@color/colorPlainText"
+            android:background="@drawable/header_border"
+            app:layout_constraintLeft_toRightOf="@id/ItemCostGuideline"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/InventoryList"
+        android:id="@+id/InventoryRecycler"
         android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="7.5"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment"
         tools:listitem="@layout/inventory_list_row" />
@@ -34,7 +102,7 @@
             app:layout_constraintEnd_toStartOf="@id/SortByCostWrapper"
             app:layout_constraintHorizontal_chainStyle="spread_inside">
             <Button
-                android:id="@+id/SortByEquippedButton"
+                android:id="@+id/SortByEquipped"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"

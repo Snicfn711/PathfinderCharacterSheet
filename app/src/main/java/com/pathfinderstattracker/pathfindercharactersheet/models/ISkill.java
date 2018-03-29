@@ -4,7 +4,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public interface ISkill
+public interface ISkill extends Comparable<ISkill>
 {
 
 

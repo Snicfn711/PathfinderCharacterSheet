@@ -14,17 +14,19 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment.OnListFragmentInteractionListener;
 
+import java.util.List;
+
 /**
  * TODO: Replace the implementation with code for your data type.
  */
 public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecyclerViewAdapter.ViewHolder>
 {
 
-    private final ISkill[] mValues;
+    private final List<ISkill> mValues;
     private final OnListFragmentInteractionListener mListener;
     private Animation click;
 
-    public SkillRecyclerViewAdapter(ISkill[] items, OnListFragmentInteractionListener listener)
+    public SkillRecyclerViewAdapter(List<ISkill> items, OnListFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -51,11 +53,11 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
-        holder.mSkill = mValues[position];
-        holder.isClassSkill.setChecked(mValues[position].isProficiency());
-        holder.skillName.setText(mValues[position].getSkillName());
-        holder.skillTotal.setText(Integer.toString(mValues[position].getPointsInvested()));
-        holder.skillStat.setText(mValues[position].getAddedStat().toString());
+        holder.mSkill = mValues.get(position);
+        holder.isClassSkill.setChecked(mValues.get(position).isProficiency());
+        holder.skillName.setText(mValues.get(position).getSkillName());
+        holder.skillTotal.setText(Integer.toString(mValues.get(position).getPointsInvested()));
+        holder.skillStat.setText(mValues.get(position).getAddedStat().toString());
 
         holder.recycledRow.setOnClickListener(new View.OnClickListener()
         {
@@ -75,19 +77,19 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
     @Override
     public int getItemCount()
     {
-        return mValues.length;
+        return mValues.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public final View recycledRow;
-        public final CheckBox isClassSkill;
-        public final TextView skillName;
-        public final TextView skillStat;
-        public final TextView skillTotal;
-        public ISkill mSkill;
+        private final View recycledRow;
+        private final CheckBox isClassSkill;
+        private final TextView skillName;
+        private final TextView skillStat;
+        private final TextView skillTotal;
+        private ISkill mSkill;
 
-        public ViewHolder(View view)
+        private ViewHolder(View view)
         {
             super(view);
             recycledRow = view;

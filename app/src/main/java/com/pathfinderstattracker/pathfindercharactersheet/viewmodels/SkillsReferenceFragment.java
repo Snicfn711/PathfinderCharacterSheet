@@ -20,7 +20,10 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnu
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -37,7 +40,8 @@ public class SkillsReferenceFragment extends Fragment
     private Skill swim = new Skill("Swim", false, 0, 0, AbilityScoreEnum.STR, true);
     private Skill appraise = new Skill("Appraise", true, 3, 2, AbilityScoreEnum.INT, false);
     private Skill ride = new Skill("Ride", true, 15, 3, AbilityScoreEnum.DEX, true);
-    private Skill[] TempSkills = new Skill[] {climb, dance, appraise, swim, ride};
+    private List<ISkill> TempSkills = new ArrayList<ISkill>();
+
     //endregion
 
     // TODO: Customize parameter argument names
@@ -69,6 +73,14 @@ public class SkillsReferenceFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        //region Populate our temporary list. Remove when actualy data implementation begins
+        TempSkills.add(dance);
+        TempSkills.add(swim);
+        TempSkills.add(ride);
+        TempSkills.add(climb);
+        TempSkills.add(ride);
+        //endregion
+
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null)
@@ -83,7 +95,7 @@ public class SkillsReferenceFragment extends Fragment
     {
 
         View rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
-        Arrays.sort(TempSkills);
+        Collections.sort(TempSkills);
 
         // Set the adapter
         //Todo: This may be a misuse of Recyclerview, since it doesn't check whether the rootView actually is a recycler view. Come back and fix if necessary
@@ -103,8 +115,8 @@ public class SkillsReferenceFragment extends Fragment
         //Get and set our points invested
         TextView skillPointsInvested = rootView.findViewById(R.id.TotalRanks);
         TextView favoredClassPointsInvested = rootView.findViewById(R.id.FavoredClassRanks);
-        skillPointsInvested.setText("Total Ranks: " + Integer.toString(GetTotalSkillPointsInvested(TempSkills)));
-        favoredClassPointsInvested.setText("Favored Ranks: " + Integer.toString(GetFavoredClassSkillPointsInvested(TempSkills)));
+        skillPointsInvested.setText(String.format("Total Ranks: %s", Integer.toString(GetTotalSkillPointsInvested(TempSkills))));
+        favoredClassPointsInvested.setText(String.format("Favored Ranks: %s", Integer.toString(GetFavoredClassSkillPointsInvested(TempSkills))));
 
         //Get our buttons and set their onClickListeners
         final ImageButton isClassSkillSortButton = rootView.findViewById(R.id.SortByIsClassSkill);
@@ -119,11 +131,11 @@ public class SkillsReferenceFragment extends Fragment
                 isClassSkillSortButton.startAnimation(click);
                 if(!Skill.checkIfSortedByProficiency(TempSkills))
                 {
-                    Arrays.sort(TempSkills, Skill.compareByIsClassSkill);
+                    Collections.sort(TempSkills, Skill.compareByIsClassSkill);
                 }
                 else
                 {
-                    Arrays.sort(TempSkills);
+                    Collections.sort(TempSkills);
                 }
                 skillAdapter.notifyDataSetChanged();
             }
@@ -136,11 +148,11 @@ public class SkillsReferenceFragment extends Fragment
                 sortByRanksButton.startAnimation(click);
                 if(!Skill.checkIfSortedByTotalRanks(TempSkills))
                 {
-                    Arrays.sort(TempSkills, Skill.compareByTotalRanks);
+                    Collections.sort(TempSkills, Skill.compareByTotalRanks);
                 }
                 else
                 {
-                    Arrays.sort(TempSkills);
+                    Collections.sort(TempSkills);
                 }
                 skillAdapter.notifyDataSetChanged();
             }
@@ -195,7 +207,7 @@ public class SkillsReferenceFragment extends Fragment
         void onListFragmentInteraction(ISkill item);
     }
 
-    private int GetTotalSkillPointsInvested(ISkill[] skillList)
+    private int GetTotalSkillPointsInvested(List<ISkill> skillList)
     {
         int skillPoints = 0;
         for(ISkill skill:skillList)
@@ -205,7 +217,7 @@ public class SkillsReferenceFragment extends Fragment
         return skillPoints;
     }
 
-    private int GetFavoredClassSkillPointsInvested(ISkill[] skillList)
+    private int GetFavoredClassSkillPointsInvested(List<ISkill> skillList)
     {
         int skillPoints = 0;
         for(ISkill skill:skillList)

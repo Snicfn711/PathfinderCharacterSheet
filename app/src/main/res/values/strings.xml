@@ -83,4 +83,7 @@
     <string name="TotalWeight">Total Weight: </string>
     <string name="TotalCost">Total Cost of Items: </string>
     <string name="AddItemToInventroy">Add Item to Inventory</string>
+    <string name="ItemName">Item Name</string>
+    <string name="ItemCost">Cost</string>
+    <string name="ItemWeight">Weight</string>
 </resources>

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment.OnListFragmentInteractionListener;
+import static com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher.SwitchVisibility;
 
 import java.util.List;
 
@@ -41,9 +42,13 @@ public class InventoryRecyclerViewAdapter extends RecyclerView.Adapter<Inventory
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mItem = mValues.get(position);
+        holder.itemName.setText(holder.mItem.getName());
+        holder.itemCost.setText(Double.toString(holder.mItem.getCost()));
+        holder.itemWeight.setText(Double.toString(holder.mItem.getWeightAtMediumSize()));
+        holder.itemDetails.setText(holder.mItem.getDescription());
 
 
-        holder.mView.setOnClickListener(new View.OnClickListener()
+        holder.recycledRow.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -53,6 +58,7 @@ public class InventoryRecyclerViewAdapter extends RecyclerView.Adapter<Inventory
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
+                    SwitchVisibility(holder.itemDetails);
                 }
             }
         });
@@ -66,23 +72,27 @@ public class InventoryRecyclerViewAdapter extends RecyclerView.Adapter<Inventory
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public IItem mItem;
+        private final View recycledRow;
+        private final TextView itemName;
+        private final TextView itemCost;
+        private final TextView itemWeight;
+        private final TextView itemDetails;
+        private IItem mItem;
 
-        public ViewHolder(View view)
+        private ViewHolder(View view)
         {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            recycledRow = view;
+            itemName = view.findViewById(R.id.ItemName);
+            itemCost = view.findViewById(R.id.ItemCost);
+            itemWeight = view.findViewById(R.id.ItemWeight);
+            itemDetails = view.findViewById(R.id.ItemDetails);
         }
 
         @Override
         public String toString()
         {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mItem.toString() + "'";
         }
     }
 }

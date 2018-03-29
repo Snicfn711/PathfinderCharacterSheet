@@ -3,12 +3,13 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 import android.support.annotation.NonNull;
 
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public class Skill implements ISkill, Comparable
+public class Skill implements ISkill, Comparable<ISkill>
 {
     private boolean Proficiency;
     private int PointsInvested;
@@ -17,6 +18,7 @@ public class Skill implements ISkill, Comparable
     private boolean ArmorCheckPenaltyApplied;
     private String SkillName;
 
+    //region Getters and Setters
     public boolean isProficiency()
     {
         return Proficiency;
@@ -78,6 +80,7 @@ public class Skill implements ISkill, Comparable
     {
         return SkillName;
     }
+    //endregion
 
     public Skill()
     {
@@ -95,18 +98,10 @@ public class Skill implements ISkill, Comparable
     }
 
     @Override
-    public int compareTo(@NonNull Object o)
+    public int compareTo(@NonNull ISkill o)
     {
-        if(o instanceof ISkill)
-        {
-            Skill temp = (Skill)o;
-            return this.SkillName.compareTo(temp.getSkillName());
-        }
-        else
-        {
-            //TODO: We should really implement some kind of error handling here, but for the time being, just remember to never compare ISkills to non Skills
-            return 0;
-        }
+        Skill temp = (Skill)o;
+        return this.SkillName.compareTo(temp.getSkillName());
     }
 
     public static Comparator<ISkill> compareByIsClassSkill = new Comparator<ISkill>()
@@ -129,11 +124,11 @@ public class Skill implements ISkill, Comparable
         }
     };
 
-    public static boolean checkIfSortedByProficiency(ISkill[] listToCheck)
+    public static boolean checkIfSortedByProficiency(List<ISkill> listToCheck)
     {
-        for(int i = 0; i < listToCheck.length - 1; i++)
+        for(int i = 0; i < listToCheck.size() - 1; i++)
         {
-            if(listToCheck[i].isProficiency() == false && listToCheck[i + 1].isProficiency() == true)
+            if(!listToCheck.get(i).isProficiency() && listToCheck.get(i + 1).isProficiency())
             {
                 return false;
             }
@@ -141,11 +136,11 @@ public class Skill implements ISkill, Comparable
         return true;
     }
 
-    public static boolean checkIfSortedByTotalRanks(ISkill[] listToCheck)
+    public static boolean checkIfSortedByTotalRanks(List<ISkill> listToCheck)
     {
-        for(int i = 0; i < listToCheck.length - 1; i++)
+        for(int i = 0; i < listToCheck.size() - 1; i++)
         {
-            if(listToCheck[i].getPointsInvested() < listToCheck[i + 1].getPointsInvested())
+            if(listToCheck.get(i).getPointsInvested() < listToCheck.get(i + 1).getPointsInvested())
             {
                 return false;
             }
