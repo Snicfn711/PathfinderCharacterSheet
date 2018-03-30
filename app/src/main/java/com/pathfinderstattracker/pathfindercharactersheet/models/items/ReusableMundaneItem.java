@@ -1,12 +1,10 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
-import android.support.annotation.NonNull;
-
 /**
  * Created by Stephen Hagen on 12/26/2017.
  */
 
-public class ReusableMundaneItem extends Item
+public class ReusableMundaneItem extends AbsItem
 {
     private String name;
     private String description;

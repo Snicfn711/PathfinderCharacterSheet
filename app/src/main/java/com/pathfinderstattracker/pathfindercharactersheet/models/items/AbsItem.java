@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Stephen Hagen on 3/29/2018.
  */
 
-public abstract class Item implements IItem
+public abstract class AbsItem implements IItem
 {
     private double cost;
     private double weight;
@@ -61,12 +61,12 @@ public abstract class Item implements IItem
     //endregion
 
 
-    public Item()
+    public AbsItem()
     {
         //Default constructor
     }
 
-    public Item(double cost, double weight, String name, String description)
+    public AbsItem(double cost, double weight, String name, String description)
     {
         setCost(cost);
         setWeightAtMediumSize(weight);
@@ -103,7 +103,17 @@ public abstract class Item implements IItem
         }
     };
 
-        public static boolean checkIfSortedByCost(List<IItem> listToCheck)
+    public static Comparator<IItem> compareByName = new Comparator<IItem>()
+    {
+        public int compare(IItem s1, IItem s2)
+        {
+            String b1 = s1.getName();
+            String b2 = s2.getName();
+            return b2.compareTo(b1);
+        }
+    };
+
+    public static boolean checkIfSortedByCost(List<IItem> listToCheck)
     {
         for(int i = 0; i < listToCheck.size() - 1; i++)
         {
@@ -120,6 +130,19 @@ public abstract class Item implements IItem
         for(int i = 0; i < listToCheck.size() - 1; i++)
         {
             if(listToCheck.get(i).getWeightAtMediumSize() < listToCheck.get(i + 1).getWeightAtMediumSize())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkIfSortedByName(List<IItem> listToCheck)
+    {
+        for(int i = 0; i < listToCheck.size() - 1; i++)
+        {
+            int sortOrder = listToCheck.get(i).getName().compareTo(listToCheck.get(i + 1).getName());
+            if(sortOrder > 0)
             {
                 return false;
             }

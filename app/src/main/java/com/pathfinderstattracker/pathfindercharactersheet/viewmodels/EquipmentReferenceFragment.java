@@ -65,7 +65,7 @@ public class EquipmentReferenceFragment extends Fragment
                                      4,
                                      0,
                                      new Ability[]{new Ability("Flaming", null, "Add 1d6 flaming damage to each attack made with this weapon", null, null, null),
-                                                   new Ability("Returning", null, "Item returns to hand after being thrown", null, null, null)});
+                                                   new Ability("Returning", null, "AbsItem returns to hand after being thrown", null, null, null)});
     private Armor plate = new Armor("Plate Armor",
                                     1650,
                                     9,

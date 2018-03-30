@@ -1,7 +1,5 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
-import android.support.annotation.NonNull;
-
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
@@ -10,7 +8,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnu
  * Created by Stephen Hagen on 12/26/2017.
  */
 
-public class Armor extends Item implements IArmor
+public class Armor extends AbsItem implements IArmor
 {
     private String name;
     private double cost;

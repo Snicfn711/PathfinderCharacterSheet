@@ -15,15 +15,14 @@ import android.widget.ImageButton;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.InventoryRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.AbsItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ConsumableMundaneItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.Item;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ReusableMundaneItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -114,7 +113,7 @@ public class InventoryReferenceFragment extends Fragment
         //Set up the click animations for our sort/add buttons
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final Button sortByEquippedButton = rootView.findViewById(R.id.SortByEquipped);
-        final Button sortByCostButton = rootView.findViewById(R.id.SortByCost);
+        final Button sortByNameButton = rootView.findViewById(R.id.SortByName);
         final Button sortByWeightButton = rootView.findViewById(R.id.SortByWeight);
         final ImageButton addNewItemButton = rootView.findViewById(R.id.AddItemToInventory);
 
@@ -127,15 +126,15 @@ public class InventoryReferenceFragment extends Fragment
             }
         }));
 
-        sortByCostButton.setOnClickListener((new View.OnClickListener()
+        sortByNameButton.setOnClickListener((new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                sortByCostButton.startAnimation(click);
-                if(!Item.checkIfSortedByCost(tempItems))
+                sortByNameButton.startAnimation(click);
+                if(!AbsItem.checkIfSortedByName(tempItems))
                 {
-                    Collections.sort(tempItems, Item.compareByCost);
+                    Collections.sort(tempItems, AbsItem.compareByName);
                 }
                 else
                 {
@@ -152,9 +151,9 @@ public class InventoryReferenceFragment extends Fragment
             public void onClick(View view)
             {
                 sortByWeightButton.startAnimation(click);
-                if(!Item.checkIfSortedByWeight(tempItems))
+                if(!AbsItem.checkIfSortedByWeight(tempItems))
                 {
-                    Collections.sort(tempItems, Item.compareByWeight);
+                    Collections.sort(tempItems, AbsItem.compareByWeight);
                 }
                 else
                 {

@@ -98,8 +98,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/SortByCostWrapper"
-            app:layout_constraintEnd_toStartOf="@id/SortByCostWrapper"
+            app:layout_constraintRight_toLeftOf="@id/SortByNameWrapper"
+            app:layout_constraintEnd_toStartOf="@id/SortByNameWrapper"
             app:layout_constraintHorizontal_chainStyle="spread_inside">
             <Button
                 android:id="@+id/SortByEquipped"
@@ -108,10 +108,10 @@
                 android:background="@null"
                 android:textColor="@color/colorPlainText"
                 android:gravity="center"
-                android:text="@string/SortByEquipped"/>
+                android:text="@string/FindEquipment"/>
         </FrameLayout>
         <FrameLayout
-            android:id="@+id/SortByCostWrapper"
+            android:id="@+id/SortByNameWrapper"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border"
@@ -121,21 +121,21 @@
             app:layout_constraintRight_toLeftOf="@id/SortByWeightWrapper"
             app:layout_constraintEnd_toStartOf="@id/SortByWeightWrapper">
             <Button
-                android:id="@+id/SortByCost"
+                android:id="@+id/SortByName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@null"
                 android:textColor="@color/colorPlainText"
                 android:gravity="center"
-                android:text="@string/SortByCost"/>
+                android:text="@string/SortByName"/>
         </FrameLayout>
         <FrameLayout
             android:id="@+id/SortByWeightWrapper"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/header_border"
-            app:layout_constraintLeft_toRightOf="@id/SortByCostWrapper"
-            app:layout_constraintStart_toEndOf="@id/SortByCostWrapper"
+            app:layout_constraintLeft_toRightOf="@id/SortByNameWrapper"
+            app:layout_constraintStart_toEndOf="@id/SortByNameWrapper"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintEnd_toEndOf="parent">

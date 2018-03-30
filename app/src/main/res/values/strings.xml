@@ -86,4 +86,6 @@
     <string name="ItemName">Item Name</string>
     <string name="ItemCost">Cost</string>
     <string name="ItemWeight">Weight</string>
+    <string name="FindEquipment">Find Equipment</string>
+    <string name="SortByName">Sort by Name</string>
 </resources>
