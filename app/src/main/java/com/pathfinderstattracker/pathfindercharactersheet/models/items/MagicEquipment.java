@@ -9,8 +9,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 
 public class MagicEquipment extends AbsItem implements IMagicEquipment
 {
-    private String name;
-    private double cost;
+
     private double weightAtMediumSize;
     private ArcaneAura aura;
     private BodySlotsEnum bodySlot;
@@ -18,30 +17,6 @@ public class MagicEquipment extends AbsItem implements IMagicEquipment
     private Integer casterLevel;
 
     //region Getters and Setters
-    @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Override
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    @Override
-    public double getCost()
-    {
-        return cost;
-    }
-
-    @Override
-    public void setCost(double cost)
-    {
-        this.cost = cost;
-    }
-
     @Override
     public double getWeightAtMediumSize()
     {

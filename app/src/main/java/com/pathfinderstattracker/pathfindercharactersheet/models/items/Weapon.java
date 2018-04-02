@@ -11,7 +11,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnu
 
 public class Weapon extends AbsItem implements IWeapon
 {
-    private String name;
     private WeaponFamilyEnum family;
     private int range;
     private boolean reach;
@@ -20,7 +19,6 @@ public class Weapon extends AbsItem implements IWeapon
     private boolean projectile;
     private WeaponWeightClassEnum weightClass;
     private boolean improvised;
-    private double cost;
     private Damage[] damage;
     private int criticalMultiplier;
     private int criticalRange; //Rather than being an actual range like 19-20, this is instead the number of critical values, so the default is 1, 19-20 is 2, 18-20 is 3, etc
@@ -40,18 +38,6 @@ public class Weapon extends AbsItem implements IWeapon
     private Ability[] abilities;
 
     //region Getters and Setters
-    @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Override
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
     @Override
     public WeaponFamilyEnum getFamily()
     {
@@ -158,18 +144,6 @@ public class Weapon extends AbsItem implements IWeapon
     public void setMagicBonus(int magicBonus)
     {
         this.magicBonus = magicBonus;
-    }
-
-    @Override
-    public double getCost()
-    {
-        return cost;
-    }
-
-    @Override
-    public void setCost(double cost)
-    {
-        this.cost = cost;
     }
 
     @Override

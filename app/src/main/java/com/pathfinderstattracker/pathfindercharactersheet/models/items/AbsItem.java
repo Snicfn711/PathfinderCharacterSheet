@@ -76,11 +76,12 @@ public abstract class AbsItem implements IItem
 
     //region Comparators
     @Override
-    public int compareTo(@NonNull IItem iItem)
+    public int compareTo(@NonNull IItem o)
     {
         //Since items can have so many different types, with no default way of ordering, we'll leave them all as equal
         //This is also a fun UX thing, since the "default" view of the inventory screen before sorting is of a random mess like you'd have in a backpack
-        return 0;
+        AbsItem temp = (AbsItem)o;
+        return this.name.compareTo(temp.getName());
     }
 
     public static Comparator<IItem> compareByCost = new Comparator<IItem>()
@@ -109,7 +110,23 @@ public abstract class AbsItem implements IItem
         {
             String b1 = s1.getName();
             String b2 = s2.getName();
-            return b2.compareTo(b1);
+            return b1.compareTo(b2);
+        }
+    };
+
+    public static Comparator<IItem> compareEquipment = new Comparator<IItem>()
+    {
+        public int compare(IItem s1, IItem s2)
+        {
+            if(s1 instanceof IEquipment && !(s2 instanceof IEquipment))
+            {
+                return -1;
+            }
+            else if(!(s1 instanceof IEquipment) && s2 instanceof IEquipment)
+            {
+                return 1;
+            }
+            return 0;
         }
     };
 
@@ -143,6 +160,21 @@ public abstract class AbsItem implements IItem
         {
             int sortOrder = listToCheck.get(i).getName().compareTo(listToCheck.get(i + 1).getName());
             if(sortOrder > 0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean checkIfSortedByEquipment(List<IItem> listToCheck)
+    {
+        for(int i = 0; i < listToCheck.size() - 1; i++)
+        {
+            Boolean isCurrentEquipment = listToCheck.get(i) instanceof IEquipment;
+            Boolean isNextEquipment = listToCheck.get(i + 1) instanceof IEquipment;
+
+            if(!isCurrentEquipment && isNextEquipment)
             {
                 return false;
             }

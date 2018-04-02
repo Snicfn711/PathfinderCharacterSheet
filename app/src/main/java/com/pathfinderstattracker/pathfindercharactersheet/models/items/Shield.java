@@ -10,8 +10,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnu
 
 public class Shield extends AbsItem implements IShield
 {
-    private String name;
-    private double cost;
     private int shieldBonus;
     private Integer maximumDexBonus;
     private Integer armorCheckPenalty;
@@ -25,30 +23,6 @@ public class Shield extends AbsItem implements IShield
     private Ability[] abilities;
 
     //region Getters and Setters
-    @Override
-    public String getName()
-    {
-        return name;
-    }
-
-    @Override
-    public void setName(String name)
-    {
-        this.name = name;
-    }
-
-    @Override
-    public double getCost()
-    {
-        return cost;
-    }
-
-    @Override
-    public void setCost(double cost)
-    {
-        this.cost = cost;
-    }
-
     @Override
     public double getWeightAtMediumSize()
     {

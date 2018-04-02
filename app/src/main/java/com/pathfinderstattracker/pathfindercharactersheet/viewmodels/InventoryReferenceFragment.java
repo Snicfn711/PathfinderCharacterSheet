@@ -123,6 +123,15 @@ public class InventoryReferenceFragment extends Fragment
             public void onClick(View view)
             {
                 sortByEquippedButton.startAnimation(click);
+                if(!AbsItem.checkIfSortedByEquipment(tempItems))
+                {
+                    Collections.sort(tempItems, AbsItem.compareEquipment);
+                }
+                else
+                {
+                    Collections.sort(tempItems);
+                }
+                inventoryRecyclerViewAdapter.notifyDataSetChanged();
             }
         }));
 
@@ -138,7 +147,6 @@ public class InventoryReferenceFragment extends Fragment
                 }
                 else
                 {
-                    //Todo: Clicking the button again should restore the original order. As is, it just leaves things alone
                     Collections.sort(tempItems);
                 }
                 inventoryRecyclerViewAdapter.notifyDataSetChanged();
@@ -157,7 +165,6 @@ public class InventoryReferenceFragment extends Fragment
                 }
                 else
                 {
-                    //Todo: Clicking the button again should restore the original order. As is, it just leaves things alone
                     Collections.sort(tempItems);
                 }
                 inventoryRecyclerViewAdapter.notifyDataSetChanged();
