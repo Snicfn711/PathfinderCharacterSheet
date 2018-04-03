@@ -33,7 +33,6 @@ public class Weapon extends AbsItem implements IWeapon
     private boolean isMagic;
     private int magicBonus;
     private SizeCategoryEnum sizeCategory;
-    private double weightAtMediumSize;
     private int requiredStrength;
     private Ability[] abilities;
 
@@ -302,18 +301,6 @@ public class Weapon extends AbsItem implements IWeapon
         this.isMagic = isMagic;
     }
 
-    @Override
-    public double getWeightAtMediumSize()
-    {
-        return weightAtMediumSize;
-    }
-
-    @Override
-    public void setWeightAtMediumSize(double weightAtMediumSize)
-    {
-        this.weightAtMediumSize = weightAtMediumSize;
-    }
-
     public int getRequiredStrength()
     {
         return requiredStrength;
@@ -377,12 +364,12 @@ public class Weapon extends AbsItem implements IWeapon
 
     public String createAbilitiesString()
     {
-        String abilitiesString = new String();
+        StringBuilder abilitiesString = new StringBuilder("");
         if(abilities != null && abilities.length > 1) {
             for (IAbility ability : abilities) {
-                abilitiesString += ability.getName() + " ";
+                abilitiesString.append(ability.getName()).append(" ");
             }
-            return abilitiesString;
+            return abilitiesString.toString();
         }
         else
         {
@@ -397,7 +384,7 @@ public class Weapon extends AbsItem implements IWeapon
 
     public String returnCriticalString()
     {
-        String criticalString = new String();
+        String criticalString = "";
         int criticalRange = calculateCriticalRange();
         if(criticalRange < 20)
         {
@@ -414,25 +401,25 @@ public class Weapon extends AbsItem implements IWeapon
     {
         //As written, this can crash the program if a weapon doesn't have any damage types
         //However, UNDER NO CIRCUMSTANCES should a weapon not have a weapon type, so we're leaving this as is
-        String damageTypesString = new String();
+        StringBuilder damageTypesString = new StringBuilder("");
         for(WeaponDamageTypeEnum damageType : damageType)
         {
-            damageTypesString += damageType.toString() + ", ";
+            damageTypesString.append(damageType.toString()).append(", ");
         }
-        damageTypesString = damageTypesString.substring(0, damageTypesString.length() - 2);
-        return damageTypesString;
+        damageTypesString = new StringBuilder(damageTypesString.substring(0, damageTypesString.length() - 2));
+        return damageTypesString.toString();
     }
 
     public String returnDamageDice()
     {
         //Similar to returnDamageTypes, this will crash if a weapon has no damage dice
         //Again however, there should be NO CIRCUMSTANCES where that's the case
-       String damageDiceString = new String();
+       StringBuilder damageDiceString = new StringBuilder("");
        for(Damage damageDice : damage)
        {
-           damageDiceString += Integer.toString(damageDice.numberOfDice) + "d" + Integer.toString(damageDice.sizeOfDice) + "+";
+           damageDiceString.append(Integer.toString(damageDice.numberOfDice)).append("d").append(Integer.toString(damageDice.sizeOfDice)).append("+");
        }
-       damageDiceString = damageDiceString.substring(0, damageDiceString.length() - 1);
-       return damageDiceString;
+       damageDiceString = new StringBuilder(damageDiceString.substring(0, damageDiceString.length() - 1));
+       return damageDiceString.toString();
     }
 }

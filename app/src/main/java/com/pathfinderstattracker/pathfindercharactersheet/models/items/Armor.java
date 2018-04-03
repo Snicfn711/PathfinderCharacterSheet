@@ -17,24 +17,11 @@ public class Armor extends AbsItem implements IArmor
     private Integer arcaneSpellFailureChance;
     private Integer maxSpeed;
     private ArmorWeightCategoryEnum weightCategory;
-    private double weightAtMediumSize;
     private SizeCategoryEnum armorSize;
     private boolean isMagic;
     private Ability[] abilities;
 
     //region Getters and Setters
-    @Override
-    public double getWeightAtMediumSize()
-    {
-        return weightAtMediumSize;
-    }
-
-    @Override
-    public void setWeightAtMediumSize(double weightAtMediumSize)
-    {
-        this.weightAtMediumSize = weightAtMediumSize;
-    }
-
     @Override
     public int getArmorBonus()
     {
@@ -199,12 +186,12 @@ public class Armor extends AbsItem implements IArmor
     {
         if(armorSize == SizeCategoryEnum.Small)
         {
-            return weightAtMediumSize * .5;
+            return weight * .5;
         }
         else if(armorSize == SizeCategoryEnum.Large)
         {
-            return weightAtMediumSize * 2;
+            return weight* 2;
         }
-        return weightAtMediumSize;
+        return weight;
     }
 }

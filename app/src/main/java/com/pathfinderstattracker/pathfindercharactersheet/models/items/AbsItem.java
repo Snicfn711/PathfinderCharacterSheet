@@ -11,10 +11,10 @@ import java.util.List;
 
 public abstract class AbsItem implements IItem
 {
-    private double cost;
-    private double weight;
-    private String name;
-    private String description;
+    protected double cost;
+    protected double weight;
+    protected String name;
+    protected String description;
 
     //region Getters and Setters
     @Override

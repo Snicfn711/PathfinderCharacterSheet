@@ -113,7 +113,6 @@ public class InventoryReferenceFragment extends Fragment
         //Set up the click animations for our sort/add buttons
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final Button sortByEquippedButton = rootView.findViewById(R.id.SortByEquipped);
-        final Button sortByNameButton = rootView.findViewById(R.id.SortByName);
         final Button sortByWeightButton = rootView.findViewById(R.id.SortByWeight);
         final ImageButton addNewItemButton = rootView.findViewById(R.id.AddItemToInventory);
 
@@ -126,24 +125,6 @@ public class InventoryReferenceFragment extends Fragment
                 if(!AbsItem.checkIfSortedByEquipment(tempItems))
                 {
                     Collections.sort(tempItems, AbsItem.compareEquipment);
-                }
-                else
-                {
-                    Collections.sort(tempItems);
-                }
-                inventoryRecyclerViewAdapter.notifyDataSetChanged();
-            }
-        }));
-
-        sortByNameButton.setOnClickListener((new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                sortByNameButton.startAnimation(click);
-                if(!AbsItem.checkIfSortedByName(tempItems))
-                {
-                    Collections.sort(tempItems, AbsItem.compareByName);
                 }
                 else
                 {

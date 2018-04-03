@@ -10,25 +10,12 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 public class MagicEquipment extends AbsItem implements IMagicEquipment
 {
 
-    private double weightAtMediumSize;
     private ArcaneAura aura;
     private BodySlotsEnum bodySlot;
     private Ability[] abilities;
     private Integer casterLevel;
 
     //region Getters and Setters
-    @Override
-    public double getWeightAtMediumSize()
-    {
-        return weightAtMediumSize;
-    }
-
-    @Override
-    public void setWeightAtMediumSize(double weightAtMediumSize)
-    {
-        this.weightAtMediumSize = weightAtMediumSize;
-    }
-
     public ArcaneAura getAura()
     {
         return aura;

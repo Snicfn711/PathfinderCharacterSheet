@@ -14,7 +14,6 @@ public class Shield extends AbsItem implements IShield
     private Integer maximumDexBonus;
     private Integer armorCheckPenalty;
     private int arcaneSpellFailureChance;
-    private double weightAtMediumSize;
     private ShieldWeightCategoryEnum weightCategory;
     private SizeCategoryEnum armorSize;
     private boolean isMagic;
@@ -23,18 +22,6 @@ public class Shield extends AbsItem implements IShield
     private Ability[] abilities;
 
     //region Getters and Setters
-    @Override
-    public double getWeightAtMediumSize()
-    {
-        return weightAtMediumSize;
-    }
-
-    @Override
-    public void setWeightAtMediumSize(double weight)
-    {
-        weightAtMediumSize = weight;
-    }
-
     @Override
     public int getShieldBonus()
     {
@@ -192,12 +179,12 @@ public class Shield extends AbsItem implements IShield
     {
         if(armorSize == SizeCategoryEnum.Small)
         {
-            return weightAtMediumSize * .5;
+            return weight * .5;
         }
         else if(armorSize == SizeCategoryEnum.Large)
         {
-            return weightAtMediumSize * 2;
+            return weight * 2;
         }
-        return weightAtMediumSize;
+        return weight;
     }
 }
