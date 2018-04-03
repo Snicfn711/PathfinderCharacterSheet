@@ -44,5 +44,6 @@
         android:scaleType="centerInside"
         android:adjustViewBounds="true"
         android:layout_weight="1"
-        android:src="@drawable/d20_image"/>
+        android:src="@drawable/d20_image"
+        android:contentDescription="@string/RollSkillButtonContentDescription" />
 </LinearLayout>

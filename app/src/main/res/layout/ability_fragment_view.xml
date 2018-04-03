@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/AbilityList"
+        android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        app:layoutManager="LinearLayoutManager"
+        tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment"
+        tools:listitem="@layout/ability_list_row" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5">
+        <FrameLayout
+            android:id="@+id/SortBySourceWrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/header_border"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/AddAbilityWrapper"
+            app:layout_constraintEnd_toStartOf="@id/AddAbilityWrapper">
+            <Button
+                android:id="@+id/SortBySourceButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorPlainText"
+                android:background="@null"
+                android:gravity="center"
+                android:text="@string/SortBySource"/>
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/AddAbilityWrapper"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/header_border"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/SortBySourceWrapper"
+            app:layout_constraintStart_toEndOf="@id/SortBySourceWrapper">
+            <ImageButton
+                android:id="@+id/AddAbilityButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/AddAbilityButtonContentDescription" />
+        </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment;
@@ -42,18 +43,24 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
                 fragment.setArguments(args);
                 return fragment;
             case 2:
-                fragment = new SpellReferenceFragment();
+                fragment = new AbilityReferenceFragment();
                 args = new Bundle();
                 args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             case 3:
-                fragment = new InventoryReferenceFragment();
+                fragment = new SpellReferenceFragment();
                 args = new Bundle();
                 args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             case 4:
+                fragment = new InventoryReferenceFragment();
+                args = new Bundle();
+                args.putString("Foo", "Bar");
+                fragment.setArguments(args);
+                return fragment;
+            case 5:
                 fragment = new EquipmentReferenceFragment();
                 args = new Bundle();
                 args.putString("Foo", "Bar");
@@ -73,7 +80,7 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
         //We should be able to get away with hardcoding this because FragmentPagerAdapter assumes a  //
         //small, static group of fragments.                                                          //
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        return 5;
+        return 6;
     }
 
     public CharSequence getPageTitle(int position)

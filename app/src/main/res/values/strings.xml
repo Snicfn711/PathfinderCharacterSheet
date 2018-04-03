@@ -37,6 +37,7 @@
     <string name="SortByClassSkills">Sort by Class Skills</string><!--TODO: Not so much sort by class skills as bring class skills to top. Is there a better way to say that?-->
     <string name="SortByTotalRanks">Sort by Total Ranks</string>
     <string name="AddNewSkill">Add New Skill</string>
+    <string name="RollSkillButtonContentDescription">Roll Skill Button</string>
     <!--Equipment Strings-->
     <string name="MagicBonus">Magic Bonus</string>
     <string name="EquipmentAbilities">Abilities</string>
@@ -88,4 +89,7 @@
     <string name="ItemWeight">Weight</string>
     <string name="FindEquipment">Find Equipment</string>
     <string name="SortByName">Sort by Name</string>
+    <!--Ability Strings-->
+    <string name="SortBySource">Sort by Source</string>
+    <string name="AddAbilityButtonContentDescription">Add Ability Button</string>
 </resources>

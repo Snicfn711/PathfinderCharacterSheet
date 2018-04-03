@@ -6,17 +6,19 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
 
-public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener
+public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener
 {
     ReferenceFragmentAdapter referenceFragmentAdapter;
     ViewPager mViewPager;
@@ -58,6 +60,12 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
 
     @Override
     public void onListFragmentInteraction(IItem item)
+    {
+
+    }
+
+    @Override
+    public void onListFragmentInteraction(IAbility item)
     {
 
     }
