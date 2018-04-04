@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/field_border">
 
-    <TextView
-        android:id="@+id/AbilityName"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:id="@+id/AbilityListRowLabel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight=".33"
-        android:textColor="@color/colorPlainText"/>
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/AbilityName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:textColor="@color/colorPlainText"/>
+
+        <!-- Todo:Implement ability source tracking(Don't want to track it from the ability object, since the same ability can come from different sources)-->
+        <!--<TextView-->
+            <!--android:id="@+id/AbilitySource"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight=".33"-->
+            <!--android:textColor="@color/colorPlainText"/>-->
+
+        <TextView
+            android:id="@+id/ShortAbilityDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:textColor="@color/colorPlainText"/>
+
+    </LinearLayout>
     <TextView
-        android:id="@+id/AbilitySource"
-        android:layout_width="0dp"
+        android:id="@+id/FullAbilityDescription"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight=".33"
-        android:textColor="@color/colorPlainText"/>
-
-    <TextView
-        android:id="@+id/ShortAbilityDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".33"
-        android:textColor="@color/colorPlainText"/>
-
-</LinearLayout>
+        android:textColor="@color/colorPlainText"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/AbilityListRowLabel"/>
+</android.support.constraint.ConstraintLayout>

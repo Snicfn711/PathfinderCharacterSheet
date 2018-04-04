@@ -12,6 +12,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityRefe
 
 import java.util.List;
 
+import static com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher.SwitchVisibility;
+
 /**
  * {@link RecyclerView.Adapter} that can display a {@link IAbility} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
@@ -41,6 +43,9 @@ public class AbilityRecyclerViewAdapter extends RecyclerView.Adapter<AbilityRecy
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mItem = mValues.get(position);
+        holder.abilityName.setText(holder.mItem.getName());
+        holder.abilityShortDescription.setText(holder.mItem.getShortDescription());
+        holder.abilityFullDescription.setText(holder.mItem.getEffectText());
 
         holder.recycledRow.setOnClickListener(new View.OnClickListener()
         {
@@ -52,6 +57,7 @@ public class AbilityRecyclerViewAdapter extends RecyclerView.Adapter<AbilityRecy
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
+                    SwitchVisibility(holder.abilityFullDescription);
                 }
             }
         });
@@ -65,25 +71,29 @@ public class AbilityRecyclerViewAdapter extends RecyclerView.Adapter<AbilityRecy
 
     public class ViewHolder extends RecyclerView.ViewHolder
     {
-        public final View recycledRow;
-        public final TextView abilityName;
-        public final TextView abilityShortDescription;
-        public final TextView abilitySource;
-        public final TextView abilityFullDescription;
-        public IAbility mItem;
+        private final View recycledRow;
+        private final TextView abilityName;
+        private final TextView abilityShortDescription;
+        //public final TextView abilitySource;
+        //We want to track an ability's source, but until we implement character creation/ storage, we can't do so
+        //(It can't be tracked on the ability object itself, since each ability may come from multiple sources)
+        private final TextView abilityFullDescription;
+        private IAbility mItem;
 
-        public ViewHolder(View view)
+        private ViewHolder(View view)
         {
             super(view);
             recycledRow = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            abilityName = (TextView) view.findViewById(R.id.AbilityName);
+            abilityShortDescription = (TextView) view.findViewById(R.id.ShortAbilityDescription);
+            //abilitySource = (TextView) view.findViewById(R.id.content);
+            abilityFullDescription = (TextView) view.findViewById(R.id.FullAbilityDescription);
         }
 
         @Override
         public String toString()
         {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + abilityName.getText() + "'";
         }
     }
 }

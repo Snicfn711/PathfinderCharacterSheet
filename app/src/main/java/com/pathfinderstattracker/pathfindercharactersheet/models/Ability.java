@@ -11,6 +11,7 @@ public class Ability implements IAbility
     private String name;
     private AbilityTypeEnum abilityType;
     private String effectText;
+    private String shortDescription;
     private ISpell spellCopied;
     private IBonus[] bonuses;
     private IPenalty[] penalties;
@@ -87,6 +88,11 @@ public class Ability implements IAbility
     {
         this.penalties = penalties;
     }
+
+    @Override
+    public String getShortDescription(){return shortDescription;}
+    @Override
+    public void setShortDescription(String shortDescription){this.shortDescription = shortDescription;}
     //endregion
 
 
@@ -95,7 +101,7 @@ public class Ability implements IAbility
         //Default Constructor
     }
 
-    public Ability(String name, AbilityTypeEnum abilityType, String effectText, ISpell spellCopied, IBonus[] bonuses, IPenalty[] penalties)
+    public Ability(String name, AbilityTypeEnum abilityType, String effectText, ISpell spellCopied, IBonus[] bonuses, IPenalty[] penalties, String shortDescription)
     {
         setName(name);
         setAbilityType(abilityType);
@@ -103,5 +109,6 @@ public class Ability implements IAbility
         setSpellCopied(spellCopied);
         setBonuses(bonuses);
         setPenalties(penalties);
+        setShortDescription(shortDescription);
     }
 }

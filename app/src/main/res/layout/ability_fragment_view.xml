@@ -18,42 +18,53 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".5">
-        <FrameLayout
-            android:id="@+id/SortBySourceWrapper"
+        android:layout_weight="1"
+        android:background="@drawable/header_border">
+        <android.support.constraint.Guideline
+            android:id="@+id/AddAbilityButtonGuideline"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/header_border"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/AddAbilityWrapper"
-            app:layout_constraintEnd_toStartOf="@id/AddAbilityWrapper">
-            <Button
-                android:id="@+id/SortBySourceButton"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textColor="@color/colorPlainText"
-                android:background="@null"
-                android:gravity="center"
-                android:text="@string/SortBySource"/>
-        </FrameLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".8"/>
+        <!--Todo:Uncomment this once we properly implement detecting an ability's source-->
+        <!--<FrameLayout-->
+            <!--android:id="@+id/SortBySourceWrapper"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@drawable/header_border"-->
+            <!--app:layout_constraintTop_toTopOf="parent"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintStart_toStartOf="parent"-->
+            <!--app:layout_constraintRight_toLeftOf="@id/AddAbilityWrapper"-->
+            <!--app:layout_constraintEnd_toStartOf="@id/AddAbilityWrapper">-->
+            <!--<Button-->
+                <!--android:id="@+id/SortBySourceButton"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:textColor="@color/colorPlainText"-->
+                <!--android:background="@null"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@string/SortBySource"/>-->
+        <!--</FrameLayout>-->
         <FrameLayout
             android:id="@+id/AddAbilityWrapper"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@drawable/header_border"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/SortBySourceWrapper"
-            app:layout_constraintStart_toEndOf="@id/SortBySourceWrapper">
+            app:layout_constraintLeft_toRightOf="@id/AddAbilityButtonGuideline"
+            app:layout_constraintStart_toEndOf="@id/AddAbilityButtonGuideline">
             <ImageButton
                 android:id="@+id/AddAbilityButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@null"
+                android:adjustViewBounds="false"
+                android:scaleType="centerInside"
+                android:src="@drawable/add_icon"
                 android:contentDescription="@string/AddAbilityButtonContentDescription" />
         </FrameLayout>
     </android.support.constraint.ConstraintLayout>

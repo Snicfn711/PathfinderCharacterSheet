@@ -20,4 +20,6 @@ public interface IAbility
     void setBonuses(IBonus[] bonuses);
     IPenalty[] getPenalties();
     void setPenalties(IPenalty[] penalties);
+    String getShortDescription();
+    void setShortDescription(String shortDescription);
 }

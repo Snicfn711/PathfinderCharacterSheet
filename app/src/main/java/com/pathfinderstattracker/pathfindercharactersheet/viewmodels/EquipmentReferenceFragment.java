@@ -3,8 +3,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,8 +62,8 @@ public class EquipmentReferenceFragment extends Fragment
                                      SizeCategoryEnum.Medium,
                                      4,
                                      0,
-                                     new Ability[]{new Ability("Flaming", null, "Add 1d6 flaming damage to each attack made with this weapon", null, null, null),
-                                                   new Ability("Returning", null, "AbsItem returns to hand after being thrown", null, null, null)});
+                                     new Ability[]{new Ability("Flaming", null, "Add 1d6 flaming damage to each attack made with this weapon", null, null, null,null),
+                                                   new Ability("Returning", null, "Item returns to hand after being thrown", null, null, null,null)});
     private Armor plate = new Armor("Plate Armor",
                                     1650,
                                     9,
