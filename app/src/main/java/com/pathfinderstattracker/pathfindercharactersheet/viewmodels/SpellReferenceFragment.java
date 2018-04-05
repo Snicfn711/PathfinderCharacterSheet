@@ -284,9 +284,19 @@ public class SpellReferenceFragment extends Fragment
         //For each section of spells(Cantrips, First Level Spells, etc)  find the tagged views for the spell list and it's headers
         for(int i = 0; i < sectionCount; i++)
         {
-            final ViewGroup sectionView = (ViewGroup)rootLayout.getChildAt(i);
-            spellLists.add(sectionView.findViewWithTag("SpellList"));
-            headerList.add(sectionView.findViewWithTag("SpellHeader"));
+            final View sectionView = (View)rootLayout.getChildAt(i);
+            View tempSpellList = sectionView.findViewWithTag("SpellList");
+            //If we don't check for null values before adding to the lists, the lists continue growing in size, causing null pointer references when we try to bind our onClickListeners
+            if(tempSpellList != null)
+            {
+                spellLists.add(tempSpellList);
+            }
+            View tempSpellHeader = sectionView.findViewWithTag("SpellHeader");
+            if(tempSpellHeader != null)
+            {
+
+                headerList.add(tempSpellHeader);
+            }
         }
 
         //Iterate through our list of headers, and for each header, bind our onClickListener to open/close the appropriate SpellList

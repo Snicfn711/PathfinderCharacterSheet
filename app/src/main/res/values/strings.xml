@@ -57,7 +57,7 @@
     <string name="CastingTime">Casting Time</string>
     <string name="Targets">Targets</string>
     <string name="Duration">Duration</string>
-    <string name="SavingThrow">Saving Throw</string><!--Saving throw and spell resistance aren't descriptive as labels, may want to change at some point-->
+    <string name="SavingThrow">Saving Throw</string><!--Todo:Saving throw and spell resistance aren't descriptive as labels, may want to change at some point-->
     <string name="AttacksSpellResistance">Spell Resistance</string>
     <string name="Components">Required Components</string>
     <string name="SpellSchool">Spell School [Descriptors]</string>
@@ -71,6 +71,7 @@
     <string name="SeventhLevelSpells">Seventh Level Spells</string>
     <string name="EighthLevelSpells">Eighth Level Spells</string>
     <string name="NinthLevelSpells">Ninth Level Spells</string>
+    <string name="AddSpellButtonContentDescription">Add Spell Button</string>
     <!--Inventory Strings-->
     <string name="SortByEquipped">Sort by Equipped</string>
     <string name="SortByCost">Sort by Cost</string>
