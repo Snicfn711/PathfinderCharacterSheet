@@ -31,11 +31,10 @@ public class AbilityReferenceFragment extends Fragment
     //endregion
 
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
-    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private Animation click;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -44,13 +43,13 @@ public class AbilityReferenceFragment extends Fragment
     {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static AbilityReferenceFragment newInstance(int columnCount)
     {
+        // TODO: Customize parameter initialization
+        //We don't have any parameters yet, so we're not doing anything here yet
         AbilityReferenceFragment fragment = new AbilityReferenceFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,12 +57,13 @@ public class AbilityReferenceFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+
         super.onCreate(savedInstanceState);
         tempAbilities.add(punch);
         tempAbilities.add(kick);
         if (getArguments() != null)
         {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            //Like above, since we don't have any paramters yet, there's not much to do here
         }
     }
 

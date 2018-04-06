@@ -94,9 +94,7 @@ public class EquipmentReferenceFragment extends Fragment
     //endregion
 
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
-    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private Animation click;
 
@@ -108,13 +106,14 @@ public class EquipmentReferenceFragment extends Fragment
          */
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static EquipmentReferenceFragment newInstance(int columnCount)
     {
+
+        // TODO: Customize parameter initialization
+        //We don't have any parameters yet, so we're not doing anything here yet
         EquipmentReferenceFragment fragment = new EquipmentReferenceFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -126,7 +125,7 @@ public class EquipmentReferenceFragment extends Fragment
 
         if (getArguments() != null)
         {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            //Like above, since we don't have any paramters yet, there's not much to do here
         }
     }
 

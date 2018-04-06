@@ -1,31 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+    <android.support.constraint.Guideline
+        android:id="@+id/AbilityFragmentHorizontalDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".95"/>
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/AbilityList"
         android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight=".95"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment"
-        tools:listitem="@layout/ability_list_row" />
+        tools:listitem="@layout/ability_list_row"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/AbilityFragmentHorizontalDivider"/>
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight=".05"
-        android:background="@drawable/header_border">
+        android:background="@drawable/header_border"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AbilityFragmentHorizontalDivider">
         <android.support.constraint.Guideline
             android:id="@+id/AddAbilityButtonGuideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".8"/>
+            app:layout_constraintGuide_percent=".85"/>
         <!--Todo:Uncomment this once we properly implement detecting an ability's source-->
         <!--<FrameLayout-->
             <!--android:id="@+id/SortBySourceWrapper"-->
@@ -50,7 +66,7 @@
         <FrameLayout
             android:id="@+id/AddAbilityWrapper"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -65,7 +81,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
                 android:src="@drawable/add_icon"
-                android:contentDescription="@string/AddAbilityButtonContentDescription" />
+                android:contentDescription="@string/AddAbilityButtonContentDescription"/>
         </FrameLayout>
     </android.support.constraint.ConstraintLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -78,13 +78,7 @@ public class StatsReferenceFragment extends Fragment
 
 
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -93,21 +87,12 @@ public class StatsReferenceFragment extends Fragment
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StatsReferenceFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static StatsReferenceFragment newInstance(String param1, String param2)
     {
         StatsReferenceFragment fragment = new StatsReferenceFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        // TODO: Customize parameter initialization
+        //We don't have any parameters yet, so we're not doing anything here
         fragment.setArguments(args);
         return fragment;
     }
@@ -120,8 +105,7 @@ public class StatsReferenceFragment extends Fragment
 
         if (getArguments() != null)
         {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            //Like above, since we don't have any paramters yet, there's not much to do here
         }
     }
 
@@ -146,6 +130,7 @@ public class StatsReferenceFragment extends Fragment
         tempCharacter.setSpellResistance(5);
         //endregion
 
+        //region Create and set our View Adapters
         //Populate and bind our stats list
         ListView statsView = rootView.findViewById(R.id.statsList);
         AbilityScoreAdapter abilityScoreAdapter = new AbilityScoreAdapter(context,tempCharacter.getAbilityScores());
@@ -180,6 +165,7 @@ public class StatsReferenceFragment extends Fragment
         ListView hp_BAB_SRView = rootView.findViewById(R.id.hp_bab_srList);
         HP_BAB_SR_Adapter hp_bab_sr_adapter = new HP_BAB_SR_Adapter(context, tempCharacter.getHitPoints(), tempCharacter.getTotalBaseAttackBonus(), tempCharacter.getSpellResistance());
         hp_BAB_SRView.setAdapter(hp_bab_sr_adapter);
+        //endregion
 
         return rootView;
     }

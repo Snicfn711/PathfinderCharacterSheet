@@ -45,9 +45,7 @@ public class SkillsReferenceFragment extends Fragment
     //endregion
 
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
-    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private Animation click;
 
@@ -63,9 +61,10 @@ public class SkillsReferenceFragment extends Fragment
     @SuppressWarnings("unused")
     public static SkillsReferenceFragment newInstance(int columnCount)
     {
+        // TODO: Customize parameter initialization
+        //We don't have any parameters yet, so we're not doing anything here yet
         SkillsReferenceFragment fragment = new SkillsReferenceFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,7 +84,7 @@ public class SkillsReferenceFragment extends Fragment
 
         if (getArguments() != null)
         {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            //Like above, since we don't have any paramters yet, there's not much to do here
         }
     }
 
@@ -98,18 +97,11 @@ public class SkillsReferenceFragment extends Fragment
         Collections.sort(TempSkills);
 
         // Set the adapter
-        //Todo: This may be a misuse of Recyclerview, since it doesn't check whether the rootView actually is a recycler view. Come back and fix if necessary
         Context context = rootView.getContext();
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
         final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(TempSkills, mListener);
-        if (mColumnCount <= 1)
-        {
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        } else
-        {
-            recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-        }
+
         recyclerView.setAdapter(skillAdapter);
 
         //Get and set our points invested

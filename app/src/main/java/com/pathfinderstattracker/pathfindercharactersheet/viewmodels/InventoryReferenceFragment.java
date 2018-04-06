@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.InventoryRecyclerViewAdapter;
@@ -55,9 +56,7 @@ public class InventoryReferenceFragment extends Fragment
     //endregion
 
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
-    private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     private Animation click;
 
@@ -69,13 +68,13 @@ public class InventoryReferenceFragment extends Fragment
     {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static InventoryReferenceFragment newInstance(int columnCount)
     {
+        // TODO: Customize parameter initialization
+        //We don't have any parameters yet, so we're not doing anything here yet
         InventoryReferenceFragment fragment = new InventoryReferenceFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
         return fragment;
     }
@@ -94,7 +93,7 @@ public class InventoryReferenceFragment extends Fragment
 
         if (getArguments() != null)
         {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            //Like above, since we don't have any paramters yet, there's not much to do here
         }
     }
 
@@ -161,6 +160,10 @@ public class InventoryReferenceFragment extends Fragment
             }
         }));
 
+        final TextView totalWeight = rootView.findViewById(R.id.TotalWeight);
+        totalWeight.setText(String.format("Total Weight: %s", Double.toString(getTotalWeight(tempItems))));
+        final TextView totalCost = rootView.findViewById(R.id.TotalCost);
+        totalCost.setText(String.format("Total Cost of Items: %s", Double.toString(getTotalCost(tempItems))));
         return rootView;
     }
 
@@ -200,5 +203,25 @@ public class InventoryReferenceFragment extends Fragment
     {
         // TODO: Update argument type and name
         void onListFragmentInteraction(IItem item);
+    }
+
+    private double getTotalCost(List<IItem> items)
+    {
+        double totalCost = 0;
+        for (IItem item : items)
+        {
+            totalCost += item.getCost();
+        }
+        return totalCost;
+    }
+
+    private double getTotalWeight(List<IItem> items)
+    {
+        double totalWeight = 0;
+        for(IItem item: items)
+        {
+            totalWeight += item.getWeightAtMediumSize();
+        }
+        return totalWeight;
     }
 }

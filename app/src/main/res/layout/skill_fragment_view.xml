@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_height="match_parent"
+<android.support.constraint.ConstraintLayout android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <android.support.constraint.Guideline
+        android:id="@+id/SkillFragmentHorizontalDivider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".95"/>
     <android.support.v7.widget.RecyclerView
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/StatsRecycler"
         android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsFragment"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment"
         tools:listitem="@layout/skill_row_view"
-        android:layout_weight="10"/>
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/SkillFragmentHorizontalDivider"/>
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorTransparentHeader"
-        android:layout_weight=".5">
+        android:background="@drawable/header_border"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/SkillFragmentHorizontalDivider">
         <ImageButton android:id="@+id/SortByIsClassSkill"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -70,4 +85,4 @@
             app:layout_constraintLeft_toRightOf="@id/SortByRanks"
             app:layout_constraintRight_toRightOf="parent"/>
     </android.support.constraint.ConstraintLayout>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
