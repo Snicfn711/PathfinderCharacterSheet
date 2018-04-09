@@ -14,6 +14,7 @@ import android.widget.Button;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.EquipmentRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
@@ -25,6 +26,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.Weapon;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDamageTypeEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponFamilyEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -62,8 +65,7 @@ public class EquipmentReferenceFragment extends Fragment
                                      SizeCategoryEnum.Medium,
                                      4,
                                      0,
-                                     new Ability[]{new Ability("Flaming", null, "Add 1d6 flaming damage to each attack made with this weapon", null, null, null,null),
-                                                   new Ability("Returning", null, "Item returns to hand after being thrown", null, null, null,null)});
+                                      null);
     private Armor plate = new Armor("Plate Armor",
                                     1650,
                                     9,

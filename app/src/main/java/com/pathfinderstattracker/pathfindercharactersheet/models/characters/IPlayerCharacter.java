@@ -3,7 +3,10 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
+
+import java.util.List;
 
 /**
  * Created by Stephen Hagen on 1/10/2018.
@@ -27,14 +30,14 @@ public interface IPlayerCharacter
     IHitPoints getHitPoints();
     void setTotalAC(int totalAC);
     int getTotalAC();
-    void setFeats(IFeat[] feats);
-    IFeat[] getFeats();
-    void setEquippedArmor(IArmorItem[] equippedArmor);
-    IArmorItem[] getEquippedArmor();
+    void setFeats(List<IFeat> feats);
+    List<IFeat> getFeats();
+    void setEquipment(List<IEquipment> equipment);
+    List<IEquipment> getEquipment();
     void setDR(IDamageReduction dr);
     IDamageReduction getDR();
-    void setLanguagesKnown(String[] languagesKnown);
-    String[] getLanguagesKnown();
+    void setLanguagesKnown(List<String> languagesKnown);
+    List<String> getLanguagesKnown();
     void setAbilityScores(IAbilityScore[] scores);
     IAbilityScore[] getAbilityScores();
     void setCombatManeuverStats(ICombatManeuver combatManeuverStats);
@@ -49,4 +52,5 @@ public interface IPlayerCharacter
     int getReflexSave();
     void setWillSave(int willSave);
     int getWillSave();
+
 }

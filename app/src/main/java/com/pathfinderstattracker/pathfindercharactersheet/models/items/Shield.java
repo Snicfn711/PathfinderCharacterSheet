@@ -4,13 +4,15 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
+import java.util.List;
+
 /**
  * Created by Stephen Hagen on 12/26/2017.
  */
 
 public class Shield extends AbsItem implements IShield
 {
-    private int shieldBonus;
+    private int acBonus;
     private Integer maximumDexBonus;
     private Integer armorCheckPenalty;
     private int arcaneSpellFailureChance;
@@ -19,19 +21,20 @@ public class Shield extends AbsItem implements IShield
     private boolean isMagic;
     private int magicBonus;
     private boolean isMasterwork;
-    private Ability[] abilities;
+    private List<IAbility> abilities;
+    private ArmorTypesEnum armorType;
 
     //region Getters and Setters
     @Override
-    public int getShieldBonus()
+    public int getACBonus()
     {
-        return shieldBonus;
+        return acBonus;
     }
 
     @Override
-    public void setShieldBonus(int shieldBonus)
+    public void setACBonus(int acBonus)
     {
-        this.shieldBonus = shieldBonus;
+        this.acBonus = acBonus;
     }
 
     @Override
@@ -125,17 +128,29 @@ public class Shield extends AbsItem implements IShield
     public void setIsMasterwork(boolean isMasterwork){this.isMasterwork = isMasterwork;}
 
     @Override
-    public Ability[] getAbilities()
+    public List<IAbility> getAbilities()
     {
         return abilities;
     }
 
     @Override
-    public void setAbilities(Ability[] abilities)
+    public void setAbilities(List<IAbility> abilities)
     {
         this.abilities = abilities;
     }
 
+    @Override
+    public ArmorTypesEnum getArmorType()
+    {
+        //We're only doing this to allow for implementing custom items later. For now though, no shield should be providing anything other than a shield bonus.
+        return ArmorTypesEnum.Shield;
+    }
+
+    @Override
+    public void setArmorType(ArmorTypesEnum armorType)
+    {
+        //Do nothing, see getArmorType for explanation.
+    }
     //endregion
 
     public Shield()
@@ -143,11 +158,11 @@ public class Shield extends AbsItem implements IShield
         //Default constructor
     }
 
-    public Shield(String name, double cost, int shieldBonus, Integer maximumDexBonus, Integer armorCheckPenalty, int arcaneSpellFailureChance, double weightAtMediumSize, ShieldWeightCategoryEnum weightCategory, SizeCategoryEnum armorSize, boolean isMagic, int magicBonus, boolean isMasterwork, Ability[] abilities)
+    public Shield(String name, double cost, int acBonus, Integer maximumDexBonus, Integer armorCheckPenalty, int arcaneSpellFailureChance, double weightAtMediumSize, ShieldWeightCategoryEnum weightCategory, SizeCategoryEnum armorSize, boolean isMagic, int magicBonus, boolean isMasterwork, List<IAbility> abilities)
     {
         setName(name);
         setCost(cost);
-        setShieldBonus(shieldBonus);
+        setACBonus(acBonus);
         setMaximumDexBonus(maximumDexBonus);
         setArmorCheckPenalty(armorCheckPenalty);
         setArcaneSpellFailureChance(arcaneSpellFailureChance);
@@ -162,12 +177,12 @@ public class Shield extends AbsItem implements IShield
 
     public String createAbilitiesString()
     {
-        String abilitiesString = new String();
-        if(abilities != null && abilities.length > 1) {
+        StringBuilder abilitiesString = new StringBuilder();
+        if(abilities != null && abilities.size() > 1) {
             for (IAbility ability : abilities) {
-                abilitiesString += ability.getName() + " ";
+                abilitiesString.append(ability.getName()).append(" ");
             }
-            return abilitiesString;
+            return abilitiesString.toString();
         }
         else
         {
@@ -187,4 +202,6 @@ public class Shield extends AbsItem implements IShield
         }
         return weight;
     }
+
+
 }

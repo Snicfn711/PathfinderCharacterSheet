@@ -6,8 +6,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 public interface IArmor extends IProtection
 {
-    int getArmorBonus();
-    void setArmorBonus(int armorBonus);
     int getMaxSpeed();
     void setMaxSpeed(int maxSpeed);
     ArmorWeightCategoryEnum getWeightCategory();

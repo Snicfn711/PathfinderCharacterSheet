@@ -4,13 +4,15 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
+import java.util.List;
+
 /**
  * Created by Stephen Hagen on 12/26/2017.
  */
 
 public class Armor extends AbsItem implements IArmor
 {
-    private int armorBonus;
+    private int acBonus;
     private int magicBonus;
     private Integer maximumDexBonus;
     private Integer armorCheckPenalty;
@@ -19,19 +21,19 @@ public class Armor extends AbsItem implements IArmor
     private ArmorWeightCategoryEnum weightCategory;
     private SizeCategoryEnum armorSize;
     private boolean isMagic;
-    private Ability[] abilities;
+    private List<IAbility> abilities;
 
     //region Getters and Setters
     @Override
-    public int getArmorBonus()
+    public int getACBonus()
     {
-        return armorBonus;
+        return acBonus;
     }
 
     @Override
-    public void setArmorBonus(int armorBonus)
+    public void setACBonus(int acBonus)
     {
-        this.armorBonus = armorBonus;
+        this.acBonus = acBonus;
     }
 
     @Override
@@ -132,17 +134,29 @@ public class Armor extends AbsItem implements IArmor
     }
 
     @Override
-    public Ability[] getAbilities()
+    public List<IAbility> getAbilities()
     {
         return abilities;
     }
 
     @Override
-    public void setAbilities(Ability[] abilities)
+    public void setAbilities(List<IAbility> abilities)
     {
         this.abilities = abilities;
     }
 
+    @Override
+    public ArmorTypesEnum getArmorType()
+    {
+        //We're only doing this to allow for implementing custom items later. For now though, no shield should be providing anything other than an armor bonus.
+        return ArmorTypesEnum.Armor;
+    }
+
+    @Override
+    public void setArmorType(ArmorTypesEnum armorType)
+    {
+        //Do nothing, see getArmorType for why
+    }
     //endregion
 
     public Armor()
@@ -150,11 +164,11 @@ public class Armor extends AbsItem implements IArmor
         //Default constructor
     }
 
-    public Armor(String name, double cost, int armorBonus, int magicBonus, Integer maximumDexBonus, Integer armorCheckPenalty, Integer arcaneSpellFailureChance, Integer maxSpeed, ArmorWeightCategoryEnum weightCategory, double weightAtMediumSize, SizeCategoryEnum armorSize, boolean isMagic, Ability[] abilities)
+    public Armor(String name, double cost, int acBonus, int magicBonus, Integer maximumDexBonus, Integer armorCheckPenalty, Integer arcaneSpellFailureChance, Integer maxSpeed, ArmorWeightCategoryEnum weightCategory, double weightAtMediumSize, SizeCategoryEnum armorSize, boolean isMagic, List<IAbility> abilities)
     {
         setName(name);
         setCost(cost);
-        setArmorBonus(armorBonus);
+        setACBonus(acBonus);
         setMagicBonus(magicBonus);
         setMaximumDexBonus(maximumDexBonus);
         setArmorCheckPenalty(armorCheckPenalty);
@@ -170,7 +184,7 @@ public class Armor extends AbsItem implements IArmor
     public String createAbilitiesString()
     {
         String abilitiesString = new String();
-        if(abilities != null && abilities.length > 1) {
+        if(abilities != null && abilities.size() > 1) {
             for (IAbility ability : abilities) {
                 abilitiesString += ability.getName() + " ";
             }
@@ -194,4 +208,6 @@ public class Armor extends AbsItem implements IArmor
         }
         return weight;
     }
+
+
 }

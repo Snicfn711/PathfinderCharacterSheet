@@ -5,6 +5,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
+import java.util.List;
+
 /**
  * Created by Stephen Hagen on 12/27/2017.
  */
@@ -34,7 +36,7 @@ public class Weapon extends AbsItem implements IWeapon
     private int magicBonus;
     private SizeCategoryEnum sizeCategory;
     private int requiredStrength;
-    private Ability[] abilities;
+    private List<IAbility> abilities;
 
     //region Getters and Setters
     @Override
@@ -312,13 +314,13 @@ public class Weapon extends AbsItem implements IWeapon
     }
 
     @Override
-    public Ability[] getAbilities()
+    public List<IAbility> getAbilities()
     {
         return abilities;
     }
 
     @Override
-    public void setAbilities(Ability[] abilities)
+    public void setAbilities(List<IAbility> abilities)
     {
         this.abilities = abilities;
     }
@@ -331,7 +333,7 @@ public class Weapon extends AbsItem implements IWeapon
         //Default constructor
     }
 
-    public Weapon(String name, WeaponFamilyEnum family, int range, boolean reach, boolean thrown, boolean doubleheaded, boolean projectile, WeaponWeightClassEnum weightClass, boolean improvised, double cost, Damage[] damage, int criticalMultiplier, int criticalRange, boolean brace, WeaponDamageTypeEnum[] damageType, boolean disarm, boolean monk, boolean trip, boolean nonLethal, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize, int requiredStrength, Ability[] abilities)
+    public Weapon(String name, WeaponFamilyEnum family, int range, boolean reach, boolean thrown, boolean doubleheaded, boolean projectile, WeaponWeightClassEnum weightClass, boolean improvised, double cost, Damage[] damage, int criticalMultiplier, int criticalRange, boolean brace, WeaponDamageTypeEnum[] damageType, boolean disarm, boolean monk, boolean trip, boolean nonLethal, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize, int requiredStrength, List<IAbility> abilities)
     {
         setName(name);
         setFamily(family);
@@ -365,7 +367,7 @@ public class Weapon extends AbsItem implements IWeapon
     public String createAbilitiesString()
     {
         StringBuilder abilitiesString = new StringBuilder("");
-        if(abilities != null && abilities.length > 1) {
+        if(abilities != null && abilities.size() > 1) {
             for (IAbility ability : abilities) {
                 abilitiesString.append(ability.getName()).append(" ");
             }

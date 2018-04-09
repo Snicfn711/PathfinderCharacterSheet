@@ -3,7 +3,13 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWondrousItems;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
+
+import java.util.List;
 
 /**
  * Created by Stephen Hagen on 1/10/2018.
@@ -19,10 +25,10 @@ public class PlayerCharacter implements IPlayerCharacter
     private IRace CharacterRace;
     private IHitPoints TotalHitPoints;
     private int TotalAC;
-    private IFeat[] Feats;
-    private IArmorItem[] EquippedArmor;
+    private List<IFeat> Feats;
+    private List<IEquipment> Equipment;
     private IDamageReduction DR;
-    private String[] LanguagesKnown;
+    private List<String> LanguagesKnown;
     private IAbilityScore[] AbilityScores;
     private ICombatManeuver CombatManeuverStats;
     private int SpellResistance;
@@ -30,6 +36,7 @@ public class PlayerCharacter implements IPlayerCharacter
     private int FortitudeSave;
     private int ReflexSave;
     private int WillSave;
+    private List<IItem> Inventory;
 
     public double getExperiencePoints()
     {
@@ -113,24 +120,24 @@ public class PlayerCharacter implements IPlayerCharacter
         TotalAC = totalAC;
     }
 
-    public IFeat[] getFeats()
+    public List<IFeat> getFeats()
     {
         return Feats;
     }
 
-    public void setFeats(IFeat[] feats)
+    public void setFeats(List<IFeat> feats)
     {
         Feats = feats;
     }
 
-    public IArmorItem[] getEquippedArmor()
+    public List<IEquipment> getEquipment()
     {
-        return EquippedArmor;
+        return Equipment;
     }
 
-    public void setEquippedArmor(IArmorItem[] equippedArmor)
+    public void setEquipment(List<IEquipment> equippedArmor)
     {
-        EquippedArmor = equippedArmor;
+        Equipment = equippedArmor;
     }
 
     public IDamageReduction getDR()
@@ -143,12 +150,12 @@ public class PlayerCharacter implements IPlayerCharacter
         this.DR = DR;
     }
 
-    public String[] getLanguagesKnown()
+    public List<String> getLanguagesKnown()
     {
         return LanguagesKnown;
     }
 
-    public void setLanguagesKnown(String[] languagesKnown)
+    public void setLanguagesKnown(List<String> languagesKnown)
     {
         LanguagesKnown = languagesKnown;
     }
@@ -222,6 +229,8 @@ public class PlayerCharacter implements IPlayerCharacter
     {
         WillSave = willSave;
     }
+    public List<IItem> getInventory(){return Inventory;}
+    public void setInventory(List<IItem> inventory){Inventory = inventory;}
 
 
 
@@ -240,21 +249,54 @@ public class PlayerCharacter implements IPlayerCharacter
         int armorBonus = 0;
         int naturalArmorBonus = 0;
         int shieldBonus = 0;
-        for(IArmorItem x:EquippedArmor)
+        for(IEquipment x:Equipment)
         {
-            switch(x.getArmorType())
+            if(x instanceof IProtection)
             {
-                case Armor:
-                    armorBonus = x.getValue();
-                    break;
-                case NaturalArmor:
-                    naturalArmorBonus = x.getValue();
-                    break;
-                case Shield:
-                    shieldBonus = x.getValue();
-                    break;
+                switch (((IProtection) x).getArmorType())
+                {
+                    //None of these armor types stack, so we'll have to check that we're removing only the largest value
+                    //This of course assumes only the largest value armor is equipped, which we'll have to enforce
+                    case Armor:
+                        int tempArmorBonus = ((IProtection) x).getACBonus();
+                        if(armorBonus == 0 || armorBonus < tempArmorBonus)
+                        {
+                            armorBonus = tempArmorBonus;
+                        }
+                        break;
+                    case NaturalArmor:
+                        int tempNaturalArmorBonus = ((IProtection) x).getACBonus();
+                        if(naturalArmorBonus == 0 || naturalArmorBonus < tempNaturalArmorBonus)
+                        {
+                            naturalArmorBonus = tempNaturalArmorBonus;
+                        }
+                        break;
+                    case Shield:
+                        int tempShieldBonus = ((IProtection) x).getACBonus();
+                        if(shieldBonus == 0 || shieldBonus < tempShieldBonus)
+                        {
+                            shieldBonus = tempShieldBonus;
+                        }
+                        break;
+                }
+                //Since we don't care about the other armor types, we'll leave out a default case
             }
-            //Since we don't care about the other armor types, we'll leave out a default case
+            else if(x instanceof IWondrousItems)
+            {
+                switch (((IWondrousItems) x).getArmorType())
+                {
+                    case Armor:
+                        armorBonus = ((IWondrousItems) x).getACBonus();
+                        break;
+                    case NaturalArmor:
+                        naturalArmorBonus = ((IWondrousItems) x).getACBonus();
+                        break;
+                    case Shield:
+                        shieldBonus = ((IWondrousItems) x).getACBonus();
+                        break;
+                }
+                //Since we don't care about the other armor types, we'll leave out a default case
+            }
         }
         return TotalAC - armorBonus - naturalArmorBonus - shieldBonus;
     }
@@ -263,13 +305,26 @@ public class PlayerCharacter implements IPlayerCharacter
     {
         int dodgeBonus = 0;
         int dexterityBonus = 0;
-        for(IArmorItem x:EquippedArmor)
+        for(IEquipment x:Equipment)
         {
-            switch(x.getArmorType())
+            if(x instanceof IProtection)
             {
-                case Dodge:
-                    dodgeBonus = x.getValue();
-                    break;
+                switch (((IProtection) x).getArmorType())
+                {
+                    case Dodge:
+                        //Dodge bonuses to AC stack, so we'll have to count the total dodge bonus present
+                        dodgeBonus += ((IProtection) x).getACBonus();
+                        break;
+                }
+            }
+            else if(x instanceof IWondrousItems)
+            {
+                switch (((IWondrousItems) x).getArmorType())
+                {
+                    case Dodge:
+                        dodgeBonus += ((IWondrousItems) x).getACBonus();
+                        break;
+                }
             }
             //Since we don't care about the other armor types, we'll leave out a default case
         }

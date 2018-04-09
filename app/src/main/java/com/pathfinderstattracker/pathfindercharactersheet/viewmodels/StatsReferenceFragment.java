@@ -20,14 +20,24 @@ import com.pathfinderstattracker.pathfindercharactersheet.adapters.MovementAdapt
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.SavesAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.ArmorItem;
+import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IHitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.WondrousItems;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.Movement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementManeuverabilityEnum;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,11 +75,11 @@ public class StatsReferenceFragment extends Fragment
     //endregion
 
     //region Test Armor Items
-    private ArmorItem armorBonus = new ArmorItem("armorBonus", ArmorTypesEnum.Armor,5);
-    private ArmorItem naturalArmorBonus = new ArmorItem("naturalArmorBonus", ArmorTypesEnum.NaturalArmor,5);
-    private ArmorItem shieldArmorBonus = new ArmorItem("shieldArmorBonus", ArmorTypesEnum.Shield,5);
-    private ArmorItem dodgeArmorBonus = new ArmorItem("dodgeArmorBonus", ArmorTypesEnum.Dodge, 5);
-    private ArmorItem[] tempArmorItems = new ArmorItem[]{armorBonus, naturalArmorBonus, shieldArmorBonus, dodgeArmorBonus};
+    private Armor armorBonus = new Armor("Armor", 5, 5, 0,3,3,3,3, ArmorWeightCategoryEnum.Heavy,5, SizeCategoryEnum.Medium,false,null);
+    private WondrousItems naturalArmorBonus = new WondrousItems("Natural Armor", 5,5, null, BodySlotsEnum.Throat, null, 100, ArmorTypesEnum.NaturalArmor, 3);
+    private Shield shieldArmorBonus = new Shield("Shield", 5,5,5,5,5,5, ShieldWeightCategoryEnum.Tower,SizeCategoryEnum.Small,false,5, false, null);
+    private WondrousItems dodgeArmorBonus = new WondrousItems("Dodge", 5, 5, null, BodySlotsEnum.Feet, null, 5, ArmorTypesEnum.Dodge, 2);
+    private List<IEquipment> tempArmorItems = new ArrayList<IEquipment>();
     //endregion
 
     //region Temp Hit Points
@@ -101,7 +111,10 @@ public class StatsReferenceFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+        tempArmorItems.add(armorBonus);
+        tempArmorItems.add(naturalArmorBonus);
+        tempArmorItems.add(shieldArmorBonus);
+        tempArmorItems.add(dodgeArmorBonus);
 
         if (getArguments() != null)
         {
@@ -124,7 +137,7 @@ public class StatsReferenceFragment extends Fragment
         tempCharacter.setReflexSave(5);
         tempCharacter.setWillSave(6);
         tempCharacter.setTotalAC(35);
-        tempCharacter.setEquippedArmor(tempArmorItems);
+        tempCharacter.setEquipment(tempArmorItems);
         tempCharacter.setHitPoints(tempHitPoints);
         tempCharacter.setTotalBaseAttackBonus(5);
         tempCharacter.setSpellResistance(5);

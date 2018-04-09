@@ -6,6 +6,8 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 public interface IProtection extends IEquipment
 {
+    int getACBonus();
+    void setACBonus(int acBonus);
     int getMaximumDexBonus();
     void setMaximumDexBonus(int maximumDexBonus);
     int getArmorCheckPenalty();
@@ -13,4 +15,6 @@ public interface IProtection extends IEquipment
     int getArcanceSpellFailureChance();
     void setArcaneSpellFailureChance(int arcaneSpellFailureChance);
     double getCurrentWeight();
+    ArmorTypesEnum getArmorType();
+    void setArmorType(ArmorTypesEnum armorType);
 }

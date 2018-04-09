@@ -91,7 +91,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
                     {
                         SwitchVisibility(holder.magicBonus);
                     }
-                    if(holder.mEquipment.getAbilities()!= null && holder.mEquipment.getAbilities().length > 1)
+                    if(holder.mEquipment.getAbilities()!= null && holder.mEquipment.getAbilities().size() > 1)
                     {
                         SwitchVisibility(holder.abilities);
                     }
