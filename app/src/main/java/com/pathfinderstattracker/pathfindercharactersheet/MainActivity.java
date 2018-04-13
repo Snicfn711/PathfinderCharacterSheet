@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
@@ -22,6 +23,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
 {
     ReferenceFragmentAdapter referenceFragmentAdapter;
     ViewPager mViewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {

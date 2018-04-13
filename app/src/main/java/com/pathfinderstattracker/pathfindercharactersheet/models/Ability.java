@@ -2,6 +2,8 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 
+import java.util.List;
+
 /**
  * Created by Stephen Hagen on 1/2/2018.
  */
@@ -13,8 +15,8 @@ public class Ability implements IAbility
     private String effectText;
     private String shortDescription;
     private ISpell spellCopied;
-    private IBonus[] bonuses;
-    private IPenalty[] penalties;
+    private List<IBonus> bonuses;
+    private List<IPenalty> penalties;
 
     //region Getters and Setters
     @Override
@@ -66,25 +68,25 @@ public class Ability implements IAbility
     }
 
     @Override
-    public IBonus[] getBonuses()
+    public List<IBonus> getBonuses()
     {
         return bonuses;
     }
 
     @Override
-    public void setBonuses(IBonus[] bonuses)
+    public void setBonuses(List<IBonus> bonuses)
     {
         this.bonuses = bonuses;
     }
 
     @Override
-    public IPenalty[] getPenalties()
+    public List<IPenalty> getPenalties()
     {
         return penalties;
     }
 
     @Override
-    public void setPenalties(IPenalty[] penalties)
+    public void setPenalties(List<IPenalty> penalties)
     {
         this.penalties = penalties;
     }
@@ -101,7 +103,7 @@ public class Ability implements IAbility
         //Default Constructor
     }
 
-    public Ability(String name, AbilityTypeEnum abilityType, String effectText, ISpell spellCopied, IBonus[] bonuses, IPenalty[] penalties, String shortDescription)
+    public Ability(String name, AbilityTypeEnum abilityType, String effectText, ISpell spellCopied, List<IBonus> bonuses, List<IPenalty> penalties, String shortDescription)
     {
         setName(name);
         setAbilityType(abilityType);

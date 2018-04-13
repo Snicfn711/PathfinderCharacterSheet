@@ -2,6 +2,8 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 
+import java.util.List;
+
 /**
  * Created by Stephen Hagen on 1/2/2018.
  */
@@ -16,10 +18,10 @@ public interface IAbility
     void setEffectText(String effectText);
     ISpell getSpellCopied();
     void setSpellCopied(ISpell spellCopied);
-    IBonus[] getBonuses();
-    void setBonuses(IBonus[] bonuses);
-    IPenalty[] getPenalties();
-    void setPenalties(IPenalty[] penalties);
+    List<IBonus> getBonuses();
+    void setBonuses(List<IBonus> bonuses);
+    List<IPenalty> getPenalties();
+    void setPenalties(List<IPenalty> penalties);
     String getShortDescription();
     void setShortDescription(String shortDescription);
 }

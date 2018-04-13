@@ -15,21 +15,12 @@ public class Weapon extends AbsItem implements IWeapon
 {
     private WeaponFamilyEnum family;
     private int range;
-    private boolean reach;
-    private boolean thrown;
-    private boolean doubleheaded;
-    private boolean projectile;
+    private List<WeaponTagEnum> weaponTags;
     private WeaponWeightClassEnum weightClass;
-    private boolean improvised;
-    private Damage[] damage;
+    private List<Damage> damage;
     private int criticalMultiplier;
     private int criticalRange; //Rather than being an actual range like 19-20, this is instead the number of critical values, so the default is 1, 19-20 is 2, 18-20 is 3, etc
-    private boolean brace;
-    private WeaponDamageTypeEnum[] damageType;
-    private boolean disarm;
-    private boolean monk;
-    private boolean trip;
-    private boolean nonLethal;
+    private List<WeaponDamageTypeEnum> damageType;
     private String material;
     private boolean masterwork;
     private boolean isMagic;
@@ -64,51 +55,15 @@ public class Weapon extends AbsItem implements IWeapon
     }
 
     @Override
-    public boolean hasReach()
+    public List<WeaponTagEnum> getWeaponTags()
     {
-        return reach;
+        return weaponTags;
     }
 
     @Override
-    public void setReach(boolean hasReach)
+    public void setWeaponTags(List<WeaponTagEnum> weaponTags)
     {
-        this.reach = hasReach;
-    }
-
-    @Override
-    public boolean isThrown()
-    {
-        return thrown;
-    }
-
-    @Override
-    public void setThrown(boolean isThrown)
-    {
-        this.thrown = isThrown;
-    }
-
-    @Override
-    public boolean isDoubleheaded()
-    {
-        return doubleheaded;
-    }
-
-    @Override
-    public void setDoubleheaded(boolean isDoubleheaded)
-    {
-        this.doubleheaded = doubleheaded;
-    }
-
-    @Override
-    public boolean usesProjectile()
-    {
-        return projectile;
-    }
-
-    @Override
-    public void setProjectile(boolean usesProjectile)
-    {
-        this.projectile = usesProjectile;
+        this.weaponTags = weaponTags;
     }
 
     @Override
@@ -124,18 +79,6 @@ public class Weapon extends AbsItem implements IWeapon
     }
 
     @Override
-    public boolean isImprovised()
-    {
-        return improvised;
-    }
-
-    @Override
-    public void setImprovised(boolean isImprovised)
-    {
-        this.improvised = isImprovised;
-    }
-
-    @Override
     public int getMagicBonus()
     {
         return magicBonus;
@@ -148,13 +91,13 @@ public class Weapon extends AbsItem implements IWeapon
     }
 
     @Override
-    public Damage[] getDamage()
+    public List<Damage> getDamage()
     {
         return damage;
     }
 
     @Override
-    public void setDamage(Damage[] damage)
+    public void setDamage(List<Damage> damage)
     {
         this.damage = damage;
     }
@@ -184,75 +127,15 @@ public class Weapon extends AbsItem implements IWeapon
     }
 
     @Override
-    public boolean canBrace()
-    {
-        return brace;
-    }
-
-    @Override
-    public void setBrace(boolean brace)
-    {
-        this.brace = brace;
-    }
-
-    @Override
-    public WeaponDamageTypeEnum[] getDamageType()
+    public List<WeaponDamageTypeEnum> getDamageType()
     {
         return damageType;
     }
 
     @Override
-    public void setDamageType(WeaponDamageTypeEnum[] damageType)
+    public void setDamageType(List<WeaponDamageTypeEnum> damageType)
     {
         this.damageType = damageType;
-    }
-
-    @Override
-    public boolean canDisarm()
-    {
-        return disarm;
-    }
-
-    @Override
-    public void setDisarm(boolean disarm)
-    {
-        this.disarm = disarm;
-    }
-
-    @Override
-    public boolean isMonk()
-    {
-        return monk;
-    }
-
-    @Override
-    public void setMonk(boolean monk)
-    {
-        this.monk = monk;
-    }
-
-    @Override
-    public boolean canTrip()
-    {
-        return trip;
-    }
-
-    @Override
-    public void setTrip(boolean trip)
-    {
-        this.trip = trip;
-    }
-
-    @Override
-    public boolean isNonLethal()
-    {
-        return nonLethal;
-    }
-
-    @Override
-    public void setNonLethal(boolean nonLethal)
-    {
-        this.nonLethal = nonLethal;
     }
 
     @Override
@@ -333,27 +216,17 @@ public class Weapon extends AbsItem implements IWeapon
         //Default constructor
     }
 
-    public Weapon(String name, WeaponFamilyEnum family, int range, boolean reach, boolean thrown, boolean doubleheaded, boolean projectile, WeaponWeightClassEnum weightClass, boolean improvised, double cost, Damage[] damage, int criticalMultiplier, int criticalRange, boolean brace, WeaponDamageTypeEnum[] damageType, boolean disarm, boolean monk, boolean trip, boolean nonLethal, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize, int requiredStrength, List<IAbility> abilities)
+    public Weapon(String name, WeaponFamilyEnum family, int range, List<WeaponTagEnum> weaponTags, WeaponWeightClassEnum weightClass, double cost, List<Damage> damage, int criticalMultiplier, int criticalRange, List<WeaponDamageTypeEnum> damageType, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize, int requiredStrength, List<IAbility> abilities)
     {
         setName(name);
         setFamily(family);
         setRange(range);
-        setReach(reach);
-        setThrown(thrown);
-        setDoubleheaded(doubleheaded);
-        setProjectile(projectile);
         setWeightClass(weightClass);
-        setImprovised(improvised);
         setCost(cost);
         setDamage(damage);
         setCriticalMultiplier(criticalMultiplier);
         setCriticalRange(criticalRange);
-        setBrace(brace);
         setDamageType(damageType);
-        setDisarm(disarm);
-        setMonk(monk);
-        setTrip(trip);
-        setNonLethal(nonLethal);
         setMaterial(material);
         setMasterwork(masterwork);
         setIsMagic(isMagic);
@@ -362,6 +235,7 @@ public class Weapon extends AbsItem implements IWeapon
         setWeightAtMediumSize(weightAtMediumSize);
         setRequiredStrength(requiredStrength);
         setAbilities(abilities);
+        setWeaponTags(weaponTags);
     }
 
     public String createAbilitiesString()

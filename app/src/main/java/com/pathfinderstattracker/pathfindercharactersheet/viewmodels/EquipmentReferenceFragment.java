@@ -28,6 +28,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponFam
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -42,22 +43,13 @@ public class EquipmentReferenceFragment extends Fragment
     private Weapon sword = new Weapon("Longsword",
                                      WeaponFamilyEnum.Martial,
                                      0,
-                                     false,
-                                     false,
-                                     false,
-                                     false,
+                                     null,
                                      WeaponWeightClassEnum.OneHanded,
-                                     false,
                                      315,
-                                     new Damage[]{new Damage(1,8), new Damage(1,6)},
+                                     new ArrayList<Damage>(),
                                      2,
                                      1,
-                                     false,
-                                     new WeaponDamageTypeEnum[]{WeaponDamageTypeEnum.Slashing},
-                                     false,
-                                     false,
-                                     false,
-                                     false,
+                                     new ArrayList<WeaponDamageTypeEnum>(),
                                      "Steel",
                                      true,
                                      false,
