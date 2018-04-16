@@ -16,6 +16,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentRe
 import com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView;
 
+import java.util.List;
+
 import static com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher.SwitchVisibility;
 
 /**
@@ -24,10 +26,10 @@ import static com.pathfinderstattracker.pathfindercharactersheet.tools.Visibilit
 public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<EquipmentRecyclerViewAdapter.ViewHolder>
 {
 
-    private final IEquipment[] mValues;
+    private final List<IEquipment> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public EquipmentRecyclerViewAdapter(IEquipment[] items, OnListFragmentInteractionListener listener)
+    public EquipmentRecyclerViewAdapter(List<IEquipment> items, OnListFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -44,10 +46,10 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
-        holder.mEquipment = mValues[position];
+        holder.mEquipment = mValues.get(position);
         if(holder.mEquipment.getMagicBonus() > 0)
         {
-            holder.magicBonus.setText("+" + Integer.toString(mValues[position].getMagicBonus()) + " ");
+            holder.magicBonus.setText("+" + Integer.toString(holder.mEquipment.getMagicBonus()) + " ");
         }
         else
         {
@@ -112,7 +114,7 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
     @Override
     public int getItemCount()
     {
-        return mValues.length;
+        return mValues.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder

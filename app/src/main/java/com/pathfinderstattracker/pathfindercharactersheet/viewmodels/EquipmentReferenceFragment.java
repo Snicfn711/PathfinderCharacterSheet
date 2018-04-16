@@ -20,10 +20,12 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Weapon;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDamageTypeEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponFamilyEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
 
@@ -40,6 +42,8 @@ public class EquipmentReferenceFragment extends Fragment
 {
 
     //region Temp Equipment List
+    private WeaponEnchantment flaming = new WeaponEnchantment("Flaming",new Damage(1,6), "Fire");
+    private ArrayList<IWeaponEnchantment> tempEnchantments = new ArrayList<>();
     private Weapon sword = new Weapon("Longsword",
                                      WeaponFamilyEnum.Martial,
                                      0,
@@ -84,7 +88,7 @@ public class EquipmentReferenceFragment extends Fragment
                                       0,
                                       true,
                                       null);
-    private IEquipment[] TempEquipment = new IEquipment[]{sword, plate, tower};
+    private List<IEquipment> TempEquipment = new ArrayList<IEquipment>();
     //endregion
 
     // TODO: Customize parameter argument names
@@ -105,7 +109,7 @@ public class EquipmentReferenceFragment extends Fragment
     {
 
         // TODO: Customize parameter initialization
-        //We don't have any parameters yet, so we're not doing anything here yet
+        //We don't have any parameters yet, so we're not doing anything here
         EquipmentReferenceFragment fragment = new EquipmentReferenceFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -115,6 +119,18 @@ public class EquipmentReferenceFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        ArrayList<WeaponDamageTypeEnum> typeList = new ArrayList<WeaponDamageTypeEnum>();
+        typeList.add(WeaponDamageTypeEnum.Slashing);
+        ArrayList<Damage> damageList = new ArrayList<Damage>();
+        damageList.add(new Damage(1,8));
+        tempEnchantments.add(flaming);
+        sword.setEnchantments(tempEnchantments);
+        sword.setDamageType(typeList);
+        sword.setDamage(damageList);
+        TempEquipment.add(sword);
+        TempEquipment.add(plate);
+        TempEquipment.add(tower);
+
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null)

@@ -16,6 +16,8 @@ import java.util.List;
 
 public interface IWeaponEnchantment
 {
+    String getName();
+    void setName(String name);
     AbilityScoreEnum getCheckedAbilityScore();
     void setCheckedAbilityScore(AbilityScoreEnum abilityScore);
     ISkill getCheckedSkill();
@@ -28,6 +30,8 @@ public interface IWeaponEnchantment
     void setRequiredTags(List<WeaponTagEnum> weaponTags);
     Damage getDamageDice();
     void setDamageDice(Damage damageDice);
+    String getAddedDamageType();
+    void setAddedDamageType(String addedDamageType);//We wanted to used the enchantments condition for this, but this string will most likely end up immediately following the extra damage value, rather than being applied to everything the weapon does.
     String getDamageCondition();//Damage condition here refers to things like "vs evil", "vs creatures with the fire type", etc
     void setDamageCondition(String damageCondition);
     int getConditionalEnhancementBonus();
@@ -39,15 +43,15 @@ public interface IWeaponEnchantment
     String getAttackBonusCondition();
     void setAttackBonusCondition(String atackBonusCondition);
     int getEnchantmentCharges();
-    void setEnchantmentCharges(Integer enchantmentCharges);
+    void setEnchantmentCharges(int enchantmentCharges);
     IFeat getFeatAbilityForBonusCharges();
-    void setFeatAbilityForBonusCharges(IFeat featForBonusCharges);
+    void setFeatAbilityForBonusCharges(IFeat featAbilityForBonusCharges);
     int getNumberOfFeatAbilityBonusCharges();
-    void setNumberOfFeatAbilityBonusCharges(Integer numberOfFeatAbilityBonusCharges);
+    void setNumberOfFeatAbilityBonusCharges(int numberOfFeatAbilityBonusCharges);
     IAbility getClassAbilityForBonusCharges();
-    void setClassAbilityForBonusCharges(IAbility abilityForBonusCharges);
+    void setClassAbilityForBonusCharges(IAbility classAbilityForBonusCharges);
     int getNumberOfClassAbilityBonusCharges();
-    void setNumberOfClassAbilityBonusCharges(Integer numberOfFeatAbilityBonusCharges);
+    void setNumberOfClassAbilityBonusCharges(int numberOfClassAbilityBonusCharges);
     String getRequiredWeaponName();
     void setRequiredWeaponName(String requiredWeaponName);
     int getCMDBonus();

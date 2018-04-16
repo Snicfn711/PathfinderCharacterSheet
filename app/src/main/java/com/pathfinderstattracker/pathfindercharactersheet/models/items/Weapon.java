@@ -27,7 +27,7 @@ public class Weapon extends AbsItem implements IWeapon
     private int magicBonus;
     private SizeCategoryEnum sizeCategory;
     private int requiredStrength;
-    private List<IAbility> abilities;
+    private List<IWeaponEnchantment> enchantments;
 
     //region Getters and Setters
     @Override
@@ -91,6 +91,18 @@ public class Weapon extends AbsItem implements IWeapon
     }
 
     @Override
+    public List<IAbility> getAbilities()
+    {
+        return null;
+    }
+
+    @Override
+    public void setAbilities(List<IAbility> abilities)
+    {
+        //Todo:This abilities field may have been a mistake. We'll have to come back and figure out what to do with it. At least for weapons
+    }
+
+    @Override
     public List<Damage> getDamage()
     {
         return damage;
@@ -99,6 +111,7 @@ public class Weapon extends AbsItem implements IWeapon
     @Override
     public void setDamage(List<Damage> damage)
     {
+        //Todo: We may want to reexamine how we add damage, since most weapons only start with 1 type (change to an addDamageType(WeaponDamageTypeEnum) method instead?)
         this.damage = damage;
     }
 
@@ -135,6 +148,7 @@ public class Weapon extends AbsItem implements IWeapon
     @Override
     public void setDamageType(List<WeaponDamageTypeEnum> damageType)
     {
+        //Todo: We may want to reexamine how we add damage types, since most weapons only have 1 type (change to an addDamageType(WeaponDamageTypeEnum) method instead?)
         this.damageType = damageType;
     }
 
@@ -196,16 +210,13 @@ public class Weapon extends AbsItem implements IWeapon
         this.requiredStrength = requiredStrength;
     }
 
-    @Override
-    public List<IAbility> getAbilities()
+    public List<IWeaponEnchantment> getEnchantments()
     {
-        return abilities;
+        return enchantments;
     }
-
-    @Override
-    public void setAbilities(List<IAbility> abilities)
+    public void setEnchantments(List<IWeaponEnchantment> enchantments)
     {
-        this.abilities = abilities;
+        this.enchantments = enchantments;
     }
 
     //endregion
@@ -216,7 +227,7 @@ public class Weapon extends AbsItem implements IWeapon
         //Default constructor
     }
 
-    public Weapon(String name, WeaponFamilyEnum family, int range, List<WeaponTagEnum> weaponTags, WeaponWeightClassEnum weightClass, double cost, List<Damage> damage, int criticalMultiplier, int criticalRange, List<WeaponDamageTypeEnum> damageType, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize, int requiredStrength, List<IAbility> abilities)
+    public Weapon(String name, WeaponFamilyEnum family, int range, List<WeaponTagEnum> weaponTags, WeaponWeightClassEnum weightClass, double cost, List<Damage> damage, int criticalMultiplier, int criticalRange, List<WeaponDamageTypeEnum> damageType, String material, boolean masterwork, boolean isMagic, int magicBonus, SizeCategoryEnum sizeCategory, double weightAtMediumSize, int requiredStrength, List<IWeaponEnchantment> enchantments)
     {
         setName(name);
         setFamily(family);
@@ -234,18 +245,18 @@ public class Weapon extends AbsItem implements IWeapon
         setSizeCategory(sizeCategory);
         setWeightAtMediumSize(weightAtMediumSize);
         setRequiredStrength(requiredStrength);
-        setAbilities(abilities);
+        setEnchantments(enchantments);
         setWeaponTags(weaponTags);
     }
 
     public String createAbilitiesString()
     {
-        StringBuilder abilitiesString = new StringBuilder("");
-        if(abilities != null && abilities.size() > 1) {
-            for (IAbility ability : abilities) {
-                abilitiesString.append(ability.getName()).append(" ");
+        StringBuilder enchantmentString = new StringBuilder("");
+        if(enchantments != null && enchantments.size() > 1) {
+            for (IWeaponEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
             }
-            return abilitiesString.toString();
+            return enchantmentString.toString();
         }
         else
         {
