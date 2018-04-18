@@ -8,5 +8,6 @@ public enum WeaponWeightClassEnum
 {
     Light,
     OneHanded,
-    TwoHanded
+    TwoHanded,
+    Ranged
 }

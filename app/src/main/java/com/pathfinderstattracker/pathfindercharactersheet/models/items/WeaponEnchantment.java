@@ -17,7 +17,7 @@ import java.util.List;
 
 public class WeaponEnchantment implements IWeaponEnchantment
 {
-    private int goldCost = 0;
+    private double goldCost = 0;
     private int enhancementBonusPointCost = 0;
     private String name;
     private AbilityScoreEnum checkedAbilityScore;
@@ -61,6 +61,8 @@ public class WeaponEnchantment implements IWeaponEnchantment
     private IFeat addedFeat;
     private ISense addedSense;
     private boolean damagesWielder;
+    private WeaponWeightClassEnum requiredWeightClass;
+    private List<WeaponWeightClassEnum> restrictedWeightClasses;
     //region Getters and Setters
     @Override
     public String getName(){return name;}
@@ -567,25 +569,162 @@ public class WeaponEnchantment implements IWeaponEnchantment
         this.enhancementBonusPointCost = enhancementBonusPointCost;
     }
     @Override
-    public int getGoldCost(){return goldCost;}
+    public double getGoldCost(){return goldCost;}
     @Override
-    public void setGoldCost(int goldCost)
+    public void setGoldCost(double goldCost)
     {
         this.goldCost = goldCost;
     }
+    @Override
+    public WeaponWeightClassEnum getRequiredWeightClass() {return requiredWeightClass;}
+    @Override
+    public void setRequiredWeightClass(WeaponWeightClassEnum requiredWeightClass)
+    {
+        this.requiredWeightClass = requiredWeightClass;
+    }
+    @Override
+    public List<WeaponWeightClassEnum>getRestrictedWeightClasses(){return restrictedWeightClasses;}
+    @Override
+    public void setRestrictedWeightClasses(List<WeaponWeightClassEnum> restrictedWeightClasses)
+    {
+        this.restrictedWeightClasses = restrictedWeightClasses;
+    }
     //endregion
 
+    //region Constructors
     public WeaponEnchantment()
     {
         //Do nothing
     }
 
-    public WeaponEnchantment(String name, Damage addedDamage, String addedDamageType, int enchancementBonusCost)
+    public WeaponEnchantment(double goldCost, int enhancementBonusPointCost, String name, AbilityScoreEnum checkedAbilityScore, ISkill checkedSkill, AlignmentEnum requiredAlignment, WeaponDamageTypeEnum requiredDamageType, List<WeaponTagEnum> requiredTags, Damage addedDamage, String addedDamageType, String damageDiceCondition, int conditionalEnhancementBonus, String enhancementBonusCondition, int conditionalAttackBonus, String attackBonusCondition, int enchantmentCharges, IFeat featAbilityForBonusCharges, int numberOfFeatAbilityBonusCharges, IAbility classAbilityForBonusCharges, int numberOfClassAbilityBonusCharges, String requiredWeaponName, int bonusToCMB, String conditionForCMBBonus, int bonusToCMD, String conditionForCMDBonus, String enchantmentConditions, String enchantmentFullText, ISkill additionalSkillCheck, boolean allowsAdditionalCMBCheck, String saveForBonus, String conditionForBonusToSave, boolean changesSize, ISkill skillForBonus, String conditionForBonusToSkill, boolean changesDamageDiceSize, boolean changesCriticalRange, IAbility abilityForIncreasedDC, int rangeMultiplier, int rangeModifier, int misfireDecrease, List<IWeaponEnchantment> restrictedWeaponEnchantments, IFeat addedFeat, ISense addedSense, boolean damagesWielder, WeaponWeightClassEnum requiredWeightClass, List<WeaponWeightClassEnum> restrictedWeightClasses)
+    {
+        //Our catch-all constructor that will most likely be used to pull items from the database
+        setGoldCost(goldCost);
+        setEnhancementBonusPointCost(enhancementBonusPointCost);
+        setName(name);
+        setCheckedAbilityScore(checkedAbilityScore);
+        setCheckedSkill(checkedSkill);
+        setRequiredAlignment(requiredAlignment);
+        setRequiredDamageType(requiredDamageType);
+        setRequiredTags(requiredTags);
+        setDamageDice(addedDamage);
+        setAddedDamageType(addedDamageType);
+        setDamageCondition(damageDiceCondition);
+        setConditionalEnhancementBonus(conditionalEnhancementBonus);
+        setEnhancementBonusCondition(enhancementBonusCondition);
+        setConditionalAttackBonus(conditionalAttackBonus);
+        setAttackBonusCondition(attackBonusCondition);
+        setEnchantmentCharges(enchantmentCharges);
+        setFeatAbilityForBonusCharges(featAbilityForBonusCharges);
+        setNumberOfFeatAbilityBonusCharges(numberOfFeatAbilityBonusCharges);
+        setClassAbilityForBonusCharges(classAbilityForBonusCharges);
+        setNumberOfClassAbilityBonusCharges(numberOfClassAbilityBonusCharges);
+        setRequiredWeaponName(requiredWeaponName);
+        setCMBBonus(bonusToCMB);
+        setCMBBonusCondition(conditionForCMBBonus);
+        setCMDBonus(bonusToCMD);
+        setCMDBonusCondition(conditionForCMDBonus);
+        setEnchantmentConditionsText(enchantmentConditions);
+        setEnchantmentText(enchantmentFullText);
+        setAdditionalSkillCheck(additionalSkillCheck);
+        setAllowsAdditionalCMBCheck(allowsAdditionalCMBCheck);
+        setSaveForBonus(saveForBonus);
+        setConditionForBonusToSave(conditionForBonusToSave);
+        setChangesSize(changesSize);
+        setSkillForBonus(skillForBonus);
+        setConditionForSkillbonus(conditionForBonusToSkill);
+        setChangesDamageDiceSize(changesDamageDiceSize);
+        setChangesCriticalRange(changesCriticalRange);
+        setAbilityForIncreasedDC(abilityForIncreasedDC);
+        setRangeMultiplier(rangeMultiplier);
+        setRangeModifier(rangeModifier);
+        setMisfireDecrease(misfireDecrease);
+        setRestrictedWeaponEnchantments(restrictedWeaponEnchantments);
+        setAddedFeat(addedFeat);
+        setAddedSenses(addedSense);
+        setDoesDamageToWielder(damagesWielder);
+        setRequiredWeightClass(requiredWeightClass);
+        setRestrictedWeightClasses(restrictedWeightClasses);
+    }
+
+    public WeaponEnchantment(String name, String enchantmentFullText, Damage addedDamage, String addedDamageType, int enchancementBonusCost)
     {
         //This constructor is meant for the elemental enchantments(fire, frost, lightning, etc)
         setName(name);
+        setEnchantmentText(enchantmentFullText);
         setDamageDice(addedDamage);
         setAddedDamageType(addedDamageType);
         setEnhancementBonusPointCost(enchancementBonusCost);
     }
+
+    public WeaponEnchantment(String name, String enchantmentFullText, AbilityScoreEnum checkedAbilityScore, List<WeaponTagEnum> requiredTags, WeaponWeightClassEnum requiredWeightClass, int goldCost)
+    {
+        //This constructor is meant for the Adaptive Enchantment
+        setName(name);
+        setEnchantmentText(enchantmentFullText);
+        setCheckedAbilityScore(checkedAbilityScore);
+        setRequiredTags(requiredTags);
+        setRequiredWeightClass(requiredWeightClass);
+        setGoldCost(goldCost);
+    }
+
+    public WeaponEnchantment(String name, String enchantmentFullText, List<WeaponWeightClassEnum> restrictedWeightClasses, int enhancementBonusPointCost)
+    {
+        //This constructor is for text only enchantments with a weight class restriction on them such as Advancing
+        setName(name);
+        setEnchantmentText(enchantmentFullText);
+        setEnhancementBonusPointCost(enhancementBonusPointCost);
+        setRestrictedWeightClasses(restrictedWeightClasses);
+    }
+
+    public WeaponEnchantment(String name, String enchantmentFullText, AbilityScoreEnum checkedAbilityScore, List<WeaponTagEnum> requiredTags, List<WeaponWeightClassEnum> restrictedWeightClasses, int enhancementBonusPointCost)
+    {
+        //This constructor is for the Agile enchantment
+        setName(name);
+        setEnchantmentText(enchantmentFullText);
+        setCheckedAbilityScore(checkedAbilityScore);
+        setRequiredTags(requiredTags);
+        setRestrictedWeightClasses(restrictedWeightClasses);
+        setEnhancementBonusPointCost(enhancementBonusPointCost);
+    }
+
+    public WeaponEnchantment(String name, String enchantmentFullText, int enhancementBonusPointCost)
+    {
+        //This constructor is for text only enchantments with an enhancement bonus point cost
+        setName(name);
+        setEnchantmentText(enchantmentFullText);
+        setEnhancementBonusPointCost(enhancementBonusPointCost);
+    }
+
+    public WeaponEnchantment(String name, String enchantmentFullText, double goldCost)
+    {
+        //This constructor is for text only enchantments with a gold cost
+        setName(name);
+        setEnchantmentText(enchantmentFullText);
+        setGoldCost(goldCost);
+    }
+
+    public WeaponEnchantment(String name, String enchantmentFullText, int enhancementBonusPointCost, Damage addedDamage, String damageDiceCondition)
+    {
+        //This constructor is for enchantments that add conditional damage, such as Ambushing
+        setName(name);
+        setEnchantmentText(enchantmentFullText);
+        setEnhancementBonusPointCost(enhancementBonusPointCost);
+        setDamageDice(addedDamage);
+        setDamageCondition(damageDiceCondition);
+    }
+
+    public WeaponEnchantment(String name, String enchantmentFullText, int enhancementBonusPointCost, Damage addedDamage, String damageDiceCondition, AlignmentEnum requiredAlignment)
+    {
+        //This constructor is for the alignment enchantments (Lawful, Anarchic, Holy, and Profane)
+        setName(name);
+        setEnchantmentText(enchantmentFullText);
+        setEnhancementBonusPointCost(enhancementBonusPointCost);
+        setDamageDice(addedDamage);
+        setDamageCondition(damageDiceCondition);
+        setRequiredAlignment(requiredAlignment);
+    }
+    //endregion
+
 }

@@ -98,4 +98,8 @@ public interface IWeaponEnchantment extends IEquipmentEnchantment
     void setAddedSenses(ISense addedSenses);
     boolean doesDamageToWielder();
     void setDoesDamageToWielder(boolean doesDamageToWielder);
+    WeaponWeightClassEnum getRequiredWeightClass();
+    void setRequiredWeightClass(WeaponWeightClassEnum weaponWeightClassEnum);
+    public List<WeaponWeightClassEnum>getRestrictedWeightClasses();
+    public void setRestrictedWeightClasses(List<WeaponWeightClassEnum> restrictedWeightClasses);
 }

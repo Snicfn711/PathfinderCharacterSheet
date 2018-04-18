@@ -10,6 +10,6 @@ public interface IEquipmentEnchantment
     void setName(String name);
     int getEnhancementBonusPointCost();
     void setEnhancementBonusPointCost(int enhancementBonusPointCost);
-    int getGoldCost();
-    void setGoldCost(int goldCost);
+    double getGoldCost(); //Technically no enchantment uses less than a single gold, but we're using a double for gold everywhere else, and it allows us to more easily overload our constructors
+    void setGoldCost(double goldCost);
 }

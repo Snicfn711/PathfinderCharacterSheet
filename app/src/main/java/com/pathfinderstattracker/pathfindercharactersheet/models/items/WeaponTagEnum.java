@@ -15,5 +15,7 @@ public enum WeaponTagEnum
     Disarm,
     Monk,
     Trip,
-    Nonlethal
+    Nonlethal,
+    Composite,
+    Finesse
 }
