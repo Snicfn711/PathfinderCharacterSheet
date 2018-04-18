@@ -18,7 +18,4 @@ public interface IEquipment extends IItem
     void setIsMagic(boolean isMagic);
     int getMagicBonus();
     void setMagicBonus(int magicBonus);
-    List<IAbility> getAbilities();
-    void setAbilities(List<IAbility> abilities);
-    String createAbilitiesString();
 }

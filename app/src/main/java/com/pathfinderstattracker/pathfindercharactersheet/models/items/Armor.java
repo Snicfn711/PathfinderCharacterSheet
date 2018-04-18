@@ -1,7 +1,5 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
-import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class Armor extends AbsItem implements IArmor
     private ArmorWeightCategoryEnum weightCategory;
     private SizeCategoryEnum armorSize;
     private boolean isMagic;
-    private List<IAbility> abilities;
+    private List<IArmorEnchantment> enchantments;
 
     //region Getters and Setters
     @Override
@@ -133,16 +131,14 @@ public class Armor extends AbsItem implements IArmor
         this.isMagic = isMagic;
     }
 
-    @Override
-    public List<IAbility> getAbilities()
+    public List<IArmorEnchantment> getEnchantments()
     {
-        return abilities;
+        return enchantments;
     }
 
-    @Override
-    public void setAbilities(List<IAbility> abilities)
+    public void setEnchantments(List<IArmorEnchantment> enchantments)
     {
-        this.abilities = abilities;
+        this.enchantments = enchantments;
     }
 
     @Override
@@ -164,7 +160,7 @@ public class Armor extends AbsItem implements IArmor
         //Default constructor
     }
 
-    public Armor(String name, double cost, int acBonus, int magicBonus, Integer maximumDexBonus, Integer armorCheckPenalty, Integer arcaneSpellFailureChance, Integer maxSpeed, ArmorWeightCategoryEnum weightCategory, double weightAtMediumSize, SizeCategoryEnum armorSize, boolean isMagic, List<IAbility> abilities)
+    public Armor(String name, double cost, int acBonus, int magicBonus, Integer maximumDexBonus, Integer armorCheckPenalty, Integer arcaneSpellFailureChance, Integer maxSpeed, ArmorWeightCategoryEnum weightCategory, double weightAtMediumSize, SizeCategoryEnum armorSize, boolean isMagic, List<IArmorEnchantment> enchantments)
     {
         setName(name);
         setCost(cost);
@@ -178,22 +174,7 @@ public class Armor extends AbsItem implements IArmor
         setWeightAtMediumSize(weightAtMediumSize);
         setSizeCategory(armorSize);
         setIsMagic(isMagic);
-        setAbilities(abilities);
-    }
-
-    public String createAbilitiesString()
-    {
-        String abilitiesString = new String();
-        if(abilities != null && abilities.size() > 1) {
-            for (IAbility ability : abilities) {
-                abilitiesString += ability.getName() + " ";
-            }
-            return abilitiesString;
-        }
-        else
-        {
-            return "None";
-        }
+        setEnchantments(enchantments);
     }
 
     public double getCurrentWeight()

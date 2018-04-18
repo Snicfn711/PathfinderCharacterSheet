@@ -7,11 +7,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment.OnListFragmentInteractionListener;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView;
@@ -20,16 +23,13 @@ import java.util.List;
 
 import static com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher.SwitchVisibility;
 
-/**
- * TODO: Replace the implementation with code for your data type.
- */
-public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<EquipmentRecyclerViewAdapter.ViewHolder>
+public class EnchantableEquipmentRecyclerViewAdapter extends RecyclerView.Adapter<EnchantableEquipmentRecyclerViewAdapter.ViewHolder>
 {
 
     private final List<IEquipment> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public EquipmentRecyclerViewAdapter(List<IEquipment> items, OnListFragmentInteractionListener listener)
+    public EnchantableEquipmentRecyclerViewAdapter(List<IEquipment> items, OnListFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -47,34 +47,46 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mEquipment = mValues.get(position);
+        
         if(holder.mEquipment.getMagicBonus() > 0)
         {
-            holder.magicBonus.setText("+" + Integer.toString(holder.mEquipment.getMagicBonus()) + " ");
+            holder.magicBonus.setText(String.format("+%s ", Integer.toString(holder.mEquipment.getMagicBonus())));
         }
         else
         {
             holder.magicBonus.setVisibility(View.GONE);
         }
-
-        String abilitiesOnEquipment = holder.mEquipment.createAbilitiesString();
-        holder.abilities.setText(abilitiesOnEquipment);
-        if(abilitiesOnEquipment.equals("None"))
-        {
-            holder.abilities.setVisibility(View.GONE);
-        }
         holder.equipmentName.setText(holder.mEquipment.getName());
         holder.equipmentLabel.setText(holder.mEquipment.getClass().getSimpleName());
         if(holder.mEquipment instanceof IWeapon)
-        {
+        {            
+            String equipmentEnchantments = CreateEnchantmentString((IWeapon)holder.mEquipment);
+            holder.abilities.setText(equipmentEnchantments);
             holder.weaponDetailView.setValues((IWeapon)holder.mEquipment);
+            if(equipmentEnchantments.equals("None"))
+            {
+                holder.abilities.setVisibility(View.GONE);
+            }
         }
         else if(holder.mEquipment instanceof IArmor)
-        {
+        {            
+            String equipmentEnchantments = CreateEnchantmentString((IArmor)holder.mEquipment);
+            holder.abilities.setText(equipmentEnchantments);
             holder.protectionDetailView.setValues((IArmor)holder.mEquipment);
+            if(equipmentEnchantments.equals("None"))
+            {
+                holder.abilities.setVisibility(View.GONE);
+            }
         }
         else if(holder.mEquipment instanceof IShield)
-        {
+        {            
+            String equipmentEnchantments = CreateEnchantmentString((IShield)holder.mEquipment);
+            holder.abilities.setText(equipmentEnchantments);
             holder.protectionDetailView.setValues((IShield)holder.mEquipment);
+            if(equipmentEnchantments.equals("None"))
+            {
+                holder.abilities.setVisibility(View.GONE);
+            }
         }
 
 
@@ -93,14 +105,14 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
                     {
                         SwitchVisibility(holder.magicBonus);
                     }
-                    if(holder.mEquipment.getAbilities()!= null && holder.mEquipment.getAbilities().size() > 1)
-                    {
-                        SwitchVisibility(holder.abilities);
-                    }
                     SwitchVisibility(holder.equipmentName);
                     if(holder.mEquipment instanceof IWeapon)
                     {
                         SwitchVisibility(holder.weaponDetailView);
+                        if(((IWeapon)holder.mEquipment).getEnchantments() != null && ((IWeapon)holder.mEquipment).getEnchantments().size() >= 1)
+                        {
+                            SwitchVisibility(holder.abilities);
+                        }
                     }
                     else if(holder.mEquipment instanceof IProtection)
                     {
@@ -146,4 +158,53 @@ public class EquipmentRecyclerViewAdapter extends RecyclerView.Adapter<Equipment
             return super.toString() + " '" + equipmentName.getText() + "'";
         }
     }
+
+    private String CreateEnchantmentString(IWeapon weapon)
+    {
+        List<IWeaponEnchantment> enchantments = weapon.getEnchantments();
+        StringBuilder enchantmentString = new StringBuilder();
+        if(enchantments != null && enchantments.size() >= 1) {
+            for (IWeaponEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
+            }
+            return enchantmentString.toString();
+        }
+        else
+        {
+            return "None";
+        }
+    }
+
+    private String CreateEnchantmentString(IArmor armor)
+    {
+        List<IArmorEnchantment> enchantments = armor.getEnchantments();
+        StringBuilder enchantmentString = new StringBuilder();
+        if(enchantments != null && enchantments.size() >= 1) {
+            for (IArmorEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
+            }
+            return enchantmentString.toString();
+        }
+        else
+        {
+            return "None";
+        }
+    }
+
+    private String CreateEnchantmentString(IShield shield)
+    {
+        List<IWeaponEnchantment> enchantments = shield.getEnchantments();
+        StringBuilder enchantmentString = new StringBuilder();
+        if(shield.getEnchantments() != null && enchantments.size() >= 1) {
+            for (IWeaponEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
+            }
+            return enchantmentString.toString();
+        }
+        else
+        {
+            return "None";
+        }
+    }
+
 }

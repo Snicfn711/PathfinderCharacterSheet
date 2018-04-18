@@ -12,9 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.EquipmentRecyclerViewAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.EnchantableEquipmentRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
@@ -42,7 +40,7 @@ public class EquipmentReferenceFragment extends Fragment
 {
 
     //region Temp Equipment List
-    private WeaponEnchantment flaming = new WeaponEnchantment("Flaming",new Damage(1,6), "Fire");
+    private WeaponEnchantment flaming = new WeaponEnchantment("Flaming",new Damage(1,6), "Fire", +1);
     private ArrayList<IWeaponEnchantment> tempEnchantments = new ArrayList<>();
     private Weapon sword = new Weapon("Longsword",
                                      WeaponFamilyEnum.Martial,
@@ -148,7 +146,7 @@ public class EquipmentReferenceFragment extends Fragment
 
         // Set the adapter
         final RecyclerView recyclerView =  rootView.findViewById(R.id.EquipmentRecycler);
-        final EquipmentRecyclerViewAdapter equipmentAdapter = new EquipmentRecyclerViewAdapter(TempEquipment, mListener);
+        final EnchantableEquipmentRecyclerViewAdapter equipmentAdapter = new EnchantableEquipmentRecyclerViewAdapter(TempEquipment, mListener);
         recyclerView.setAdapter(equipmentAdapter);
 
         //Set up the animations for clicking our sort buttons

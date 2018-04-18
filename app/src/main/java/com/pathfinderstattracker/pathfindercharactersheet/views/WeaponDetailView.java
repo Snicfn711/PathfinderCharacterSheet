@@ -8,6 +8,9 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEnchantment;
+
+import java.util.List;
 
 /**
  * TODO: document your custom view class.
@@ -49,13 +52,29 @@ public class WeaponDetailView extends ConstraintLayout
 
     public void setValues(IWeapon weapon)
     {
-        this.magicBonus.setText("+" + Integer.toString(weapon.getMagicBonus()) + " ");
-        this.equipmentAbilities.setText(weapon.createAbilitiesString());
+        this.magicBonus.setText(String.format("+%s ", Integer.toString(weapon.getMagicBonus())));
+        this.equipmentAbilities.setText(CreateEnchantmentString(weapon));
         this.equipmentName.setText(weapon.getName());
         this.equipmentCritical.setText(weapon.returnCriticalString());
         this.damageTypes.setText(weapon.returnDamageTypes());
         this.equipmentRange.setText(Integer.toString(weapon.getRange()));
         this.equipmentDamage.setText(weapon.returnDamageDice());
+    }
+
+    private String CreateEnchantmentString(IWeapon weapon)
+    {
+        List<IWeaponEnchantment> enchantments = weapon.getEnchantments();
+        StringBuilder enchantmentString = new StringBuilder();
+        if(enchantments != null && enchantments.size() >= 1) {
+            for (IWeaponEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
+            }
+            return enchantmentString.toString();
+        }
+        else
+        {
+            return "None";
+        }
     }
 
 }

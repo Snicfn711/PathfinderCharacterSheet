@@ -126,7 +126,6 @@ public class WondrousItems extends AbsItem implements IWondrousItems
         setACBonus(acBonus);
     }
 
-    @Override
     public String createAbilitiesString()
     {
         StringBuilder abilitiesString = new StringBuilder();

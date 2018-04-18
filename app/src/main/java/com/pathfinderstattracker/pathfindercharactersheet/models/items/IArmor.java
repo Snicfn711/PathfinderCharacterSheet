@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
+import java.util.List;
+
 /**
  * Created by Stephen Hagen on 12/26/2017.
  */
@@ -10,4 +12,5 @@ public interface IArmor extends IProtection
     void setMaxSpeed(int maxSpeed);
     ArmorWeightCategoryEnum getWeightCategory();
     void setWeightCategory(ArmorWeightCategoryEnum weightCategory);
+    List<IArmorEnchantment> getEnchantments();
 }

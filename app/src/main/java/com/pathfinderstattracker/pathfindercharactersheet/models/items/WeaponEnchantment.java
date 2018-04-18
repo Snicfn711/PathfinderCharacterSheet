@@ -17,6 +17,8 @@ import java.util.List;
 
 public class WeaponEnchantment implements IWeaponEnchantment
 {
+    private int goldCost = 0;
+    private int enhancementBonusPointCost = 0;
     private String name;
     private AbilityScoreEnum checkedAbilityScore;
     private ISkill checkedSkill;
@@ -556,6 +558,21 @@ public class WeaponEnchantment implements IWeaponEnchantment
         //We can be a little lazy here. Only one enchantment, Vicious does damage to the wielder, and it does 1d6 every time.
         damagesWielder = doesDamageToWielder;
     }
+
+    @Override
+    public int getEnhancementBonusPointCost(){return enhancementBonusPointCost;}
+    @Override
+    public void setEnhancementBonusPointCost(int enhancementBonusPointCost)
+    {
+        this.enhancementBonusPointCost = enhancementBonusPointCost;
+    }
+    @Override
+    public int getGoldCost(){return goldCost;}
+    @Override
+    public void setGoldCost(int goldCost)
+    {
+        this.goldCost = goldCost;
+    }
     //endregion
 
     public WeaponEnchantment()
@@ -563,11 +580,12 @@ public class WeaponEnchantment implements IWeaponEnchantment
         //Do nothing
     }
 
-    public WeaponEnchantment(String name, Damage addedDamage, String addedDamageType)
+    public WeaponEnchantment(String name, Damage addedDamage, String addedDamageType, int enchancementBonusCost)
     {
         //This constructor is meant for the elemental enchantments(fire, frost, lightning, etc)
         setName(name);
         setDamageDice(addedDamage);
         setAddedDamageType(addedDamageType);
+        setEnhancementBonusPointCost(enchancementBonusCost);
     }
 }

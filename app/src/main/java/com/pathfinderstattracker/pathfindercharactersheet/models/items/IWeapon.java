@@ -34,6 +34,7 @@ public interface IWeapon extends IEquipment
     void setMasterwork(boolean masterwork);
     int getRequiredStrength();
     void setRequiredStrength(int requiredStrength);
+    List<IWeaponEnchantment> getEnchantments();
     int calculateCriticalRange();
     String returnCriticalString();
     String returnDamageTypes();

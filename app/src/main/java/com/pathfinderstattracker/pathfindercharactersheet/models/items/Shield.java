@@ -1,7 +1,5 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
-import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class Shield extends AbsItem implements IShield
     private boolean isMagic;
     private int magicBonus;
     private boolean isMasterwork;
-    private List<IAbility> abilities;
+    private List<IWeaponEnchantment> enchantments; //Shields are enchanted as weapons in RAW?
     private ArmorTypesEnum armorType;
 
     //region Getters and Setters
@@ -128,15 +126,15 @@ public class Shield extends AbsItem implements IShield
     public void setIsMasterwork(boolean isMasterwork){this.isMasterwork = isMasterwork;}
 
     @Override
-    public List<IAbility> getAbilities()
+    public List<IWeaponEnchantment> getEnchantments()
     {
-        return abilities;
+        return enchantments;
     }
 
-    @Override
-    public void setAbilities(List<IAbility> abilities)
+
+    public void setEnchantments(List<IWeaponEnchantment> enchantments)
     {
-        this.abilities = abilities;
+        this.enchantments = enchantments;
     }
 
     @Override
@@ -158,7 +156,7 @@ public class Shield extends AbsItem implements IShield
         //Default constructor
     }
 
-    public Shield(String name, double cost, int acBonus, Integer maximumDexBonus, Integer armorCheckPenalty, int arcaneSpellFailureChance, double weightAtMediumSize, ShieldWeightCategoryEnum weightCategory, SizeCategoryEnum armorSize, boolean isMagic, int magicBonus, boolean isMasterwork, List<IAbility> abilities)
+    public Shield(String name, double cost, int acBonus, Integer maximumDexBonus, Integer armorCheckPenalty, int arcaneSpellFailureChance, double weightAtMediumSize, ShieldWeightCategoryEnum weightCategory, SizeCategoryEnum armorSize, boolean isMagic, int magicBonus, boolean isMasterwork, List<IWeaponEnchantment> enchantments)
     {
         setName(name);
         setCost(cost);
@@ -172,23 +170,9 @@ public class Shield extends AbsItem implements IShield
         setIsMagic(isMagic);
         setMagicBonus(magicBonus);
         setIsMasterwork(isMasterwork);
-        setAbilities(abilities);
+        setEnchantments(enchantments);
     }
 
-    public String createAbilitiesString()
-    {
-        StringBuilder abilitiesString = new StringBuilder();
-        if(abilities != null && abilities.size() > 1) {
-            for (IAbility ability : abilities) {
-                abilitiesString.append(ability.getName()).append(" ");
-            }
-            return abilitiesString.toString();
-        }
-        else
-        {
-            return "None";
-        }
-    }
 
     public double getCurrentWeight()
     {

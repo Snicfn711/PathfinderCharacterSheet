@@ -14,10 +14,8 @@ import java.util.List;
  * Created by Stephen Hagen on 4/10/2018.
  */
 
-public interface IWeaponEnchantment
+public interface IWeaponEnchantment extends IEquipmentEnchantment
 {
-    String getName();
-    void setName(String name);
     AbilityScoreEnum getCheckedAbilityScore();
     void setCheckedAbilityScore(AbilityScoreEnum abilityScore);
     ISkill getCheckedSkill();

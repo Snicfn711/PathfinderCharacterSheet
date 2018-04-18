@@ -1,8 +1,6 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
-import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
 import java.util.List;
@@ -88,18 +86,6 @@ public class Weapon extends AbsItem implements IWeapon
     public void setMagicBonus(int magicBonus)
     {
         this.magicBonus = magicBonus;
-    }
-
-    @Override
-    public List<IAbility> getAbilities()
-    {
-        return null;
-    }
-
-    @Override
-    public void setAbilities(List<IAbility> abilities)
-    {
-        //Todo:This abilities field may have been a mistake. We'll have to come back and figure out what to do with it. At least for weapons
     }
 
     @Override
@@ -210,10 +196,12 @@ public class Weapon extends AbsItem implements IWeapon
         this.requiredStrength = requiredStrength;
     }
 
+    @Override
     public List<IWeaponEnchantment> getEnchantments()
     {
         return enchantments;
     }
+
     public void setEnchantments(List<IWeaponEnchantment> enchantments)
     {
         this.enchantments = enchantments;
@@ -247,21 +235,6 @@ public class Weapon extends AbsItem implements IWeapon
         setRequiredStrength(requiredStrength);
         setEnchantments(enchantments);
         setWeaponTags(weaponTags);
-    }
-
-    public String createAbilitiesString()
-    {
-        StringBuilder enchantmentString = new StringBuilder("");
-        if(enchantments != null && enchantments.size() > 1) {
-            for (IWeaponEnchantment enchantment : enchantments) {
-                enchantmentString.append(enchantment.getName()).append(" ");
-            }
-            return enchantmentString.toString();
-        }
-        else
-        {
-            return "None";
-        }
     }
 
     public int calculateCriticalRange()

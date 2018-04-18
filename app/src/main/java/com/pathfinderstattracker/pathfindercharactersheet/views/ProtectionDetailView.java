@@ -8,8 +8,12 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEnchantment;
+
+import java.util.List;
 
 /**
  * TODO: document your custom view class.
@@ -53,20 +57,53 @@ public class ProtectionDetailView extends ConstraintLayout
 
     public void setValues(IProtection protectionItem)
     {
-        this.magicBonus.setText("+" + Integer.toString(protectionItem.getMagicBonus()) + " ");
-        this.equipmentAbilities.setText(protectionItem.createAbilitiesString());
+        this.magicBonus.setText(String.format("+%s ", Integer.toString(protectionItem.getMagicBonus())));
         this.equipmentName.setText(protectionItem.getName());
         if(protectionItem instanceof IShield)
         {
             this.equipmentWeightCategory.setText(((IShield)protectionItem).getWeightCategory().toString());
+            this.equipmentAbilities.setText(CreateEnchantmentString((IShield)protectionItem));
         }
         else if(protectionItem instanceof IArmor)
         {
             this.equipmentWeightCategory.setText(((IArmor)protectionItem).getWeightCategory().toString());
+            this.equipmentAbilities.setText(CreateEnchantmentString((IArmor) protectionItem));
         }
-        this.checkPenalty.setText("-" + Integer.toString(protectionItem.getArmorCheckPenalty()));
+        this.checkPenalty.setText(String.format("-%s", Integer.toString(protectionItem.getArmorCheckPenalty())));
         this.maxDex.setText(Integer.toString(protectionItem.getMaximumDexBonus()));
-        this.spellFailure.setText(Integer.toString(protectionItem.getArcanceSpellFailureChance()) + "%");
-        this.weight.setText(Double.toString(protectionItem.getCurrentWeight()) + " lbs");
+        this.spellFailure.setText(String.format("%s%%", Integer.toString(protectionItem.getArcanceSpellFailureChance())));
+        this.weight.setText(String.format("%s lbs", Double.toString(protectionItem.getCurrentWeight())));
+    }
+
+    private String CreateEnchantmentString(IArmor armor)
+    {
+        List<IArmorEnchantment> enchantments = armor.getEnchantments();
+        StringBuilder enchantmentString = new StringBuilder();
+        if(enchantments != null && enchantments.size() >= 1) {
+            for (IArmorEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
+            }
+            return enchantmentString.toString();
+        }
+        else
+        {
+            return "None";
+        }
+    }
+
+    private String CreateEnchantmentString(IShield shield)
+    {
+        List<IWeaponEnchantment> enchantments = shield.getEnchantments();
+        StringBuilder enchantmentString = new StringBuilder();
+        if(shield.getEnchantments() != null && enchantments.size() >= 1) {
+            for (IWeaponEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
+            }
+            return enchantmentString.toString();
+        }
+        else
+        {
+            return "None";
+        }
     }
 }
