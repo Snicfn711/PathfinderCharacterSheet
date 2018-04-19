@@ -40,7 +40,7 @@ public class EquipmentReferenceFragment extends Fragment
 {
 
     //region Temp Equipment List
-    private WeaponEnchantment flaming = new WeaponEnchantment("Flaming",new Damage(1,6), "Fire", +1);
+    private WeaponEnchantment flaming = new WeaponEnchantment("Flaming",new Damage(1,6), "Fire", +1, "");
     private ArrayList<IWeaponEnchantment> tempEnchantments = new ArrayList<>();
     private Weapon sword = new Weapon("Longsword",
                                      WeaponFamilyEnum.Martial,

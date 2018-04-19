@@ -599,7 +599,7 @@ public class WeaponEnchantment implements IWeaponEnchantment
 
     public WeaponEnchantment(double goldCost, int enhancementBonusPointCost, String name, AbilityScoreEnum checkedAbilityScore, ISkill checkedSkill, AlignmentEnum requiredAlignment, WeaponDamageTypeEnum requiredDamageType, List<WeaponTagEnum> requiredTags, Damage addedDamage, String addedDamageType, String damageDiceCondition, int conditionalEnhancementBonus, String enhancementBonusCondition, int conditionalAttackBonus, String attackBonusCondition, int enchantmentCharges, IFeat featAbilityForBonusCharges, int numberOfFeatAbilityBonusCharges, IAbility classAbilityForBonusCharges, int numberOfClassAbilityBonusCharges, String requiredWeaponName, int bonusToCMB, String conditionForCMBBonus, int bonusToCMD, String conditionForCMDBonus, String enchantmentConditions, String enchantmentFullText, ISkill additionalSkillCheck, boolean allowsAdditionalCMBCheck, String saveForBonus, String conditionForBonusToSave, boolean changesSize, ISkill skillForBonus, String conditionForBonusToSkill, boolean changesDamageDiceSize, boolean changesCriticalRange, IAbility abilityForIncreasedDC, int rangeMultiplier, int rangeModifier, int misfireDecrease, List<IWeaponEnchantment> restrictedWeaponEnchantments, IFeat addedFeat, ISense addedSense, boolean damagesWielder, WeaponWeightClassEnum requiredWeightClass, List<WeaponWeightClassEnum> restrictedWeightClasses)
     {
-        //Our catch-all constructor that will most likely be used to pull items from the database
+        //Our catch-all constructor that will most likely be used to pull items from the PathfinderDatabase
         setGoldCost(goldCost);
         setEnhancementBonusPointCost(enhancementBonusPointCost);
         setName(name);
@@ -648,7 +648,7 @@ public class WeaponEnchantment implements IWeaponEnchantment
         setRestrictedWeightClasses(restrictedWeightClasses);
     }
 
-    public WeaponEnchantment(String name, String enchantmentFullText, Damage addedDamage, String addedDamageType, int enchancementBonusCost)
+    public WeaponEnchantment(String name, Damage addedDamage, String addedDamageType, int enchancementBonusCost, String enchantmentFullText)
     {
         //This constructor is meant for the elemental enchantments(fire, frost, lightning, etc)
         setName(name);
