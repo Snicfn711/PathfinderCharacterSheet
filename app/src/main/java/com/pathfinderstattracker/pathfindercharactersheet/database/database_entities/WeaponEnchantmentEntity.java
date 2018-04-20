@@ -2,8 +2,13 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AlignmentEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponDamageTypeEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
@@ -22,7 +27,10 @@ import java.util.List;
  * Created by Stephen Hagen on 4/19/2018.
  */
 
-@Entity
+@Entity(foreignKeys = @ForeignKey(entity = SkillWeaponEnchantmentJoinTableEntity.class,
+                                           parentColumns = "weapon_enchantment_id",
+                                           childColumns = "uid"))
+@TypeConverters({AbilityScoreEnumConverter.class, AlignmentEnumConverter.class, WeaponDamageTypeEnumConverter.class})
 public class WeaponEnchantmentEntity
 {
     @PrimaryKey
@@ -36,8 +44,8 @@ public class WeaponEnchantmentEntity
     private String name;
     @ColumnInfo(name = "checked_ability_score")
     private AbilityScoreEnum checkedAbilityScore;
-    @ColumnInfo(name = "checked_skill")
-    private ISkill checkedSkill;
+    @ColumnInfo(name = "checked_skill_id")
+    private int checkedSkillID;
     @ColumnInfo(name = "required_alignment")
     private AlignmentEnum requiredAlignment;
     @ColumnInfo(name = "required_damage_type")
@@ -172,14 +180,14 @@ public class WeaponEnchantmentEntity
         this.checkedAbilityScore = checkedAbilityScore;
     }
 
-    public ISkill getCheckedSkill()
+    public int getCheckedSkill()
     {
-        return checkedSkill;
+        return checkedSkillID;
     }
 
-    public void setCheckedSkill(ISkill checkedSkill)
+    public void setCheckedSkill(int checkedSkillID)
     {
-        this.checkedSkill = checkedSkill;
+        this.checkedSkillID = checkedSkillID;
     }
 
     public AlignmentEnum getRequiredAlignment()
