@@ -32,4 +32,76 @@ public class SkillEntity
     private boolean ArmorCheckPenaltyApplied;
     @ColumnInfo(name = "skill_name")
     private String SkillName;
+
+    //region Getters and Setters
+    public int getUid()
+    {
+        return uid;
+    }
+
+    public void setUid(int uid)
+    {
+        this.uid = uid;
+    }
+
+    public boolean isProficiency()
+    {
+        return Proficiency;
+    }
+
+    public void setProficiency(boolean proficiency)
+    {
+        Proficiency = proficiency;
+    }
+
+    public int getPointsInvested()
+    {
+        return PointsInvested;
+    }
+
+    public void setPointsInvested(int pointsInvested)
+    {
+        PointsInvested = pointsInvested;
+    }
+
+    public int getFavoredClassPointsInvested()
+    {
+        return FavoredClassPointsInvested;
+    }
+
+    public void setFavoredClassPointsInvested(int favoredClassPointsInvested)
+    {
+        FavoredClassPointsInvested = favoredClassPointsInvested;
+    }
+
+    public AbilityScoreEnum getAddedStat()
+    {
+        return AddedStat;
+    }
+
+    public void setAddedStat(AbilityScoreEnum addedStat)
+    {
+        AddedStat = addedStat;
+    }
+
+    public boolean isArmorCheckPenaltyApplied()
+    {
+        return ArmorCheckPenaltyApplied;
+    }
+
+    public void setArmorCheckPenaltyApplied(boolean armorCheckPenaltyApplied)
+    {
+        ArmorCheckPenaltyApplied = armorCheckPenaltyApplied;
+    }
+
+    public String getSkillName()
+    {
+        return SkillName;
+    }
+
+    public void setSkillName(String skillName)
+    {
+        SkillName = skillName;
+    }
+    //endregion
 }

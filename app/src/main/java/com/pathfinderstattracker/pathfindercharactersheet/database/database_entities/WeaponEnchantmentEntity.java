@@ -180,12 +180,12 @@ public class WeaponEnchantmentEntity
         this.checkedAbilityScore = checkedAbilityScore;
     }
 
-    public int getCheckedSkill()
+    public int getCheckedSkillID()
     {
         return checkedSkillID;
     }
 
-    public void setCheckedSkill(int checkedSkillID)
+    public void setCheckedSkillID(int checkedSkillID)
     {
         this.checkedSkillID = checkedSkillID;
     }
