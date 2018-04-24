@@ -9,7 +9,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public class MartialClass implements IMartialClass
+public class MartialCharacterClass implements IMartialCharacterClass
 {
     public int ClassLevel = 0;
     public String ClassName = null;

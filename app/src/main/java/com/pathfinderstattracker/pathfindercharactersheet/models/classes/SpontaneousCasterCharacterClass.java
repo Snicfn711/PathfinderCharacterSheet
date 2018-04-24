@@ -5,13 +5,16 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
+import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 
 /**
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public class PreparedCasterClass implements IPreparedCasterClass
+public class SpontaneousCasterCharacterClass implements ISpontaneousCasterCharacterClass
 {
+    public ISpell[] SpellsKnown;
+    public ISpellSlot[] SpellSlots;
     public AbilityScoreEnum CastingStat;
     public int CasterLevel;
     public int DifficultyClass;

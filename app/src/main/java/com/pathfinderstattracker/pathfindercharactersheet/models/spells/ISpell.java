@@ -1,7 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.spells;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.ArcaneSchoolEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.classes.IClass;
+import com.pathfinderstattracker.pathfindercharactersheet.models.classes.ICharacterClass;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 
 /**
@@ -62,9 +62,9 @@ public interface ISpell
 
     void setSpellArea(ISpellArea spellArea);
 
-    IClass getSourceClass();
+    ICharacterClass getSourceClass();
 
-    void setSourceClass(IClass sourceClass);
+    void setSourceClass(ICharacterClass sourceClass);
 
     String getFullDescription();
 

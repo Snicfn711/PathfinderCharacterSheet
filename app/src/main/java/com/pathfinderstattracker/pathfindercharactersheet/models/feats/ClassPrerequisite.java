@@ -1,6 +1,6 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.feats;
 
-import com.pathfinderstattracker.pathfindercharactersheet.models.classes.IClass;
+import com.pathfinderstattracker.pathfindercharactersheet.models.classes.ICharacterClass;
 
 /**
  * Created by Stephen Hagen on 1/5/2018.
@@ -8,6 +8,39 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.classes.IClass;
 
 public class ClassPrerequisite implements IClassPrerequisite
 {
-    public IClass Class;
-    public int ClassLevel;
+    private ICharacterClass Class;
+    private int ClassLevel;
+
+    //region Getters and Setters
+    public ICharacterClass getCharacterClass()
+    {
+        return Class;
+    }
+
+    public void setClass(ICharacterClass characterClass)
+    {
+        Class = characterClass;
+    }
+
+    public int getClassLevel()
+    {
+        return ClassLevel;
+    }
+
+    public void setClassLevel(int classLevel)
+    {
+        ClassLevel = classLevel;
+    }
+    //endregion
+
+    public ClassPrerequisite()
+    {
+        //Default Constructor
+    }
+
+    public ClassPrerequisite(ICharacterClass characterClass, int classLevel)
+    {
+        setClass(characterClass);
+        setClassLevel(classLevel);
+    }
 }

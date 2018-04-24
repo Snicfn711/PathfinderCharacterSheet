@@ -3,7 +3,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.spells;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.ArcaneSchoolEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
-import com.pathfinderstattracker.pathfindercharactersheet.models.classes.IClass;
+import com.pathfinderstattracker.pathfindercharactersheet.models.classes.ICharacterClass;
 
 /**
  * Created by Stephen Hagen on 1/9/2018.
@@ -25,7 +25,7 @@ public class Spell implements ISpell
     private String Target;
     private ISpellDuration Duration;
     private ISpellArea Area;
-    private IClass SourceClass;
+    private ICharacterClass SourceClass;
     private String FullDescription;
     private String ShortDescription;
     private Integer MaximumNumberOfDice;
@@ -204,13 +204,13 @@ public class Spell implements ISpell
     }
 
     @Override
-    public IClass getSourceClass()
+    public ICharacterClass getSourceClass()
     {
         return SourceClass;
     }
 
     @Override
-    public void setSourceClass(IClass sourceClass)
+    public void setSourceClass(ICharacterClass sourceClass)
     {
         SourceClass = sourceClass;
     }
@@ -303,7 +303,7 @@ public class Spell implements ISpell
 
     public Spell(String spellName, ArcaneSchoolEnum school, DescriptorEnum[] descriptors, String savingThrow,
                  String materialComponents, boolean hasVerbal, boolean hasSomatic, boolean hasFocus, boolean hasDivineFocus,
-                 ICastingTime castingTime, SpellRangeEnum range, String target, ISpellDuration duration, ISpellArea area, IClass sourceClass,
+                 ICastingTime castingTime, SpellRangeEnum range, String target, ISpellDuration duration, ISpellArea area, ICharacterClass sourceClass,
                  String fullDescription, String shortDescription, Integer maximumNumberOfDice, Damage damageIncrements, Integer casterLevelsPerIncrement,
                  boolean targetsSpellResistance, int spellLevel)
     {

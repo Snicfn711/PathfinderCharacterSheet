@@ -6,7 +6,10 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.races;
 
 public interface ISense
 {
-    String Name = null;
-    int Distance = 0;
-    String EffectText = null;
+    String getName();
+    void setName(String name);
+    int getDistance();
+    void setDistance(int distance);
+    String getEffectText();
+    void setEffectText(String effectText);
 }

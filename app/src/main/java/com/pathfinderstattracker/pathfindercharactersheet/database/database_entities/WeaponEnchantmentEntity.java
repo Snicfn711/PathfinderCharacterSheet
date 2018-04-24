@@ -15,7 +15,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnu
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
-import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDamageTypeEnum;
@@ -29,9 +28,21 @@ import java.util.List;
  * Created by Stephen Hagen on 4/19/2018.
  */
 
-@Entity(foreignKeys = @ForeignKey(entity = SkillWeaponEnchantmentJoinTableEntity.class,
-                                           parentColumns = "weapon_enchantment_id",
-                                           childColumns = "uid"))
+@Entity(foreignKeys = {@ForeignKey(entity = SkillEntity.class,
+                                   parentColumns = "skillID",
+                                   childColumns = "checked_skillID"),
+                       @ForeignKey(entity = SkillEntity.class,
+                                   parentColumns = "skillID",
+                                   childColumns = "skillID_for_additional_check"),
+                       @ForeignKey(entity = SkillEntity.class,
+                                   parentColumns = "skillID",
+                                   childColumns = "skillID_for_bonus"),
+                       @ForeignKey(entity = FeatEntity.class,
+                                   parentColumns = "FeatID",
+                                   childColumns = "featID_for_bonus_charges"),
+                       @ForeignKey(entity = FeatEntity.class,
+                                   parentColumns = "FeatID",
+                                   childColumns = "added_featID")})
 @TypeConverters({AbilityScoreEnumConverter.class,
                  AlignmentEnumConverter.class,
                  WeaponDamageTypeEnumConverter.class,
@@ -40,7 +51,7 @@ import java.util.List;
 public class WeaponEnchantmentEntity
 {
     @PrimaryKey
-    private int uid;
+    private int weaponEnchantmentID;
 
     @ColumnInfo(name = "gold_cost")
     private double goldCost;
@@ -50,7 +61,7 @@ public class WeaponEnchantmentEntity
     private String name;
     @ColumnInfo(name = "checked_ability_score")
     private AbilityScoreEnum checkedAbilityScore;
-    @ColumnInfo(name = "checked_skill_id")
+    @ColumnInfo(name = "checked_skillID")
     private int checkedSkillID;
     @ColumnInfo(name = "required_alignment")
     private AlignmentEnum requiredAlignment;
@@ -74,8 +85,8 @@ public class WeaponEnchantmentEntity
     private String attackBonusCondition;
     @ColumnInfo(name = "enchantment_charges")
     private int enchantmentCharges;
-    @ColumnInfo(name = "feat_ability_for_bonus_charges")
-    private IFeat featAbilityForBonusCharges;
+    @ColumnInfo(name = "featID_for_bonus_charges")
+    private int featAbilityForBonusCharges;
     @ColumnInfo(name = "number_of_feat_ability_bonus_charges")
     private int numberOfFeatAbilityBonusCharges;
     @ColumnInfo(name = "class_ability_for_bonus_charges")
@@ -96,8 +107,8 @@ public class WeaponEnchantmentEntity
     private String enchantmentConditions;//This is for short descriptions that don't change numbers anywhere else, like "Ignores armor and shield bonuses", or "Affects incorporeal creatures"
     @ColumnInfo(name = "enchantment_full_text")
     private String enchantmentFullText;//This is useful for the full text of enchantments, but also for enchantments that aren't anything but text, like Called
-    @ColumnInfo(name = "additional_skill_check")
-    private ISkill additionalSkillCheck;
+    @ColumnInfo(name = "skillID_for_additional_check")
+    private int additionalSkillCheck;
     @ColumnInfo(name = "allows_additional_cmb_check")
     private boolean allowsAdditionalCMBCheck;
     @ColumnInfo(name = "save_for_bonus")
@@ -106,8 +117,8 @@ public class WeaponEnchantmentEntity
     private String conditionForBonusToSave;
     @ColumnInfo(name = "changes_size")
     private boolean changesSize;
-    @ColumnInfo(name = "skill_for_bonus")
-    private ISkill skillForBonus;
+    @ColumnInfo(name = "skillID_for_bonus")
+    private int skillForBonus;
     @ColumnInfo(name = "condition_for_bonus_to_skill")
     private String conditionForBonusToSkill;
     @ColumnInfo(name = "changes_damage_dice_size")
@@ -124,8 +135,8 @@ public class WeaponEnchantmentEntity
     private int misfireDecrease;
     @ColumnInfo(name = "restricted_weapon_enchantments")
     private List<IWeaponEnchantment> restrictedWeaponEnchantments;
-    @ColumnInfo(name = "added_feat")
-    private IFeat addedFeat;
+    @ColumnInfo(name = "added_featID")
+    private int addedFeat;
     @ColumnInfo(name = "added_sense")
     private ISense addedSense;
     @ColumnInfo(name = "damages_wielder")
@@ -136,14 +147,14 @@ public class WeaponEnchantmentEntity
     private List<WeaponWeightClassEnum> restrictedWeightClasses;
 
     //region Getters and Setters
-    public int getUid()
+    public int getWeaponEnchantmentID()
     {
-        return uid;
+        return weaponEnchantmentID;
     }
 
-    public void setUid(int uid)
+    public void setWeaponEnchantmentID(int weaponEnchantmentID)
     {
-        this.uid = uid;
+        this.weaponEnchantmentID = weaponEnchantmentID;
     }
 
     public double getGoldCost()
@@ -306,12 +317,12 @@ public class WeaponEnchantmentEntity
         this.enchantmentCharges = enchantmentCharges;
     }
 
-    public IFeat getFeatAbilityForBonusCharges()
+    public int getFeatAbilityForBonusCharges()
     {
         return featAbilityForBonusCharges;
     }
 
-    public void setFeatAbilityForBonusCharges(IFeat featAbilityForBonusCharges)
+    public void setFeatAbilityForBonusCharges(int featAbilityForBonusCharges)
     {
         this.featAbilityForBonusCharges = featAbilityForBonusCharges;
     }
@@ -416,12 +427,12 @@ public class WeaponEnchantmentEntity
         this.enchantmentFullText = enchantmentFullText;
     }
 
-    public ISkill getAdditionalSkillCheck()
+    public int getAdditionalSkillCheck()
     {
         return additionalSkillCheck;
     }
 
-    public void setAdditionalSkillCheck(ISkill additionalSkillCheck)
+    public void setAdditionalSkillCheck(int additionalSkillCheck)
     {
         this.additionalSkillCheck = additionalSkillCheck;
     }
@@ -466,12 +477,12 @@ public class WeaponEnchantmentEntity
         this.changesSize = changesSize;
     }
 
-    public ISkill getSkillForBonus()
+    public int getSkillForBonus()
     {
         return skillForBonus;
     }
 
-    public void setSkillForBonus(ISkill skillForBonus)
+    public void setSkillForBonus(int skillForBonus)
     {
         this.skillForBonus = skillForBonus;
     }
@@ -556,12 +567,12 @@ public class WeaponEnchantmentEntity
         this.restrictedWeaponEnchantments = restrictedWeaponEnchantments;
     }
 
-    public IFeat getAddedFeat()
+    public int getAddedFeat()
     {
         return addedFeat;
     }
 
-    public void setAddedFeat(IFeat addedFeat)
+    public void setAddedFeat(int addedFeat)
     {
         this.addedFeat = addedFeat;
     }

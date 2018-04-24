@@ -14,6 +14,5 @@ import java.util.List;
 @Dao
 public interface WeaponEnchantmentDao
 {
-    @Query("SELECT * FROM WeaponEnchantmentEntity")
-    List<IWeaponEnchantment> getAll();
+
 }

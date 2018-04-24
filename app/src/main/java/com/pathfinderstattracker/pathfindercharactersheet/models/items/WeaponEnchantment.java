@@ -63,6 +63,7 @@ public class WeaponEnchantment implements IWeaponEnchantment
     private boolean damagesWielder;
     private WeaponWeightClassEnum requiredWeightClass;
     private List<WeaponWeightClassEnum> restrictedWeightClasses;
+
     //region Getters and Setters
     @Override
     public String getName(){return name;}

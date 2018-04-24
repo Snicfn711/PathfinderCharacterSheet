@@ -18,7 +18,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnu
 public class SkillEntity
 {
     @PrimaryKey
-    private int uid;
+    private int skillID;
 
     @ColumnInfo(name = "proficiency")
     private boolean Proficiency;
@@ -34,14 +34,14 @@ public class SkillEntity
     private String SkillName;
 
     //region Getters and Setters
-    public int getUid()
+    public int getSkillID()
     {
-        return uid;
+        return skillID;
     }
 
-    public void setUid(int uid)
+    public void setSkillID(int skillID)
     {
-        this.uid = uid;
+        this.skillID = skillID;
     }
 
     public boolean isProficiency()

@@ -6,8 +6,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 public interface ISkill extends Comparable<ISkill>
 {
-
-
     void setProficiency(boolean proficiency);
     boolean isProficiency();
     void setPointsInvested(int pointsInvested);

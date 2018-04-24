@@ -10,7 +10,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public interface IClass
+public interface ICharacterClass
 {
     int ClassLevel = 0;
     String ClassName = null;
