@@ -6,8 +6,28 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 public class Damage
 {
-    public int numberOfDice;
-    public int sizeOfDice;
+    private int numberOfDice;
+    private int sizeOfDice;
+
+    public int getNumberOfDice()
+    {
+        return numberOfDice;
+    }
+
+    public void setNumberOfDice(int numberOfDice)
+    {
+        this.numberOfDice = numberOfDice;
+    }
+
+    public int getSizeOfDice()
+    {
+        return sizeOfDice;
+    }
+
+    public void setSizeOfDice(int sizeOfDice)
+    {
+        this.sizeOfDice = sizeOfDice;
+    }
 
     public Damage()
     {
@@ -17,7 +37,13 @@ public class Damage
 
     public Damage(int number, int size)
     {
-        numberOfDice = number;
-        sizeOfDice = size;
+        setNumberOfDice(number);
+        setSizeOfDice(size);
+    }
+
+    @Override
+    public String toString()
+    {
+        return Integer.toString(numberOfDice) + "d" + Integer.toString(sizeOfDice);
     }
 }

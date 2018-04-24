@@ -8,7 +8,9 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AlignmentEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.EnchantmentDamageConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponDamageTypeEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponTagEnumListConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
@@ -30,7 +32,11 @@ import java.util.List;
 @Entity(foreignKeys = @ForeignKey(entity = SkillWeaponEnchantmentJoinTableEntity.class,
                                            parentColumns = "weapon_enchantment_id",
                                            childColumns = "uid"))
-@TypeConverters({AbilityScoreEnumConverter.class, AlignmentEnumConverter.class, WeaponDamageTypeEnumConverter.class})
+@TypeConverters({AbilityScoreEnumConverter.class,
+                 AlignmentEnumConverter.class,
+                 WeaponDamageTypeEnumConverter.class,
+                 EnchantmentDamageConverter.class,
+                 WeaponTagEnumListConverter.class})
 public class WeaponEnchantmentEntity
 {
     @PrimaryKey
@@ -39,7 +45,7 @@ public class WeaponEnchantmentEntity
     @ColumnInfo(name = "gold_cost")
     private double goldCost;
     @ColumnInfo(name = "enhancement_bonus_pont_cost")
-    private int enhancementBonusPointCost = 0;
+    private int enhancementBonusPointCost;
     @ColumnInfo(name = "enchantment_name")
     private String name;
     @ColumnInfo(name = "checked_ability_score")
@@ -59,31 +65,31 @@ public class WeaponEnchantmentEntity
     @ColumnInfo(name = "damage_dice_condition")
     private String damageDiceCondition; //"vs Evil", "vs Fire Subtype" etc
     @ColumnInfo(name = "conditional_enhancement_bonus")
-    private int conditionalEnhancementBonus = 0;
+    private int conditionalEnhancementBonus;
     @ColumnInfo(name = "enhancement_bonus_condition")
     private String enhancementBonusCondition;
     @ColumnInfo(name = "conditional_attack_bonus")
-    private int conditionalAttackBonus = 0;
+    private int conditionalAttackBonus;
     @ColumnInfo(name = "attack_bonus_condition")
     private String attackBonusCondition;
     @ColumnInfo(name = "enchantment_charges")
-    private int enchantmentCharges = 0;
+    private int enchantmentCharges;
     @ColumnInfo(name = "feat_ability_for_bonus_charges")
     private IFeat featAbilityForBonusCharges;
     @ColumnInfo(name = "number_of_feat_ability_bonus_charges")
-    private int numberOfFeatAbilityBonusCharges = 0;
+    private int numberOfFeatAbilityBonusCharges;
     @ColumnInfo(name = "class_ability_for_bonus_charges")
     private IAbility classAbilityForBonusCharges;
     @ColumnInfo(name = "number_of_class_ability_bonus_charges")
-    private int numberOfClassAbilityBonusCharges = 0;
+    private int numberOfClassAbilityBonusCharges;
     @ColumnInfo(name = "required_weapon_name")
     private String requiredWeaponName;
     @ColumnInfo(name = "bonus_to_cmb")
-    private int bonusToCMB = 0;
+    private int bonusToCMB;
     @ColumnInfo(name = "condition_for_cmb_bonus")
     private String conditionForCMBBonus;
     @ColumnInfo(name = "bonus_to_cmd")
-    private int bonusToCMD = 0;
+    private int bonusToCMD;
     @ColumnInfo(name = "condition_for_cmd_bonus")
     private String conditionForCMDBonus;
     @ColumnInfo(name = "enchantment_conditions")
@@ -111,11 +117,11 @@ public class WeaponEnchantmentEntity
     @ColumnInfo(name = "ability_for_increased_dc")
     private IAbility abilityForIncreasedDC;
     @ColumnInfo(name = "range_multiplier")
-    private int rangeMultiplier = 1;
+    private int rangeMultiplier;
     @ColumnInfo(name = "range_modifier")
-    private int rangeModifier = 0;//This is for when a flat number of feet is added to a weapons range (like with Thrown)
+    private int rangeModifier;//This is for when a flat number of feet is added to a weapons range (like with Thrown)
     @ColumnInfo(name = "misfire_decrease")
-    private int misfireDecrease = 0;
+    private int misfireDecrease;
     @ColumnInfo(name = "restricted_weapon_enchantments")
     private List<IWeaponEnchantment> restrictedWeaponEnchantments;
     @ColumnInfo(name = "added_feat")
