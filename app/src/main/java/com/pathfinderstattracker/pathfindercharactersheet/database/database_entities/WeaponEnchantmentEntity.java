@@ -3,6 +3,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
@@ -11,6 +12,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.type_converte
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.EnchantmentDamageConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponDamageTypeEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponTagEnumListConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponWeightClassEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponWeightClassEnumListConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
@@ -38,16 +41,35 @@ import java.util.List;
                                    parentColumns = "skillID",
                                    childColumns = "skillID_for_bonus"),
                        @ForeignKey(entity = FeatEntity.class,
-                                   parentColumns = "FeatID",
+                                   parentColumns = "featID",
                                    childColumns = "featID_for_bonus_charges"),
                        @ForeignKey(entity = FeatEntity.class,
-                                   parentColumns = "FeatID",
-                                   childColumns = "added_featID")})
+                                   parentColumns = "featID",
+                                   childColumns = "added_featID"),
+                       @ForeignKey(entity = AbilityEntity.class,
+                                   parentColumns = "abilityID",
+                                   childColumns = "class_abilityID_for_bonus_charges"),
+                       @ForeignKey(entity = AbilityEntity.class,
+                                   parentColumns = "abilityID",
+                                   childColumns = "abilityID_for_increased_dc"),
+                       @ForeignKey(entity = SenseEntity.class,
+                                   parentColumns = "senseID",
+                                   childColumns = "added_senseID")},
+        indices = {@Index("checked_skillID"),
+                   @Index("skillID_for_additional_check"),
+                   @Index("skillID_for_bonus"),
+                   @Index("featID_for_bonus_charges"),
+                   @Index("added_featID"),
+                   @Index("class_abilityID_for_bonus_charges"),
+                   @Index("abilityID_for_increased_dc"),
+                   @Index("added_senseID")})
 @TypeConverters({AbilityScoreEnumConverter.class,
                  AlignmentEnumConverter.class,
                  WeaponDamageTypeEnumConverter.class,
                  EnchantmentDamageConverter.class,
-                 WeaponTagEnumListConverter.class})
+                 WeaponTagEnumListConverter.class,
+                 WeaponWeightClassEnumConverter.class,
+                 WeaponWeightClassEnumListConverter.class})
 public class WeaponEnchantmentEntity
 {
     @PrimaryKey
@@ -89,8 +111,8 @@ public class WeaponEnchantmentEntity
     private int featAbilityForBonusCharges;
     @ColumnInfo(name = "number_of_feat_ability_bonus_charges")
     private int numberOfFeatAbilityBonusCharges;
-    @ColumnInfo(name = "class_ability_for_bonus_charges")
-    private IAbility classAbilityForBonusCharges;
+    @ColumnInfo(name = "class_abilityID_for_bonus_charges")
+    private int classAbilityForBonusCharges;
     @ColumnInfo(name = "number_of_class_ability_bonus_charges")
     private int numberOfClassAbilityBonusCharges;
     @ColumnInfo(name = "required_weapon_name")
@@ -124,21 +146,21 @@ public class WeaponEnchantmentEntity
     @ColumnInfo(name = "changes_damage_dice_size")
     private boolean changesDamageDiceSize;
     @ColumnInfo(name = "changes_critical_range")
-    private boolean changesCriticalRange;//The only ability that does this, Keen, only ever doubles the critical range, so we don't need to worry about tracking the size of the change
-    @ColumnInfo(name = "ability_for_increased_dc")
-    private IAbility abilityForIncreasedDC;
+    private boolean changesCriticalRange;//The only enchantment that does this, Keen, only ever doubles the critical range, so we don't need to worry about tracking the size of the change
+    @ColumnInfo(name = "abilityID_for_increased_dc")
+    private int abilityForIncreasedDC;
     @ColumnInfo(name = "range_multiplier")
     private int rangeMultiplier;
     @ColumnInfo(name = "range_modifier")
     private int rangeModifier;//This is for when a flat number of feet is added to a weapons range (like with Thrown)
     @ColumnInfo(name = "misfire_decrease")
     private int misfireDecrease;
-    @ColumnInfo(name = "restricted_weapon_enchantments")
-    private List<IWeaponEnchantment> restrictedWeaponEnchantments;
+    @ColumnInfo(name = "weapon_enchantmentID_being_restricted")
+    private int weaponEnchantmentIDBeingRestricted;
     @ColumnInfo(name = "added_featID")
     private int addedFeat;
-    @ColumnInfo(name = "added_sense")
-    private ISense addedSense;
+    @ColumnInfo(name = "added_senseID")
+    private int addedSense;
     @ColumnInfo(name = "damages_wielder")
     private boolean damagesWielder;
     @ColumnInfo(name = "required_weight_class")
@@ -337,12 +359,12 @@ public class WeaponEnchantmentEntity
         this.numberOfFeatAbilityBonusCharges = numberOfFeatAbilityBonusCharges;
     }
 
-    public IAbility getClassAbilityForBonusCharges()
+    public int getClassAbilityForBonusCharges()
     {
         return classAbilityForBonusCharges;
     }
 
-    public void setClassAbilityForBonusCharges(IAbility classAbilityForBonusCharges)
+    public void setClassAbilityForBonusCharges(int classAbilityForBonusCharges)
     {
         this.classAbilityForBonusCharges = classAbilityForBonusCharges;
     }
@@ -517,12 +539,12 @@ public class WeaponEnchantmentEntity
         this.changesCriticalRange = changesCriticalRange;
     }
 
-    public IAbility getAbilityForIncreasedDC()
+    public int getAbilityForIncreasedDC()
     {
         return abilityForIncreasedDC;
     }
 
-    public void setAbilityForIncreasedDC(IAbility abilityForIncreasedDC)
+    public void setAbilityForIncreasedDC(int abilityForIncreasedDC)
     {
         this.abilityForIncreasedDC = abilityForIncreasedDC;
     }
@@ -557,14 +579,14 @@ public class WeaponEnchantmentEntity
         this.misfireDecrease = misfireDecrease;
     }
 
-    public List<IWeaponEnchantment> getRestrictedWeaponEnchantments()
+    public int getWeaponEnchantmentIDBeingRestricted()
     {
-        return restrictedWeaponEnchantments;
+        return weaponEnchantmentIDBeingRestricted;
     }
 
-    public void setRestrictedWeaponEnchantments(List<IWeaponEnchantment> restrictedWeaponEnchantments)
+    public void setWeaponEnchantmentIDBeingRestricted(int weaponEnchantmentIDBeingRestricted)
     {
-        this.restrictedWeaponEnchantments = restrictedWeaponEnchantments;
+        this.weaponEnchantmentIDBeingRestricted = weaponEnchantmentIDBeingRestricted;
     }
 
     public int getAddedFeat()
@@ -577,12 +599,12 @@ public class WeaponEnchantmentEntity
         this.addedFeat = addedFeat;
     }
 
-    public ISense getAddedSense()
+    public int getAddedSense()
     {
         return addedSense;
     }
 
-    public void setAddedSense(ISense addedSense)
+    public void setAddedSense(int addedSense)
     {
         this.addedSense = addedSense;
     }

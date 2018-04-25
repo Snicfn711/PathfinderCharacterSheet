@@ -2,6 +2,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by Stephen Hagen on 4/24/2018.
  */
-@Entity
+@Entity()
 public class FeatEntity
 {
     @PrimaryKey
@@ -30,4 +31,66 @@ public class FeatEntity
     private List<IBonus> Bonuses = null;
     @ColumnInfo(name = "penalties")
     private List<IPenalty> Penalties = null;
+
+    //region Getters and Setters
+    public int getFeatID()
+    {
+        return featID;
+    }
+
+    public void setFeatID(int featID)
+    {
+        this.featID = featID;
+    }
+
+    public List<IPrerequisite> getPrerequisites()
+    {
+        return Prerequisites;
+    }
+
+    public void setPrerequisites(List<IPrerequisite> prerequisites)
+    {
+        Prerequisites = prerequisites;
+    }
+
+    public String getEffectText()
+    {
+        return EffectText;
+    }
+
+    public void setEffectText(String effectText)
+    {
+        EffectText = effectText;
+    }
+
+    public List<IAbility> getAbilities()
+    {
+        return Abilities;
+    }
+
+    public void setAbilities(List<IAbility> abilities)
+    {
+        Abilities = abilities;
+    }
+
+    public List<IBonus> getBonuses()
+    {
+        return Bonuses;
+    }
+
+    public void setBonuses(List<IBonus> bonuses)
+    {
+        Bonuses = bonuses;
+    }
+
+    public List<IPenalty> getPenalties()
+    {
+        return Penalties;
+    }
+
+    public void setPenalties(List<IPenalty> penalties)
+    {
+        Penalties = penalties;
+    }
+    //endregion
 }
