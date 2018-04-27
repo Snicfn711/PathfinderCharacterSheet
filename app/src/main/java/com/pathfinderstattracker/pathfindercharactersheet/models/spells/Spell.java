@@ -5,6 +5,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.ArcaneSchoolEnu
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.classes.ICharacterClass;
 
+import java.util.List;
+
 /**
  * Created by Stephen Hagen on 1/9/2018.
  */
@@ -13,7 +15,7 @@ public class Spell implements ISpell
 {
     private String SpellName;
     private ArcaneSchoolEnum School;
-    private DescriptorEnum[] Descriptors;
+    private List<DescriptorEnum> Descriptors;
     private String SavingThrow; //This should be okay as a string, as it's just telling the player which save is being targeted and what happens on a successful save
     private String MaterialComponents; //Also serves as a HasMaterial surrogate field
     private boolean HasVerbal;
@@ -59,13 +61,13 @@ public class Spell implements ISpell
     }
 
     @Override
-    public DescriptorEnum[] getDescriptors()
+    public List<DescriptorEnum> getDescriptors()
     {
         return Descriptors;
     }
 
     @Override
-    public void setDescriptors(DescriptorEnum[] descriptors)
+    public void setDescriptors(List<DescriptorEnum> descriptors)
     {
         Descriptors = descriptors;
     }
@@ -301,7 +303,7 @@ public class Spell implements ISpell
         //Default Constructor
     }
 
-    public Spell(String spellName, ArcaneSchoolEnum school, DescriptorEnum[] descriptors, String savingThrow,
+    public Spell(String spellName, ArcaneSchoolEnum school, List<DescriptorEnum> descriptors, String savingThrow,
                  String materialComponents, boolean hasVerbal, boolean hasSomatic, boolean hasFocus, boolean hasDivineFocus,
                  ICastingTime castingTime, SpellRangeEnum range, String target, ISpellDuration duration, ISpellArea area, ICharacterClass sourceClass,
                  String fullDescription, String shortDescription, Integer maximumNumberOfDice, Damage damageIncrements, Integer casterLevelsPerIncrement,

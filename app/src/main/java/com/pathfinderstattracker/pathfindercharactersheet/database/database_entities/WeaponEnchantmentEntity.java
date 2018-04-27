@@ -8,6 +8,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityTypeEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AlignmentEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.EnchantmentDamageConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponDamageTypeEnumConverter;

@@ -3,7 +3,9 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityTypeEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityTypeEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IBonus;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IPenalty;
@@ -15,6 +17,7 @@ import java.util.List;
  * Created by Stephen Hagen on 4/25/2018.
  */
 @Entity
+@TypeConverters(AbilityTypeEnumConverter.class)
 public class AbilityEntity
 {
     @PrimaryKey
@@ -31,9 +34,9 @@ public class AbilityEntity
     @ColumnInfo(name = "spell_copied")
     private ISpell spellCopied;
     @ColumnInfo(name = "bonuses")
-    private List<IBonus> bonuses;
+    private int bonuses;
     @ColumnInfo(name = "penalties")
-    private List<IPenalty> penalties;
+    private int penalties;
 
     //region Getters and Setters
     public int getAbilityID()
@@ -96,22 +99,22 @@ public class AbilityEntity
         this.spellCopied = spellCopied;
     }
 
-    public List<IBonus> getBonuses()
+    public int getBonuses()
     {
         return bonuses;
     }
 
-    public void setBonuses(List<IBonus> bonuses)
+    public void setBonuses(int bonuses)
     {
         this.bonuses = bonuses;
     }
 
-    public List<IPenalty> getPenalties()
+    public int getPenalties()
     {
         return penalties;
     }
 
-    public void setPenalties(List<IPenalty> penalties)
+    public void setPenalties(int penalties)
     {
         this.penalties = penalties;
     }

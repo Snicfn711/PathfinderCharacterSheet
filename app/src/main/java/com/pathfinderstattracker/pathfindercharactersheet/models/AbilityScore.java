@@ -6,18 +6,8 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 public class AbilityScore implements IAbilityScore
 {
-    AbilityScoreEnum Stat;
-    int Amount;
-
-    public AbilityScore()
-    {
-        //Default Constructor
-    }
-    public AbilityScore(AbilityScoreEnum stat, int amount)
-    {
-        setStat(stat);
-        setAmount(amount);
-    }
+    private AbilityScoreEnum Stat;
+    private int Amount;
 
     public void setAmount(int amount)
     {
@@ -36,4 +26,19 @@ public class AbilityScore implements IAbilityScore
         return Stat;
     }
 
+    public AbilityScore()
+    {
+        //Default Constructor
+    }
+    public AbilityScore(AbilityScoreEnum stat, int amount)
+    {
+        setStat(stat);
+        setAmount(amount);
+    }
+
+    @Override
+    public String toString()
+    {
+        return Integer.toString(Amount) + " " + Stat.toString();
+    }
 }

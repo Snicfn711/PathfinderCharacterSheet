@@ -6,25 +6,15 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
 
+import java.util.List;
+
 /**
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public class PreparedCasterCharacterClass implements IPreparedCasterCharacterClass
+public class PreparedCasterCharacterClass extends CharacterClass implements IPreparedCasterCharacterClass
 {
     public AbilityScoreEnum CastingStat;
     public int CasterLevel;
     public int DifficultyClass;
-    public int ClassLevel;
-    public String ClassName;
-    public int BaseAttackBonus;
-    public int HitDiceSize;
-    public ISkill[] Skills;
-    public IArmor[] ArmorProficiency;
-    public IShield[] ShieldProficiency;
-    public IWeapon[] WeaponProficiency;
-    public boolean IsFortitudeSaveGood;
-    public boolean IsWillSaveGood;
-    public boolean IsReflexSaveGood;
-    public IClassAbility[] Abilities;
 }

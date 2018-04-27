@@ -22,15 +22,15 @@ public class FeatEntity
     private int featID;
 
     @ColumnInfo(name = "prerequisites")
-    private List<IPrerequisite> Prerequisites;
+    private Integer Prerequisites; //Theoretically a feat may have no prerequisites, hence the nullable integer return type
     @ColumnInfo(name = "effect_text")
     private String EffectText;
     @ColumnInfo(name = "abilities")
-    private List<IAbility> Abilities;
+    private int Abilities; //Every feat should have some kind of attached ability. **CAUTION** Abilities are a bit poorly defined at the moment, so this field will likely be changed
     @ColumnInfo(name = "bonuses")
-    private List<IBonus> Bonuses = null;
+    private int Bonuses;
     @ColumnInfo(name = "penalties")
-    private List<IPenalty> Penalties = null;
+    private int Penalties;
 
     //region Getters and Setters
     public int getFeatID()
@@ -43,12 +43,12 @@ public class FeatEntity
         this.featID = featID;
     }
 
-    public List<IPrerequisite> getPrerequisites()
+    public Integer getPrerequisites()
     {
         return Prerequisites;
     }
 
-    public void setPrerequisites(List<IPrerequisite> prerequisites)
+    public void setPrerequisites(Integer prerequisites)
     {
         Prerequisites = prerequisites;
     }
@@ -63,32 +63,32 @@ public class FeatEntity
         EffectText = effectText;
     }
 
-    public List<IAbility> getAbilities()
+    public int getAbilities()
     {
         return Abilities;
     }
 
-    public void setAbilities(List<IAbility> abilities)
+    public void setAbilities(int abilities)
     {
         Abilities = abilities;
     }
 
-    public List<IBonus> getBonuses()
+    public int getBonuses()
     {
         return Bonuses;
     }
 
-    public void setBonuses(List<IBonus> bonuses)
+    public void setBonuses(int bonuses)
     {
         Bonuses = bonuses;
     }
 
-    public List<IPenalty> getPenalties()
+    public int getPenalties()
     {
         return Penalties;
     }
 
-    public void setPenalties(List<IPenalty> penalties)
+    public void setPenalties(int penalties)
     {
         Penalties = penalties;
     }

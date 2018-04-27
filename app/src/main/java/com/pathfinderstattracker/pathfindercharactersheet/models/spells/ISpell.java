@@ -4,6 +4,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.ArcaneSchoolEnu
 import com.pathfinderstattracker.pathfindercharactersheet.models.classes.ICharacterClass;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 
+import java.util.List;
+
 /**
  * Created by Stephen Hagen on 1/9/2018.
  */
@@ -14,9 +16,9 @@ public interface ISpell
 
     void setSchool(ArcaneSchoolEnum school);
 
-    DescriptorEnum[] getDescriptors();
+    List<DescriptorEnum> getDescriptors();
 
-    void setDescriptors(DescriptorEnum[] descriptors);
+    void setDescriptors(List<DescriptorEnum> descriptors);
 
     String getSavingThrow();
 
