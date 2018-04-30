@@ -277,7 +277,7 @@ public class Weapon extends AbsItem implements IWeapon
        StringBuilder damageDiceString = new StringBuilder("");
        for(Damage damageDice : damage)
        {
-           damageDiceString.append(Integer.toString(damageDice.numberOfDice)).append("d").append(Integer.toString(damageDice.sizeOfDice)).append("+");
+           damageDiceString.append(Integer.toString(damageDice.getNumberOfDice())).append("d").append(Integer.toString(damageDice.getSizeOfDice())).append("+");
        }
        damageDiceString = new StringBuilder(damageDiceString.substring(0, damageDiceString.length() - 1));
        return damageDiceString.toString();

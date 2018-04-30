@@ -9,6 +9,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatPrerequisiteListEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PrerequisiteEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.RaceEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SenseEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.WeaponEnchantmentEntity;
@@ -24,7 +25,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
                       SenseEntity.class,
                       PrerequisiteEntity.class,
                       FeatPrerequisiteListEntity.class,
-                      FeatAbilityListEntityClass.class}, version = 1)
+                      FeatAbilityListEntityClass.class,
+                      RaceEntity.class}, version = 1)
 public abstract class PathfinderDatabase extends RoomDatabase
 {
 }

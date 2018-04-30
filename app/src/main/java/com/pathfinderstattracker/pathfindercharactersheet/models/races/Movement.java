@@ -6,21 +6,9 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.races;
 
 public class Movement implements IMovement
 {
-    public String Name;
-    public int Speed;
-    public MovementManeuverabilityEnum Maneuverability;
-
-    public Movement()
-    {
-        //Default Constructor
-    }
-
-    public Movement(String name, int speed, MovementManeuverabilityEnum maneuverability)
-    {
-        setName(name);
-        setSpeed(speed);
-        setManeuverability(maneuverability);
-    }
+    private String Name;
+    private int Speed;
+    private MovementManeuverabilityEnum Maneuverability;
 
     public void setName(String name)
     {
@@ -46,5 +34,19 @@ public class Movement implements IMovement
     {
         return Maneuverability;
     }
+
+    public Movement()
+    {
+        //Default Constructor
+    }
+
+    public Movement(String name, int speed, MovementManeuverabilityEnum maneuverability)
+    {
+        setName(name);
+        setSpeed(speed);
+        setManeuverability(maneuverability);
+    }
+
+
 
 }

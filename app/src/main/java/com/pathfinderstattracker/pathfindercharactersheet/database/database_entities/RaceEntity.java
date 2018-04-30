@@ -1,32 +1,69 @@
-package com.pathfinderstattracker.pathfindercharactersheet.models.races;
+package com.pathfinderstattracker.pathfindercharactersheet.database.database_entities;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreChangeConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.BodySlotEnumListConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.SizeCategoryEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreChange;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreChange;
+import com.pathfinderstattracker.pathfindercharactersheet.models.races.CreatureType;
+import com.pathfinderstattracker.pathfindercharactersheet.models.races.IMovement;
+import com.pathfinderstattracker.pathfindercharactersheet.models.races.ISense;
 
 import java.util.List;
 
 /**
- * Created by Stephen Hagen on 1/5/2018.
+ * Created by Stephen Hagen on 4/30/2018.
  */
-
-public class Race implements IRace
+@Entity
+@TypeConverters({AbilityScoreChangeConverter.class,
+                 BodySlotEnumListConverter.class,
+                 SizeCategoryEnumConverter.class})
+public class RaceEntity
 {
+    @PrimaryKey
+    private int raceID;
+
+    @ColumnInfo(name = "hit_dice_size")
     private int HitDiceSize;
+    @ColumnInfo(name = "available_equipment_slots")
     private List<BodySlotsEnum> AvailableEquipmentSlots;
-    private List<IAbility> RacialAbilities;
-    private List<ISkill> RacialSkills; //Need to replace with Skills[] when skills are created
+    @ColumnInfo(name = "racial_abilities")
+    private int RacialAbilities; //There are no races with no abilities (even humans get an extra feat)
+    @ColumnInfo(name = "racials_skills")
+    private List<ISkill> RacialSkills;
+    @ColumnInfo(name = "size")
     private SizeCategoryEnum Size;
+    @ColumnInfo(name = "stat_changes")
     private List<AbilityScoreChange> StatChanges;
+    @ColumnInfo(name = "available_languages")
     private List<String> AvailableLanguages; //May need to make a language enum or class
+    @ColumnInfo(name = "by_class")
     private boolean ByClass; //This is used to check if Skills and HitDiceSize are replaced by Class versions
+    @ColumnInfo(name = "creature_category")
     private CreatureType CreatureCategory;
+    @ColumnInfo(name = "movement_types")
     private List<IMovement> MovementTypes;
+    @ColumnInfo(name = "senses")
     private List<ISense> Senses;
 
     //region Getters and Setters
+    public int getRaceID()
+    {
+        return raceID;
+    }
+
+    public void setRaceID(int raceID)
+    {
+        this.raceID = raceID;
+    }
+
     public int getHitDiceSize()
     {
         return HitDiceSize;
@@ -47,12 +84,12 @@ public class Race implements IRace
         AvailableEquipmentSlots = availableEquipmentSlots;
     }
 
-    public List<IAbility> getRacialAbilities()
+    public int getRacialAbilities()
     {
         return RacialAbilities;
     }
 
-    public void setRacialAbilities(List<IAbility> racialAbilities)
+    public void setRacialAbilities(int racialAbilities)
     {
         RacialAbilities = racialAbilities;
     }
@@ -137,25 +174,4 @@ public class Race implements IRace
         Senses = senses;
     }
     //endregion
-
-
-    public Race()
-    {
-        //Default Constructor
-    }
-
-    public Race(int hitDiceSize, List<BodySlotsEnum> availableEquipmentSlots, List<IAbility> racialAbilities, List<ISkill> racialSkills, SizeCategoryEnum size, List<AbilityScoreChange> statChanges, List<String> availableLanguages, boolean byClass, CreatureType creatureCategory, List<IMovement> movementTypes, List<ISense> senses)
-    {
-        setHitDiceSize(hitDiceSize);
-        setAvailableEquipmentSlots(availableEquipmentSlots);
-        setRacialAbilities(racialAbilities);
-        setRacialSkills(racialSkills);
-        setSize(size);
-        setStatChanges(statChanges);
-        setAvailableLanguages(availableLanguages);
-        setByClass(byClass);
-        setCreatureCategory(creatureCategory);
-        setMovementTypes(movementTypes);
-        setSenses(senses);
-    }
 }

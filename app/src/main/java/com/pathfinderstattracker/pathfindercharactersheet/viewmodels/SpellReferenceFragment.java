@@ -42,7 +42,7 @@ public class SpellReferenceFragment extends Fragment
     //region Temp Spells
     private Spell acidSplash = new Spell("Acid Splash",
                                     ArcaneSchoolEnum.Conjuration,
-                                    new DescriptorEnum[]{DescriptorEnum.Acid},
+                                    new ArrayList<DescriptorEnum>(){{add(DescriptorEnum.Acid);}},
                                     "None",
                                     "None",
                                     true,
@@ -69,7 +69,7 @@ public class SpellReferenceFragment extends Fragment
 
     private Spell notAcidSplash = new Spell("Not Acid Splash",
             ArcaneSchoolEnum.Conjuration,
-            new DescriptorEnum[]{DescriptorEnum.Acid},
+            new ArrayList<DescriptorEnum>(){{add(DescriptorEnum.Acid);}},
             "None",
             "None",
             true,
@@ -98,7 +98,7 @@ public class SpellReferenceFragment extends Fragment
 
     private Spell firstLevelAcidSplash = new Spell("First Level Acid Splash",
             ArcaneSchoolEnum.Conjuration,
-            new DescriptorEnum[]{DescriptorEnum.Acid},
+            new ArrayList<DescriptorEnum>(){{add(DescriptorEnum.Acid);}},
             "None",
             "None",
             true,
@@ -125,7 +125,7 @@ public class SpellReferenceFragment extends Fragment
 
     private Spell notFirstLevelAcidSplash = new Spell("Not First Level Acid Splash",
             ArcaneSchoolEnum.Conjuration,
-            new DescriptorEnum[]{DescriptorEnum.Acid},
+            new ArrayList<DescriptorEnum>(){{add(DescriptorEnum.Acid);}},
             "None",
             "None",
             true,

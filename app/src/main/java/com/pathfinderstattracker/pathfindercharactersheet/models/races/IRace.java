@@ -9,7 +9,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnu
  * Created by Stephen Hagen on 1/5/2018.
  */
 
-public interface IRace extends IMovement, ISense
+public interface IRace
 {
     int HitDiceSize = 8;
     BodySlotsEnum[] AvailableEquipmentSlots = null;

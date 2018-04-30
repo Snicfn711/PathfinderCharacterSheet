@@ -2,6 +2,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
@@ -37,7 +38,7 @@ public class PrerequisiteEntity
     @ColumnInfo(name = "feat_prerequisite")
     private int FeatPrerequisite;//Todo: Feats have prerequisites, and prerequisites can have a list of feats, something's fishy
     @ColumnInfo(name = "race_prerequisite")
-    private IRace RacePrerequisite;
+    private Integer RacePrerequisite;
 
     //region Getters and Setters
     public int getPrerequisiteID()
@@ -110,12 +111,12 @@ public class PrerequisiteEntity
         FeatPrerequisite = featPrerequisite;
     }
 
-    public IRace getRacePrerequisite()
+    public Integer getRacePrerequisite()
     {
         return RacePrerequisite;
     }
 
-    public void setRacePrerequisite(IRace racePrerequisite)
+    public void setRacePrerequisite(Integer racePrerequisite)
     {
         RacePrerequisite = racePrerequisite;
     }
