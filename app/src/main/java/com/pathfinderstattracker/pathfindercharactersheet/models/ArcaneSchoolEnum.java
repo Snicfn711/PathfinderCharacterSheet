@@ -13,6 +13,5 @@ public enum ArcaneSchoolEnum
     Evocation,
     Illusion,
     Necromancy,
-    Transmutation,
-
+    Transmutation
 }

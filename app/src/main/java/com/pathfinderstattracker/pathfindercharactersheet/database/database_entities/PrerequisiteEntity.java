@@ -28,7 +28,7 @@ public class PrerequisiteEntity
     @ColumnInfo(name = "character_level")
     private int CharacterLevel;
     @ColumnInfo(name = "class_prerequisite")
-    private List<IClassPrerequisite> ClassPrerequisite; //This is for feats the require a certain class level to be taken (Like Fighter 8)
+    private int ClassPrerequisite; //This is for feats the require a certain class level to be taken (Like Fighter 8)
     @ColumnInfo(name = "caster_level")
     private int CasterLevel;
     @ColumnInfo(name = "ability_score_prerequisite")
@@ -61,12 +61,12 @@ public class PrerequisiteEntity
         CharacterLevel = characterLevel;
     }
 
-    public List<IClassPrerequisite> getClassPrerequisite()
+    public int getClassPrerequisite()
     {
         return ClassPrerequisite;
     }
 
-    public void setClassPrerequisite(List<IClassPrerequisite> classPrerequisite)
+    public void setClassPrerequisite(int classPrerequisite)
     {
         ClassPrerequisite = classPrerequisite;
     }

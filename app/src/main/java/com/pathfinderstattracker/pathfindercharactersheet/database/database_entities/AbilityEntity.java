@@ -32,7 +32,7 @@ public class AbilityEntity
     @ColumnInfo(name = "short_description")
     private String shortDescription;
     @ColumnInfo(name = "spell_copied")
-    private ISpell spellCopied;
+    private int spellCopied;
     @ColumnInfo(name = "bonuses")
     private int bonuses;
     @ColumnInfo(name = "penalties")
@@ -89,12 +89,12 @@ public class AbilityEntity
         this.shortDescription = shortDescription;
     }
 
-    public ISpell getSpellCopied()
+    public int getSpellCopied()
     {
         return spellCopied;
     }
 
-    public void setSpellCopied(ISpell spellCopied)
+    public void setSpellCopied(int spellCopied)
     {
         this.spellCopied = spellCopied;
     }

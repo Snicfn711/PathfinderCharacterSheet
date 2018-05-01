@@ -6,8 +6,11 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreChangeConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreChangeListConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.BodySlotEnumListConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.CreatureTypeConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.SizeCategoryEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.StringListConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreChange;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
@@ -22,9 +25,11 @@ import java.util.List;
  * Created by Stephen Hagen on 4/30/2018.
  */
 @Entity
-@TypeConverters({AbilityScoreChangeConverter.class,
+@TypeConverters({AbilityScoreChangeListConverter.class,
                  BodySlotEnumListConverter.class,
-                 SizeCategoryEnumConverter.class})
+                 SizeCategoryEnumConverter.class,
+                 StringListConverter.class,
+                 CreatureTypeConverter.class})
 public class RaceEntity
 {
     @PrimaryKey
@@ -37,21 +42,21 @@ public class RaceEntity
     @ColumnInfo(name = "racial_abilities")
     private int RacialAbilities; //There are no races with no abilities (even humans get an extra feat)
     @ColumnInfo(name = "racials_skills")
-    private List<ISkill> RacialSkills;
+    private int RacialSkills;
     @ColumnInfo(name = "size")
     private SizeCategoryEnum Size;
     @ColumnInfo(name = "stat_changes")
     private List<AbilityScoreChange> StatChanges;
     @ColumnInfo(name = "available_languages")
-    private List<String> AvailableLanguages; //May need to make a language enum or class
+    private List<String> AvailableLanguages;
     @ColumnInfo(name = "by_class")
     private boolean ByClass; //This is used to check if Skills and HitDiceSize are replaced by Class versions
     @ColumnInfo(name = "creature_category")
     private CreatureType CreatureCategory;
     @ColumnInfo(name = "movement_types")
-    private List<IMovement> MovementTypes;
+    private int MovementTypes;
     @ColumnInfo(name = "senses")
-    private List<ISense> Senses;
+    private int Senses;
 
     //region Getters and Setters
     public int getRaceID()
@@ -94,12 +99,12 @@ public class RaceEntity
         RacialAbilities = racialAbilities;
     }
 
-    public List<ISkill> getRacialSkills()
+    public int getRacialSkills()
     {
         return RacialSkills;
     }
 
-    public void setRacialSkills(List<ISkill> racialSkills)
+    public void setRacialSkills(int racialSkills)
     {
         RacialSkills = racialSkills;
     }
@@ -154,22 +159,22 @@ public class RaceEntity
         CreatureCategory = creatureCategory;
     }
 
-    public List<IMovement> getMovementTypes()
+    public int getMovementTypes()
     {
         return MovementTypes;
     }
 
-    public void setMovementTypes(List<IMovement> movementTypes)
+    public void setMovementTypes(int movementTypes)
     {
         MovementTypes = movementTypes;
     }
 
-    public List<ISense> getSenses()
+    public int getSenses()
     {
         return Senses;
     }
 
-    public void setSenses(List<ISense> senses)
+    public void setSenses(int senses)
     {
         Senses = senses;
     }

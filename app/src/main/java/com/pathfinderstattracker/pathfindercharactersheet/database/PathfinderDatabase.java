@@ -8,10 +8,14 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatAbilityListEntityClass;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatPrerequisiteListEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.MovementEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PrerequisiteEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.RaceEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.RaceSenseListEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.RaceSkillListEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SenseEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SpellEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.WeaponEnchantmentEntity;
 
 /**
@@ -26,7 +30,11 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
                       PrerequisiteEntity.class,
                       FeatPrerequisiteListEntity.class,
                       FeatAbilityListEntityClass.class,
-                      RaceEntity.class}, version = 1)
+                      RaceEntity.class,
+                      RaceSkillListEntity.class,
+                      RaceSenseListEntity.class,
+                      MovementEntity.class,
+                      SpellEntity.class}, version = 1)
 public abstract class PathfinderDatabase extends RoomDatabase
 {
 }
