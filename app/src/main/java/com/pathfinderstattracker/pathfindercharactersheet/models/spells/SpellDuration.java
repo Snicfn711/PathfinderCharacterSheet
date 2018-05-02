@@ -7,7 +7,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.spells;
 public class SpellDuration implements ISpellDuration
 {
 
-    private SpellDurationEnum SpellDuration;
+    private SpellDurationEnum spellDuration;
     private Integer NumberOfIncrements;
     private String TimeIncrement;
 
@@ -15,13 +15,13 @@ public class SpellDuration implements ISpellDuration
     @Override
     public SpellDurationEnum getSpellDuration()
     {
-        return SpellDuration;
+        return spellDuration;
     }
 
     @Override
     public void setSpellDuration(SpellDurationEnum spellDuration)
     {
-        SpellDuration = spellDuration;
+        this.spellDuration = spellDuration;
     }
 
     @Override
@@ -64,6 +64,7 @@ public class SpellDuration implements ISpellDuration
     @Override
     public String toString()
     {
-        return SpellDuration.toString();
+        return spellDuration.toString();
+        //Todo:This is a vastly over-simplified version of how duration works, fix it later
     }
 }

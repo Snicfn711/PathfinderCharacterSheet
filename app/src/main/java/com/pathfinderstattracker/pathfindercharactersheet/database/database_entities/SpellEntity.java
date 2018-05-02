@@ -6,10 +6,17 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.ArcaneSchoolEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.CastingTimeConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.CharacterClassConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.DamageConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.SpellAreaConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.SpellDescriptorListConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.SpellDurationConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.SpellRangeEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ArcaneSchoolEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.classes.ICharacterClass;
+import com.pathfinderstattracker.pathfindercharactersheet.models.spells.CastingTime;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.DescriptorEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ICastingTime;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpellArea;
@@ -23,7 +30,13 @@ import java.util.List;
  */
 @Entity
 @TypeConverters({ArcaneSchoolEnumConverter.class,
-                 SpellDescriptorListConverter.class})
+                 SpellDescriptorListConverter.class,
+                 CastingTimeConverter.class,
+                 SpellRangeEnumConverter.class,
+                 SpellDurationConverter.class,
+                 SpellAreaConverter.class,
+                 DamageConverter.class,
+                 CharacterClassConverter.class})
 public class SpellEntity
 {
     @PrimaryKey
@@ -47,7 +60,7 @@ public class SpellEntity
     @ColumnInfo(name = "has_divine_focus")
     private boolean HasDivineFocus;
     @ColumnInfo(name = "casting_time")
-    private ICastingTime CastingTime;
+    private ICastingTime castingTime;
     @ColumnInfo(name = "range")
     private SpellRangeEnum Range;
     @ColumnInfo(name = "target")
@@ -176,12 +189,12 @@ public class SpellEntity
 
     public ICastingTime getCastingTime()
     {
-        return CastingTime;
+        return castingTime;
     }
 
     public void setCastingTime(ICastingTime castingTime)
     {
-        CastingTime = castingTime;
+        this.castingTime = castingTime;
     }
 
     public SpellRangeEnum getRange()

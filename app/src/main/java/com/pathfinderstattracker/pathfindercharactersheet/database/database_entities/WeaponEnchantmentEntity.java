@@ -8,9 +8,8 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreEnumConverter;
-import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityTypeEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AlignmentEnumConverter;
-import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.EnchantmentDamageConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.DamageConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponDamageTypeEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponTagEnumListConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponWeightClassEnumConverter;
@@ -18,13 +17,9 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.type_converte
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
-import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDamageTypeEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponTagEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.races.ISense;
 
 import java.util.List;
 
@@ -67,7 +62,7 @@ import java.util.List;
 @TypeConverters({AbilityScoreEnumConverter.class,
                  AlignmentEnumConverter.class,
                  WeaponDamageTypeEnumConverter.class,
-                 EnchantmentDamageConverter.class,
+                 DamageConverter.class,
                  WeaponTagEnumListConverter.class,
                  WeaponWeightClassEnumConverter.class,
                  WeaponWeightClassEnumListConverter.class})

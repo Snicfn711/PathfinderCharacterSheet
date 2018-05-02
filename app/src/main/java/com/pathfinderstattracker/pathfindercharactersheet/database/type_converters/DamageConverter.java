@@ -8,7 +8,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
  * Created by Stephen Hagen on 4/23/2018.
  */
 
-public class EnchantmentDamageConverter
+public class DamageConverter
 {
     @TypeConverter
     public Damage fromString(String value)
