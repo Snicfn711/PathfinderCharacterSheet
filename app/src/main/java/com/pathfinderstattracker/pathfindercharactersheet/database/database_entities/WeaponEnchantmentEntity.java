@@ -86,7 +86,7 @@ public class WeaponEnchantmentEntity
     @ColumnInfo(name = "required_damage_type")
     private WeaponDamageTypeEnum requiredDamageType;
     @ColumnInfo(name = "required_tags")
-    private List<WeaponTagEnum> requiredTags;
+    public List<WeaponTagEnum> requiredTags;
     @ColumnInfo(name = "added_damage")
     private Damage addedDamage;
     @ColumnInfo(name = "added_damage_type")

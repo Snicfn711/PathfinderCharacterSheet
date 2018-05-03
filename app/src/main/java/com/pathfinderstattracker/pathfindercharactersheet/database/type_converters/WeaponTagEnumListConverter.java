@@ -48,6 +48,8 @@ public class WeaponTagEnumListConverter
                 return WeaponTagEnum.DoubleHeaded;
             case "Projectile":
                 return WeaponTagEnum.Projectile;
+            case "Firearm":
+                return WeaponTagEnum.Firearm;
             case "Improvised":
                 return WeaponTagEnum.Improvised;
             case "Brace":

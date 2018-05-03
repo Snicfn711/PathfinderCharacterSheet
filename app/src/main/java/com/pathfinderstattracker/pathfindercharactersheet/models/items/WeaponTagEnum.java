@@ -10,6 +10,7 @@ public enum WeaponTagEnum
     Thrown,
     DoubleHeaded,
     Projectile,
+    Firearm,
     Improvised,
     Brace,
     Disarm,
