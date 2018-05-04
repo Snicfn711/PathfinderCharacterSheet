@@ -1,7 +1,10 @@
 package com.pathfinderstattracker.pathfindercharactersheet.database;
 
 import android.arch.persistence.room.Database;
+import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
+import android.content.Context;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.WeaponEnchantmentDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.AbilityEntity;
@@ -17,6 +20,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SpellEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.WeaponEnchantmentEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponTagEnumListConverter;
 
 /**
  * Created by Stephen Hagen on 4/19/2018.
@@ -35,6 +39,24 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
                       RaceSenseListEntity.class,
                       MovementEntity.class,
                       SpellEntity.class}, version = 1)
+@TypeConverters(WeaponTagEnumListConverter.class)
 public abstract class PathfinderDatabase extends RoomDatabase
 {
+    private static PathfinderDatabase INSTANCE;
+
+    public abstract WeaponEnchantmentDao weaponEnchantmentDao();
+
+    public static PathfinderDatabase getDatabase(Context context)
+    {
+        if(INSTANCE == null)
+        {
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PathfinderDatabase.class, "weaponEnchantmentDatabase").build();
+        }
+        return INSTANCE;
+    }
+
+    public static void destroyInstance()
+    {
+        INSTANCE = null;
+    }
 }

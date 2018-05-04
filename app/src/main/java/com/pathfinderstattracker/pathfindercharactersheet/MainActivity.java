@@ -6,12 +6,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderDatabase;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment;
@@ -32,7 +34,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         referenceFragmentAdapter = new ReferenceFragmentAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(referenceFragmentAdapter);
-
+        DatabaseInitializer.populateAsync(PathfinderDatabase.getDatabase(this));
     }
 
     @Override

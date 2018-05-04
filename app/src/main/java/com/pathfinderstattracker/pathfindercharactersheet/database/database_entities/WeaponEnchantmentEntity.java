@@ -17,6 +17,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.type_converte
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDamageTypeEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponTagEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
@@ -27,7 +28,8 @@ import java.util.List;
  * Created by Stephen Hagen on 4/19/2018.
  */
 
-@Entity(foreignKeys = {@ForeignKey(entity = SkillEntity.class,
+@Entity(tableName = "weapon_enchantments",
+        foreignKeys = {@ForeignKey(entity = SkillEntity.class,
                                    parentColumns = "skillID",
                                    childColumns = "checked_skillID"),
                        @ForeignKey(entity = SkillEntity.class,
@@ -635,4 +637,61 @@ public class WeaponEnchantmentEntity
         this.restrictedWeightClasses = restrictedWeightClasses;
     }
     //endregion
+
+
+    public WeaponEnchantmentEntity()
+    {
+        //Default Constructor
+    }
+
+    public WeaponEnchantmentEntity(IWeaponEnchantment enchantmentToConvert)
+    {
+        setGoldCost(enchantmentToConvert.getGoldCost());
+        setEnhancementBonusPointCost(enchantmentToConvert.getEnhancementBonusPointCost());
+        setName(enchantmentToConvert.getName());
+        setCheckedAbilityScore(enchantmentToConvert.getCheckedAbilityScore());
+        setCheckedSkillID(0);//Todo: Properly implement once we implement a skill table
+        setRequiredAlignment(enchantmentToConvert.getRequiredAlignment());
+        setRequiredDamageType(enchantmentToConvert.getRequiredDamageType());
+        setRequiredTags(enchantmentToConvert.getRequiredTags());
+        setAddedDamage(enchantmentToConvert.getDamageDice());
+        setAddedDamageType(enchantmentToConvert.getAddedDamageType());//Fire, Ice, Necrotic, etc.
+        setDamageDiceCondition(enchantmentToConvert.getDamageCondition());//"vs Evil", "vs Fire Subtype" etc
+        setConditionalEnhancementBonus(enchantmentToConvert.getConditionalEnhancementBonus());
+        setEnchantmentConditions(enchantmentToConvert.getEnchantmentConditionsText());
+        setConditionalAttackBonus(enchantmentToConvert.getConditionalAttackBonus());
+        setAttackBonusCondition(enchantmentToConvert.getAttackBonusCondition());
+        setEnchantmentCharges(enchantmentToConvert.getEnchantmentCharges());
+        setFeatAbilityForBonusCharges(0);//Todo: Properly implement once we get feat abilities figured out
+        setNumberOfFeatAbilityBonusCharges(enchantmentToConvert.getNumberOfFeatAbilityBonusCharges());
+        setClassAbilityForBonusCharges(0);//Todo: Properly implement once we get class abilities figured out
+        setNumberOfClassAbilityBonusCharges(enchantmentToConvert.getNumberOfClassAbilityBonusCharges());
+        setRequiredWeaponName(enchantmentToConvert.getRequiredWeaponName());
+        setBonusToCMB(enchantmentToConvert.getCMBBonus());
+        setConditionForCMBBonus(enchantmentToConvert.getCMBBonusCondition());
+        setBonusToCMD(enchantmentToConvert.getCMDBonus());
+        setConditionForCMDBonus(enchantmentToConvert.getCMDBonusCondition());
+        setEnchantmentConditions(enchantmentToConvert.getEnchantmentConditionsText());//This is for short descriptions that don't change numbers anywhere else, like "Ignores armor and shield bonuses", or "Affects incorporeal creatures"
+        setEnchantmentFullText(enchantmentToConvert.getEnchantmentText());//This is useful for the full text of enchantments, but also for enchantments that aren't anything but text, like Called
+        setAdditionalSkillCheck(0);//Todo: Properly implement once we have skills figured out
+        setAllowsAdditionalCMBCheck(enchantmentToConvert.allowsAdditionalCMBCheck());
+        setSaveForBonus(enchantmentToConvert.getSaveForBonus());
+        setConditionForBonusToSave(enchantmentToConvert.getConditionForBonusToSave());
+        setChangesSize(enchantmentToConvert.changesSize());
+        setSkillForBonus(0);//Todo: Properly implement once we have skills figured out
+        setConditionForBonusToSkill(enchantmentToConvert.getConditionForSkillBonus());
+        setChangesDamageDiceSize(enchantmentToConvert.changesDamageDiceSize());
+        setChangesCriticalRange(enchantmentToConvert.changesCriticalRange());//The only enchantment that does this, Keen, only ever doubles the critical range, so we don't need to worry about tracking the size of the change
+        setAbilityForIncreasedDC(0);//Todo: Properly implement once we have abilities figured out
+        setRangeModifier(enchantmentToConvert.getRangeModifier());//This is for when a flat number of feet is added to a weapons range (like with Thrown)
+        setRangeMultiplier(enchantmentToConvert.getRangeMultiplier());
+        setMisfireDecrease(enchantmentToConvert.getMisfireDecrease());
+        setWeaponEnchantmentIDBeingRestricted(0);//Todo:Our M-M relations need to be fixed before we can implement this
+        setAddedFeat(0);//Todo: See above
+        setAddedSense(0);//Todo: yup
+        setDamagesWielder(enchantmentToConvert.doesDamageToWielder());
+        setRequiredWeightClass(enchantmentToConvert.getRequiredWeightClass());
+        setRestrictedWeightClasses(enchantmentToConvert.getRestrictedWeightClasses());
+
+    }
 }
