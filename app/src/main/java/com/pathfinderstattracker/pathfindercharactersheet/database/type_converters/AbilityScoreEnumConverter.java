@@ -37,6 +37,10 @@ public class AbilityScoreEnumConverter
     @TypeConverter
     public String toString(AbilityScoreEnum value)
     {
-        return value.toString();
+        if(value != null)
+        {
+            return value.toString();
+        }
+        else return " ";
     }
 }
