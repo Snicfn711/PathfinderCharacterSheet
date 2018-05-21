@@ -28,6 +28,10 @@ public class WeaponTagEnumListConverter
     @TypeConverter
     public String toString(List<WeaponTagEnum> value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         StringBuilder formattedString = new StringBuilder(new String());
         for(WeaponTagEnum tagEnum: value)
         {

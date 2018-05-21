@@ -39,6 +39,10 @@ public class SpellRangeEnumConverter
     @TypeConverter
     public String toString(SpellRangeEnum value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         return value.toString();
     }
 }

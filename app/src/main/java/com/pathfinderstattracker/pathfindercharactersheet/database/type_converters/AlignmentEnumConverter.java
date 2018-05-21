@@ -43,6 +43,10 @@ public class AlignmentEnumConverter
     @TypeConverter
     public String toString(AlignmentEnum value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         return value.toString();
     }
 }

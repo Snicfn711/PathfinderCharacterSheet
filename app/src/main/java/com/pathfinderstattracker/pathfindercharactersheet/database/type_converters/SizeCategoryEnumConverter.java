@@ -44,6 +44,10 @@ public class SizeCategoryEnumConverter
     @TypeConverter
     public String toString(SizeCategoryEnum value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         return value.toString();
     }
 }

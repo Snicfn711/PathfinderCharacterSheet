@@ -42,6 +42,10 @@ public class ArcaneSchoolEnumConverter
     @TypeConverter
     public String toString(ArcaneSchoolEnum value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         return value.toString();
     }
 }

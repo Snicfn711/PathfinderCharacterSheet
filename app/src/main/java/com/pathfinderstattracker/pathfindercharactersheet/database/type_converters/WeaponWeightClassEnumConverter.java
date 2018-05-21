@@ -33,6 +33,11 @@ public class WeaponWeightClassEnumConverter
     @TypeConverter
     public String toString(WeaponWeightClassEnum value)
     {
+
+        if(value == null)
+        {
+            return null;
+        }
         return value.toString();
     }
 }

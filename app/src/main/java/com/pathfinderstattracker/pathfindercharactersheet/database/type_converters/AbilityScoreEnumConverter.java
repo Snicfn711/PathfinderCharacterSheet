@@ -41,6 +41,6 @@ public class AbilityScoreEnumConverter
         {
             return value.toString();
         }
-        else return " ";
+        else return null;
     }
 }

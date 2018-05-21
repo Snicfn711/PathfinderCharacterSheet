@@ -35,6 +35,10 @@ public class MovementManuverabilityEnumConverter
     @TypeConverter
     public String toString(MovementManeuverabilityEnum value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         return value.toString();
     }
 }

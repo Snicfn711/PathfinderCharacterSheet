@@ -31,6 +31,10 @@ public class WeaponDamageTypeEnumConverter
     @TypeConverter
     public String toString(WeaponDamageTypeEnum value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         return value.toString();
     }
 }

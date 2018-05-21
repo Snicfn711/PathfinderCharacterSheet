@@ -54,6 +54,10 @@ public class WeaponTagEnumConverter
     @TypeConverter
     public String toString(WeaponTagEnum value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         return value.toString();
     }
 

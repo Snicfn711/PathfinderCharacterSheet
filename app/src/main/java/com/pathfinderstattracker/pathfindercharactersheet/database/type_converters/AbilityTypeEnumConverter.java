@@ -31,6 +31,10 @@ public class AbilityTypeEnumConverter
     @TypeConverter
     public String toString(AbilityTypeEnum value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         return value.toString();
     }
 }

@@ -28,6 +28,10 @@ public class BodySlotEnumListConverter
     @TypeConverter
     public String toString(List<BodySlotsEnum> value)
     {
+        if(value == null)
+        {
+            return null;
+        }
         StringBuilder formattedString = new StringBuilder();
         for(BodySlotsEnum tagEnum: value)
         {
