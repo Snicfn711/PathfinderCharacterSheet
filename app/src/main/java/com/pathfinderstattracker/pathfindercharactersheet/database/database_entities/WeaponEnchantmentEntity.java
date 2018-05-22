@@ -29,7 +29,7 @@ import java.util.List;
  */
 
 @Entity(tableName = "weapon_enchantments",
-        foreignKeys = {@ForeignKey(entity = SkillEntity.class,
+/*        foreignKeys = {@ForeignKey(entity = SkillEntity.class,
                                    parentColumns = "skillID",
                                    childColumns = "checked_skillID"),
                        @ForeignKey(entity = SkillEntity.class,
@@ -52,7 +52,7 @@ import java.util.List;
                                    childColumns = "abilityID_for_increased_dc"),
                        @ForeignKey(entity = SenseEntity.class,
                                    parentColumns = "senseID",
-                                   childColumns = "added_senseID")},
+                                   childColumns = "added_senseID")},*/
         indices = {@Index("checked_skillID"),
                    @Index("skillID_for_additional_check"),
                    @Index("skillID_for_bonus"),

@@ -34,7 +34,11 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         referenceFragmentAdapter = new ReferenceFragmentAdapter(getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(referenceFragmentAdapter);
-        DatabaseInitializer.populateAsync(PathfinderDatabase.getDatabase(this));
+        PathfinderDatabase database = PathfinderDatabase.getDatabase(this);
+        if(database == null)
+        {
+            DatabaseInitializer.populateAsync(database);
+        }
     }
 
     @Override
