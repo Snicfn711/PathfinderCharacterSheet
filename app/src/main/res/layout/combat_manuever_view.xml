@@ -12,6 +12,8 @@
             android:layout_weight=".33"
             android:gravity="center"
             android:text="@string/CMB"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:background="@drawable/header_border"
             android:textColor="@color/colorPlainText"/>
         <TextView
@@ -21,6 +23,8 @@
             android:layout_weight=".33"
             android:gravity="center"
             android:text="@string/Value"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
         <LinearLayout
@@ -49,6 +53,8 @@
             android:layout_weight=".33"
             android:gravity="center"
             android:text="@string/CMD"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:background="@drawable/header_border"
             android:textColor="@color/colorPlainText"/>
         <TextView

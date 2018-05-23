@@ -11,6 +11,8 @@
         android:gravity="center"
         android:text="@string/Initiative"
         android:background="@drawable/header_border"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:textColor="@color/colorPlainText"/>
     <TextView
         android:id="@+id/Value"

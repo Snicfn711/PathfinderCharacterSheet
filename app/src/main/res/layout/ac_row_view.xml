@@ -9,6 +9,8 @@
         android:layout_weight=".5"
         android:gravity="center"
         android:text="@string/Name"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:background="@drawable/header_border"
         android:textColor="@color/colorPlainText"/>
     <TextView
@@ -18,6 +20,8 @@
         android:layout_weight=".5"
         android:gravity="center"
         android:text="@string/Value"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:background="@drawable/header_border"
         android:textColor="@color/colorPlainText"/>
 </LinearLayout>

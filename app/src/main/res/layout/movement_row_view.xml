@@ -10,6 +10,8 @@
         android:layout_weight=".33"
         android:gravity="center"
         android:text="@string/Name"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:background="@drawable/header_border"
         android:textColor="@color/colorPlainText"/>
     <TextView
@@ -19,6 +21,8 @@
         android:layout_weight=".33"
         android:gravity="center"
         android:text="@string/MovementFeet"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:background="@drawable/header_border"
         android:textColor="@color/colorPlainText"/>
     <TextView
@@ -28,6 +32,8 @@
         android:layout_weight=".33"
         android:gravity="center"
         android:text="@string/MovementSquares"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:background="@drawable/header_border"
         android:textColor="@color/colorPlainText"/>
 </LinearLayout>
