@@ -7,6 +7,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipmen
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Stephen Hagen on 1/10/2018.
@@ -14,6 +15,10 @@ import java.util.List;
 
 public interface IPlayerCharacter
 {
+    void setPlayerCharacterID(UUID playerCharacterID);
+    UUID getPlayerCharacterID();
+    void setPlayerCharacterName(String name);
+    String getPlayerCharacterName();
     void setExperiencePoints(double experiencePoints);
     double getExperiencePoints();
     void setCharacterLevel(int characterLevel);

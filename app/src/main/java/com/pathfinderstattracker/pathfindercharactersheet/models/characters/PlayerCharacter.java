@@ -10,6 +10,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtecti
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Stephen Hagen on 1/10/2018.
@@ -17,6 +18,8 @@ import java.util.List;
 
 public class PlayerCharacter implements IPlayerCharacter
 {
+    private UUID playerCharacterID;
+    private String characterName;
     private double ExperiencePoints;
     private int CharacterLevel;
     private int ConcentrationCheck;
@@ -37,6 +40,29 @@ public class PlayerCharacter implements IPlayerCharacter
     private int ReflexSave;
     private int WillSave;
     private List<IItem> Inventory;
+
+    @Override
+    public void setPlayerCharacterID(UUID playerCharacterID)
+    {
+        this.playerCharacterID = playerCharacterID;
+    }
+
+    @Override
+    public UUID getPlayerCharacterID()
+    {
+        return playerCharacterID;
+    }
+
+    @Override
+    public void setPlayerCharacterName(String name)
+    {
+        this.characterName = name;
+    }
+
+    @Override
+    public String getPlayerCharacterName() {
+        return characterName;
+    }
 
     public double getExperiencePoints()
     {

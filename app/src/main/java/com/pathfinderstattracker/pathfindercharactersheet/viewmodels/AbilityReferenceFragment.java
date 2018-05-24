@@ -47,7 +47,7 @@ public class AbilityReferenceFragment extends Fragment
     public static AbilityReferenceFragment newInstance(int columnCount)
     {
         // TODO: Customize parameter initialization
-        //We don't have any parameters yet, so we're not doing anything here yet
+        //We don't have any parameters yet, so we're not doing anything here
         AbilityReferenceFragment fragment = new AbilityReferenceFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
