@@ -1,20 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <TextView
-        android:id="@+id/item_number"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/field_border"
+    android:layout_marginBottom="2dp">
+    <android.support.constraint.Guideline
+        android:id="@+id/PlayerCharacterNameHorizontalGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-
-    <TextView
-        android:id="@+id/content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".5"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/PlayerCharacterRaceVerticalGuideLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
-</LinearLayout>
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".33"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/PlayerCharacterClassVerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".66"/>
+    <TextView
+        android:id="@+id/PlayerCharacterName"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/PlayerCharacterNameHorizontalGuideline"
+        android:text="Name"/>
+    <TextView
+        android:id="@+id/PlayerCharacterTotalLevel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/PlayerCharacterNameHorizontalGuideline"
+        app:layout_constraintRight_toLeftOf="@id/PlayerCharacterRaceVerticalGuideLine"
+        app:layout_constraintEnd_toStartOf="@id/PlayerCharacterRaceVerticalGuideLine"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Level"/>
+    <TextView
+        android:id="@+id/PlayerCharacterRace"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toRightOf="@id/PlayerCharacterRaceVerticalGuideLine"
+        app:layout_constraintStart_toEndOf="@id/PlayerCharacterRaceVerticalGuideLine"
+        app:layout_constraintTop_toBottomOf="@id/PlayerCharacterNameHorizontalGuideline"
+        app:layout_constraintRight_toLeftOf="@id/PlayerCharacterClassVerticalGuideline"
+        app:layout_constraintEnd_toStartOf="@id/PlayerCharacterClassVerticalGuideline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Race"/>
+    <TextView
+        android:id="@+id/PlayerCharacterClass"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintLeft_toRightOf="@id/PlayerCharacterClassVerticalGuideline"
+        app:layout_constraintStart_toEndOf="@id/PlayerCharacterClassVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/PlayerCharacterNameHorizontalGuideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Class"/>
+
+</android.support.constraint.ConstraintLayout>

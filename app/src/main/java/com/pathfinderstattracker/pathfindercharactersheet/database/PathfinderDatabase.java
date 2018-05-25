@@ -38,7 +38,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.type_converte
                       RaceSkillListEntity.class,
                       RaceSenseListEntity.class,
                       MovementEntity.class,
-                      SpellEntity.class}, version = 1)
+                      SpellEntity.class},
+          version = 1)
 @TypeConverters(WeaponTagEnumListConverter.class)
 public abstract class PathfinderDatabase extends RoomDatabase
 {
