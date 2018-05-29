@@ -133,7 +133,7 @@ public class EquipmentReferenceFragment extends Fragment
 
         if (getArguments() != null)
         {
-            //Like above, since we don't have any paramters yet, there's not much to do here
+            //Like above, since we don't have any parameters yet, there's not much to do here
         }
     }
 

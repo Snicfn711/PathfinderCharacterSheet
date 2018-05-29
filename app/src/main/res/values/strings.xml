@@ -93,4 +93,7 @@
     <!--Ability Strings-->
     <string name="SortBySource">Sort by Source</string>
     <string name="AddAbilityButtonContentDescription">Add Ability Button</string>
+    <!--Character List Strings-->
+    <string name="CharactersList">Characters</string>
+    <string name="AddNewCharacter">Add New Character</string>
 </resources>

@@ -7,18 +7,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.PlayerCharacterFragment.OnListFragmentInteractionListener;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.PlayerCharacterListFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
 //TODO:Properly implement our player character screen
 public class PlayerCharacterRecyclerViewAdapter extends RecyclerView.Adapter<PlayerCharacterRecyclerViewAdapter.ViewHolder> {
 
-    private final List<PlayerCharacter> mValues;
+    private final List<IPlayerCharacter> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public PlayerCharacterRecyclerViewAdapter(List<PlayerCharacter> items, OnListFragmentInteractionListener listener) {
+    public PlayerCharacterRecyclerViewAdapter(List<IPlayerCharacter> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -32,17 +32,20 @@ public class PlayerCharacterRecyclerViewAdapter extends RecyclerView.Adapter<Pla
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        //holder.mIdView.setText(mValues.get(position));
-        //holder.mContentView.setText(mValues.get(position));
+        holder.playerCharacter = mValues.get(position);
+        holder.playerCharacterName.setText(holder.playerCharacter.getPlayerCharacterName());
+        holder.playerCharacterCharacterLevel.setText(holder.playerCharacter.getCharacterLevel());
+        holder.playerCharacterRace.setText(holder.playerCharacter.getCharacterRace().toString());
+        holder.playerCharacterClass.setText(holder.playerCharacter.getClass().toString());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+
+        holder.recycledRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    //mListener.onListFragmentInteraction(holder.mItem);
+                    //mListener.onListFragmentInteraction(holder.playerCharacter);
                 }
             }
         });
@@ -54,21 +57,25 @@ public class PlayerCharacterRecyclerViewAdapter extends RecyclerView.Adapter<Pla
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        //public final TextView mIdView;
-        public final TextView mContentView;
-        public PlayerCharacter mItem;
+        private final View recycledRow;
+        private final TextView playerCharacterName;
+        private final TextView playerCharacterCharacterLevel;
+        private final TextView playerCharacterRace;
+        private final TextView playerCharacterClass;
+        private IPlayerCharacter playerCharacter;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            //mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            recycledRow = view;
+            playerCharacterName = view.findViewById(R.id.PlayerCharacterName);
+            playerCharacterCharacterLevel = view.findViewById(R.id.PlayerCharacterTotalLevel);
+            playerCharacterRace = view.findViewById(R.id.PlayerCharacterRace);
+            playerCharacterClass = view.findViewById(R.id.PlayerCharacterClass);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + playerCharacterName.getText() + "'";
         }
     }
 }
