@@ -67,13 +67,6 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
                 args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
-            //TODO: Make sure to remove the PlayerCharacterListFragment from this adapter once we're able to get it its own page
-            case 6:
-                fragment = new PlayerCharacterListFragment();
-                args = new Bundle();
-                args.putString("Foo", "Bar");
-                fragment.setArguments(args);
-                return fragment;
             default:
                 return fragment;
         }
@@ -88,7 +81,7 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
         //We should be able to get away with hardcoding this because FragmentPagerAdapter assumes a  //
         //small, static group of fragments.                                                          //
         ///////////////////////////////////////////////////////////////////////////////////////////////
-        return 7;
+        return 6;
     }
 
     public CharSequence getPageTitle(int position)

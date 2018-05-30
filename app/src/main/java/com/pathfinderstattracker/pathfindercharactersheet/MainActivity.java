@@ -2,7 +2,9 @@ package com.pathfinderstattracker.pathfindercharactersheet;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
@@ -19,24 +21,28 @@ import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitiali
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.ParentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.PlayerCharacterListFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
 
-public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener
+public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener
 {
-    ReferenceFragmentAdapter referenceFragmentAdapter;
-    ViewPager mViewPager;
+//    ReferenceFragmentAdapter referenceFragmentAdapter;
+//    ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        referenceFragmentAdapter = new ReferenceFragmentAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(referenceFragmentAdapter);
+        Fragment characterListFragment = new PlayerCharacterListFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.MainActivity, characterListFragment).commit();
+//        referenceFragmentAdapter = new ReferenceFragmentAdapter(getSupportFragmentManager());
+//        mViewPager = (ViewPager) findViewById(R.id.pager);
+//        mViewPager.setAdapter(referenceFragmentAdapter);
         PathfinderDatabase database = PathfinderDatabase.getDatabase(this);
         if(database == null)
         {
@@ -84,6 +90,14 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     @Override
     public void onListFragmentInteraction(IPlayerCharacter item)
     {
-
+        AddNewCharacter();
     }
+
+    public void AddNewCharacter()
+    {
+        Fragment parentReferenceFragment = new ParentReferenceFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment).commit();
+    }
+
 }

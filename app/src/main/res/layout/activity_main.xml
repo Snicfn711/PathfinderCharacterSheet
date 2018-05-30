@@ -1,36 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/MainActivity"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.pathfinderstattracker.pathfindercharactersheet.MainActivity"
     android:background="@drawable/knight_bg">
 
-<android.support.v4.view.ViewPager
-    android:id="@+id/pager"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <android.support.v4.view.PagerTabStrip
-        android:id="@+id/pager_title_strip"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/colorTransparentHeader"
-        android:textColor="@color/colorPlainText"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp" />
-
-    <fragment android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment"
-        android:id="@+id/StatsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <fragment android:name="com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment"
-        android:id="@+id/SkillsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</android.support.v4.view.ViewPager>
 </android.support.constraint.ConstraintLayout>

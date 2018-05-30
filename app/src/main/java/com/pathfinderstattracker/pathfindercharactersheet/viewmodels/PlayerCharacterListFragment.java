@@ -78,6 +78,7 @@ public class PlayerCharacterListFragment extends Fragment
             public void onClick(View view)
             {
                 addNewPlayerCharacterButton.startAnimation(click);
+                mListener.AddNewCharacter();
             }
         }));
 
@@ -114,6 +115,7 @@ public class PlayerCharacterListFragment extends Fragment
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
+        public void AddNewCharacter();
         void onListFragmentInteraction(IPlayerCharacter item);
     }
 }

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/knight_bg">
-    <RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout android:layout_height="wrap_content"
         android:layout_width="match_parent">
         <LinearLayout android:id="@+id/armorSection"
             android:layout_width="wrap_content"
@@ -33,75 +32,74 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"/>
-                <android.support.constraint.ConstraintLayout
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp">
+                <!--It was too difficult to treat the header as a normal save row, and it didn't seem
+                    worth the effort to make a custom view, so we just stuck the header directly in the
+                    fragment code. The same reasoning applies to the stats view-->
+                <TextView
+                    android:id="@+id/SaveName"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="50"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
-                    android:orientation="vertical">
-                    <!--It was too difficult to treat the header as a normal save row, and it didn't seem
-                        worth the effort to make a custom view, so we just stuck the header directly in the
-                        fragment code. The same reasoning applies to the stats view-->
-                    <TextView
-                        android:id="@+id/SaveName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/Name"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:background="@drawable/header_border"
-                        android:textColor="@color/colorPlainText"
-                        android:layout_weight=".33"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/SaveValue"/>
-                    <TextView
-                        android:id="@+id/SaveValue"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/Value"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:background="@drawable/header_border"
-                        android:textColor="@color/colorPlainText"
-                        android:layout_weight=".33"
-                        app:layout_constraintLeft_toRightOf="@id/SaveName"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/RollSaveText"/>
-                    <TextView
-                        android:id="@+id/RollSaveText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="@string/Roll"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:background="@drawable/header_border"
-                        android:textColor="@color/colorPlainText"
-                        android:layout_weight=".33"
-                        app:layout_constraintLeft_toRightOf="@id/SaveValue"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"/>
-                    <ListView android:id="@+id/savesList"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginBottom="5dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/SaveValue"
-                        app:layout_constraintRight_toRightOf="parent"/>
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/Name"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:background="@drawable/header_border"
+                    android:textColor="@color/colorPlainText"
+                    android:layout_weight=".33"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/SaveValue"/>
+                <TextView
+                    android:id="@+id/SaveValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/Value"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:background="@drawable/header_border"
+                    android:textColor="@color/colorPlainText"
+                    android:layout_weight=".33"
+                    app:layout_constraintLeft_toRightOf="@id/SaveName"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/RollSaveText"/>
+                <TextView
+                    android:id="@+id/RollSaveText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/Roll"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:background="@drawable/header_border"
+                    android:textColor="@color/colorPlainText"
+                    android:layout_weight=".33"
+                    app:layout_constraintLeft_toRightOf="@id/SaveValue"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+                <ListView android:id="@+id/savesList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginBottom="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/SaveValue"
+                    app:layout_constraintRight_toRightOf="parent"/>
 
-                    <ListView android:id="@+id/combatManueverList"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"/>
-            </android.support.constraint.ConstraintLayout>
+                <ListView android:id="@+id/combatManueverList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
         </LinearLayout>
         <LinearLayout android:layout_height="wrap_content"
             android:layout_width="wrap_content"
@@ -185,4 +183,4 @@
                     android:layout_weight=".5"/>
         </LinearLayout>
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+</ScrollView>
