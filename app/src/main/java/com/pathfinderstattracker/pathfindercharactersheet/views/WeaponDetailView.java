@@ -12,12 +12,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEn
 
 import java.util.List;
 
-/**
- * TODO: document your custom view class.
- */
 public class WeaponDetailView extends ConstraintLayout
 {
-
     private TextView magicBonus;
     private TextView equipmentAbilities;
     private TextView equipmentName;

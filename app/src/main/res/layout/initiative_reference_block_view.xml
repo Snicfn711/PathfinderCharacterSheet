@@ -4,7 +4,6 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/Title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".33"
@@ -15,14 +14,14 @@
         android:ellipsize="end"
         android:textColor="@color/colorPlainText"/>
     <TextView
-        android:id="@+id/Value"
+        android:id="@+id/InitiativeValue"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".33"
         android:gravity="center"
         android:background="@drawable/field_border"
         android:textColor="@color/colorPlainText"/>
-    <LinearLayout
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight=".33"
@@ -36,5 +35,5 @@
             android:adjustViewBounds="true"
             android:src="@drawable/d20_image"
             android:contentDescription="@string/Roll" />
-    </LinearLayout>
+    </FrameLayout>
 </LinearLayout>

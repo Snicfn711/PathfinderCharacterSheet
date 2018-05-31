@@ -46,7 +46,4 @@ public class Movement implements IMovement
         setSpeed(speed);
         setManeuverability(maneuverability);
     }
-
-
-
 }

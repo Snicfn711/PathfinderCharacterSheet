@@ -32,7 +32,7 @@ public class PlayerCharacter implements IPlayerCharacter
     private List<IEquipment> Equipment;
     private IDamageReduction DR;
     private List<String> LanguagesKnown;
-    private IAbilityScore[] AbilityScores;
+    private List<IAbilityScore> AbilityScores;
     private ICombatManeuver CombatManeuverStats;
     private int SpellResistance;
     private int Initiative;
@@ -186,12 +186,12 @@ public class PlayerCharacter implements IPlayerCharacter
         LanguagesKnown = languagesKnown;
     }
 
-    public IAbilityScore[] getAbilityScores()
+    public List<IAbilityScore> getAbilityScores()
     {
         return AbilityScores;
     }
 
-    public void setAbilityScores(IAbilityScore[] abilityScores)
+    public void setAbilityScores(List<IAbilityScore> abilityScores)
     {
         AbilityScores = abilityScores;
     }
@@ -263,11 +263,6 @@ public class PlayerCharacter implements IPlayerCharacter
     public PlayerCharacter()
     {
         //Default Constructor
-    }
-
-    private int CalculateModifier(IAbilityScore stat)
-    {
-        return (stat.getAmount() - 10)/2;
     }
 
     public int CalculateTouchAC()
@@ -359,7 +354,7 @@ public class PlayerCharacter implements IPlayerCharacter
             switch (x.getStat())
             {
                 case DEX:
-                    dexterityBonus = CalculateModifier(x);
+                    dexterityBonus = x.calculateModifier();
                     break;
             }
             //Again, we don't care about other stats

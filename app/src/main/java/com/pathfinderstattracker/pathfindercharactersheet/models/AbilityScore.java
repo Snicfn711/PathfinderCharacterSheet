@@ -36,6 +36,10 @@ public class AbilityScore implements IAbilityScore
         setAmount(amount);
     }
 
+    public int calculateModifier()
+    {
+        return (Amount - 10)/2;
+    }
     @Override
     public String toString()
     {

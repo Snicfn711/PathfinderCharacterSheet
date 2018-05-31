@@ -6,7 +6,10 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.races;
 
 public interface IMovement
 {
-    String Name = null;
-    int Speed = 0;
-    MovementManeuverabilityEnum Maneuverability = MovementManeuverabilityEnum.Average;
+    String getName();
+    void setName(String name);
+    int getSpeed();
+    void setSpeed(int speed);
+    MovementManeuverabilityEnum getManeuverability();
+    void setManeuverability(MovementManeuverabilityEnum maneuverability);
 }

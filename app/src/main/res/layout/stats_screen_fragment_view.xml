@@ -7,17 +7,20 @@
     <RelativeLayout android:layout_height="wrap_content"
         android:layout_width="match_parent">
         <LinearLayout android:id="@+id/armorSection"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
-            android:baselineAligned="false">
-            <ListView android:id="@+id/armorList"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+            <com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView
+                android:id="@+id/armorList"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="50"/>
-            <ListView android:id="@+id/hp_bab_srList"
+            <com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_SR_ReferenceBlockView
+                android:id="@+id/hp_bab_srList"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="50"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"/>
@@ -28,154 +31,41 @@
             android:layout_marginBottom="15dp"
             android:layout_below="@id/armorSection"
             android:baselineAligned="false">
-            <ListView android:id="@+id/movementList"
+            <com.pathfinderstattracker.pathfindercharactersheet.views.MovementReferenceBlockView
+                android:id="@+id/movementList"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"/>
-            <android.support.constraint.ConstraintLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
                 android:layout_marginLeft="5dp"
-                android:layout_marginStart="5dp">
-                <!--It was too difficult to treat the header as a normal save row, and it didn't seem
-                    worth the effort to make a custom view, so we just stuck the header directly in the
-                    fragment code. The same reasoning applies to the stats view-->
-                <TextView
-                    android:id="@+id/SaveName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/Name"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:background="@drawable/header_border"
-                    android:textColor="@color/colorPlainText"
-                    android:layout_weight=".33"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/SaveValue"/>
-                <TextView
-                    android:id="@+id/SaveValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/Value"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:background="@drawable/header_border"
-                    android:textColor="@color/colorPlainText"
-                    android:layout_weight=".33"
-                    app:layout_constraintLeft_toRightOf="@id/SaveName"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/RollSaveText"/>
-                <TextView
-                    android:id="@+id/RollSaveText"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/Roll"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:background="@drawable/header_border"
-                    android:textColor="@color/colorPlainText"
-                    android:layout_weight=".33"
-                    app:layout_constraintLeft_toRightOf="@id/SaveValue"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
-                <ListView android:id="@+id/savesList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginBottom="5dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/SaveValue"
-                    app:layout_constraintRight_toRightOf="parent"/>
-
-                <ListView android:id="@+id/combatManueverList"
+                android:layout_marginStart="5dp"
+                android:orientation="vertical">
+                <com.pathfinderstattracker.pathfindercharactersheet.views.SavesReferenceBlockView
+                    android:id="@+id/savesList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"/>
-        </android.support.constraint.ConstraintLayout>
+                    android:layout_marginBottom="15dp"/>
+                <com.pathfinderstattracker.pathfindercharactersheet.views.CombatManueverReferenceBlockView
+                    android:id="@+id/combatManueverList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_below="@id/movementSection"
+            android:orientation="horizontal"
             android:baselineAligned="false">
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight=".5">
-            <!--It was too difficult to treat the header as a normal stats row, and it didn't seem
-                worth the effort to make a custom view, so we just stuck the header directly in the
-                fragment code. The same reasoning applies to the saves view-->
-            <TextView
-                android:id="@+id/StatsName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".25"
-                android:gravity="center"
-                android:text="@string/Name"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:background="@drawable/header_border"
-                android:textColor="@color/colorPlainText"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/StatsValue"/>
-            <TextView
-                android:id="@+id/StatsValue"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".25"
-                android:gravity="center"
-                android:text="@string/StatScore"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:background="@drawable/header_border"
-                android:textColor="@color/colorPlainText"
-                app:layout_constraintLeft_toRightOf="@id/StatsName"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/Modifier"/>
-            <TextView
-                android:id="@+id/Modifier"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".25"
-                android:gravity="center"
-                android:text="@string/StatModifier"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:background="@drawable/header_border"
-                android:textColor="@color/colorPlainText"
-                app:layout_constraintLeft_toRightOf="@id/StatsValue"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/RollStatsText"/>
-            <TextView
-                android:id="@+id/RollStatsText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".25"
-                android:gravity="center"
-                android:text="@string/Roll"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:background="@drawable/header_border"
-                android:textColor="@color/colorPlainText"
-                app:layout_constraintLeft_toRightOf="@id/Modifier"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"/>
-                <ListView android:id="@+id/statsList"
+                <com.pathfinderstattracker.pathfindercharactersheet.views.AbilityScoreReferenceBlockView
+                    android:id="@+id/statsList"
                     android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    app:layout_constraintLeft_toLeftOf="@id/StatsName"
-                    app:layout_constraintRight_toRightOf="@id/RollStatsText"
-                    app:layout_constraintTop_toBottomOf="@id/StatsName"/>
-        </android.support.constraint.ConstraintLayout>
-                <ListView android:id="@+id/initiativeList"
+                    android:layout_width="0dp"
+                    android:layout_weight=".5"/>
+                <com.pathfinderstattracker.pathfindercharactersheet.views.InitiativeReferenceBlockView
+                    android:id="@+id/initiativeList"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_marginLeft="5dp"

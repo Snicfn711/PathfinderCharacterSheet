@@ -8,12 +8,10 @@
         <attr name="metaButtonBarStyle" format="reference" />
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
-    <declare-styleable name="MovementRowView"/>
     <declare-styleable name="StatRowView"/>
-    <declare-styleable name="InitiativeRowView"/>
-    <declare-styleable name="SavesRowView"/>
-    <declare-styleable name="HP_BAB_SR_View"/>
-    <declare-styleable name="ACRowView"/>
+    <declare-styleable name="InitiativeReferenceBlockView"/>
+    <declare-styleable name="HP_BAB_SR_ReferenceBlockView"/>
+    <declare-styleable name="ACReferenceBlockView"/>
     <declare-styleable name="WeaponDetailView"/>
     <declare-styleable name="ProtectionDetailView"/>
     <declare-styleable name="SpellDetailView"/>

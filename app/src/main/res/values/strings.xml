@@ -13,18 +13,41 @@
     <!--Stat Strings-->
     <string name="StatScore">Score</string>
     <string name="StatModifier">Mod</string>
+    <string name="StrengthScore">Strength</string>
+    <string name="RollStrength">Roll Strength Check</string>
+    <string name="DexterityScore">Dexterity</string>
+    <string name="RollDexterity">Roll Dexterity Check</string>
+    <string name="ConstitutionScore">Constitution</string>
+    <string name="RollConstitution">Roll Constitution Check</string>
+    <string name="IntelligenceScore">Intelligence</string>
+    <string name="RollIntelligence">Roll Intelligence Check</string>
+    <string name="WisdomScore">Wisdom</string>
+    <string name="RollWisdom">Roll Wisdom Check</string>
+    <string name="CharismaScore">Charisma</string>
+    <string name="RollCharisma">Roll Charisma Check</string>
     <!--Movement Strings-->
     <string name="MovementFeet">Feet</string>
     <string name="MovementSquares">Squares</string>
+    <string name="BaseMovementSpeed">Base</string>
+    <string name="ArmorMovementSpeed">Armor</string>
+    <string name="FlyingMovementSpeed">Fly</string>
+    <string name="SwimmingMovementSpeed">Swim</string>
+    <string name="ClimbingMovementSpeed">Climb</string>
+    <string name="BurrowingMovementSpeed">Burrow</string>
     <!--Initiative String-->
     <string name="Initiative">Initiative</string>
     <!--Combat Manuever Strings -->
     <string name="CMB">CMB</string>
     <string name="CMD">CMD</string>
+    <string name="RollCombatManuever">Roll Combat Manuever</string>
     <!--Saves strings-->
     <string name="Fort">Fortitude</string>
     <string name="Ref">Reflex</string>
     <string name="Will">Will</string>
+    <string name="RollFortSave">Roll Fortitude Save</string>
+    <string name="RollReflexSave">Roll Reflex Save</string>
+    <string name="RollWillSave">Roll Will Save</string>
+    <string name="EditSaves">Edit Saves</string>
     <!--Armor Strings-->
     <string name="FlatFootedAC">Flat Footed</string>
     <string name="TouchAC">Touch</string>
@@ -96,7 +119,4 @@
     <!--Character List Strings-->
     <string name="CharactersList">Characters</string>
     <string name="AddNewCharacter">Add New Character</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

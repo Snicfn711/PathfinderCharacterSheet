@@ -8,19 +8,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.AbilityScoreAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.ArmorAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.CombatManueverAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.HP_BAB_SR_Adapter;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.InitiativeAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.MovementAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.SavesAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
@@ -33,8 +26,16 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipmen
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WondrousItems;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.races.IMovement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.Movement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementManeuverabilityEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.CombatManueverReferenceBlockView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_SR_ReferenceBlockView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.InitiativeReferenceBlockView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.MovementReferenceBlockView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.SavesReferenceBlockView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.AbilityScoreReferenceBlockView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,7 @@ public class StatsReferenceFragment extends Fragment
     private AbilityScore intelligence = new AbilityScore(AbilityScoreEnum.INT, 13);
     private AbilityScore wisdom = new AbilityScore(AbilityScoreEnum.WIS, 14);
     private AbilityScore charisma = new AbilityScore(AbilityScoreEnum.CHA, 15);
-    private AbilityScore[] tempStats = new AbilityScore[] {strength, dexterity, constiution, intelligence, wisdom, charisma};
+    private List<IAbilityScore> tempStats = new ArrayList<IAbilityScore>();
     //endregion
 
     //region Test Movements
@@ -67,7 +68,7 @@ public class StatsReferenceFragment extends Fragment
     private Movement swim = new Movement("Swim", 30, MovementManeuverabilityEnum.Perfect);
     private Movement climb = new Movement("Climb", 30, MovementManeuverabilityEnum.Perfect);
     private Movement burrow = new Movement("Burrow", 30, MovementManeuverabilityEnum.Perfect);
-    private Movement[] tempMovement = new Movement[]{base,armor,fly,swim,climb,burrow};
+    private List<IMovement> tempMovement = new ArrayList<IMovement>();
     //endregion
 
     //region Test Character
@@ -115,6 +116,18 @@ public class StatsReferenceFragment extends Fragment
         tempArmorItems.add(naturalArmorBonus);
         tempArmorItems.add(shieldArmorBonus);
         tempArmorItems.add(dodgeArmorBonus);
+        tempMovement.add(base);
+        tempMovement.add(armor);
+        tempMovement.add(fly);
+        tempMovement.add(swim);
+        tempMovement.add(climb);
+        tempMovement.add(burrow);
+        tempStats.add(strength);
+        tempStats.add(dexterity);
+        tempStats.add(constiution);
+        tempStats.add(intelligence);
+        tempStats.add(wisdom);
+        tempStats.add(charisma);
 
         if (getArguments() != null)
         {
@@ -145,39 +158,32 @@ public class StatsReferenceFragment extends Fragment
 
         //region Create and set our View Adapters
         //Populate and bind our stats list
-        ListView statsView = rootView.findViewById(R.id.statsList);
-        AbilityScoreAdapter abilityScoreAdapter = new AbilityScoreAdapter(context,tempCharacter.getAbilityScores());
-        statsView.setAdapter(abilityScoreAdapter);
+        AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
+        statsView.setValues(tempCharacter.getAbilityScores());
 
         //Populate and bind our movement list
-        ListView movementView = rootView.findViewById(R.id.movementList);
-        MovementAdapter movementAdapter = new MovementAdapter(context, tempMovement);
-        movementView.setAdapter(movementAdapter);
+        MovementReferenceBlockView movementView = rootView.findViewById(R.id.movementList);
+        movementView.setValues(tempMovement);
 
         //Populate and bind our initiative section
-        ListView initiativeView = rootView.findViewById(R.id.initiativeList);
-        InitiativeAdapter initiativeAdapter = new InitiativeAdapter(context, tempCharacter.getInitiative());
-        initiativeView.setAdapter(initiativeAdapter);
+        InitiativeReferenceBlockView initiativeView = rootView.findViewById(R.id.initiativeList);
+        initiativeView.setValues(tempCharacter.getInitiative());
 
         //Populate and bind our combat manuever list
-        ListView combatManueverView = rootView.findViewById(R.id.combatManueverList);
-        CombatManueverAdapter combatManueverAdapter = new CombatManueverAdapter(context, tempCharacter.getCombatManeuverStats());
-        combatManueverView.setAdapter(combatManueverAdapter);
+        CombatManueverReferenceBlockView combatManueverView = rootView.findViewById(R.id.combatManueverList);
+        combatManueverView.setValues(tempCharacter.getCombatManeuverStats());
 
         //Populate and bind our saves list
-        ListView savesView = rootView.findViewById(R.id.savesList);
-        SavesAdapter savesAdapter = new SavesAdapter(context, tempCharacter.getFortitudeSave(), tempCharacter.getReflexSave(), tempCharacter.getWillSave());
-        savesView.setAdapter(savesAdapter);
+        SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
+        savesView.setValues(tempCharacter.getFortitudeSave(), tempCharacter.getReflexSave(), tempCharacter.getWillSave());
 
         //Populate and bind our AC list
-        ListView armorView = rootView.findViewById(R.id.armorList);
-        ArmorAdapter armorAdapter = new ArmorAdapter(context, tempCharacter.getTotalAC(), tempCharacter.CalculateTouchAC(), tempCharacter.CalculateFlatFootedAC());
-        armorView.setAdapter(armorAdapter);
+        ACReferenceBlockView armorView = rootView.findViewById(R.id.armorList);
+        armorView.setValues(tempCharacter.getTotalAC(), tempCharacter.CalculateTouchAC(), tempCharacter.CalculateFlatFootedAC());
 
         //Populate and bind our HP, BAB, SR section
-        ListView hp_BAB_SRView = rootView.findViewById(R.id.hp_bab_srList);
-        HP_BAB_SR_Adapter hp_bab_sr_adapter = new HP_BAB_SR_Adapter(context, tempCharacter.getHitPoints(), tempCharacter.getTotalBaseAttackBonus(), tempCharacter.getSpellResistance());
-        hp_BAB_SRView.setAdapter(hp_bab_sr_adapter);
+        HP_BAB_SR_ReferenceBlockView hp_BAB_SRView = rootView.findViewById(R.id.hp_bab_srList);
+        hp_BAB_SRView.setValues(tempCharacter.getHitPoints(),tempCharacter.getTotalBaseAttackBonus(), tempCharacter.getSpellResistance());
         //endregion
 
         return rootView;

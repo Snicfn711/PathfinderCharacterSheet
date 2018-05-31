@@ -43,8 +43,8 @@ public interface IPlayerCharacter
     IDamageReduction getDR();
     void setLanguagesKnown(List<String> languagesKnown);
     List<String> getLanguagesKnown();
-    void setAbilityScores(IAbilityScore[] scores);
-    IAbilityScore[] getAbilityScores();
+    void setAbilityScores(List<IAbilityScore> scores);
+    List<IAbilityScore> getAbilityScores();
     void setCombatManeuverStats(ICombatManeuver combatManeuverStats);
     ICombatManeuver getCombatManeuverStats();
     void setSpellResistance(int spellResistance);

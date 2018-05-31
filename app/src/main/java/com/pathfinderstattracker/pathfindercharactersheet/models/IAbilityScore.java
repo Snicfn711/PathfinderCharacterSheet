@@ -13,5 +13,6 @@ public interface IAbilityScore
     AbilityScoreEnum getStat();
     void setAmount(int amount);
     int getAmount();
+    int calculateModifier();
 
 }
