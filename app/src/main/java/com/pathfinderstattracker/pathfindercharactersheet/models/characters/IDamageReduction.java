@@ -6,7 +6,10 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 
 public interface IDamageReduction
 {
-    int Amount = 0;
-    String Source = null;
-    String Type = null;
+    int getAmount();
+    void setAmount(int Amount);
+    String getSource();
+    void setSource(String source);
+    String getType();
+    void setType(String type);
 }

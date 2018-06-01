@@ -6,8 +6,8 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 
 public class HitPoints implements IHitPoints
 {
-    int FavoredClassPointsInvested;
-    int Value;
+    int favoredClassPointsInvested;
+    int value;
 
     public HitPoints()
     {
@@ -22,24 +22,30 @@ public class HitPoints implements IHitPoints
     @Override
     public void setFavoredClassPointsInvested(int pointsInvested)
     {
-        FavoredClassPointsInvested = pointsInvested;
+        favoredClassPointsInvested = pointsInvested;
     }
 
     @Override
     public int getFavoredClassPointsInvested()
     {
-        return FavoredClassPointsInvested;
+        return favoredClassPointsInvested;
     }
 
     @Override
     public void setValue(int value)
     {
-        Value = value;
+        this.value = value;
     }
 
     @Override
     public int getValue()
     {
-        return Value;
+        return value;
+    }
+
+    @Override
+    public String toString()
+    {
+        return Integer.toString(value) + " total hit points / " + Integer.toString(favoredClassPointsInvested) + " from favored class";
     }
 }

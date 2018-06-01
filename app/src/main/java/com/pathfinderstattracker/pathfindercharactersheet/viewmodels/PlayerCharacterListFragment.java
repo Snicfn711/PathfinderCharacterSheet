@@ -15,7 +15,19 @@ import android.widget.ImageButton;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.PlayerCharacterRecyclerViewAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.DamageReduction;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * A fragment representing a list of Items.
@@ -72,6 +84,7 @@ public class PlayerCharacterListFragment extends Fragment
         //Set our animation for adding new player characters
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final ImageButton addNewPlayerCharacterButton = rootView.findViewById(R.id.AddNewCharacter);
+
         addNewPlayerCharacterButton.setOnClickListener((new View.OnClickListener()
         {
             @Override

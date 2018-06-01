@@ -19,13 +19,6 @@ public class SkillEntity
 {
     @PrimaryKey
     private int skillID;
-
-    @ColumnInfo(name = "proficiency")
-    private boolean Proficiency;
-    @ColumnInfo(name = "points_invested")
-    private int PointsInvested;
-    @ColumnInfo(name = "favored_class_points_invested")
-    private int FavoredClassPointsInvested;
     @ColumnInfo(name = "added_stat")
     private AbilityScoreEnum AddedStat;
     @ColumnInfo(name = "armor_check_penalty_applied")
@@ -42,36 +35,6 @@ public class SkillEntity
     public void setSkillID(int skillID)
     {
         this.skillID = skillID;
-    }
-
-    public boolean isProficiency()
-    {
-        return Proficiency;
-    }
-
-    public void setProficiency(boolean proficiency)
-    {
-        Proficiency = proficiency;
-    }
-
-    public int getPointsInvested()
-    {
-        return PointsInvested;
-    }
-
-    public void setPointsInvested(int pointsInvested)
-    {
-        PointsInvested = pointsInvested;
-    }
-
-    public int getFavoredClassPointsInvested()
-    {
-        return FavoredClassPointsInvested;
-    }
-
-    public void setFavoredClassPointsInvested(int favoredClassPointsInvested)
-    {
-        FavoredClassPointsInvested = favoredClassPointsInvested;
     }
 
     public AbilityScoreEnum getAddedStat()

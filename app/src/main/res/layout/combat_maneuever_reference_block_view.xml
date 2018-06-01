@@ -33,7 +33,7 @@
             android:layout_weight=".33"
             android:background="@drawable/header_border">
             <ImageButton
-                android:id="@+id/RollCombatManuever"
+                android:id="@+id/RollCombatManeuver"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -41,7 +41,7 @@
                 android:adjustViewBounds="true"
                 android:background="@null"
                 android:src="@drawable/d20_image"
-                android:contentDescription="@string/RollCombatManuever" />
+                android:contentDescription="@string/RollCombatManeuver" />
         </FrameLayout>
     </LinearLayout>
     <LinearLayout

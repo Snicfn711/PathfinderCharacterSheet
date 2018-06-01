@@ -36,10 +36,10 @@
     <string name="BurrowingMovementSpeed">Burrow</string>
     <!--Initiative String-->
     <string name="Initiative">Initiative</string>
-    <!--Combat Manuever Strings -->
+    <!--Combat Maneuver Strings -->
     <string name="CMB">CMB</string>
     <string name="CMD">CMD</string>
-    <string name="RollCombatManuever">Roll Combat Manuever</string>
+    <string name="RollCombatManeuver">Roll Combat Maneuver</string>
     <!--Saves strings-->
     <string name="Fort">Fortitude</string>
     <string name="Ref">Reflex</string>

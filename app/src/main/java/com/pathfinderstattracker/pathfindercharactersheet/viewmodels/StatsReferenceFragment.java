@@ -30,7 +30,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.races.IMovement
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.Movement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementManeuverabilityEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView;
-import com.pathfinderstattracker.pathfindercharactersheet.views.CombatManueverReferenceBlockView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_SR_ReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.InitiativeReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.MovementReferenceBlockView;
@@ -169,9 +169,9 @@ public class StatsReferenceFragment extends Fragment
         InitiativeReferenceBlockView initiativeView = rootView.findViewById(R.id.initiativeList);
         initiativeView.setValues(tempCharacter.getInitiative());
 
-        //Populate and bind our combat manuever list
-        CombatManueverReferenceBlockView combatManueverView = rootView.findViewById(R.id.combatManueverList);
-        combatManueverView.setValues(tempCharacter.getCombatManeuverStats());
+        //Populate and bind our combat Maneuver list
+        CombatManeuverReferenceBlockView combatManeuverView = rootView.findViewById(R.id.combatManeuverList);
+        combatManeuverView.setValues(tempCharacter.getCombatManeuverStats());
 
         //Populate and bind our saves list
         SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);

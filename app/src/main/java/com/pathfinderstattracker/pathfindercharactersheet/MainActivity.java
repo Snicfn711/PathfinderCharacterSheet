@@ -1,6 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet;
 
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +10,9 @@ import android.support.v4.view.ViewPager;
 
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderDatabase;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
@@ -27,27 +31,20 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellRefere
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
 
+import java.util.UUID;
+
 public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener
 {
-//    ReferenceFragmentAdapter referenceFragmentAdapter;
-//    ViewPager mViewPager;
-
+    PathfinderRepository repository;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        repository = new PathfinderRepository(this.getApplication());
         Fragment characterListFragment = new PlayerCharacterListFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.MainActivity, characterListFragment).commit();
-//        referenceFragmentAdapter = new ReferenceFragmentAdapter(getSupportFragmentManager());
-//        mViewPager = (ViewPager) findViewById(R.id.pager);
-//        mViewPager.setAdapter(referenceFragmentAdapter);
-        PathfinderDatabase database = PathfinderDatabase.getDatabase(this);
-        if(database == null)
-        {
-            DatabaseInitializer.populateAsync(database);
-        }
     }
 
     @Override
@@ -95,9 +92,10 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
 
     public void AddNewCharacter()
     {
+        PlayerCharacterEntity temp = new PlayerCharacterEntity(UUID.randomUUID());
+        repository.insertPlayerCharacter(temp);
         Fragment parentReferenceFragment = new ParentReferenceFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment).commit();
     }
-
 }

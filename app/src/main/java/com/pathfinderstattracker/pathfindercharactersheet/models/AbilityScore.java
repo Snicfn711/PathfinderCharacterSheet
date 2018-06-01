@@ -40,6 +40,7 @@ public class AbilityScore implements IAbilityScore
     {
         return (Amount - 10)/2;
     }
+
     @Override
     public String toString()
     {

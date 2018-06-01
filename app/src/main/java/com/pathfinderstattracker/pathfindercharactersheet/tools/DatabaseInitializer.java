@@ -22,7 +22,7 @@ public class DatabaseInitializer
     }
     private static void addWeaponEnchantment(final PathfinderDatabase db, WeaponEnchantmentEntity weaponEnchantment)
     {
-        db.weaponEnchantmentDao().insertWeaponEnchantment(weaponEnchantment);
+        db.WeaponEnchantmentDao().insertWeaponEnchantment(weaponEnchantment);
     }
 
     private static class populateDbAsync extends AsyncTask<Void,Void,Void>

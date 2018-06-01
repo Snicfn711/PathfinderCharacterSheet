@@ -5,13 +5,16 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
+import android.os.AsyncTask;
 
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.WeaponEnchantmentDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.AbilityEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatAbilityListEntityClass;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatPrerequisiteListEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.MovementEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PrerequisiteEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.RaceEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.RaceSenseListEntity;
@@ -38,20 +41,22 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.type_converte
                       RaceSkillListEntity.class,
                       RaceSenseListEntity.class,
                       MovementEntity.class,
-                      SpellEntity.class},
-          version = 1)
+                      SpellEntity.class,
+                      PlayerCharacterEntity.class},
+                      version = 1)
 @TypeConverters(WeaponTagEnumListConverter.class)
 public abstract class PathfinderDatabase extends RoomDatabase
 {
     private static PathfinderDatabase INSTANCE;
 
-    public abstract WeaponEnchantmentDao weaponEnchantmentDao();
+    public abstract WeaponEnchantmentDao WeaponEnchantmentDao();
+    public abstract PlayerCharacterDao PlayerCharacterDao();
 
     public static PathfinderDatabase getDatabase(Context context)
     {
         if(INSTANCE == null)
         {
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PathfinderDatabase.class, "weaponEnchantmentDatabase").build();
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PathfinderDatabase.class, "pathfinder_database").build();
         }
         return INSTANCE;
     }

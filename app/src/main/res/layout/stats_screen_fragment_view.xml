@@ -48,8 +48,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"/>
-                <com.pathfinderstattracker.pathfindercharactersheet.views.CombatManueverReferenceBlockView
-                    android:id="@+id/combatManueverList"
+                <com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView
+                    android:id="@+id/combatManeuverList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

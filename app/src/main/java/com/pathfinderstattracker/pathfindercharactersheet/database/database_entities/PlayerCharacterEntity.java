@@ -3,20 +3,47 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreListConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AlignmentEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.CombatManeuverConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.DamageReductionConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.HitPointsConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.StringListConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.DamageReduction;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.ICombatManeuver;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IDamageReduction;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IHitPoints;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 @Entity(tableName = "player_characters")
+@TypeConverters({AlignmentEnumConverter.class,
+                 HitPointsConverter.class,
+                 DamageReductionConverter.class,
+                 StringListConverter.class,
+                 UUIDConverter.class,
+                 StringListConverter.class,
+                 AbilityScoreListConverter.class,
+                 CombatManeuverConverter.class})
 public class PlayerCharacterEntity
 {
     @PrimaryKey
+    @NonNull
     private UUID playerCharacterID;
     @ColumnInfo(name="character_name")
     private String characterName;
@@ -37,8 +64,8 @@ public class PlayerCharacterEntity
     @ColumnInfo(name="languages_known")
     private List<String> languagesKnown;
     @ColumnInfo(name="ability_scores")
-    private IAbilityScore[] abilityScores;
-    @ColumnInfo(name="combat_manuever_stats")
+    private List<IAbilityScore> abilityScores;
+    @ColumnInfo(name="combat_Maneuver_stats")
     private ICombatManeuver combatManeuverStats;
     @ColumnInfo(name="spell_resistance")
     private int spellResistance;
@@ -132,11 +159,11 @@ public class PlayerCharacterEntity
         this.languagesKnown = languagesKnown;
     }
 
-    public IAbilityScore[] getAbilityScores() {
+    public List<IAbilityScore> getAbilityScores() {
         return abilityScores;
     }
 
-    public void setAbilityScores(IAbilityScore[] abilityScores) {
+    public void setAbilityScores(List<IAbilityScore> abilityScores) {
         this.abilityScores = abilityScores;
     }
 
@@ -190,8 +217,49 @@ public class PlayerCharacterEntity
     //endregion
 
 
-    public PlayerCharacterEntity()
+    private PlayerCharacterEntity()
     {
-        //Default Constructors
+        setCharacterName("");
+        setCharacterLevel(1);
+        setConcentrationCheck(0);
+        setCharacterAlignment(AlignmentEnum.TrueNeutral);
+        setTotalBaseAttackBonus(0);
+        setTotalHitPoints(new HitPoints(0,0));
+        setTotalAC(0);
+        setDamageReduction(new DamageReduction(0,"",""));
+        setLanguagesKnown(new ArrayList<String>(Arrays.asList("Common")));
+        setAbilityScores(new ArrayList<IAbilityScore>(Arrays.asList(new AbilityScore(AbilityScoreEnum.STR,10),
+                                                                    new AbilityScore(AbilityScoreEnum.DEX, 10),
+                                                                    new AbilityScore(AbilityScoreEnum.CON, 10),
+                                                                    new AbilityScore(AbilityScoreEnum.INT, 10),
+                                                                    new AbilityScore(AbilityScoreEnum.WIS, 10),
+                                                                    new AbilityScore(AbilityScoreEnum.CHA, 10))));
+
+        setCombatManeuverStats(new CombatManeuver(0,10));
+        setSpellResistance(0);
+        setFortitudeSave(0);
+        setReflexSave(0);
+        setWillSave(0);
+    }
+
+    public PlayerCharacterEntity(UUID playerCharacterID)
+    {
+        this();
+        setPlayerCharacterID(playerCharacterID);
+    }
+
+    public PlayerCharacterEntity(IPlayerCharacter playerCharacter)
+    {
+        setPlayerCharacterID(playerCharacter.getPlayerCharacterID());
+        setCharacterName(playerCharacter.getPlayerCharacterName());
+        setCharacterLevel(playerCharacter.getCharacterLevel());
+        setConcentrationCheck(playerCharacter.getConcentrationCheck());
+        setCharacterAlignment(playerCharacter.getAlignment());
+        setTotalBaseAttackBonus(playerCharacter.getTotalBaseAttackBonus());
+        setTotalHitPoints(playerCharacter.getHitPoints());
+        setTotalAC(playerCharacter.getTotalAC());
+        setDamageReduction(playerCharacter.getDR());
+        setLanguagesKnown(playerCharacter.getLanguagesKnown());
+        setAbilityScores(playerCharacter.getAbilityScores());
     }
 }

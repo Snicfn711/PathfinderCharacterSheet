@@ -6,27 +6,27 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 
 public class CombatManeuver implements ICombatManeuver
 {
-    int CombatManeuverCheck;
-    int CombatManeuverDefense;
+    int combatManeuverCheck;
+    int combatManeuverDefense;
 
     public int getCombatManeuverCheck()
     {
-        return CombatManeuverCheck;
+        return combatManeuverCheck;
     }
 
     public void setCombatManeuverCheck(int combatManeuverCheck)
     {
-        CombatManeuverCheck = combatManeuverCheck;
+        this.combatManeuverCheck = combatManeuverCheck;
     }
 
     public int getCombatManeuverDefense()
     {
-        return CombatManeuverDefense;
+        return combatManeuverDefense;
     }
 
     public void setCombatManeuverDefense(int combatManeuverDefense)
     {
-        CombatManeuverDefense = combatManeuverDefense;
+        this.combatManeuverDefense = combatManeuverDefense;
     }
 
     public CombatManeuver()
@@ -38,5 +38,12 @@ public class CombatManeuver implements ICombatManeuver
     {
         setCombatManeuverCheck(combatManeuverCheck);
         setCombatManeuverDefense(combatManeuverDefense);
+    }
+
+    @Override
+    public String toString()
+    {
+        //There shouldn't be any cases where the entire object needs to be presented as a string, except when converting for the database, so we don't need any CMD/CMB labeling
+        return Integer.toString(combatManeuverCheck) + "/"+ Integer.toString(combatManeuverDefense);
     }
 }

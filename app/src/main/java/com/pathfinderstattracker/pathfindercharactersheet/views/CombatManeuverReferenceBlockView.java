@@ -15,13 +15,13 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.ICombatManeuver;
 
-public class CombatManueverReferenceBlockView extends LinearLayout
+public class CombatManeuverReferenceBlockView extends LinearLayout
 {
-    private TextView combatManueverBonus;
-    private TextView combatManueverDefense;
+    private TextView combatManeuverBonus;
+    private TextView combatManeuverDefense;
     private Animation click;
 
-    public CombatManueverReferenceBlockView(Context context, @Nullable AttributeSet attrs)
+    public CombatManeuverReferenceBlockView(Context context, @Nullable AttributeSet attrs)
     {
         super(context, attrs);
         initializeViews(context);
@@ -31,28 +31,28 @@ public class CombatManueverReferenceBlockView extends LinearLayout
     private void initializeViews(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.combat_manuever_reference_block_view, this);
+        inflater.inflate(R.layout.combat_maneuever_reference_block_view, this);
     }
 
     protected void onFinishInflate()
     {
         super.onFinishInflate();
-        combatManueverBonus = this.findViewById(R.id.CMBValue);
-        final ImageButton rollCombatManueverButton = this.findViewById(R.id.RollCombatManuever);
-        rollCombatManueverButton.setOnClickListener(new View.OnClickListener()
+        combatManeuverBonus = this.findViewById(R.id.CMBValue);
+        final ImageButton rollCombatManeuverButton = this.findViewById(R.id.RollCombatManeuver);
+        rollCombatManeuverButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                rollCombatManueverButton.startAnimation(click);
+                rollCombatManeuverButton.startAnimation(click);
             }
         });
-        combatManueverDefense = this.findViewById(R.id.CMDValue);
+        combatManeuverDefense = this.findViewById(R.id.CMDValue);
     }
 
     public void setValues(ICombatManeuver combatManeuverStats)
     {
-        this.combatManueverBonus.setText(Integer.toString(combatManeuverStats.getCombatManeuverCheck()));
-        this.combatManueverDefense.setText(Integer.toString(combatManeuverStats.getCombatManeuverDefense()));
+        this.combatManeuverBonus.setText(Integer.toString(combatManeuverStats.getCombatManeuverCheck()));
+        this.combatManeuverDefense.setText(Integer.toString(combatManeuverStats.getCombatManeuverDefense()));
     }
 }
