@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
 
 public class PathfinderRepository
@@ -22,10 +24,13 @@ public class PathfinderRepository
         playerCharacterDao = database.PlayerCharacterDao();
     }
 
-    public void insertPlayerCharacter(PlayerCharacterEntity playerCharacter)
+    public void insertPlayerCharacter(IPlayerCharacter playerCharacter)
     {
-        new insertPlayerCharacterAsyncTask(playerCharacterDao).execute(playerCharacter);
+        PlayerCharacterEntity EntityToInsert = DatabaseEntityObjectConverter.ConvertPlayerCharacterObjectToPlayerCharacterEntity(playerCharacter);
+        new insertPlayerCharacterAsyncTask(playerCharacterDao).execute(EntityToInsert);
     }
+
+
 
     private static class insertPlayerCharacterAsyncTask extends AsyncTask<PlayerCharacterEntity, Void, Void>
     {

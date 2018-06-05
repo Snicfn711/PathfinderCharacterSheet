@@ -46,7 +46,7 @@ public class PlayerCharacterEntity
     @NonNull
     private UUID playerCharacterID;
     @ColumnInfo(name="character_name")
-    private String characterName;
+    private String playerCharacterName;
     @ColumnInfo(name="character_level")
     private int characterLevel;
     @ColumnInfo(name="concentration_check")
@@ -87,12 +87,12 @@ public class PlayerCharacterEntity
         this.playerCharacterID = playerCharacterID;
     }
 
-    public String getCharacterName() {
-        return characterName;
+    public String getPlayerCharacterName() {
+        return playerCharacterName;
     }
 
-    public void setCharacterName(String characterName) {
-        this.characterName = characterName;
+    public void setPlayerCharacterName(String playerCharacterName) {
+        this.playerCharacterName = playerCharacterName;
     }
 
     public int getCharacterLevel() {
@@ -219,7 +219,7 @@ public class PlayerCharacterEntity
 
     private PlayerCharacterEntity()
     {
-        setCharacterName("");
+        setPlayerCharacterName("");
         setCharacterLevel(1);
         setConcentrationCheck(0);
         setCharacterAlignment(AlignmentEnum.TrueNeutral);
@@ -234,7 +234,6 @@ public class PlayerCharacterEntity
                                                                     new AbilityScore(AbilityScoreEnum.INT, 10),
                                                                     new AbilityScore(AbilityScoreEnum.WIS, 10),
                                                                     new AbilityScore(AbilityScoreEnum.CHA, 10))));
-
         setCombatManeuverStats(new CombatManeuver(0,10));
         setSpellResistance(0);
         setFortitudeSave(0);
@@ -246,20 +245,5 @@ public class PlayerCharacterEntity
     {
         this();
         setPlayerCharacterID(playerCharacterID);
-    }
-
-    public PlayerCharacterEntity(IPlayerCharacter playerCharacter)
-    {
-        setPlayerCharacterID(playerCharacter.getPlayerCharacterID());
-        setCharacterName(playerCharacter.getPlayerCharacterName());
-        setCharacterLevel(playerCharacter.getCharacterLevel());
-        setConcentrationCheck(playerCharacter.getConcentrationCheck());
-        setCharacterAlignment(playerCharacter.getAlignment());
-        setTotalBaseAttackBonus(playerCharacter.getTotalBaseAttackBonus());
-        setTotalHitPoints(playerCharacter.getHitPoints());
-        setTotalAC(playerCharacter.getTotalAC());
-        setDamageReduction(playerCharacter.getDR());
-        setLanguagesKnown(playerCharacter.getLanguagesKnown());
-        setAbilityScores(playerCharacter.getAbilityScores());
     }
 }

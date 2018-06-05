@@ -92,9 +92,12 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
 
     public void AddNewCharacter()
     {
-        PlayerCharacterEntity temp = new PlayerCharacterEntity(UUID.randomUUID());
-        repository.insertPlayerCharacter(temp);
+        IPlayerCharacter newPlayerCharacter = PlayerCharacter.CreateDefaultPlayerCharacterWithID(UUID.randomUUID());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("PlayerCharacter", newPlayerCharacter);
+        repository.insertPlayerCharacter(newPlayerCharacter);
         Fragment parentReferenceFragment = new ParentReferenceFragment();
+        parentReferenceFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment).commit();
     }

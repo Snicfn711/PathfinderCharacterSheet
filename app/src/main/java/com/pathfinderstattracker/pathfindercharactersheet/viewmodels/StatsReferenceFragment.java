@@ -18,6 +18,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnu
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IHitPoints;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
@@ -51,15 +52,7 @@ import java.util.List;
 
 public class StatsReferenceFragment extends Fragment
 {
-    //region Test Ability Scores
-    private AbilityScore strength = new AbilityScore(AbilityScoreEnum.STR, 10);
-    private AbilityScore dexterity = new AbilityScore(AbilityScoreEnum.DEX, 11);
-    private AbilityScore constiution = new AbilityScore(AbilityScoreEnum.CON, 12);
-    private AbilityScore intelligence = new AbilityScore(AbilityScoreEnum.INT, 13);
-    private AbilityScore wisdom = new AbilityScore(AbilityScoreEnum.WIS, 14);
-    private AbilityScore charisma = new AbilityScore(AbilityScoreEnum.CHA, 15);
-    private List<IAbilityScore> tempStats = new ArrayList<IAbilityScore>();
-    //endregion
+    private IPlayerCharacter currentPlayerCharacter;
 
     //region Test Movements
     private Movement base = new Movement("Base", 30, MovementManeuverabilityEnum.Perfect);
@@ -71,10 +64,6 @@ public class StatsReferenceFragment extends Fragment
     private List<IMovement> tempMovement = new ArrayList<IMovement>();
     //endregion
 
-    //region Test Character
-    private PlayerCharacter tempCharacter = new PlayerCharacter();
-    //endregion
-
     //region Test Armor Items
     private Armor armorBonus = new Armor("Armor", 5, 5, 0,3,3,3,3, ArmorWeightCategoryEnum.Heavy,5, SizeCategoryEnum.Medium,false,null);
     private WondrousItems naturalArmorBonus = new WondrousItems("Natural Armor", 5,5, null, BodySlotsEnum.Throat, null, 100, ArmorTypesEnum.NaturalArmor, 3);
@@ -82,11 +71,6 @@ public class StatsReferenceFragment extends Fragment
     private WondrousItems dodgeArmorBonus = new WondrousItems("Dodge", 5, 5, null, BodySlotsEnum.Feet, null, 5, ArmorTypesEnum.Dodge, 2);
     private List<IEquipment> tempArmorItems = new ArrayList<IEquipment>();
     //endregion
-
-    //region Temp Hit Points
-    private IHitPoints tempHitPoints = new HitPoints(0,30);
-    //endregion
-
 
     // TODO: Rename parameter arguments, choose names that match
     // TODO: Rename and change types of parameters
@@ -122,12 +106,6 @@ public class StatsReferenceFragment extends Fragment
         tempMovement.add(swim);
         tempMovement.add(climb);
         tempMovement.add(burrow);
-        tempStats.add(strength);
-        tempStats.add(dexterity);
-        tempStats.add(constiution);
-        tempStats.add(intelligence);
-        tempStats.add(wisdom);
-        tempStats.add(charisma);
 
         if (getArguments() != null)
         {
@@ -142,24 +120,28 @@ public class StatsReferenceFragment extends Fragment
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
         Activity context = this.getActivity();
-        //region Populate Test Character Data
-        tempCharacter.setInitiative(3); //TODO: Replace test character data
-        tempCharacter.setCombatManeuverStats(new CombatManeuver(3,16));
-        tempCharacter.setAbilityScores(tempStats);
-        tempCharacter.setFortitudeSave(4);
-        tempCharacter.setReflexSave(5);
-        tempCharacter.setWillSave(6);
-        tempCharacter.setTotalAC(35);
-        tempCharacter.setEquipment(tempArmorItems);
-        tempCharacter.setHitPoints(tempHitPoints);
-        tempCharacter.setTotalBaseAttackBonus(5);
-        tempCharacter.setSpellResistance(5);
-        //endregion
+
+        //For some reason this fragment is getting created twice.
+        //The first time it has a parent fragment and can get the data from that, but has no arguments of its own
+        //The second time it has no parent fragment(?!) and get its arguments passed to it from the reference adapter.
+        //If we don't account for that first pass, the code returns a null reference exception
+        //TODO:Figure out why the fragment is getting created twice and see if we need both, or if there's a better spot to pass/get the arguments from.
+        Bundle bundle = new Bundle();
+        if(this.getParentFragment() == null)
+        {
+            bundle = this.getArguments();
+            currentPlayerCharacter =  (PlayerCharacter)bundle.getSerializable("PlayerCharacter");
+        }
+        else
+        {
+            bundle = this.getParentFragment().getArguments();
+            currentPlayerCharacter =  (PlayerCharacter)bundle.getSerializable("PlayerCharacter");
+        }
 
         //region Create and set our View Adapters
         //Populate and bind our stats list
         AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
-        statsView.setValues(tempCharacter.getAbilityScores());
+        statsView.setValues(currentPlayerCharacter.getAbilityScores());
 
         //Populate and bind our movement list
         MovementReferenceBlockView movementView = rootView.findViewById(R.id.movementList);
@@ -167,23 +149,23 @@ public class StatsReferenceFragment extends Fragment
 
         //Populate and bind our initiative section
         InitiativeReferenceBlockView initiativeView = rootView.findViewById(R.id.initiativeList);
-        initiativeView.setValues(tempCharacter.getInitiative());
+        initiativeView.setValues(currentPlayerCharacter.getInitiative());
 
         //Populate and bind our combat Maneuver list
         CombatManeuverReferenceBlockView combatManeuverView = rootView.findViewById(R.id.combatManeuverList);
-        combatManeuverView.setValues(tempCharacter.getCombatManeuverStats());
+        combatManeuverView.setValues(currentPlayerCharacter.getCombatManeuverStats());
 
         //Populate and bind our saves list
         SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
-        savesView.setValues(tempCharacter.getFortitudeSave(), tempCharacter.getReflexSave(), tempCharacter.getWillSave());
+        savesView.setValues(currentPlayerCharacter.getFortitudeSave(), currentPlayerCharacter.getReflexSave(), currentPlayerCharacter.getWillSave());
 
         //Populate and bind our AC list
         ACReferenceBlockView armorView = rootView.findViewById(R.id.armorList);
-        armorView.setValues(tempCharacter.getTotalAC(), tempCharacter.CalculateTouchAC(), tempCharacter.CalculateFlatFootedAC());
+        armorView.setValues(currentPlayerCharacter.getTotalAC(), currentPlayerCharacter.getTouchAC(), currentPlayerCharacter.getFlatFootedAC());
 
         //Populate and bind our HP, BAB, SR section
         HP_BAB_SR_ReferenceBlockView hp_BAB_SRView = rootView.findViewById(R.id.hp_bab_srList);
-        hp_BAB_SRView.setValues(tempCharacter.getHitPoints(),tempCharacter.getTotalBaseAttackBonus(), tempCharacter.getSpellResistance());
+        hp_BAB_SRView.setValues(currentPlayerCharacter.getTotalHitPoints(),currentPlayerCharacter.getTotalBaseAttackBonus(), currentPlayerCharacter.getSpellResistance());
         //endregion
 
         return rootView;

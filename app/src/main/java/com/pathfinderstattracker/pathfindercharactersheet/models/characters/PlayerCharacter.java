@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
@@ -9,6 +11,9 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWondrous
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,21 +21,21 @@ import java.util.UUID;
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public class PlayerCharacter implements IPlayerCharacter
+public class PlayerCharacter implements IPlayerCharacter, Serializable
 {
     private UUID playerCharacterID;
     private String characterName;
     private double ExperiencePoints;
     private int CharacterLevel;
     private int ConcentrationCheck;
-    private AlignmentEnum Alignment;
+    private AlignmentEnum characterAlignment;
     private int TotalBaseAttackBonus;
     private IRace CharacterRace;
     private IHitPoints TotalHitPoints;
     private int TotalAC;
     private List<IFeat> Feats;
     private List<IEquipment> Equipment;
-    private IDamageReduction DR;
+    private IDamageReduction damageReduction;
     private List<String> LanguagesKnown;
     private List<IAbilityScore> AbilityScores;
     private ICombatManeuver CombatManeuverStats;
@@ -41,6 +46,7 @@ public class PlayerCharacter implements IPlayerCharacter
     private int WillSave;
     private List<IItem> Inventory;
 
+    //region Getters and Setters
     @Override
     public void setPlayerCharacterID(UUID playerCharacterID)
     {
@@ -94,14 +100,14 @@ public class PlayerCharacter implements IPlayerCharacter
         ConcentrationCheck = concentrationCheck;
     }
 
-    public AlignmentEnum getAlignment()
+    public AlignmentEnum getCharacterAlignment()
     {
-        return Alignment;
+        return characterAlignment;
     }
 
-    public void setAlignment(AlignmentEnum alignment)
+    public void setCharacterAlignment(AlignmentEnum characterAlignment)
     {
-        Alignment = alignment;
+        this.characterAlignment = characterAlignment;
     }
 
     public int getTotalBaseAttackBonus()
@@ -120,13 +126,13 @@ public class PlayerCharacter implements IPlayerCharacter
     }
 
     @Override
-    public void setHitPoints(IHitPoints hitPoints)
+    public void setTotalHitPoints(IHitPoints hitPoints)
     {
         TotalHitPoints = hitPoints;
     }
 
     @Override
-    public IHitPoints getHitPoints()
+    public IHitPoints getTotalHitPoints()
     {
         return TotalHitPoints;
     }
@@ -145,6 +151,8 @@ public class PlayerCharacter implements IPlayerCharacter
     {
         TotalAC = totalAC;
     }
+    public int getTouchAC(){return CalculateTouchAC();}
+    public int getFlatFootedAC(){return CalculateFlatFootedAC();}
 
     public List<IFeat> getFeats()
     {
@@ -166,14 +174,14 @@ public class PlayerCharacter implements IPlayerCharacter
         Equipment = equippedArmor;
     }
 
-    public IDamageReduction getDR()
+    public IDamageReduction getDamageReduction()
     {
-        return DR;
+        return damageReduction;
     }
 
-    public void setDR(IDamageReduction DR)
+    public void setDamageReduction(IDamageReduction damageReduction)
     {
-        this.DR = DR;
+        this.damageReduction = damageReduction;
     }
 
     public List<String> getLanguagesKnown()
@@ -257,15 +265,44 @@ public class PlayerCharacter implements IPlayerCharacter
     }
     public List<IItem> getInventory(){return Inventory;}
     public void setInventory(List<IItem> inventory){Inventory = inventory;}
-
-
+    //endregion
 
     public PlayerCharacter()
     {
         //Default Constructor
     }
 
-    public int CalculateTouchAC()
+    public static IPlayerCharacter CreateDefaultPlayerCharacterWithID(UUID newPlayerCharacterID)
+    {
+        IPlayerCharacter CreatedPlayerCharacter = new PlayerCharacter();
+        CreatedPlayerCharacter.setPlayerCharacterID(newPlayerCharacterID);
+        CreatedPlayerCharacter.setPlayerCharacterName("");
+        CreatedPlayerCharacter.setCharacterLevel(1);
+        CreatedPlayerCharacter.setConcentrationCheck(0);
+        CreatedPlayerCharacter.setCharacterAlignment(AlignmentEnum.TrueNeutral);
+        CreatedPlayerCharacter.setTotalBaseAttackBonus(0);
+        CreatedPlayerCharacter.setTotalHitPoints(new HitPoints(0,0));
+        CreatedPlayerCharacter.setTotalAC(10);
+        CreatedPlayerCharacter.setDamageReduction(new DamageReduction(0,"",""));
+        CreatedPlayerCharacter.setLanguagesKnown(new ArrayList<String>(Arrays.asList("Common")));
+        CreatedPlayerCharacter.setAbilityScores(new ArrayList<IAbilityScore>(Arrays.asList(new AbilityScore(AbilityScoreEnum.STR,10),
+                                                                    new AbilityScore(AbilityScoreEnum.DEX, 10),
+                                                                    new AbilityScore(AbilityScoreEnum.CON, 10),
+                                                                    new AbilityScore(AbilityScoreEnum.INT, 10),
+                                                                    new AbilityScore(AbilityScoreEnum.WIS, 10),
+                                                                    new AbilityScore(AbilityScoreEnum.CHA, 10))));
+        CreatedPlayerCharacter.setCombatManeuverStats(new CombatManeuver(0,10));
+        CreatedPlayerCharacter.setSpellResistance(0);
+        CreatedPlayerCharacter.setFortitudeSave(0);
+        CreatedPlayerCharacter.setReflexSave(0);
+        CreatedPlayerCharacter.setWillSave(0);
+        //If we don't create an empty equipment list for our default player character, CalculateTouchAC and CalculateFlatFootedAC will
+        //return null references.
+        CreatedPlayerCharacter.setEquipment(new ArrayList<IEquipment>());
+        return CreatedPlayerCharacter;
+    }
+
+    private int CalculateTouchAC()
     {
         int armorBonus = 0;
         int naturalArmorBonus = 0;
@@ -322,7 +359,7 @@ public class PlayerCharacter implements IPlayerCharacter
         return TotalAC - armorBonus - naturalArmorBonus - shieldBonus;
     }
 
-    public int CalculateFlatFootedAC()
+    private int CalculateFlatFootedAC()
     {
         int dodgeBonus = 0;
         int dexterityBonus = 0;

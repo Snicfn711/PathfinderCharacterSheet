@@ -6,6 +6,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public interface IPlayerCharacter
+public interface IPlayerCharacter extends Serializable
 {
     void setPlayerCharacterID(UUID playerCharacterID);
     UUID getPlayerCharacterID();
@@ -25,22 +26,24 @@ public interface IPlayerCharacter
     int getCharacterLevel();
     void setConcentrationCheck(int concentrationCheck);
     int getConcentrationCheck();
-    void setAlignment(AlignmentEnum alignment);
-    AlignmentEnum getAlignment();
+    void setCharacterAlignment(AlignmentEnum characterAlignment);
+    AlignmentEnum getCharacterAlignment();
     void setTotalBaseAttackBonus(int totalBaseAttackBonus);
     int getTotalBaseAttackBonus();
     void setCharacterRace(IRace race);
     IRace getCharacterRace();
-    void setHitPoints(IHitPoints hitPoints);
-    IHitPoints getHitPoints();
+    void setTotalHitPoints(IHitPoints totalHitPoints);
+    IHitPoints getTotalHitPoints();
     void setTotalAC(int totalAC);
     int getTotalAC();
+    int getTouchAC();
+    int getFlatFootedAC();
     void setFeats(List<IFeat> feats);
     List<IFeat> getFeats();
     void setEquipment(List<IEquipment> equipment);
     List<IEquipment> getEquipment();
-    void setDR(IDamageReduction dr);
-    IDamageReduction getDR();
+    void setDamageReduction(IDamageReduction dr);
+    IDamageReduction getDamageReduction();
     void setLanguagesKnown(List<String> languagesKnown);
     List<String> getLanguagesKnown();
     void setAbilityScores(List<IAbilityScore> scores);
@@ -57,5 +60,4 @@ public interface IPlayerCharacter
     int getReflexSave();
     void setWillSave(int willSave);
     int getWillSave();
-
 }

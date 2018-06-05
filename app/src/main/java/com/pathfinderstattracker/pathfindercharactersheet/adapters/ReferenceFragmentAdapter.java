@@ -33,38 +33,26 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
         {
             case 0:
                 fragment = new StatsReferenceFragment();
-                args = new Bundle();
-                args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             case 1:
                 fragment = new SkillsReferenceFragment();
-                args = new Bundle();
-                args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             case 2:
                 fragment = new AbilityReferenceFragment();
-                args = new Bundle();
-                args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             case 3:
                 fragment = new SpellReferenceFragment();
-                args = new Bundle();
-                args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             case 4:
                 fragment = new InventoryReferenceFragment();
-                args = new Bundle();
-                args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             case 5:
                 fragment = new EquipmentReferenceFragment();
-                args = new Bundle();
-                args.putString("Foo", "Bar");
                 fragment.setArguments(args);
                 return fragment;
             default:
@@ -104,4 +92,9 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
                 return "Error";
         }
     }
+
+    public void setArgs(Bundle args)
+    {
+        this.args = args;
+    };
 }
