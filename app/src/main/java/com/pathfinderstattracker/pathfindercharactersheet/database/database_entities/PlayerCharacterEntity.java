@@ -79,10 +79,12 @@ public class PlayerCharacterEntity
     private int willSave;
 
     //region Getters and Setters
+    @NonNull
     public UUID getPlayerCharacterID() {
         return playerCharacterID;
     }
 
+    @NonNull
     public void setPlayerCharacterID(UUID playerCharacterID) {
         this.playerCharacterID = playerCharacterID;
     }

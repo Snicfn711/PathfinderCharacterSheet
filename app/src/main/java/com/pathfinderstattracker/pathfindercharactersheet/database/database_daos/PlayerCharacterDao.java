@@ -6,17 +6,33 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 
 import java.util.UUID;
+import java.util.List;
 
 @Dao
-@TypeConverters(UUIDConverter.class)
+@TypeConverters({UUIDConverter.class,
+                 AbilityScoreConverter.class})
 public interface PlayerCharacterDao
 {
     @Insert
     public void insertPlayerCharacter(PlayerCharacterEntity character);
     @Query("SELECT * FROM player_characters " +
-    "WHERE playerCharacterID = :playerCharacterIDtoFind")
+           "WHERE playerCharacterID = :playerCharacterIDtoFind")
     PlayerCharacterEntity getPlayerCharacterByID(UUID playerCharacterIDtoFind);
+    @Query("UPDATE player_characters "+
+           "SET ability_scores = :playerCharacterAbilityScores "+
+           "WHERE playerCharacterID = :characterIDToUpdate")
+    void updatePlayerCharacterAbilityScores(List<IAbilityScore> playerCharacterAbilityScores, UUID characterIDToUpdate);
+    @Query("UPDATE player_characters "+
+           "SET character_name = :playerCharacterName " +
+           "WHERE playerCharacterID = :characterIDToUpdate")
+    void updatePlayerCharacterName(String playerCharacterName, UUID characterIDToUpdate);
+    @Query("SELECT character_name, playerCharacterID " +
+           "FROM player_characters")
+    List<PlayerCharacterNameAndIDEntity> getListOfCharacterNames();
 }

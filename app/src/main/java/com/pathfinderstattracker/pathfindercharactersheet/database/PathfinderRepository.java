@@ -10,6 +10,10 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPla
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class PathfinderRepository
 {
     private PlayerCharacterDao playerCharacterDao;
@@ -30,7 +34,25 @@ public class PathfinderRepository
         new insertPlayerCharacterAsyncTask(playerCharacterDao).execute(EntityToInsert);
     }
 
+    public void updatePlayerCharacterName(String playerCharacterName, UUID playerCharacterID)
+    {
+        new updatePlayerCharacterNameAsyncTask(playerCharacterDao).execute(playerCharacterName, playerCharacterID);
+    }
 
+
+    private static class updatePlayerCharacterNameAsyncTask extends AsyncTask<Object, Void, Void>
+    {
+       private PlayerCharacterDao asyncPlayerCharacterDao;
+       updatePlayerCharacterNameAsyncTask(PlayerCharacterDao dao) {asyncPlayerCharacterDao = dao;}
+        @Override
+        protected Void doInBackground(final Object... params)
+        {
+            String myStringParam = (String) params[0];
+            UUID myUUIDParam = (UUID)params[1];
+            asyncPlayerCharacterDao.updatePlayerCharacterName(myStringParam, myUUIDParam);
+            return null;
+        }
+    }
 
     private static class insertPlayerCharacterAsyncTask extends AsyncTask<PlayerCharacterEntity, Void, Void>
     {
