@@ -6,13 +6,18 @@ import android.os.AsyncTask;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class PathfinderRepository
 {
@@ -38,8 +43,12 @@ public class PathfinderRepository
     {
         new updatePlayerCharacterNameAsyncTask(playerCharacterDao).execute(playerCharacterName, playerCharacterID);
     }
+    public List<PlayerCharacterNameAndIDEntity> getPlayerNamesAndIDs()
+    {
+        return playerCharacterDao.getListOfCharacterNames();
+    }
 
-
+    //region Async Tasks
     private static class updatePlayerCharacterNameAsyncTask extends AsyncTask<Object, Void, Void>
     {
        private PlayerCharacterDao asyncPlayerCharacterDao;
@@ -70,4 +79,28 @@ public class PathfinderRepository
             return null;
         }
     }
+
+//    private static class getPlayerCharacterNamesAndIDsAsyncTask extends  AsyncTask<Void, Void, List<PlayerCharacterNameAndIDEntity>>
+//    {
+//        private  PlayerCharacterDao asyncPlayerCharacterDao;
+//        PathfinderRepository caller;
+//
+//        getPlayerCharacterNamesAndIDsAsyncTask(PlayerCharacterDao dao, PathfinderRepository caller)
+//        {
+//            asyncPlayerCharacterDao = dao;
+//            this.caller = caller;
+//        }
+//
+//        @Override
+//        protected List<PlayerCharacterNameAndIDEntity> doInBackground(Void... voids)
+//        {
+//            return asyncPlayerCharacterDao.getListOfCharacterNames();
+//        }
+//
+//        protected void onPostExecute(List<PlayerCharacterNameAndIDEntity> result)
+//        {
+//            caller.onGetPlayerCharacterNamesAndIDsBackgroundTaskCompleted(result);
+//        }
+//    }
+    //endregion
 }

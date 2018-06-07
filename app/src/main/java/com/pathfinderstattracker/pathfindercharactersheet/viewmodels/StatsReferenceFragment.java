@@ -2,14 +2,17 @@ package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
@@ -30,6 +33,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWei
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IMovement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.Movement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementManeuverabilityEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.AddNameDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_SR_ReferenceBlockView;
@@ -53,6 +57,9 @@ import java.util.List;
 public class StatsReferenceFragment extends Fragment
 {
     private IPlayerCharacter currentPlayerCharacter;
+    private PathfinderRepository repository;
+
+    private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;//Used later in the code to dertermine which dialog is returning data to this fragment
 
     //region Test Movements
     private Movement base = new Movement("Base", 30, MovementManeuverabilityEnum.Perfect);
@@ -120,6 +127,7 @@ public class StatsReferenceFragment extends Fragment
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
         Activity context = this.getActivity();
+        repository = new PathfinderRepository(this.getActivity().getApplication());
 
         //For some reason this fragment is getting created twice.
         //The first time it has a parent fragment and can get the data from that, but has no arguments of its own
@@ -131,6 +139,12 @@ public class StatsReferenceFragment extends Fragment
         {
             bundle = this.getArguments();
             currentPlayerCharacter =  (PlayerCharacter)bundle.getSerializable("PlayerCharacter");
+            if(currentPlayerCharacter.getPlayerCharacterName().isEmpty())
+            {
+                AddNameDialog getNameDialog = new AddNameDialog();
+                getNameDialog.setTargetFragment(this, ADD_NEW_CHARACTER_NAME_DIALOG);
+                getNameDialog.show(this.getFragmentManager(),"Add Player Character Name");
+            }
         }
         else
         {
@@ -215,5 +229,21 @@ public class StatsReferenceFragment extends Fragment
     {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch(requestCode)
+        {
+            case ADD_NEW_CHARACTER_NAME_DIALOG:
+                if(resultCode == Activity.RESULT_OK)
+                {
+                    Bundle bundle = data.getExtras();
+                    String newPlayerCharacterName = (String)bundle.getSerializable("NewPlayerCharacterName");
+                    repository.updatePlayerCharacterName(newPlayerCharacterName, currentPlayerCharacter.getPlayerCharacterID());
+                }
+                break;
+        }
     }
 }

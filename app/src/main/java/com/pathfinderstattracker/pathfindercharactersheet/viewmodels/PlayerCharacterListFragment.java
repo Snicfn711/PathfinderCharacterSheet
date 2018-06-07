@@ -15,7 +15,9 @@ import android.widget.ImageButton;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.PlayerCharacterRecyclerViewAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
@@ -24,9 +26,11 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.characters.Comb
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.DamageReduction;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -39,6 +43,7 @@ public class PlayerCharacterListFragment extends Fragment
 {
     private OnListFragmentInteractionListener mListener;
     private Animation click;
+    private PathfinderRepository repository;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -75,11 +80,23 @@ public class PlayerCharacterListFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.player_character_fragment_view, container, false);
         Context context = rootView.getContext();
+        repository = new PathfinderRepository(this.getActivity().getApplication());
 
-        //Set the adapter
+        //Get our list of character info from the db and set the adapter
+        List<IPlayerCharacter> characterListToDisplay = new ArrayList<IPlayerCharacter>();
+        List<PlayerCharacterNameAndIDEntity> characterNamesAndIDsFromDb = repository.getPlayerNamesAndIDs();
+
+        for(PlayerCharacterNameAndIDEntity entity : characterNamesAndIDsFromDb)
+        {
+            PlayerCharacter temp = new PlayerCharacter();
+            temp.setPlayerCharacterName(entity.PlayerCharacterName);
+            temp.setPlayerCharacterID(entity.PlayerCharacterID);
+            characterListToDisplay.add(temp);
+        }
+
         final RecyclerView recyclerView =  rootView.findViewById(R.id.PlayerCharacterRecycler);
-        //final PlayerCharacterRecyclerViewAdapter playerCharacterAdapter = new PlayerCharacterRecyclerViewAdapter(TempEquipment, mListener);
-        //recyclerView.setAdapter(playerCharacterAdapter);
+        final PlayerCharacterRecyclerViewAdapter playerCharacterAdapter = new PlayerCharacterRecyclerViewAdapter(characterListToDisplay, mListener);
+        recyclerView.setAdapter(playerCharacterAdapter);
 
         //Set our animation for adding new player characters
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);

@@ -34,9 +34,23 @@ public class PlayerCharacterRecyclerViewAdapter extends RecyclerView.Adapter<Pla
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.playerCharacter = mValues.get(position);
         holder.playerCharacterName.setText(holder.playerCharacter.getPlayerCharacterName());
-        holder.playerCharacterCharacterLevel.setText(holder.playerCharacter.getCharacterLevel());
-        holder.playerCharacterRace.setText(holder.playerCharacter.getCharacterRace().toString());
-        holder.playerCharacterClass.setText(holder.playerCharacter.getClass().toString());
+        holder.playerCharacterCharacterLevel.setText(Integer.toString(holder.playerCharacter.getCharacterLevel()));
+        if(holder.playerCharacter.getCharacterRace() == null)
+        {
+            holder.playerCharacterRace.setText("-");
+        }
+        else
+        {
+            holder.playerCharacterRace.setText(holder.playerCharacter.getCharacterRace().toString());
+        }
+        if(holder.playerCharacter.getClass() == null)
+        {
+            holder.playerCharacterClass.setText("-");
+        }
+        else
+        {
+            holder.playerCharacterClass.setText(holder.playerCharacter.getClass().toString());
+        }
 
 
         holder.recycledRow.setOnClickListener(new View.OnClickListener() {

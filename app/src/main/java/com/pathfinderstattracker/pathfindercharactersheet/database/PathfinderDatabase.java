@@ -56,7 +56,7 @@ public abstract class PathfinderDatabase extends RoomDatabase
     {
         if(INSTANCE == null)
         {
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PathfinderDatabase.class, "pathfinder_database").build();
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PathfinderDatabase.class, "pathfinder_database").allowMainThreadQueries().build();
         }
         return INSTANCE;
     }
