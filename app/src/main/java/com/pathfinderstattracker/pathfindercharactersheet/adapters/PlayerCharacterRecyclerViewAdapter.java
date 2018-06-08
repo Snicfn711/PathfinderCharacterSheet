@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
@@ -15,6 +17,7 @@ import java.util.List;
 //TODO:Properly implement our player character screen
 public class PlayerCharacterRecyclerViewAdapter extends RecyclerView.Adapter<PlayerCharacterRecyclerViewAdapter.ViewHolder> {
 
+    private Animation click;
     private final List<IPlayerCharacter> mValues;
     private final OnListFragmentInteractionListener mListener;
 
@@ -25,8 +28,8 @@ public class PlayerCharacterRecyclerViewAdapter extends RecyclerView.Adapter<Pla
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.player_character_row_view, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_character_row_view, parent, false);
+        click = AnimationUtils.loadAnimation(parent.getContext(), R.anim.roll_button_click);
         return new ViewHolder(view);
     }
 
@@ -43,14 +46,9 @@ public class PlayerCharacterRecyclerViewAdapter extends RecyclerView.Adapter<Pla
         {
             holder.playerCharacterRace.setText(holder.playerCharacter.getCharacterRace().toString());
         }
-        if(holder.playerCharacter.getClass() == null)
-        {
-            holder.playerCharacterClass.setText("-");
-        }
-        else
-        {
-            holder.playerCharacterClass.setText(holder.playerCharacter.getClass().toString());
-        }
+        //We're not actually associating the character with a class yet, so for now will just use a placeholder
+        holder.playerCharacterClass.setText("-");
+
 
 
         holder.recycledRow.setOnClickListener(new View.OnClickListener() {
@@ -59,7 +57,8 @@ public class PlayerCharacterRecyclerViewAdapter extends RecyclerView.Adapter<Pla
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    //mListener.onListFragmentInteraction(holder.playerCharacter);
+                    //holder.recycledRow.startAnimation(click);
+                    mListener.onListFragmentInteraction(holder.playerCharacter);
                 }
             }
         });

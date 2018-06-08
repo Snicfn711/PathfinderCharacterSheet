@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderDatabase;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
@@ -33,7 +34,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsRefer
 
 import java.util.UUID;
 
-public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener
+public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener, PathfinderRepositoryListener
 {
     PathfinderRepository repository;
     @Override
@@ -87,7 +88,14 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     @Override
     public void onListFragmentInteraction(IPlayerCharacter item)
     {
-        AddNewCharacter();
+        if(item == null)
+        {
+            AddNewCharacter();
+        }
+        else
+        {
+            repository.requestPlayerCharacterByID(item.getPlayerCharacterID(),this);
+        }
     }
 
     public void AddNewCharacter()
@@ -96,6 +104,17 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         Bundle bundle = new Bundle();
         bundle.putSerializable("PlayerCharacter", newPlayerCharacter);
         repository.insertPlayerCharacter(newPlayerCharacter);
+        Fragment parentReferenceFragment = new ParentReferenceFragment();
+        parentReferenceFragment.setArguments(bundle);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment).commit();
+    }
+
+    @Override
+    public void findCharacterProcessFinished(IPlayerCharacter playerCharacter)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("PlayerCharacter", playerCharacter);
         Fragment parentReferenceFragment = new ParentReferenceFragment();
         parentReferenceFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

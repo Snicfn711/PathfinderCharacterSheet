@@ -1,5 +1,6 @@
 package com.pathfinderstattracker.pathfindercharactersheet.database;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -43,9 +44,17 @@ public class PathfinderRepository
     {
         new updatePlayerCharacterNameAsyncTask(playerCharacterDao).execute(playerCharacterName, playerCharacterID);
     }
+
     public List<PlayerCharacterNameAndIDEntity> getPlayerNamesAndIDs()
     {
         return playerCharacterDao.getListOfCharacterNames();
+    }
+
+    public void requestPlayerCharacterByID(UUID playerCharacterID, PathfinderRepositoryListener callingActivity)
+    {
+        getPlayerCharacterByIDAsyncTask task = new getPlayerCharacterByIDAsyncTask(playerCharacterDao);
+        task.delegate = callingActivity;
+        task.execute(playerCharacterID);
     }
 
     //region Async Tasks
@@ -80,6 +89,28 @@ public class PathfinderRepository
         }
     }
 
+    private static class getPlayerCharacterByIDAsyncTask extends AsyncTask<UUID, Void, IPlayerCharacter>
+    {
+        private PathfinderRepositoryListener delegate = null;
+
+        private PlayerCharacterDao asyncPlayerCharacterDao;
+
+        getPlayerCharacterByIDAsyncTask(PlayerCharacterDao dao){asyncPlayerCharacterDao = dao;}
+
+        @Override
+        protected IPlayerCharacter doInBackground(UUID... uuids)
+        {
+            PlayerCharacterEntity entityToConvert = asyncPlayerCharacterDao.getPlayerCharacterByID(uuids[0]);
+            IPlayerCharacter characterToReturn = DatabaseEntityObjectConverter.ConverterPlayerCharacterEntityToPlayerCharacterObject(entityToConvert);
+            return characterToReturn;
+        }
+
+        @Override
+        protected void onPostExecute(IPlayerCharacter characterToReturn)
+        {
+            delegate.findCharacterProcessFinished(characterToReturn);
+        }
+    }
 //    private static class getPlayerCharacterNamesAndIDsAsyncTask extends  AsyncTask<Void, Void, List<PlayerCharacterNameAndIDEntity>>
 //    {
 //        private  PlayerCharacterDao asyncPlayerCharacterDao;

@@ -3,8 +3,8 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 /**
  * Created by Stephen Hagen on 1/10/2018.
  */
-
-public class DamageReduction implements  IDamageReduction
+import java.io.Serializable;
+public class DamageReduction implements IDamageReduction, Serializable
 {
     private int amount;
     private String type;

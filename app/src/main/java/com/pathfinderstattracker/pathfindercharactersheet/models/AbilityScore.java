@@ -3,8 +3,9 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 /**
  * Created by Stephen Hagen on 1/5/2018.
  */
+import java.io.Serializable;
 
-public class AbilityScore implements IAbilityScore
+public class AbilityScore implements IAbilityScore, Serializable
 {
     private AbilityScoreEnum Stat;
     private int Amount;

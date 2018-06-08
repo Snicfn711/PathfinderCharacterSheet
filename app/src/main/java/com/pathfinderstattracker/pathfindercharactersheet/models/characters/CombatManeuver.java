@@ -3,11 +3,12 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 /**
  * Created by Stephen Hagen on 1/10/2018.
  */
+import java.io.Serializable;
 
-public class CombatManeuver implements ICombatManeuver
+public class CombatManeuver implements ICombatManeuver, Serializable
 {
-    int combatManeuverCheck;
-    int combatManeuverDefense;
+    private int combatManeuverCheck;
+    private int combatManeuverDefense;
 
     public int getCombatManeuverCheck()
     {

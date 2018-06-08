@@ -7,8 +7,9 @@ import java.util.List;
 /**
  * Created by Stephen Hagen on 1/5/2018.
  */
+import java.io.Serializable;
 
-public class CreatureType implements ICreatureType
+public class CreatureType implements ICreatureType, Serializable
 {
     private String Type;
     private String SubType;

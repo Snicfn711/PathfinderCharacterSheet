@@ -3,8 +3,9 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 /**
  * Created by Stephen Hagen on 1/10/2018.
  */
+import java.io.Serializable;
 
-public class HitPoints implements IHitPoints
+public class HitPoints implements IHitPoints, Serializable
 {
     int favoredClassPointsInvested;
     int value;

@@ -7,8 +7,9 @@ import java.util.List;
 /**
  * Created by Stephen Hagen on 1/5/2018.
  */
+import java.io.Serializable;
 
-public interface ICreatureType
+public interface ICreatureType extends Serializable
 {
     String Type = null;
     String SubType = null;

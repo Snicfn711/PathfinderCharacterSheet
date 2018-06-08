@@ -8,8 +8,9 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnu
 /**
  * Created by Stephen Hagen on 1/5/2018.
  */
+import java.io.Serializable;
 
-public interface IRace
+public interface IRace extends Serializable
 {
     int HitDiceSize = 8;
     BodySlotsEnum[] AvailableEquipmentSlots = null;

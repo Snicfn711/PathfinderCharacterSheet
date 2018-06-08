@@ -11,8 +11,9 @@ import java.util.List;
 /**
  * Created by Stephen Hagen on 1/5/2018.
  */
+import java.io.Serializable;
 
-public class Race implements IRace
+public class Race implements IRace, Serializable
 {
     private int HitDiceSize;
     private List<BodySlotsEnum> AvailableEquipmentSlots;

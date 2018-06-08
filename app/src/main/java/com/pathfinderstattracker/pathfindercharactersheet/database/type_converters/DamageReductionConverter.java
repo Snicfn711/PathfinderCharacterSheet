@@ -10,10 +10,11 @@ public class DamageReductionConverter
     @TypeConverter
     public IDamageReduction fromString(String value)
     {
+        //TODO:Damage Reduction isn't workng quite yet, so for now, the only ting being tracked is the amount, not the type
         DamageReduction formattedDamageReduction = new DamageReduction();
         String[] damageReductionTokens = value.split("/");
         formattedDamageReduction.setAmount(Integer.parseInt(damageReductionTokens[0]));
-        formattedDamageReduction.setType(damageReductionTokens[5]);
+        formattedDamageReduction.setType("Slashing");
         return formattedDamageReduction;
     }
 

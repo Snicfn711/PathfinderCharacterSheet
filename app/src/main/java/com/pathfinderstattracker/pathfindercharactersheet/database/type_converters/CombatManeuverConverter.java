@@ -12,7 +12,7 @@ public class CombatManeuverConverter {
         //This assumes a format of either # " " interval (i.e. 1 hour, 4 days, etc)
         //or Action " Action" (i.e. Standard Action, Free Action, etc)
         ICombatManeuver formattedCombatManeuver = new CombatManeuver();
-        String[] tokens = value.split(" ");
+        String[] tokens = value.split("/");
         formattedCombatManeuver.setCombatManeuverCheck(Integer.parseInt(tokens[0]));
         formattedCombatManeuver.setCombatManeuverDefense(Integer.parseInt(tokens[0]));
         return formattedCombatManeuver;

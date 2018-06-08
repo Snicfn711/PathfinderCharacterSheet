@@ -54,8 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight=".9"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:padding="5dp"
         app:layoutManager="LinearLayoutManager"
         tools:context=".viewmodels.PlayerCharacterListFragment"
         tools:listitem="@layout/player_character_row_view"/>

@@ -158,4 +158,10 @@ public abstract class CharacterClass
         ClassResource = classResource;
     }
     //endregion
+
+    @Override
+    public String toString()
+    {
+        return ClassName;
+    }
 }

@@ -3,8 +3,9 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.races;
 /**
  * Created by Stephen Hagen on 1/5/2018.
  */
+import java.io.Serializable;
 
-public class Movement implements IMovement
+public class Movement implements IMovement, Serializable
 {
     private String Name;
     private int Speed;
