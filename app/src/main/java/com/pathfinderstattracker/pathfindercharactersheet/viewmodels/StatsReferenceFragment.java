@@ -139,10 +139,11 @@ public class StatsReferenceFragment extends Fragment
         {
             bundle = this.getArguments();
             currentPlayerCharacter =  (PlayerCharacter)bundle.getSerializable("PlayerCharacter");
-            if(currentPlayerCharacter.getPlayerCharacterName().isEmpty())
+            if(currentPlayerCharacter.getPlayerCharacterName() == null || currentPlayerCharacter.getPlayerCharacterName().isEmpty())
             {
                 AddNameDialog getNameDialog = new AddNameDialog();
                 getNameDialog.setTargetFragment(this, ADD_NEW_CHARACTER_NAME_DIALOG);
+                getNameDialog.setStyle(DialogFragment.STYLE_NO_TITLE,0);
                 getNameDialog.show(this.getFragmentManager(),"Add Player Character Name");
             }
         }

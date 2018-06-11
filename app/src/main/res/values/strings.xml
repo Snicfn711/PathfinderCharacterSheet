@@ -121,4 +121,6 @@
     <string name="EditCharacterProfile">Edit Character Profile</string>
     <string name="EditCharacterName">Edit Character Name</string>
     <string name="SaveChanges">Save Changes</string>
+    <string name="AddNameHint">Enter Name Here</string>
+    <string name="NewName">New Name</string>
 </resources>

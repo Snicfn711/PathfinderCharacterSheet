@@ -31,12 +31,15 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.PlayerChara
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 
 import java.util.UUID;
+import java.util.List;
 
 public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener, PathfinderRepositoryListener
 {
     PathfinderRepository repository;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -119,5 +122,13 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         parentReferenceFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment).commit();
+    }
+
+    @Override
+    public void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
     }
 }

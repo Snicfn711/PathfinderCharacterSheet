@@ -286,11 +286,11 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         CreatedPlayerCharacter.setDamageReduction(new DamageReduction(0,"",""));
         CreatedPlayerCharacter.setLanguagesKnown(new ArrayList<String>(Arrays.asList("Common")));
         CreatedPlayerCharacter.setAbilityScores(new ArrayList<IAbilityScore>(Arrays.asList(new AbilityScore(AbilityScoreEnum.STR,10),
-                                                                    new AbilityScore(AbilityScoreEnum.DEX, 10),
-                                                                    new AbilityScore(AbilityScoreEnum.CON, 10),
-                                                                    new AbilityScore(AbilityScoreEnum.INT, 10),
-                                                                    new AbilityScore(AbilityScoreEnum.WIS, 10),
-                                                                    new AbilityScore(AbilityScoreEnum.CHA, 10))));
+                                                                                           new AbilityScore(AbilityScoreEnum.DEX, 10),
+                                                                                           new AbilityScore(AbilityScoreEnum.CON, 10),
+                                                                                           new AbilityScore(AbilityScoreEnum.INT, 10),
+                                                                                           new AbilityScore(AbilityScoreEnum.WIS, 10),
+                                                                                           new AbilityScore(AbilityScoreEnum.CHA, 10))));
         CreatedPlayerCharacter.setCombatManeuverStats(new CombatManeuver(0,10));
         CreatedPlayerCharacter.setSpellResistance(0);
         CreatedPlayerCharacter.setFortitudeSave(0);
@@ -307,53 +307,56 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         int armorBonus = 0;
         int naturalArmorBonus = 0;
         int shieldBonus = 0;
-        for(IEquipment x:Equipment)
+        if(Equipment != null)
         {
-            if(x instanceof IProtection)
+            for(IEquipment x:Equipment)
             {
-                switch (((IProtection) x).getArmorType())
+                if(x instanceof IProtection)
                 {
-                    //None of these armor types stack, so we'll have to check that we're removing only the largest value
-                    //This of course assumes only the largest value armor is equipped, which we'll have to enforce
-                    case Armor:
-                        int tempArmorBonus = ((IProtection) x).getACBonus();
-                        if(armorBonus == 0 || armorBonus < tempArmorBonus)
-                        {
-                            armorBonus = tempArmorBonus;
-                        }
-                        break;
-                    case NaturalArmor:
-                        int tempNaturalArmorBonus = ((IProtection) x).getACBonus();
-                        if(naturalArmorBonus == 0 || naturalArmorBonus < tempNaturalArmorBonus)
-                        {
-                            naturalArmorBonus = tempNaturalArmorBonus;
-                        }
-                        break;
-                    case Shield:
-                        int tempShieldBonus = ((IProtection) x).getACBonus();
-                        if(shieldBonus == 0 || shieldBonus < tempShieldBonus)
-                        {
-                            shieldBonus = tempShieldBonus;
-                        }
-                        break;
+                    switch (((IProtection) x).getArmorType())
+                    {
+                        //None of these armor types stack, so we'll have to check that we're removing only the largest value
+                        //This of course assumes only the largest value armor is equipped, which we'll have to enforce
+                        case Armor:
+                            int tempArmorBonus = ((IProtection) x).getACBonus();
+                            if(armorBonus == 0 || armorBonus < tempArmorBonus)
+                            {
+                                armorBonus = tempArmorBonus;
+                            }
+                            break;
+                        case NaturalArmor:
+                            int tempNaturalArmorBonus = ((IProtection) x).getACBonus();
+                            if(naturalArmorBonus == 0 || naturalArmorBonus < tempNaturalArmorBonus)
+                            {
+                                naturalArmorBonus = tempNaturalArmorBonus;
+                            }
+                            break;
+                        case Shield:
+                            int tempShieldBonus = ((IProtection) x).getACBonus();
+                            if(shieldBonus == 0 || shieldBonus < tempShieldBonus)
+                            {
+                                shieldBonus = tempShieldBonus;
+                            }
+                            break;
+                    }
+                    //Since we don't care about the other armor types, we'll leave out a default case
                 }
-                //Since we don't care about the other armor types, we'll leave out a default case
-            }
-            else if(x instanceof IWondrousItems)
-            {
-                switch (((IWondrousItems) x).getArmorType())
+                else if(x instanceof IWondrousItems)
                 {
-                    case Armor:
-                        armorBonus = ((IWondrousItems) x).getACBonus();
-                        break;
-                    case NaturalArmor:
-                        naturalArmorBonus = ((IWondrousItems) x).getACBonus();
-                        break;
-                    case Shield:
-                        shieldBonus = ((IWondrousItems) x).getACBonus();
-                        break;
+                    switch (((IWondrousItems) x).getArmorType())
+                    {
+                        case Armor:
+                            armorBonus = ((IWondrousItems) x).getACBonus();
+                            break;
+                        case NaturalArmor:
+                            naturalArmorBonus = ((IWondrousItems) x).getACBonus();
+                            break;
+                        case Shield:
+                            shieldBonus = ((IWondrousItems) x).getACBonus();
+                            break;
+                    }
+                    //Since we don't care about the other armor types, we'll leave out a default case
                 }
-                //Since we don't care about the other armor types, we'll leave out a default case
             }
         }
         return TotalAC - armorBonus - naturalArmorBonus - shieldBonus;
@@ -363,28 +366,31 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
     {
         int dodgeBonus = 0;
         int dexterityBonus = 0;
-        for(IEquipment x:Equipment)
+        if(Equipment != null)
         {
-            if(x instanceof IProtection)
+            for(IEquipment x:Equipment)
             {
-                switch (((IProtection) x).getArmorType())
+                if(x instanceof IProtection)
                 {
-                    case Dodge:
-                        //Dodge bonuses to AC stack, so we'll have to count the total dodge bonus present
-                        dodgeBonus += ((IProtection) x).getACBonus();
-                        break;
+                    switch (((IProtection) x).getArmorType())
+                    {
+                        case Dodge:
+                            //Dodge bonuses to AC stack, so we'll have to count the total dodge bonus present
+                            dodgeBonus += ((IProtection) x).getACBonus();
+                            break;
+                    }
                 }
-            }
-            else if(x instanceof IWondrousItems)
-            {
-                switch (((IWondrousItems) x).getArmorType())
+                else if(x instanceof IWondrousItems)
                 {
-                    case Dodge:
-                        dodgeBonus += ((IWondrousItems) x).getACBonus();
-                        break;
+                    switch (((IWondrousItems) x).getArmorType())
+                    {
+                        case Dodge:
+                            dodgeBonus += ((IWondrousItems) x).getACBonus();
+                            break;
+                    }
                 }
+                //Since we don't care about the other armor types, we'll leave out a default case
             }
-            //Since we don't care about the other armor types, we'll leave out a default case
         }
         for(IAbilityScore x:AbilityScores)
         {

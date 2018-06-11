@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.PlayerCharacterRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
+import  com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
@@ -39,11 +40,12 @@ import java.util.UUID;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PlayerCharacterListFragment extends Fragment
+public class PlayerCharacterListFragment extends Fragment implements PathfinderRepositoryListener
 {
     private OnListFragmentInteractionListener mListener;
     private Animation click;
     private PathfinderRepository repository;
+    private View rootView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -69,7 +71,8 @@ public class PlayerCharacterListFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
+        if (getArguments() != null)
+        {
             //Like above, since we don't have any parameters yet, there's not much to do here
         }
     }
@@ -78,25 +81,12 @@ public class PlayerCharacterListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.player_character_fragment_view, container, false);
+        rootView = inflater.inflate(R.layout.player_character_fragment_view, container, false);
         Context context = rootView.getContext();
+
+        //Request a list of character names and their UUIDs from the db. The data is returned via listener callback below
         repository = new PathfinderRepository(this.getActivity().getApplication());
-
-        //Get our list of character info from the db and set the adapter
-        List<IPlayerCharacter> characterListToDisplay = new ArrayList<IPlayerCharacter>();
-        List<PlayerCharacterNameAndIDEntity> characterNamesAndIDsFromDb = repository.getPlayerNamesAndIDs();
-
-        for(PlayerCharacterNameAndIDEntity entity : characterNamesAndIDsFromDb)
-        {
-            PlayerCharacter temp = new PlayerCharacter();
-            temp.setPlayerCharacterName(entity.PlayerCharacterName);
-            temp.setPlayerCharacterID(entity.PlayerCharacterID);
-            characterListToDisplay.add(temp);
-        }
-
-        final RecyclerView recyclerView =  rootView.findViewById(R.id.PlayerCharacterRecycler);
-        final PlayerCharacterRecyclerViewAdapter playerCharacterAdapter = new PlayerCharacterRecyclerViewAdapter(characterListToDisplay, mListener);
-        recyclerView.setAdapter(playerCharacterAdapter);
+        repository.requestPlayerNamesAndIDs(this);
 
         //Set our animation for adding new player characters
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
@@ -143,9 +133,37 @@ public class PlayerCharacterListFragment extends Fragment
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
+    public interface OnListFragmentInteractionListener
+    {
         // TODO: Update argument type and name
         public void AddNewCharacter();
         void onListFragmentInteraction(IPlayerCharacter item);
+    }
+
+    @Override
+    public void findCharacterProcessFinished(IPlayerCharacter playerCharacter)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
+    {
+        List<IPlayerCharacter> characterListToDisplay = new ArrayList<IPlayerCharacter>();
+        List<PlayerCharacterNameAndIDEntity> characterNamesAndIDsFromDb = playerCharacterNamesAndIDs;
+
+        for(PlayerCharacterNameAndIDEntity entity : playerCharacterNamesAndIDs)
+        {
+            PlayerCharacter temp = new PlayerCharacter();
+            temp.setPlayerCharacterName(entity.PlayerCharacterName);
+            temp.setPlayerCharacterID(entity.PlayerCharacterID);
+            characterListToDisplay.add(temp);
+        }
+
+        final RecyclerView recyclerView =  rootView.findViewById(R.id.PlayerCharacterRecycler);
+        final PlayerCharacterRecyclerViewAdapter playerCharacterAdapter = new PlayerCharacterRecyclerViewAdapter(characterListToDisplay, mListener);
+        recyclerView.setAdapter(playerCharacterAdapter);
     }
 }

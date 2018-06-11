@@ -45,9 +45,11 @@ public class PathfinderRepository
         new updatePlayerCharacterNameAsyncTask(playerCharacterDao).execute(playerCharacterName, playerCharacterID);
     }
 
-    public List<PlayerCharacterNameAndIDEntity> getPlayerNamesAndIDs()
+    public void requestPlayerNamesAndIDs(PathfinderRepositoryListener callingActivity)
     {
-        return playerCharacterDao.getListOfCharacterNames();
+        getPlayerCharacterNamesAndIDsAsyncTask task = new getPlayerCharacterNamesAndIDsAsyncTask(playerCharacterDao);
+        task.delegate = callingActivity;
+        task.execute();
     }
 
     public void requestPlayerCharacterByID(UUID playerCharacterID, PathfinderRepositoryListener callingActivity)
@@ -92,7 +94,6 @@ public class PathfinderRepository
     private static class getPlayerCharacterByIDAsyncTask extends AsyncTask<UUID, Void, IPlayerCharacter>
     {
         private PathfinderRepositoryListener delegate = null;
-
         private PlayerCharacterDao asyncPlayerCharacterDao;
 
         getPlayerCharacterByIDAsyncTask(PlayerCharacterDao dao){asyncPlayerCharacterDao = dao;}
@@ -111,27 +112,26 @@ public class PathfinderRepository
             delegate.findCharacterProcessFinished(characterToReturn);
         }
     }
-//    private static class getPlayerCharacterNamesAndIDsAsyncTask extends  AsyncTask<Void, Void, List<PlayerCharacterNameAndIDEntity>>
-//    {
-//        private  PlayerCharacterDao asyncPlayerCharacterDao;
-//        PathfinderRepository caller;
-//
-//        getPlayerCharacterNamesAndIDsAsyncTask(PlayerCharacterDao dao, PathfinderRepository caller)
-//        {
-//            asyncPlayerCharacterDao = dao;
-//            this.caller = caller;
-//        }
-//
-//        @Override
-//        protected List<PlayerCharacterNameAndIDEntity> doInBackground(Void... voids)
-//        {
-//            return asyncPlayerCharacterDao.getListOfCharacterNames();
-//        }
-//
-//        protected void onPostExecute(List<PlayerCharacterNameAndIDEntity> result)
-//        {
-//            caller.onGetPlayerCharacterNamesAndIDsBackgroundTaskCompleted(result);
-//        }
-//    }
+    private static class getPlayerCharacterNamesAndIDsAsyncTask extends  AsyncTask<Void, Void, List<PlayerCharacterNameAndIDEntity>>
+    {
+        private  PlayerCharacterDao asyncPlayerCharacterDao;
+        private PathfinderRepositoryListener delegate = null;
+
+        getPlayerCharacterNamesAndIDsAsyncTask(PlayerCharacterDao dao)
+        {
+            asyncPlayerCharacterDao = dao;
+        }
+
+        @Override
+        protected List<PlayerCharacterNameAndIDEntity> doInBackground(Void... voids)
+        {
+            return asyncPlayerCharacterDao.getListOfCharacterNames();
+        }
+
+        protected void onPostExecute(List<PlayerCharacterNameAndIDEntity> result)
+        {
+            delegate.getCharacterNamesAndIDsProcessFinished(result);
+        }
+    }
     //endregion
 }

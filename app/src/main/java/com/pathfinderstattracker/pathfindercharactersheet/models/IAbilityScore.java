@@ -7,9 +7,6 @@ import java.io.Serializable;
 
 public interface IAbilityScore extends Serializable
 {
-    AbilityScoreEnum Stat = null;
-    int Amount = 0;
-
     void setStat(AbilityScoreEnum stat);
     AbilityScoreEnum getStat();
     void setAmount(int amount);
