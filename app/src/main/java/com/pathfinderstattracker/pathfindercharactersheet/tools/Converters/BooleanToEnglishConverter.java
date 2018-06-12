@@ -1,4 +1,4 @@
-package com.pathfinderstattracker.pathfindercharactersheet.tools;
+package com.pathfinderstattracker.pathfindercharactersheet.tools.Converters;
 
 /**
  * Created by Stephen Hagen on 3/26/2018.

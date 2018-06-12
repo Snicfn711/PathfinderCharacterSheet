@@ -1,26 +1,27 @@
 package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 
 import android.app.Activity;
+import android.app.Application;
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
-import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IHitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
@@ -33,7 +34,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWei
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IMovement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.Movement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementManeuverabilityEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.AddNameDialog;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddNameDialog;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditAbilityScoresDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_SR_ReferenceBlockView;
@@ -42,6 +44,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.views.MovementReferenc
 import com.pathfinderstattracker.pathfindercharactersheet.views.SavesReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.AbilityScoreReferenceBlockView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,8 +61,10 @@ public class StatsReferenceFragment extends Fragment
 {
     private IPlayerCharacter currentPlayerCharacter;
     private PathfinderRepository repository;
+    private Animation click;
 
-    private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;//Used later in the code to dertermine which dialog is returning data to this fragment
+    private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;//Used later in the code to determine which dialog is returning data to this fragment
+    private static final int UPDATE_ABILITY_SCORES_DIALOG = 2;
 
     //region Test Movements
     private Movement base = new Movement("Base", 30, MovementManeuverabilityEnum.Perfect);
@@ -103,6 +108,7 @@ public class StatsReferenceFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        click = AnimationUtils.loadAnimation(this.getContext(), R.anim.roll_button_click);
         tempArmorItems.add(armorBonus);
         tempArmorItems.add(naturalArmorBonus);
         tempArmorItems.add(shieldArmorBonus);
@@ -157,6 +163,16 @@ public class StatsReferenceFragment extends Fragment
         //Populate and bind our stats list
         AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
         statsView.setValues(currentPlayerCharacter.getAbilityScores());
+        final ImageButton editStatsButton = statsView.findViewById(R.id.EditStatsButton);
+        editStatsButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                editStatsButton.startAnimation(click);
+                OpenEditAbilityScoresDialog();
+            }
+        });
 
         //Populate and bind our movement list
         MovementReferenceBlockView movementView = rootView.findViewById(R.id.movementList);
@@ -245,6 +261,25 @@ public class StatsReferenceFragment extends Fragment
                     repository.updatePlayerCharacterName(newPlayerCharacterName, currentPlayerCharacter.getPlayerCharacterID());
                 }
                 break;
+            case UPDATE_ABILITY_SCORES_DIALOG:
+                if(resultCode == Activity.RESULT_OK)
+                {
+                    Bundle bundle = data.getExtras();
+                    List<IAbilityScore> updatedAbilityScores = (List<IAbilityScore>)bundle.getSerializable("UpdatedAbilityScores");
+                    repository.updatePlayerCharacterAbilityScores(currentPlayerCharacter.getPlayerCharacterID(), updatedAbilityScores);
+                }
         }
+    }
+
+    private void OpenEditAbilityScoresDialog()
+    {
+        Bundle args = new Bundle();
+        args.putSerializable("CurrentAbilityScores", (Serializable)currentPlayerCharacter.getAbilityScores());
+
+        EditAbilityScoresDialog editAbilityScoresDialog = new EditAbilityScoresDialog();
+        editAbilityScoresDialog.setArguments(args);
+        editAbilityScoresDialog.setTargetFragment(this, UPDATE_ABILITY_SCORES_DIALOG);
+        editAbilityScoresDialog.setStyle(DialogFragment.STYLE_NO_TITLE,0);
+        editAbilityScoresDialog.show(this.getFragmentManager(),"Edit Ability Scores");
     }
 }

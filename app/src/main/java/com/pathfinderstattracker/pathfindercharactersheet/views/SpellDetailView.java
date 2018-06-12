@@ -1,25 +1,15 @@
 package com.pathfinderstattracker.pathfindercharactersheet.views;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
-import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ICastingTime;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
-import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpellDuration;
-import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpellRange;
 
-import static com.pathfinderstattracker.pathfindercharactersheet.tools.BooleanToEnglishConverter.BooleanToYesNo;
+import static com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.BooleanToEnglishConverter.BooleanToYesNo;
 
 /**
  * TODO: document your custom view class.

@@ -1,4 +1,4 @@
-package com.pathfinderstattracker.pathfindercharactersheet.tools;
+package com.pathfinderstattracker.pathfindercharactersheet.tools.Converters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;

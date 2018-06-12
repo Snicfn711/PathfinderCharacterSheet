@@ -2,24 +2,17 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreConverter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreInterfaceConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
-import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IClassPrerequisite;
-import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
-import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
-
-import java.util.List;
 
 /**
  * Created by Stephen Hagen on 4/27/2018.
  */
 @Entity
-@TypeConverters(AbilityScoreConverter.class)
+@TypeConverters(AbilityScoreInterfaceConverter.class)
 public class PrerequisiteEntity
 {
     @PrimaryKey

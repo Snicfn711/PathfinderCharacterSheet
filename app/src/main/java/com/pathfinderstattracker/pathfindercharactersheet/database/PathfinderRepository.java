@@ -1,24 +1,20 @@
 package com.pathfinderstattracker.pathfindercharactersheet.database;
 
-import android.app.Activity;
 import android.app.Application;
-import android.content.Context;
 import android.os.AsyncTask;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseEntityObjectConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 public class PathfinderRepository
 {
@@ -59,6 +55,11 @@ public class PathfinderRepository
         task.execute(playerCharacterID);
     }
 
+    public void updatePlayerCharacterAbilityScores(UUID playerCharacterID, List<IAbilityScore> updatedScores)
+    {
+        new updatePlayerCharacterAbilityScoresAsyncTask(playerCharacterDao).execute(playerCharacterID, updatedScores);
+    }
+
     //region Async Tasks
     private static class updatePlayerCharacterNameAsyncTask extends AsyncTask<Object, Void, Void>
     {
@@ -67,9 +68,9 @@ public class PathfinderRepository
         @Override
         protected Void doInBackground(final Object... params)
         {
-            String myStringParam = (String) params[0];
-            UUID myUUIDParam = (UUID)params[1];
-            asyncPlayerCharacterDao.updatePlayerCharacterName(myStringParam, myUUIDParam);
+            String updatedName = (String) params[0];
+            UUID playerCharacterName = (UUID)params[1];
+            asyncPlayerCharacterDao.updatePlayerCharacterName(playerCharacterName, updatedName);
             return null;
         }
     }
@@ -131,6 +132,20 @@ public class PathfinderRepository
         protected void onPostExecute(List<PlayerCharacterNameAndIDEntity> result)
         {
             delegate.getCharacterNamesAndIDsProcessFinished(result);
+        }
+    }
+
+    private static class updatePlayerCharacterAbilityScoresAsyncTask extends AsyncTask<Object, Void, Void>
+    {
+        private PlayerCharacterDao asyncPlayerCharacterDao;
+        updatePlayerCharacterAbilityScoresAsyncTask(PlayerCharacterDao dao) {asyncPlayerCharacterDao = dao;}
+        @Override
+        protected Void doInBackground(final Object... params)
+        {
+            UUID playerCharacterID = (UUID)params[0];
+            List<AbilityScore> updatedAbilityScores = (ArrayList<AbilityScore>)params[1];
+            asyncPlayerCharacterDao.updatePlayerCharacterAbilityScores(playerCharacterID, updatedAbilityScores);
+            return null;
         }
     }
     //endregion

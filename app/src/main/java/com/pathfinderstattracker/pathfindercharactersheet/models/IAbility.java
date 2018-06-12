@@ -2,13 +2,14 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Stephen Hagen on 1/2/2018.
  */
 
-public interface IAbility
+public interface IAbility extends Serializable
 {
     String getName();
     void setName(String name);

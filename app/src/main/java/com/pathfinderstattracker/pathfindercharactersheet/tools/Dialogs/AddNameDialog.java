@@ -1,10 +1,9 @@
-package com.pathfinderstattracker.pathfindercharactersheet.tools;
+package com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.RadioGroup;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 
@@ -47,10 +45,21 @@ public class AddNameDialog extends DialogFragment
     {
         super.onStart();
         Dialog d = getDialog();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        this.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int displayHeight = displayMetrics.heightPixels;
+        int displayWidth = displayMetrics.widthPixels;
         if(d != null)
         {
-            d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, 600);//TODO:Figure out how to avoid using a hard coded value for the height. Preferably it would a percentage of the screen size depending on the screen's orientation
+
+            if(displayHeight > displayWidth)//This could be better handled in some sort of screen tool that checks orientation, size, etc. but for now it works
+            {
+                d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (displayHeight * .25));
+            }
+            else
+            {
+                d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (displayHeight * .5));
+            }
         }
     }
-
 }
