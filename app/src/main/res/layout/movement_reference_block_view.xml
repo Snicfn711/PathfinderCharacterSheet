@@ -60,6 +60,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
         <TextView
@@ -70,6 +71,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
     </LinearLayout>
@@ -95,6 +97,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
         <TextView
@@ -105,6 +108,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
     </LinearLayout>
@@ -130,6 +134,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
         <TextView
@@ -140,6 +145,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
     </LinearLayout>
@@ -165,6 +171,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
         <TextView
@@ -175,6 +182,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
     </LinearLayout>
@@ -200,6 +208,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
         <TextView
@@ -210,6 +219,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
     </LinearLayout>
@@ -235,6 +245,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
         <TextView
@@ -245,6 +256,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:ellipsize="end"
+            android:text="@string/Emdash"
             android:background="@drawable/field_border"
             android:textColor="@color/colorPlainText"/>
     </LinearLayout>

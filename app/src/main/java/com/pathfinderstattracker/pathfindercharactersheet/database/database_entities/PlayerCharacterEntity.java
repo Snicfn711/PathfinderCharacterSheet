@@ -23,8 +23,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitP
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.ICombatManeuver;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IDamageReduction;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IHitPoints;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

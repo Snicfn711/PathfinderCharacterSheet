@@ -166,4 +166,12 @@ public class PlayerCharacterListFragment extends Fragment implements PathfinderR
         final PlayerCharacterRecyclerViewAdapter playerCharacterAdapter = new PlayerCharacterRecyclerViewAdapter(characterListToDisplay, mListener);
         recyclerView.setAdapter(playerCharacterAdapter);
     }
+
+    @Override
+    public void updateCharacterFinished(PlayerCharacter playerCharacter)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
 }

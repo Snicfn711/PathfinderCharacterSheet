@@ -8,6 +8,7 @@
     <string name="Value">Value</string>
     <string name="Error">Error</string>
     <string name="None">None</string>
+    <string name="Emdash">-</string>
     <!--Stat Strings-->
     <string name="StatScore">Score</string>
     <string name="StatModifier">Mod</string>

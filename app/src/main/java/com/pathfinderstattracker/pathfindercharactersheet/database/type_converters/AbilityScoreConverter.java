@@ -6,12 +6,16 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 
-public class AbilityScoreConcreteConverter
+/**
+ * Created by Stephen Hagen on 4/27/2018.
+ */
+
+public class AbilityScoreConverter
 {
     @TypeConverter
-    public AbilityScore fromString(String value)
+    public IAbilityScore fromString(String value)
     {
-        AbilityScore formattedAbilityScore = new AbilityScore();
+        IAbilityScore formattedAbilityScore = new AbilityScore();
         String[] tokens = value.split(" ");
         formattedAbilityScore.setAmount(Integer.parseInt(tokens[0]));
         switch(tokens[1])
@@ -33,12 +37,12 @@ public class AbilityScoreConcreteConverter
                 //Todo: Add error handling
                 formattedAbilityScore.setStat(AbilityScoreEnum.STR);
         }
-
+        
         return formattedAbilityScore;
     }
-
+    
     @TypeConverter
-    public String toString(AbilityScore value)
+    public String toString(IAbilityScore value)
     {
         return value.toString();
     }

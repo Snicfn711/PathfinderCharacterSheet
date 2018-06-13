@@ -19,6 +19,8 @@ import android.widget.ImageButton;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
@@ -34,6 +36,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWei
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IMovement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.Movement;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementManeuverabilityEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddNameDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditAbilityScoresDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView;
@@ -57,10 +60,11 @@ import java.util.List;
  * create an instance of this fragment.
  */
 
-public class StatsReferenceFragment extends Fragment
+public class StatsReferenceFragment extends Fragment implements PathfinderRepositoryListener
 {
     private IPlayerCharacter currentPlayerCharacter;
     private PathfinderRepository repository;
+    private View rootView;
     private Animation click;
 
     private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;//Used later in the code to determine which dialog is returning data to this fragment
@@ -115,14 +119,10 @@ public class StatsReferenceFragment extends Fragment
         tempArmorItems.add(dodgeArmorBonus);
         tempMovement.add(base);
         tempMovement.add(armor);
-        tempMovement.add(fly);
-        tempMovement.add(swim);
-        tempMovement.add(climb);
-        tempMovement.add(burrow);
 
         if (getArguments() != null)
         {
-            //Like above, since we don't have any paramters yet, there's not much to do here
+            //Like above, since we don't have any parameters yet, there's not much to do here
         }
     }
 
@@ -131,7 +131,7 @@ public class StatsReferenceFragment extends Fragment
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
+        rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
         Activity context = this.getActivity();
         repository = new PathfinderRepository(this.getActivity().getApplication());
 
@@ -232,6 +232,42 @@ public class StatsReferenceFragment extends Fragment
         mListener = null;
     }
 
+    //region Repository Listener Methods
+    @Override
+    public void findCharacterProcessFinished(IPlayerCharacter playerCharacter)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void updateCharacterFinished(PlayerCharacter playerCharacter)
+    {
+        AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
+        SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
+        InitiativeReferenceBlockView initiativeReferenceBlockView = rootView.findViewById(R.id.initiativeList);
+        ACReferenceBlockView acReferenceBlockView = rootView.findViewById(R.id.armorList);
+        HP_BAB_SR_ReferenceBlockView hp_bab_sr_referenceBlockView = rootView.findViewById(R.id.hp_bab_srList);
+        CombatManeuverReferenceBlockView combatManeuverReferenceBlockView = rootView.findViewById(R.id.combatManeuverList);
+
+        statsView.setValues(playerCharacter.getAbilityScores());
+        savesView.setValues(playerCharacter.getFortitudeSave(), playerCharacter.getReflexSave(), playerCharacter.getWillSave());
+        initiativeReferenceBlockView.setValues(playerCharacter.getInitiative());
+        acReferenceBlockView.setValues(playerCharacter.getTotalAC(), playerCharacter.getTouchAC(), playerCharacter.getFlatFootedAC());
+        hp_bab_sr_referenceBlockView.setValues(playerCharacter.getTotalHitPoints(), playerCharacter.getTotalBaseAttackBonus(), playerCharacter.getSpellResistance());
+        combatManeuverReferenceBlockView.setValues(playerCharacter.getCombatManeuverStats());
+    }
+    //endregion
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -251,25 +287,25 @@ public class StatsReferenceFragment extends Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
+        Bundle bundle = data.getExtras();
         switch(requestCode)
         {
             case ADD_NEW_CHARACTER_NAME_DIALOG:
-                if(resultCode == Activity.RESULT_OK)
-                {
-                    Bundle bundle = data.getExtras();
-                    String newPlayerCharacterName = (String)bundle.getSerializable("NewPlayerCharacterName");
-                    repository.updatePlayerCharacterName(newPlayerCharacterName, currentPlayerCharacter.getPlayerCharacterID());
+                if (resultCode == Activity.RESULT_OK) {
+                    String newPlayerCharacterName = (String) bundle.getSerializable("NewPlayerCharacterName");
+                    currentPlayerCharacter.setPlayerCharacterName(newPlayerCharacterName);
                 }
                 break;
             case UPDATE_ABILITY_SCORES_DIALOG:
-                if(resultCode == Activity.RESULT_OK)
-                {
-                    Bundle bundle = data.getExtras();
-                    List<IAbilityScore> updatedAbilityScores = (List<IAbilityScore>)bundle.getSerializable("UpdatedAbilityScores");
-                    repository.updatePlayerCharacterAbilityScores(currentPlayerCharacter.getPlayerCharacterID(), updatedAbilityScores);
+                if (resultCode == Activity.RESULT_OK) {
+                    List<IAbilityScore> updatedAbilityScores = (List<IAbilityScore>) bundle.getSerializable("UpdatedAbilityScores");
+                    currentPlayerCharacter.setAbilityScores(updatedAbilityScores);
                 }
+                break;
         }
+        repository.updatePlayerCharacter(DatabaseEntityObjectConverter.ConvertPlayerCharacterObjectToPlayerCharacterEntity(currentPlayerCharacter), this);
     }
+
 
     private void OpenEditAbilityScoresDialog()
     {

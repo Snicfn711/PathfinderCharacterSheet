@@ -5,14 +5,14 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreInterfaceConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 
 /**
  * Created by Stephen Hagen on 4/27/2018.
  */
 @Entity
-@TypeConverters(AbilityScoreInterfaceConverter.class)
+@TypeConverters(AbilityScoreConverter.class)
 public class PrerequisiteEntity
 {
     @PrimaryKey

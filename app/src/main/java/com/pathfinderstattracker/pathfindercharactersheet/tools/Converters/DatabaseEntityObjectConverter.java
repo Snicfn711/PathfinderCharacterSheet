@@ -41,12 +41,12 @@ public class DatabaseEntityObjectConverter
         ObjectToReturn.setTotalAC(playerCharacterEntity.getTotalAC());
         ObjectToReturn.setDamageReduction(playerCharacterEntity.getDamageReduction());
         ObjectToReturn.setLanguagesKnown(playerCharacterEntity.getLanguagesKnown());
-        ObjectToReturn.setAbilityScores(playerCharacterEntity.getAbilityScores());
         ObjectToReturn.setCombatManeuverStats(playerCharacterEntity.getCombatManeuverStats());
         ObjectToReturn.setSpellResistance(playerCharacterEntity.getSpellResistance());
         ObjectToReturn.setFortitudeSave(playerCharacterEntity.getFortitudeSave());
         ObjectToReturn.setReflexSave(playerCharacterEntity.getReflexSave());
         ObjectToReturn.setWillSave(playerCharacterEntity.getWillSave());
+        ObjectToReturn.setAbilityScores(playerCharacterEntity.getAbilityScores());
         return ObjectToReturn;
     }
 }

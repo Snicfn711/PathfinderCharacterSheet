@@ -9,6 +9,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
 
@@ -36,11 +37,6 @@ public class PathfinderRepository
         new insertPlayerCharacterAsyncTask(playerCharacterDao).execute(EntityToInsert);
     }
 
-    public void updatePlayerCharacterName(String playerCharacterName, UUID playerCharacterID)
-    {
-        new updatePlayerCharacterNameAsyncTask(playerCharacterDao).execute(playerCharacterName, playerCharacterID);
-    }
-
     public void requestPlayerNamesAndIDs(PathfinderRepositoryListener callingActivity)
     {
         getPlayerCharacterNamesAndIDsAsyncTask task = new getPlayerCharacterNamesAndIDsAsyncTask(playerCharacterDao);
@@ -55,26 +51,14 @@ public class PathfinderRepository
         task.execute(playerCharacterID);
     }
 
-    public void updatePlayerCharacterAbilityScores(UUID playerCharacterID, List<IAbilityScore> updatedScores)
+    public void updatePlayerCharacter(PlayerCharacterEntity character, PathfinderRepositoryListener callingActivity)
     {
-        new updatePlayerCharacterAbilityScoresAsyncTask(playerCharacterDao).execute(playerCharacterID, updatedScores);
+        updatePlayerCharacterAsyncTask task = new updatePlayerCharacterAsyncTask(playerCharacterDao);
+        task.delegate = callingActivity;
+        task.execute(character);
     }
 
     //region Async Tasks
-    private static class updatePlayerCharacterNameAsyncTask extends AsyncTask<Object, Void, Void>
-    {
-       private PlayerCharacterDao asyncPlayerCharacterDao;
-       updatePlayerCharacterNameAsyncTask(PlayerCharacterDao dao) {asyncPlayerCharacterDao = dao;}
-        @Override
-        protected Void doInBackground(final Object... params)
-        {
-            String updatedName = (String) params[0];
-            UUID playerCharacterName = (UUID)params[1];
-            asyncPlayerCharacterDao.updatePlayerCharacterName(playerCharacterName, updatedName);
-            return null;
-        }
-    }
-
     private static class insertPlayerCharacterAsyncTask extends AsyncTask<PlayerCharacterEntity, Void, Void>
     {
         private PlayerCharacterDao asyncPlayerCharacterDao;
@@ -135,17 +119,23 @@ public class PathfinderRepository
         }
     }
 
-    private static class updatePlayerCharacterAbilityScoresAsyncTask extends AsyncTask<Object, Void, Void>
+    private static class updatePlayerCharacterAsyncTask extends AsyncTask<PlayerCharacterEntity, Void, PlayerCharacterEntity>
     {
         private PlayerCharacterDao asyncPlayerCharacterDao;
-        updatePlayerCharacterAbilityScoresAsyncTask(PlayerCharacterDao dao) {asyncPlayerCharacterDao = dao;}
+        private PathfinderRepositoryListener delegate = null;
+
+        updatePlayerCharacterAsyncTask(PlayerCharacterDao dao) {asyncPlayerCharacterDao = dao;}
+
         @Override
-        protected Void doInBackground(final Object... params)
+        protected PlayerCharacterEntity doInBackground(final PlayerCharacterEntity... params)
         {
-            UUID playerCharacterID = (UUID)params[0];
-            List<AbilityScore> updatedAbilityScores = (ArrayList<AbilityScore>)params[1];
-            asyncPlayerCharacterDao.updatePlayerCharacterAbilityScores(playerCharacterID, updatedAbilityScores);
-            return null;
+            asyncPlayerCharacterDao.updatePlayerCharacter(params[0]);
+            return params[0];
+        }
+
+        protected  void onPostExecute(PlayerCharacterEntity result)
+        {
+            delegate.updateCharacterFinished((PlayerCharacter)DatabaseEntityObjectConverter.ConverterPlayerCharacterEntityToPlayerCharacterObject(result));
         }
     }
     //endregion
