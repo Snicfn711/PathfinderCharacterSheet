@@ -41,11 +41,65 @@ public class EditAbilityScoresDialog extends DialogFragment
         abilityScoresToReturn = new ArrayList<IAbilityScore>();
 
         getStrength = rootView.findViewById(R.id.GetStrength);
+        getStrength.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    getStrength.setText("");
+                }
+            }
+        });
         getDexterity = rootView.findViewById(R.id.GetDexterity);
+        getDexterity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    getDexterity.setText("");
+                }
+            }
+        });
         getConstitution = rootView.findViewById(R.id.GetConstitution);
+        getConstitution.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    getConstitution.setText("");
+                }
+            }
+        });
         getIntelligence = rootView.findViewById(R.id.GetIntelligence);
+        getIntelligence.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    getIntelligence.setText("");
+                }
+            }
+        });
         getWisdom = rootView.findViewById(R.id.GetWisdom);
+        getWisdom.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    getWisdom.setText("");
+                }
+            }
+        });
         getCharisma = rootView.findViewById(R.id.GetCharisma);
+        getCharisma.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                {
+                    getCharisma.setText("");
+                }
+            }
+        });
 
         List<IAbilityScore> currentAbilityScores = (List<IAbilityScore>)getArguments().getSerializable("CurrentAbilityScores");
         for(IAbilityScore abilityScore : currentAbilityScores)

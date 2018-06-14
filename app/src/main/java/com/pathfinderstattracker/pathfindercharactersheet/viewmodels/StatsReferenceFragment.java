@@ -196,7 +196,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
 
         //Populate and bind our HP, BAB, SR section
         HP_BAB_SR_ReferenceBlockView hp_BAB_SRView = rootView.findViewById(R.id.hp_bab_srList);
-        hp_BAB_SRView.setValues(currentPlayerCharacter.getTotalHitPoints(),currentPlayerCharacter.getTotalBaseAttackBonus(), currentPlayerCharacter.getSpellResistance());
+        hp_BAB_SRView.setValues(currentPlayerCharacter.getCalculatedHitPoints(),currentPlayerCharacter.getTotalBaseAttackBonus(), currentPlayerCharacter.getSpellResistance());
         //endregion
 
         return rootView;
@@ -263,7 +263,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         savesView.setValues(playerCharacter.getFortitudeSave(), playerCharacter.getReflexSave(), playerCharacter.getWillSave());
         initiativeReferenceBlockView.setValues(playerCharacter.getInitiative());
         acReferenceBlockView.setValues(playerCharacter.getTotalAC(), playerCharacter.getTouchAC(), playerCharacter.getFlatFootedAC());
-        hp_bab_sr_referenceBlockView.setValues(playerCharacter.getTotalHitPoints(), playerCharacter.getTotalBaseAttackBonus(), playerCharacter.getSpellResistance());
+        hp_bab_sr_referenceBlockView.setValues(playerCharacter.getCalculatedHitPoints(), playerCharacter.getTotalBaseAttackBonus(), playerCharacter.getSpellResistance());
         combatManeuverReferenceBlockView.setValues(playerCharacter.getCombatManeuverStats());
     }
     //endregion

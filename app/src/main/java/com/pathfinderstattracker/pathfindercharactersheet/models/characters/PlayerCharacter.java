@@ -31,7 +31,8 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
     private AlignmentEnum characterAlignment;
     private int TotalBaseAttackBonus;
     private IRace CharacterRace;
-    private IHitPoints TotalHitPoints;
+    private IHitPoints BaseHitPoints;
+    private IHitPoints CalculatedHitPoints = new HitPoints(0,0);
     private int TotalAC;
     private int FlatFootedAC;
     private int TouchAC;
@@ -128,15 +129,27 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
     }
 
     @Override
-    public void setTotalHitPoints(IHitPoints hitPoints)
+    public void setBaseHitPoints(IHitPoints baseHitPoints)
     {
-        TotalHitPoints = hitPoints;
+        BaseHitPoints = baseHitPoints;
     }
 
     @Override
-    public IHitPoints getTotalHitPoints()
+    public IHitPoints getBaseHitPoints()
     {
-        return TotalHitPoints;
+        return BaseHitPoints;
+    }
+
+    @Override
+    public void setCalculatedHitPoints(IHitPoints calculatedHitPoints)
+    {
+        CalculatedHitPoints = calculatedHitPoints;
+    }
+
+    @Override
+    public IHitPoints getCalculatedHitPoints()
+    {
+        return CalculatedHitPoints;
     }
 
     public void setCharacterRace(IRace characterRace)
@@ -227,6 +240,7 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
     }
 
     public void setCombatManeuverStats(ICombatManeuver combatManeuverStats)
+            
     {
         CombatManeuverStats = combatManeuverStats;
     }
@@ -296,11 +310,11 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         IPlayerCharacter CreatedPlayerCharacter = new PlayerCharacter();
         CreatedPlayerCharacter.setPlayerCharacterID(newPlayerCharacterID);
         CreatedPlayerCharacter.setPlayerCharacterName("");
-        CreatedPlayerCharacter.setCharacterLevel(1);
+        CreatedPlayerCharacter.setCharacterLevel(0);
         CreatedPlayerCharacter.setConcentrationCheck(0);
         CreatedPlayerCharacter.setCharacterAlignment(AlignmentEnum.TrueNeutral);
         CreatedPlayerCharacter.setTotalBaseAttackBonus(0);
-        CreatedPlayerCharacter.setTotalHitPoints(new HitPoints(0,0));
+        CreatedPlayerCharacter.setBaseHitPoints(new HitPoints(0,0));
         CreatedPlayerCharacter.setTotalAC(10);
         CreatedPlayerCharacter.setDamageReduction(new DamageReduction(0,"",""));
         CreatedPlayerCharacter.setLanguagesKnown(new ArrayList<String>(Arrays.asList("Common")));
@@ -519,8 +533,8 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         {
             for(IAbilityScore score : AbilityScores)
             {
-                //The default is for con to contribute to fort saves. There may be feats/items that change that though
-                //This works for now.
+                //The default is for constitution to contribute to fortitude saves.
+                //There are feats and class abilities that can change this though so we'll need to come back to this
                 if(score.getStat() == AbilityScoreEnum.CON)
                 {
                     abilityScoreModifier += score.calculateModifier();
@@ -547,8 +561,8 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         {
             for(IAbilityScore score : AbilityScores)
             {
-                //The default is for con to contribute to fort saves. There may be feats/items that change that though
-                //This works for now.
+                //The default is for dexterity to contribute to reflex saves.
+                //There are feats and class abilities that can change this though so we'll need to come back to this
                 if(score.getStat() == AbilityScoreEnum.DEX)
                 {
                     abilityScoreModifier += score.calculateModifier();
@@ -575,8 +589,8 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         {
             for(IAbilityScore score : AbilityScores)
             {
-                //The default is for con to contribute to fort saves. There may be feats/items that change that though
-                //This works for now.
+                //The default is for wisdom to contribute to will saves.
+                //There are feats and class abilities that can change this though so we'll need to come back to this
                 if(score.getStat() == AbilityScoreEnum.WIS)
                 {
                     abilityScoreModifier += score.calculateModifier();
@@ -603,8 +617,8 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         {
             for(IAbilityScore score : AbilityScores)
             {
-                //The default is for dex to contribute to initiative. There are feats/items that change that though
-                //This works for now.
+                //The default is for dex to contribute to initiative.
+                //There are class abilities that can changes this though so we'll need to come back to this
                 if(score.getStat() == AbilityScoreEnum.DEX)
                 {
                     abilityScoreModifier += score.calculateModifier();
@@ -617,22 +631,23 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
     private void CalculateHitPoints()
     {
         int abilityScoreModifier = 0;
-        int currentHitPoints = TotalHitPoints.getValue();
+        int currentHitPoints = BaseHitPoints.getValue();
+        int investedHitPoints = BaseHitPoints.getFavoredClassPointsInvested();
+        int featValue = 0;
 
         if(AbilityScores != null)
         {
             for(IAbilityScore score : AbilityScores)
             {
-                //The default is for dex to contribute to initiative. There are feats/items that change that though
-                //This works for now.
+
                 if(score.getStat() == AbilityScoreEnum.CON)
                 {
                     abilityScoreModifier += score.calculateModifier();
                 }
             }
         }
-
-        TotalHitPoints.setValue(currentHitPoints += abilityScoreModifier);
+        //The only feat that should give extra hit points is toughness and mythic toughness so theoretically feat values should only have values between 0 and 2
+        CalculatedHitPoints.setValue(currentHitPoints += ((abilityScoreModifier + featValue)* CharacterLevel + investedHitPoints));
     }
 
     private void CalculateCombatManeuvers()
@@ -643,8 +658,6 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         {
             for(IAbilityScore score : AbilityScores)
             {
-                //The default is for dex to contribute to initiative. There are feats/items that change that though
-                //This works for now.
                 if(score.getStat() == AbilityScoreEnum.DEX)
                 {
                     dexterityModifier += score.calculateModifier();
@@ -655,6 +668,9 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
                 }
             }
         }
+        //Some feats and weapons give bonuses to combat maneuvers, but they all add to specific types of maneuver, or in specific conditions
+        //and so shouldn't be added to the general numbers for either defense or bonuses.
+        //TODO:Add in a size modifier bonus once we have species fleshed out.
         CombatManeuverStats.setCombatManeuverDefense(10 + TotalBaseAttackBonus + strengthModifier + dexterityModifier);
         CombatManeuverStats.setCombatManeuverCheck(TotalBaseAttackBonus + strengthModifier);
     }

@@ -2,7 +2,10 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
     <android.support.constraint.Guideline
         android:id="@+id/VerticalLabelGuideline"
         android:layout_width="wrap_content"
@@ -87,14 +90,15 @@
         android:id="@+id/GetStrength"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:maxLines="1"
+        android:maxLength="2"
         app:layout_constraintLeft_toRightOf="@id/VerticalLabelGuideline"
         app:layout_constraintStart_toEndOf="@id/VerticalLabelGuideline"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditAbilityScoreGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditStrengthGuideline"
-        android:inputType="text|number"/>
+        android:gravity="center"
+        android:inputType="number"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -112,14 +116,15 @@
         android:id="@+id/GetDexterity"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:maxLines="1"
+        android:maxLength="2"
         app:layout_constraintLeft_toRightOf="@id/VerticalLabelGuideline"
         app:layout_constraintStart_toEndOf="@id/VerticalLabelGuideline"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditStrengthGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditDexterityGuideline"
-        android:inputType="text|number" />
+        android:gravity="center"
+        android:inputType="number" />
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -137,14 +142,15 @@
         android:id="@+id/GetConstitution"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:maxLines="1"
+        android:maxLength="2"
         app:layout_constraintLeft_toRightOf="@id/VerticalLabelGuideline"
         app:layout_constraintStart_toEndOf="@id/VerticalLabelGuideline"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditDexterityGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditConstitutionGuidelineGuideline"
-        android:inputType="text|number" />
+        android:gravity="center"
+        android:inputType="number"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -162,14 +168,15 @@
         android:id="@+id/GetIntelligence"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:maxLines="1"
+        android:maxLength="2"
         app:layout_constraintLeft_toRightOf="@id/VerticalLabelGuideline"
         app:layout_constraintStart_toEndOf="@id/VerticalLabelGuideline"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditConstitutionGuidelineGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditIntelligenceGuideline"
-        android:inputType="text|number" />
+        android:gravity="center"
+        android:inputType="number" />
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -187,14 +194,15 @@
         android:id="@+id/GetWisdom"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:maxLines="1"
+        android:maxLength="2"
         app:layout_constraintLeft_toRightOf="@id/VerticalLabelGuideline"
         app:layout_constraintStart_toEndOf="@id/VerticalLabelGuideline"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditIntelligenceGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditWisdomGuideline"
-        android:inputType="text|number" />
+        android:gravity="center"
+        android:inputType="number" />
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -212,14 +220,15 @@
         android:id="@+id/GetCharisma"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:maxLines="1"
+        android:maxLength="2"
         app:layout_constraintLeft_toRightOf="@id/VerticalLabelGuideline"
         app:layout_constraintStart_toEndOf="@id/VerticalLabelGuideline"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditWisdomGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditCharismaGuideline"
-        android:inputType="text|number" />
+        android:gravity="center"
+        android:inputType="number" />
     <ImageButton
         android:id="@+id/SaveAbilityScores"
         android:layout_width="0dp"

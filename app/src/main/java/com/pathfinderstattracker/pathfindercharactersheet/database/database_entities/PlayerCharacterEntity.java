@@ -53,8 +53,8 @@ public class PlayerCharacterEntity
     private AlignmentEnum characterAlignment;
     @ColumnInfo(name="total_base_attack_bonus")
     private int totalBaseAttackBonus;
-    @ColumnInfo(name="total_hit_points")
-    private IHitPoints totalHitPoints;
+    @ColumnInfo(name="base_hit_points")
+    private IHitPoints baseHitPoints;
     @ColumnInfo(name="total_ac")
     private int totalAC;
     @ColumnInfo(name="damage_reduction")
@@ -127,12 +127,12 @@ public class PlayerCharacterEntity
         this.totalBaseAttackBonus = totalBaseAttackBonus;
     }
 
-    public IHitPoints getTotalHitPoints() {
-        return totalHitPoints;
+    public IHitPoints getBaseHitPoints() {
+        return baseHitPoints;
     }
 
-    public void setTotalHitPoints(IHitPoints totalHitPoints) {
-        this.totalHitPoints = totalHitPoints;
+    public void setBaseHitPoints(IHitPoints baseHitPoints) {
+        this.baseHitPoints = baseHitPoints;
     }
 
     public int getTotalAC() {
@@ -220,11 +220,11 @@ public class PlayerCharacterEntity
     private PlayerCharacterEntity()
     {
         setPlayerCharacterName("");
-        setCharacterLevel(1);
+        setCharacterLevel(0);
         setConcentrationCheck(0);
         setCharacterAlignment(AlignmentEnum.TrueNeutral);
         setTotalBaseAttackBonus(0);
-        setTotalHitPoints(new HitPoints(0,0));
+        setBaseHitPoints(new HitPoints(0,0));
         setTotalAC(0);
         setDamageReduction(new DamageReduction(0,"",""));
         setLanguagesKnown(new ArrayList<String>(Arrays.asList("Common")));

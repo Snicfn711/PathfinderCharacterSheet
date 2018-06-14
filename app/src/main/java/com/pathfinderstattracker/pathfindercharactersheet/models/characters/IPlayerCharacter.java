@@ -32,8 +32,11 @@ public interface IPlayerCharacter extends Serializable
     int getTotalBaseAttackBonus();
     void setCharacterRace(IRace race);
     IRace getCharacterRace();
-    void setTotalHitPoints(IHitPoints totalHitPoints);
-    IHitPoints getTotalHitPoints();
+    //The difference between base and calculated hit poitns comes from the need to seperate the hit points gained from levelling up from those gained from the con modifier/feats/invested points
+    void setBaseHitPoints(IHitPoints baseHitPoints);
+    IHitPoints getBaseHitPoints();
+    void setCalculatedHitPoints(IHitPoints calculatedHitPoints);
+    IHitPoints getCalculatedHitPoints();
     void setTotalAC(int totalAC);
     int getTotalAC();
     int getTouchAC();

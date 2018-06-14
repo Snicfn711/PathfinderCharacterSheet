@@ -15,7 +15,7 @@ public class DatabaseEntityObjectConverter
         EntityToReturn.setConcentrationCheck(playerCharacter.getConcentrationCheck());
         EntityToReturn.setCharacterAlignment(playerCharacter.getCharacterAlignment());
         EntityToReturn.setTotalBaseAttackBonus(playerCharacter.getTotalBaseAttackBonus());
-        EntityToReturn.setTotalHitPoints(playerCharacter.getTotalHitPoints());
+        EntityToReturn.setBaseHitPoints(playerCharacter.getBaseHitPoints());
         EntityToReturn.setTotalAC(playerCharacter.getTotalAC());
         EntityToReturn.setDamageReduction(playerCharacter.getDamageReduction());
         EntityToReturn.setLanguagesKnown(playerCharacter.getLanguagesKnown());
@@ -37,7 +37,7 @@ public class DatabaseEntityObjectConverter
         ObjectToReturn.setConcentrationCheck(playerCharacterEntity.getConcentrationCheck());
         ObjectToReturn.setCharacterAlignment(playerCharacterEntity.getCharacterAlignment());
         ObjectToReturn.setTotalBaseAttackBonus(playerCharacterEntity.getTotalBaseAttackBonus());
-        ObjectToReturn.setTotalHitPoints(playerCharacterEntity.getTotalHitPoints());
+        ObjectToReturn.setBaseHitPoints(playerCharacterEntity.getBaseHitPoints());
         ObjectToReturn.setTotalAC(playerCharacterEntity.getTotalAC());
         ObjectToReturn.setDamageReduction(playerCharacterEntity.getDamageReduction());
         ObjectToReturn.setLanguagesKnown(playerCharacterEntity.getLanguagesKnown());
