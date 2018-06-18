@@ -1,6 +1,9 @@
 package com.pathfinderstattracker.pathfindercharactersheet.tools.Converters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 
@@ -47,6 +50,26 @@ public class DatabaseEntityObjectConverter
         ObjectToReturn.setReflexSave(playerCharacterEntity.getReflexSave());
         ObjectToReturn.setWillSave(playerCharacterEntity.getWillSave());
         ObjectToReturn.setAbilityScores(playerCharacterEntity.getAbilityScores());
+        return ObjectToReturn;
+    }
+
+    public static ISkill ConvertSkillEntityToSkillObject(SkillEntity skillEntity)
+    {
+        ISkill ObjectToReturn = new Skill();
+        ObjectToReturn.setSkillID(skillEntity.getSkillID());
+        ObjectToReturn.setAddedStat(skillEntity.getAddedStat());
+        ObjectToReturn.setArmorCheckPenaltyApplied(skillEntity.isArmorCheckPenaltyApplied());
+        ObjectToReturn.setSkillName(skillEntity.getSkillName());
+        return ObjectToReturn;
+    }
+
+    public static SkillEntity ConvertSkillObjectToSkillEntity(ISkill skillObject)
+    {
+        SkillEntity ObjectToReturn = new SkillEntity();
+        ObjectToReturn.setSkillID(skillObject.getSkillID());
+        ObjectToReturn.setAddedStat(skillObject.getAddedStat());
+        ObjectToReturn.setArmorCheckPenaltyApplied(skillObject.isArmorCheckPenaltyApplied());
+        ObjectToReturn.setSkillName(skillObject.getSkillName());
         return ObjectToReturn;
     }
 }

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.SkillsDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.WeaponEnchantmentDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.AbilityEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatAbilityListEntityClass;
@@ -24,6 +25,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SpellEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.WeaponEnchantmentEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.WeaponTagEnumListConverter;
+
+import java.io.File;
 
 /**
  * Created by Stephen Hagen on 4/19/2018.
@@ -51,12 +54,13 @@ public abstract class PathfinderDatabase extends RoomDatabase
 
     public abstract WeaponEnchantmentDao WeaponEnchantmentDao();
     public abstract PlayerCharacterDao PlayerCharacterDao();
+    public abstract SkillsDao SkillsDao();
 
     public static PathfinderDatabase getDatabase(Context context)
     {
         if(INSTANCE == null)
         {
-            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PathfinderDatabase.class, "pathfinder_database").allowMainThreadQueries().build();
+            INSTANCE = Room.databaseBuilder(context.getApplicationContext(), PathfinderDatabase.class, "pathfinder_database").build();
         }
         return INSTANCE;
     }
@@ -64,5 +68,11 @@ public abstract class PathfinderDatabase extends RoomDatabase
     public static void destroyInstance()
     {
         INSTANCE = null;
+    }
+
+    public boolean doesDatabaseExist(Context context)
+    {
+        File dbFile = context.getDatabasePath("pathfinder_database");
+        return dbFile.exists();
     }
 }

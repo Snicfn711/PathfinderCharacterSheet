@@ -54,9 +54,9 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
         holder.mSkill = mValues.get(position);
-        holder.isClassSkill.setChecked(mValues.get(position).isProficiency());
+        //holder.isClassSkill.setChecked(mValues.get(position).isProficiency());
         holder.skillName.setText(mValues.get(position).getSkillName());
-        holder.skillTotal.setText(Integer.toString(mValues.get(position).getPointsInvested()));
+        //holder.skillTotal.setText(Integer.toString(mValues.get(position).getPointsInvested()));
         holder.skillStat.setText(mValues.get(position).getAddedStat().toString());
 
         holder.recycledRow.setOnClickListener(new View.OnClickListener()

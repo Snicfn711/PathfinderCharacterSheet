@@ -16,9 +16,14 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.SkillRecyclerViewAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,23 +36,13 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class SkillsReferenceFragment extends Fragment
+public class SkillsReferenceFragment extends Fragment implements PathfinderRepositoryListener
 {
-
-    //region Temp Skills
-    private Skill dance = new Skill("Dance", false,5, 5, AbilityScoreEnum.DEX, true);
-    private Skill climb = new Skill("Climb", true, 100, 0, AbilityScoreEnum.STR, true);
-    private Skill swim = new Skill("Swim", false, 0, 0, AbilityScoreEnum.STR, true);
-    private Skill appraise = new Skill("Appraise", true, 3, 2, AbilityScoreEnum.INT, false);
-    private Skill ride = new Skill("Ride", true, 15, 3, AbilityScoreEnum.DEX, true);
-    private List<ISkill> TempSkills = new ArrayList<ISkill>();
-
-    //endregion
-
-    // TODO: Customize parameter argument names
-    // TODO: Customize parameters
+    private List<ISkill> skillsList;
+    private PathfinderRepository repository;
     private OnListFragmentInteractionListener mListener;
     private Animation click;
+    private View rootView;
 
     public SkillsReferenceFragment()
     {
@@ -72,14 +67,6 @@ public class SkillsReferenceFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        //region Populate our temporary list. Remove when actualy data implementation begins
-        TempSkills.add(dance);
-        TempSkills.add(swim);
-        TempSkills.add(ride);
-        TempSkills.add(climb);
-        TempSkills.add(ride);
-        //endregion
-
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null)
@@ -92,71 +79,9 @@ public class SkillsReferenceFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-
-        View rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
-        Collections.sort(TempSkills);
-
-        // Set the adapter
-        Context context = rootView.getContext();
-        click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
-        final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
-        final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(TempSkills, mListener);
-
-        recyclerView.setAdapter(skillAdapter);
-
-        //Get and set our points invested
-        TextView skillPointsInvested = rootView.findViewById(R.id.TotalRanks);
-        TextView favoredClassPointsInvested = rootView.findViewById(R.id.FavoredClassRanks);
-        skillPointsInvested.setText(String.format("Total Ranks: %s", Integer.toString(GetTotalSkillPointsInvested(TempSkills))));
-        favoredClassPointsInvested.setText(String.format("Favored Ranks: %s", Integer.toString(GetFavoredClassSkillPointsInvested(TempSkills))));
-
-        //Get our buttons and set their onClickListeners
-        final ImageButton isClassSkillSortButton = rootView.findViewById(R.id.SortByIsClassSkill);
-        final ImageButton sortByRanksButton = rootView.findViewById(R.id.SortByRanks);
-        final ImageButton addNewSkillButton = rootView.findViewById(R.id.AddNewSkill);
-
-        isClassSkillSortButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                isClassSkillSortButton.startAnimation(click);
-                if(!Skill.checkIfSortedByProficiency(TempSkills))
-                {
-                    Collections.sort(TempSkills, Skill.compareByIsClassSkill);
-                }
-                else
-                {
-                    Collections.sort(TempSkills);
-                }
-                skillAdapter.notifyDataSetChanged();
-            }
-        });
-        sortByRanksButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                sortByRanksButton.startAnimation(click);
-                if(!Skill.checkIfSortedByTotalRanks(TempSkills))
-                {
-                    Collections.sort(TempSkills, Skill.compareByTotalRanks);
-                }
-                else
-                {
-                    Collections.sort(TempSkills);
-                }
-                skillAdapter.notifyDataSetChanged();
-            }
-        });
-        addNewSkillButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                addNewSkillButton.startAnimation(click);
-            }
-        });
+        rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
+        repository = new PathfinderRepository(this.getActivity().getApplication());
+        repository.requestSkills(this);
 
         return rootView;
     }
@@ -183,16 +108,101 @@ public class SkillsReferenceFragment extends Fragment
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    @Override
+    public void findCharacterProcessFinished(IPlayerCharacter playerCharacter)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void updateCharacterFinished(PlayerCharacter playerCharacter)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void getUnformattedSkillsTaskFinished(List<ISkill> result)
+    {
+        skillsList = result;
+        Collections.sort(skillsList);
+
+        // Set the adapter
+        Context context = rootView.getContext();
+        click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
+        final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
+        final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(skillsList, mListener);
+
+        recyclerView.setAdapter(skillAdapter);
+
+        //Get and set our points invested
+        TextView skillPointsInvested = rootView.findViewById(R.id.TotalRanks);
+        TextView favoredClassPointsInvested = rootView.findViewById(R.id.FavoredClassRanks);
+        skillPointsInvested.setText(String.format("Total Ranks: %s", Integer.toString(GetTotalSkillPointsInvested(skillsList))));
+        favoredClassPointsInvested.setText(String.format("Favored Ranks: %s", Integer.toString(GetFavoredClassSkillPointsInvested(skillsList))));
+
+        //Get our buttons and set their onClickListeners
+        final ImageButton isClassSkillSortButton = rootView.findViewById(R.id.SortByIsClassSkill);
+        final ImageButton sortByRanksButton = rootView.findViewById(R.id.SortByRanks);
+        final ImageButton addNewSkillButton = rootView.findViewById(R.id.AddNewSkill);
+        isClassSkillSortButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                isClassSkillSortButton.startAnimation(click);
+                  //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
+//                if(!Skill.checkIfSortedByProficiency(TempSkills))
+//                {
+//                    Collections.sort(TempSkills, Skill.compareByIsClassSkill);
+//                }
+//                else
+//                {
+//                    Collections.sort(TempSkills);
+//                }
+                skillAdapter.notifyDataSetChanged();
+            }
+        });
+        sortByRanksButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                sortByRanksButton.startAnimation(click);
+                  //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
+//                if(!Skill.checkIfSortedByTotalRanks(TempSkills))
+//                {
+//                    Collections.sort(TempSkills, Skill.compareByTotalRanks);
+//                }
+//                else
+//                {
+//                    Collections.sort(TempSkills);
+//                }
+                skillAdapter.notifyDataSetChanged();
+            }
+        });
+        addNewSkillButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                addNewSkillButton.startAnimation(click);
+            }
+        });
+    }
+
+
     public interface OnListFragmentInteractionListener
     {
         // TODO: Update argument type and name
@@ -204,7 +214,8 @@ public class SkillsReferenceFragment extends Fragment
         int skillPoints = 0;
         for(ISkill skill:skillList)
         {
-            skillPoints += skill.getPointsInvested();
+            //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
+            //skillPoints += skill.getPointsInvested();
         }
         return skillPoints;
     }
@@ -214,7 +225,8 @@ public class SkillsReferenceFragment extends Fragment
         int skillPoints = 0;
         for(ISkill skill:skillList)
         {
-            skillPoints += skill.getFavoredClassPointsInvested();
+            //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
+           //skillPoints += skill.getFavoredClassPointsInvested();
         }
         return skillPoints;
     }

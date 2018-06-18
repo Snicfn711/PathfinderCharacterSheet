@@ -23,6 +23,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.DamageReduction;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
@@ -169,6 +170,14 @@ public class PlayerCharacterListFragment extends Fragment implements PathfinderR
 
     @Override
     public void updateCharacterFinished(PlayerCharacter playerCharacter)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void getUnformattedSkillsTaskFinished(List<ISkill> result)
     {
         //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
         //It's a code smell, but it works for now

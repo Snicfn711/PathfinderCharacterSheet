@@ -22,7 +22,7 @@ import java.util.List;
 public interface PlayerCharacterDao
 {
     @Insert
-    public void insertPlayerCharacter(PlayerCharacterEntity character);
+    void insertPlayerCharacter(PlayerCharacterEntity character);
     @Query("SELECT * FROM player_characters " +
            "WHERE playerCharacterID = :playerCharacterIDtoFind")
     PlayerCharacterEntity getPlayerCharacterByID(UUID playerCharacterIDtoFind);

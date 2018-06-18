@@ -5,20 +5,26 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
+
+import java.util.UUID;
 
 /**
  * Created by Stephen Hagen on 4/20/2018.
  */
 
-@Entity
-@TypeConverters(AbilityScoreEnumConverter.class)
+@Entity(tableName = "skills")
+@TypeConverters({AbilityScoreEnumConverter.class,
+                 UUIDConverter.class})
 public class SkillEntity
 {
     @PrimaryKey
-    private int skillID;
+    @NonNull
+    private UUID skillID;
     @ColumnInfo(name = "added_stat")
     private AbilityScoreEnum AddedStat;
     @ColumnInfo(name = "armor_check_penalty_applied")
@@ -27,12 +33,12 @@ public class SkillEntity
     private String SkillName;
 
     //region Getters and Setters
-    public int getSkillID()
+    public UUID getSkillID()
     {
         return skillID;
     }
 
-    public void setSkillID(int skillID)
+    public void setSkillID(UUID skillID)
     {
         this.skillID = skillID;
     }

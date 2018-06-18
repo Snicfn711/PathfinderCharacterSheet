@@ -23,6 +23,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRep
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
@@ -265,6 +266,14 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         acReferenceBlockView.setValues(playerCharacter.getTotalAC(), playerCharacter.getTouchAC(), playerCharacter.getFlatFootedAC());
         hp_bab_sr_referenceBlockView.setValues(playerCharacter.getCalculatedHitPoints(), playerCharacter.getTotalBaseAttackBonus(), playerCharacter.getSpellResistance());
         combatManeuverReferenceBlockView.setValues(playerCharacter.getCombatManeuverStats());
+    }
+
+    @Override
+    public void getUnformattedSkillsTaskFinished(List<ISkill> result)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
     }
     //endregion
 

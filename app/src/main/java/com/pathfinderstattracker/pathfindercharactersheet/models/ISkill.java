@@ -1,17 +1,15 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models;
 
+import java.util.UUID;
+
 /**
  * Created by Stephen Hagen on 1/10/2018.
  */
 
 public interface ISkill extends Comparable<ISkill>
 {
-    void setProficiency(boolean proficiency);
-    boolean isProficiency();
-    void setPointsInvested(int pointsInvested);
-    int getPointsInvested();
-    void setFavoredClassPointsInvested(int favoredClassPointsInvested);
-    int getFavoredClassPointsInvested();
+    UUID getSkillID();
+    void setSkillID(UUID skillID);
     void setAddedStat(AbilityScoreEnum addedStat);
     AbilityScoreEnum getAddedStat();
     void setArmorCheckPenaltyApplied(boolean armorCheckPenaltyApplied);
