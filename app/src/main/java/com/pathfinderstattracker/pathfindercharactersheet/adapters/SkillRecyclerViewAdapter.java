@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
+import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
@@ -22,11 +23,11 @@ import java.util.List;
 public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecyclerViewAdapter.ViewHolder>
 {
 
-    private final List<ISkill> mValues;
+    private final List<SkillForDisplay> mValues;
     private final OnListFragmentInteractionListener mListener;
     private Animation click;
 
-    public SkillRecyclerViewAdapter(List<ISkill> items, OnListFragmentInteractionListener listener)
+    public SkillRecyclerViewAdapter(List<SkillForDisplay> items, OnListFragmentInteractionListener listener)
     {
         mValues = items;
         mListener = listener;
@@ -56,7 +57,7 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
         holder.mSkill = mValues.get(position);
         //holder.isClassSkill.setChecked(mValues.get(position).isProficiency());
         holder.skillName.setText(mValues.get(position).getSkillName());
-        //holder.skillTotal.setText(Integer.toString(mValues.get(position).getPointsInvested()));
+        holder.skillTotal.setText(Integer.toString(mValues.get(position).getTotalSkillScore()));
         holder.skillStat.setText(mValues.get(position).getAddedStat().toString());
 
         holder.recycledRow.setOnClickListener(new View.OnClickListener()
@@ -87,7 +88,7 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
         private final TextView skillName;
         private final TextView skillStat;
         private final TextView skillTotal;
-        private ISkill mSkill;
+        private SkillForDisplay mSkill;
 
         private ViewHolder(View view)
         {

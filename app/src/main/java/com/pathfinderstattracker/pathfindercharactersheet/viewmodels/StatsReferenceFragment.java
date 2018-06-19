@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,16 +72,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;//Used later in the code to determine which dialog is returning data to this fragment
     private static final int UPDATE_ABILITY_SCORES_DIALOG = 2;
 
-    //region Test Movements
-    private Movement base = new Movement("Base", 30, MovementManeuverabilityEnum.Perfect);
-    private Movement armor = new Movement("Armor", 20, MovementManeuverabilityEnum.Perfect);
-    private Movement fly = new Movement("Fly", 30, MovementManeuverabilityEnum.Perfect);
-    private Movement swim = new Movement("Swim", 30, MovementManeuverabilityEnum.Perfect);
-    private Movement climb = new Movement("Climb", 30, MovementManeuverabilityEnum.Perfect);
-    private Movement burrow = new Movement("Burrow", 30, MovementManeuverabilityEnum.Perfect);
-    private List<IMovement> tempMovement = new ArrayList<IMovement>();
-    //endregion
-
     //region Test Armor Items
     private Armor armorBonus = new Armor("Armor", 5, 5, 0,3,3,3,3, ArmorWeightCategoryEnum.Heavy,5, SizeCategoryEnum.Medium,false,null);
     private WondrousItems naturalArmorBonus = new WondrousItems("Natural Armor", 5,5, null, BodySlotsEnum.Throat, null, 100, ArmorTypesEnum.NaturalArmor, 3);
@@ -89,10 +80,8 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     private List<IEquipment> tempArmorItems = new ArrayList<IEquipment>();
     //endregion
 
-    // TODO: Rename parameter arguments, choose names that match
-    // TODO: Rename and change types of parameters
-
     private OnFragmentInteractionListener mListener;
+    private OnPlayerCharacterUpdatedListener playerCharacterUpdatedListener;
 
     public StatsReferenceFragment()
     {
@@ -118,8 +107,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         tempArmorItems.add(naturalArmorBonus);
         tempArmorItems.add(shieldArmorBonus);
         tempArmorItems.add(dodgeArmorBonus);
-        tempMovement.add(base);
-        tempMovement.add(armor);
 
         if (getArguments() != null)
         {
@@ -177,7 +164,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
 
         //Populate and bind our movement list
         MovementReferenceBlockView movementView = rootView.findViewById(R.id.movementList);
-        movementView.setValues(tempMovement);
 
         //Populate and bind our initiative section
         InitiativeReferenceBlockView initiativeView = rootView.findViewById(R.id.initiativeList);
@@ -219,10 +205,20 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         if (context instanceof OnFragmentInteractionListener)
         {
             mListener = (OnFragmentInteractionListener) context;
-        } else
+        }
+        else
         {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
+        }
+        if(context instanceof OnPlayerCharacterUpdatedListener)
+        {
+            playerCharacterUpdatedListener = (OnPlayerCharacterUpdatedListener) context;
+        }
+        else
+        {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnPlayerCharacterUpdatedListener");
         }
     }
 
@@ -266,6 +262,8 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         acReferenceBlockView.setValues(playerCharacter.getTotalAC(), playerCharacter.getTouchAC(), playerCharacter.getFlatFootedAC());
         hp_bab_sr_referenceBlockView.setValues(playerCharacter.getCalculatedHitPoints(), playerCharacter.getTotalBaseAttackBonus(), playerCharacter.getSpellResistance());
         combatManeuverReferenceBlockView.setValues(playerCharacter.getCombatManeuverStats());
+
+        playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
     }
 
     @Override
@@ -327,4 +325,10 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         editAbilityScoresDialog.setStyle(DialogFragment.STYLE_NO_TITLE,0);
         editAbilityScoresDialog.show(this.getFragmentManager(),"Edit Ability Scores");
     }
+
+    public interface OnPlayerCharacterUpdatedListener
+    {
+        public void onPlayerCharacterUpdated(IPlayerCharacter playerCharacter);
+    }
+
 }

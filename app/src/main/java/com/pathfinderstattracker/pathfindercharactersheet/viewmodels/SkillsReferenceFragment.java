@@ -3,8 +3,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,9 +17,13 @@ import com.pathfinderstattracker.pathfindercharactersheet.adapters.SkillRecycler
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
+import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 
@@ -38,10 +40,9 @@ import java.util.List;
  */
 public class SkillsReferenceFragment extends Fragment implements PathfinderRepositoryListener
 {
-    private List<ISkill> skillsList;
-    private PathfinderRepository repository;
     private OnListFragmentInteractionListener mListener;
     private Animation click;
+    private IPlayerCharacter playerCharacter;
     private View rootView;
 
     public SkillsReferenceFragment()
@@ -68,19 +69,19 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null)
-        {
-            //Like above, since we don't have any paramters yet, there's not much to do here
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        Bundle getPlayerCharacter = this.getArguments();
+        if(getPlayerCharacter != null)
+        {
+            playerCharacter = (PlayerCharacter)getPlayerCharacter.get("PlayerCharacter");
+        }
         rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
-        repository = new PathfinderRepository(this.getActivity().getApplication());
+        PathfinderRepository repository = new PathfinderRepository(this.getActivity().getApplication());
         repository.requestSkills(this);
 
         return rootView;
@@ -135,14 +136,25 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
     @Override
     public void getUnformattedSkillsTaskFinished(List<ISkill> result)
     {
-        skillsList = result;
-        Collections.sort(skillsList);
+        List<ISkill> skillsList = result;
+        List<SkillForDisplay> skillsForDisplay = new ArrayList<>();
+
+        for(ISkill skill : skillsList)
+        {
+            SkillForDisplay temp = new SkillForDisplay(skill.getAddedStat(),
+                                                       skill.isArmorCheckPenaltyApplied(),
+                                                       skill.getSkillName(),
+                                                       GetSkillTotalForDisplay(skill));
+            skillsForDisplay.add(temp);
+        }
+
 
         // Set the adapter
         Context context = rootView.getContext();
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
-        final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(skillsList, mListener);
+        final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(skillsForDisplay, mListener);
+
 
         recyclerView.setAdapter(skillAdapter);
 
@@ -206,7 +218,7 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
     public interface OnListFragmentInteractionListener
     {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(ISkill item);
+        void onListFragmentInteraction(SkillForDisplay item);
     }
 
     private int GetTotalSkillPointsInvested(List<ISkill> skillList)
@@ -230,4 +242,23 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
         }
         return skillPoints;
     }
+
+    private int GetSkillTotalForDisplay(ISkill skillTotalToCalculate)
+    {
+        AbilityScoreEnum statToCheck = skillTotalToCalculate.getAddedStat();
+        int skillTotal = 0;
+        if(playerCharacter != null)
+        {
+            for (IAbilityScore abilityScore : playerCharacter.getAbilityScores())
+            {
+                if(abilityScore.getStat() == statToCheck)
+                {
+                    skillTotal += abilityScore.calculateModifier();
+                }
+            }
+        }
+        //Since we still haven't implemented point investments, for now all that gets returned is the characters stat modifier
+        return skillTotal;
+    }
+
 }

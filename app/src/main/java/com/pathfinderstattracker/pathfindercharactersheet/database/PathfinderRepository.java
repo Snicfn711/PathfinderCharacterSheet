@@ -1,6 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.database;
 
 import android.app.Application;
+import android.app.FragmentManager;
 import android.os.AsyncTask;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;

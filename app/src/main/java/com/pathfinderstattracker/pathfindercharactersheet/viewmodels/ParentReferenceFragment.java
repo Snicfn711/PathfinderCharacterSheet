@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 
 public class ParentReferenceFragment extends Fragment
 {
@@ -96,5 +98,13 @@ public class ParentReferenceFragment extends Fragment
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public void UpdateCharacter(IPlayerCharacter updatedCharacter)
+    {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("PlayerCharacter", updatedCharacter);
+        referenceFragmentAdapter.setArgs(bundle);
+        referenceFragmentAdapter.notifyDataSetChanged();
     }
 }

@@ -17,6 +17,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
+import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
@@ -36,7 +37,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import java.util.UUID;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener, PathfinderRepositoryListener
+public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener, PathfinderRepositoryListener, StatsReferenceFragment.OnPlayerCharacterUpdatedListener
 {
     PathfinderRepository repository;
 
@@ -58,7 +59,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onListFragmentInteraction(ISkill item)
+    public void onListFragmentInteraction(SkillForDisplay item)
     {
 
     }
@@ -110,7 +111,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         Fragment parentReferenceFragment = new ParentReferenceFragment();
         parentReferenceFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment).commit();
+        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
     }
 
     @Override
@@ -121,7 +122,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         Fragment parentReferenceFragment = new ParentReferenceFragment();
         parentReferenceFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment).commit();
+        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
     }
 
     @Override
@@ -146,5 +147,12 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
         //It's a code smell, but it works for now
         //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void onPlayerCharacterUpdated(IPlayerCharacter playerCharacter)
+    {
+        ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
+        parentReferenceFragment.UpdateCharacter(playerCharacter);
     }
 }

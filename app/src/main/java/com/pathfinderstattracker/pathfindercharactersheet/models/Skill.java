@@ -58,7 +58,7 @@ public class Skill implements ISkill, Comparable<ISkill>
         //Default constructor
     }
 
-    public Skill(String skillName, boolean proficiency, int pointsInvested, int favoredClassPointsInvested, AbilityScoreEnum addedStat, boolean armorCheckPenaltyApplied)
+    public Skill(String skillName, AbilityScoreEnum addedStat, boolean armorCheckPenaltyApplied)
     {
         setAddedStat(addedStat);
         setArmorCheckPenaltyApplied(armorCheckPenaltyApplied);
