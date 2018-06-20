@@ -1,5 +1,6 @@
 package com.pathfinderstattracker.pathfindercharactersheet.adapters;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,12 +26,22 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
 
     private final List<SkillForDisplay> mValues;
     private final OnListFragmentInteractionListener mListener;
+    private final OnRollSkillCheckButtonClickedListener skillCheckButtonClickedListener;
     private Animation click;
 
-    public SkillRecyclerViewAdapter(List<SkillForDisplay> items, OnListFragmentInteractionListener listener)
+    public SkillRecyclerViewAdapter(List<SkillForDisplay> items, OnListFragmentInteractionListener listener, Fragment containingFragment)
     {
         mValues = items;
         mListener = listener;
+        if(containingFragment instanceof OnRollSkillCheckButtonClickedListener)
+        {
+            skillCheckButtonClickedListener = (OnRollSkillCheckButtonClickedListener)containingFragment;
+        }
+        else
+        {
+            throw new RuntimeException(containingFragment.toString()
+                    + " must implement OnPlayerCharacterUpdatedListener");
+        }
     }
 
     @Override
@@ -39,21 +50,14 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.skill_row_view, parent, false);
         click = AnimationUtils.loadAnimation(parent.getContext(), R.anim.roll_button_click);
-        final ImageButton rollButton = view.findViewById(R.id.RollSkill);
-        rollButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                rollButton.startAnimation(click);
-            }
-        });
+
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position)
     {
+        final ImageButton rollButton = holder.recycledRow.findViewById(R.id.RollSkill);
         holder.mSkill = mValues.get(position);
         //holder.isClassSkill.setChecked(mValues.get(position).isProficiency());
         holder.skillName.setText(mValues.get(position).getSkillName());
@@ -71,6 +75,20 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mSkill);
                 }
+            }
+        });
+
+        rollButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                SkillForDisplay skillForDisplay = new SkillForDisplay(holder.mSkill.getAddedStat(),
+                                                                      holder.mSkill.isArmorCheckPenaltyApplied(),
+                                                                      holder.mSkill.getSkillName(),
+                                                                      holder.mSkill.getTotalSkillScore());
+                skillCheckButtonClickedListener.onRollSkillCheckButtonPressedListener(skillForDisplay);
+
             }
         });
     }
@@ -105,5 +123,10 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
         {
             return super.toString() + " '" + skillName.getText() + "'";
         }
+    }
+
+    public interface OnRollSkillCheckButtonClickedListener
+    {
+        void onRollSkillCheckButtonPressedListener(SkillForDisplay skillClicked);
     }
 }

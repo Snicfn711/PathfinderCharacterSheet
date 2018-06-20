@@ -44,15 +44,6 @@ public class InitiativeReferenceBlockView extends LinearLayout
     {
         super.onFinishInflate();
         initiative = this.findViewById(R.id.InitiativeValue);
-        final ImageButton rollInitiative = this.findViewById(R.id.RollInitiative);
-        rollInitiative.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                rollInitiative.startAnimation(click);
-            }
-        });
     }
 
     public void setValues(int initiative)

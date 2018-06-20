@@ -3,6 +3,7 @@ package com.pathfinderstattracker.pathfindercharactersheet;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +25,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipmen
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment;

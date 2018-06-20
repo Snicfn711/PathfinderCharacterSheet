@@ -48,18 +48,10 @@ public class AddNameDialog extends DialogFragment
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int displayHeight = displayMetrics.heightPixels;
-        int displayWidth = displayMetrics.widthPixels;
         if(d != null)
         {
-
-            if(displayHeight > displayWidth)//This could be better handled in some sort of screen tool that checks orientation, size, etc. but for now it works
-            {
-                d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (displayHeight * .25));
-            }
-            else
-            {
-                d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (displayHeight * .5));
-            }
+            //The app is locked into a portrait view, so we're not too worried about checking our orientation or adjusting accordingly
+            d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (displayHeight * .25));
         }
     }
 }

@@ -22,6 +22,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
@@ -41,6 +42,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementM
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddNameDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditAbilityScoresDialog;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_SR_ReferenceBlockView;
@@ -151,7 +153,15 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         //Populate and bind our stats list
         AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
         statsView.setValues(currentPlayerCharacter.getAbilityScores());
+
         final ImageButton editStatsButton = statsView.findViewById(R.id.EditStatsButton);
+        final ImageButton rollStrength = statsView.findViewById(R.id.RollStrengthCheck);
+        final ImageButton rollDexterity = statsView.findViewById(R.id.RollDexterityCheck);
+        final ImageButton rollConstitution = statsView.findViewById(R.id.RollConstitutionCheck);
+        final ImageButton rollIntelligence = statsView.findViewById(R.id.RollIntelligenceCheck);
+        final ImageButton rollWisdom = statsView.findViewById(R.id.RollWisdomCheck);
+        final ImageButton rollCharisma = statsView.findViewById(R.id.RollCharismaCheck);
+
         editStatsButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -162,20 +172,129 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
             }
         });
 
+        rollStrength.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollStrength.startAnimation(click);
+                OpenRollD20Dialog("Roll Strength Check", currentPlayerCharacter.GetStat(AbilityScoreEnum.STR).calculateModifier());
+            }
+        });
+        rollDexterity.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollDexterity.startAnimation(click);
+                OpenRollD20Dialog("Roll Dexterity Check", currentPlayerCharacter.GetStat(AbilityScoreEnum.DEX).calculateModifier());
+            }
+        });
+        rollConstitution.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollConstitution.startAnimation(click);
+                OpenRollD20Dialog("Roll Constitution Check", currentPlayerCharacter.GetStat(AbilityScoreEnum.CON).calculateModifier());
+            }
+        });
+        rollIntelligence.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollIntelligence.startAnimation(click);
+                OpenRollD20Dialog("Roll Intelligence Check", currentPlayerCharacter.GetStat(AbilityScoreEnum.INT).calculateModifier());
+            }
+        });
+        rollWisdom.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollWisdom.startAnimation(click);
+                OpenRollD20Dialog("Roll Wisdom Check", currentPlayerCharacter.GetStat(AbilityScoreEnum.WIS).calculateModifier());
+            }
+        });
+        rollCharisma.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollCharisma.startAnimation(click);
+                OpenRollD20Dialog("Roll Charisma Check", currentPlayerCharacter.GetStat(AbilityScoreEnum.CHA).calculateModifier());
+            }
+        });
+
         //Populate and bind our movement list
         MovementReferenceBlockView movementView = rootView.findViewById(R.id.movementList);
 
         //Populate and bind our initiative section
         InitiativeReferenceBlockView initiativeView = rootView.findViewById(R.id.initiativeList);
         initiativeView.setValues(currentPlayerCharacter.getInitiative());
+        final ImageButton rollInitiative = initiativeView.findViewById(R.id.RollInitiative);
+        rollInitiative.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                int bobo = 1;
+                rollInitiative.startAnimation(click);
+                OpenRollD20Dialog("Roll Initiative", currentPlayerCharacter.getInitiative());
+            }
+        });
 
         //Populate and bind our combat Maneuver list
         CombatManeuverReferenceBlockView combatManeuverView = rootView.findViewById(R.id.combatManeuverList);
         combatManeuverView.setValues(currentPlayerCharacter.getCombatManeuverStats());
+        final ImageButton rollCombatManeuver = combatManeuverView.findViewById(R.id.RollCombatManeuver);
+        rollCombatManeuver.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollCombatManeuver.startAnimation(click);
+                OpenRollD20Dialog("Roll Combat Maneuver Check", currentPlayerCharacter.getCombatManeuverStats().getCombatManeuverCheck());
+            }
+        });
 
         //Populate and bind our saves list
         SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
         savesView.setValues(currentPlayerCharacter.getFortitudeSave(), currentPlayerCharacter.getReflexSave(), currentPlayerCharacter.getWillSave());
+        final ImageButton rollFortitudeSave = savesView.findViewById(R.id.RollFortSave);
+        final ImageButton rollReflexSave = savesView.findViewById(R.id.RollReflexSave);
+        final ImageButton rollWillSave = savesView.findViewById(R.id.RollWillSave);
+
+        rollFortitudeSave.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollFortitudeSave.startAnimation(click);
+                OpenRollD20Dialog("Roll Fortitude Save", currentPlayerCharacter.getFortitudeSave());
+            }
+        });
+
+        rollReflexSave.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollReflexSave.startAnimation(click);
+                OpenRollD20Dialog("Roll Reflex Save", currentPlayerCharacter.getReflexSave());
+            }
+        });
+
+        rollWillSave.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                rollWillSave.startAnimation(click);
+                OpenRollD20Dialog("Roll Will Save", currentPlayerCharacter.getWillSave());
+            }
+        });
 
         //Populate and bind our AC list
         ACReferenceBlockView armorView = rootView.findViewById(R.id.armorList);
@@ -324,6 +443,18 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         editAbilityScoresDialog.setTargetFragment(this, UPDATE_ABILITY_SCORES_DIALOG);
         editAbilityScoresDialog.setStyle(DialogFragment.STYLE_NO_TITLE,0);
         editAbilityScoresDialog.show(this.getFragmentManager(),"Edit Ability Scores");
+    }
+
+    private void OpenRollD20Dialog(String titleText, int addedValue)
+    {
+        Bundle args = new Bundle();
+        args.putString("TitleText", titleText);
+        args.putInt("AddedValue", addedValue);
+
+        RollD20Dialog rollD20Dialog = new RollD20Dialog();
+        rollD20Dialog.setArguments(args);
+        rollD20Dialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        rollD20Dialog.show(this.getFragmentManager(), "Roll a d20");
     }
 
     public interface OnPlayerCharacterUpdatedListener

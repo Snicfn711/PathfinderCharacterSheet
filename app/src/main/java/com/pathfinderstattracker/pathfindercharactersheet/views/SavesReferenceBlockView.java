@@ -37,44 +37,8 @@ public class SavesReferenceBlockView extends LinearLayout
     {
         super.onFinishInflate();
         fortitudeSave = this.findViewById(R.id.FortSaveValue);
-        final ImageButton rollFortButton = this.findViewById(R.id.RollFortSave);
-        rollFortButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                rollFortButton.startAnimation(click);
-            }
-        });
         reflexSave = this.findViewById(R.id.ReflexSaveValue);
-        final ImageButton rollReflexButton = this.findViewById(R.id.RollReflexSave);
-        rollReflexButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                rollReflexButton.startAnimation(click);
-            }
-        });
         willSave = this.findViewById(R.id.WillSaveValue);
-        final ImageButton rollWillButton = this.findViewById(R.id.RollWillSave);
-        rollWillButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                rollWillButton.startAnimation(click);
-            }
-        });
-        final ImageButton editSavesButton = this.findViewById(R.id.EditsSavesButton);
-        editSavesButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                editSavesButton.startAnimation(click);
-            }
-        });
     }
 
     public void setValues(int fortitudeSave, int reflexSave, int willSave)

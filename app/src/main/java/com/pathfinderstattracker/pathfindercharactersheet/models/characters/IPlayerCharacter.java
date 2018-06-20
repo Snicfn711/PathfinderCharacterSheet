@@ -1,5 +1,6 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 
+import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
@@ -63,4 +64,5 @@ public interface IPlayerCharacter extends Serializable
     int getReflexSave();
     void setWillSave(int willSave);
     int getWillSave();
+    IAbilityScore GetStat(AbilityScoreEnum scoreToFind);
 }

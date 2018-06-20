@@ -2,6 +2,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +40,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class SkillsReferenceFragment extends Fragment implements PathfinderRepositoryListener
+public class SkillsReferenceFragment extends Fragment implements PathfinderRepositoryListener, SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener
 {
     private OnListFragmentInteractionListener mListener;
     private Animation click;
@@ -153,7 +155,7 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
         Context context = rootView.getContext();
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
-        final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(skillsForDisplay, mListener);
+        final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(skillsForDisplay, mListener, this);
 
 
         recyclerView.setAdapter(skillAdapter);
@@ -214,6 +216,12 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
         });
     }
 
+    @Override
+    public void onRollSkillCheckButtonPressedListener(SkillForDisplay skillClicked)
+    {
+        OpenRollD20Dialog("Roll " + skillClicked.getSkillName() + " check", skillClicked.getTotalSkillScore());
+    }
+
 
     public interface OnListFragmentInteractionListener
     {
@@ -259,6 +267,18 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
         }
         //Since we still haven't implemented point investments, for now all that gets returned is the characters stat modifier
         return skillTotal;
+    }
+
+    private void OpenRollD20Dialog(String titleText, int addedValue)
+    {
+        Bundle args = new Bundle();
+        args.putString("TitleText", titleText);
+        args.putInt("AddedValue", addedValue);
+
+        RollD20Dialog rollD20Dialog = new RollD20Dialog();
+        rollD20Dialog.setArguments(args);
+        rollD20Dialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        rollD20Dialog.show(this.getFragmentManager(), "Roll a d20");
     }
 
 }

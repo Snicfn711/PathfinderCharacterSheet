@@ -3,6 +3,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
@@ -673,5 +674,22 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         //TODO:Add in a size modifier bonus once we have species fleshed out.
         CombatManeuverStats.setCombatManeuverDefense(10 + TotalBaseAttackBonus + strengthModifier + dexterityModifier);
         CombatManeuverStats.setCombatManeuverCheck(TotalBaseAttackBonus + strengthModifier);
+    }
+
+    public IAbilityScore GetStat(AbilityScoreEnum statToFind)
+    {
+        IAbilityScore statToReturn = new AbilityScore();
+        for(IAbilityScore abilityScore : AbilityScores)
+        {
+            if(abilityScore.getStat() == statToFind)
+            {
+                statToReturn = abilityScore;
+            }
+        }
+        if(statToReturn.getStat() == null)
+        {
+            throw new RuntimeException("The current player character object was asked to find a non-existent stat");
+        }
+        return statToReturn;
     }
 }
