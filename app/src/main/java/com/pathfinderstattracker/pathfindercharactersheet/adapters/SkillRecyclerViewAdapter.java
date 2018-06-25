@@ -18,9 +18,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsRefer
 
 import java.util.List;
 
-/**
- * TODO: Replace the implementation with code for your data type.
- */
 public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecyclerViewAdapter.ViewHolder>
 {
 
@@ -87,7 +84,7 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
                                                                       holder.mSkill.isArmorCheckPenaltyApplied(),
                                                                       holder.mSkill.getSkillName(),
                                                                       holder.mSkill.getTotalSkillScore());
-                skillCheckButtonClickedListener.onRollSkillCheckButtonPressedListener(skillForDisplay);
+                skillCheckButtonClickedListener.onRollSkillCheckButtonPressed(skillForDisplay);
 
             }
         });
@@ -127,6 +124,6 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
 
     public interface OnRollSkillCheckButtonClickedListener
     {
-        void onRollSkillCheckButtonPressedListener(SkillForDisplay skillClicked);
+        void onRollSkillCheckButtonPressed(SkillForDisplay skillClicked);
     }
 }

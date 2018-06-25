@@ -109,7 +109,8 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         IPlayerCharacter newPlayerCharacter = PlayerCharacter.CreateDefaultPlayerCharacterWithID(UUID.randomUUID());
         Bundle bundle = new Bundle();
         bundle.putSerializable("PlayerCharacter", newPlayerCharacter);
-        repository.insertPlayerCharacter(newPlayerCharacter);
+        repository.insertNewPlayerCharacter(newPlayerCharacter);
+        repository.initializePlayerSkill(newPlayerCharacter);
         Fragment parentReferenceFragment = new ParentReferenceFragment();
         parentReferenceFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

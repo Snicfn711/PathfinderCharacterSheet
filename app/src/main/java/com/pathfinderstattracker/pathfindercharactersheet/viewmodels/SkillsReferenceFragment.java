@@ -55,12 +55,9 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
          */
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static SkillsReferenceFragment newInstance(int columnCount)
     {
-        // TODO: Customize parameter initialization
-        //We don't have any parameters yet, so we're not doing anything here yet
         SkillsReferenceFragment fragment = new SkillsReferenceFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -149,15 +146,11 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
                                                        GetSkillTotalForDisplay(skill));
             skillsForDisplay.add(temp);
         }
-
-
         // Set the adapter
         Context context = rootView.getContext();
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
         final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(skillsForDisplay, mListener, this);
-
-
         recyclerView.setAdapter(skillAdapter);
 
         //Get and set our points invested
@@ -217,7 +210,7 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
     }
 
     @Override
-    public void onRollSkillCheckButtonPressedListener(SkillForDisplay skillClicked)
+    public void onRollSkillCheckButtonPressed(SkillForDisplay skillClicked)
     {
         OpenRollD20Dialog("Roll " + skillClicked.getSkillName() + " check", skillClicked.getTotalSkillScore());
     }
@@ -280,5 +273,4 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
         rollD20Dialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         rollD20Dialog.show(this.getFragmentManager(), "Roll a d20");
     }
-
 }

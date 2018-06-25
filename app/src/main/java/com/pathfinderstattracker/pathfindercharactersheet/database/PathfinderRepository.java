@@ -5,9 +5,11 @@ import android.app.FragmentManager;
 import android.os.AsyncTask;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerSkillsDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.SkillsDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
@@ -21,28 +23,37 @@ import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitiali
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class PathfinderRepository
 {
     private PlayerCharacterDao playerCharacterDao;
     private SkillsDao skillsDao;
+    private PlayerSkillsDao playerSkillsDao;
 
     public PathfinderRepository(Application application)
     {
         PathfinderDatabase database = PathfinderDatabase.getDatabase(application);
-        if(database.doesDatabaseExist(application.getApplicationContext()) == false)
+        if(!database.doesDatabaseExist(application.getApplicationContext()))
         {
             DatabaseInitializer.populateAsync(database);
         }
         playerCharacterDao = database.PlayerCharacterDao();
         skillsDao = database.SkillsDao();
+        playerSkillsDao = database.PlayerSkillsDao();
     }
 
     //region Synchronous Methods
-    public void insertPlayerCharacter(IPlayerCharacter playerCharacter)
+    public void insertNewPlayerCharacter(IPlayerCharacter playerCharacter)
     {
         PlayerCharacterEntity EntityToInsert = DatabaseEntityObjectConverter.ConvertPlayerCharacterObjectToPlayerCharacterEntity(playerCharacter);
         new insertPlayerCharacterAsyncTask(playerCharacterDao).execute(EntityToInsert);
+    }
+
+    public void initializePlayerSkill(IPlayerCharacter characterToInitialize)
+    {
+        initializePlayerSkillsAsyncTask task = new initializePlayerSkillsAsyncTask(playerSkillsDao, skillsDao);
+        task.execute(characterToInitialize.getPlayerCharacterID());
     }
 
     public void requestPlayerNamesAndIDs(PathfinderRepositoryListener callingActivity)
@@ -72,6 +83,7 @@ public class PathfinderRepository
         task.delegate = callingActivity;
         task.execute();
     }
+
     //endregion
 
     //region Async Tasks
@@ -92,6 +104,46 @@ public class PathfinderRepository
         }
     }
 
+    private static class initializePlayerSkillsAsyncTask extends AsyncTask<UUID, Void, Void>
+    {
+        private PlayerSkillsDao asyncPlayerSkillsDao;
+        private SkillsDao asyncSkillsDao;
+
+        initializePlayerSkillsAsyncTask(PlayerSkillsDao playerSkillsDao, SkillsDao skillsDao)
+        {
+            asyncPlayerSkillsDao = playerSkillsDao;
+            asyncSkillsDao = skillsDao;
+        }
+
+        @Override
+        protected Void doInBackground(UUID... params)
+        {
+            getUnformattedSkillsAsyncTask task = new getUnformattedSkillsAsyncTask(asyncSkillsDao);
+            try
+            {
+                List<ISkill> skillsList = task.execute().get();
+                for(ISkill skill : skillsList)
+                {
+                    PlayerSkillsEntity temp = new PlayerSkillsEntity();
+                    temp.setPlayerID(params[0]);
+                    temp.setSkillID(skill.getSkillID());
+                    temp.setLevelUpPointsInvested(0);
+                    temp.setFavoredClassPointsInvested(0);
+                    asyncPlayerSkillsDao.InsertPlayerSkill(temp);
+                }
+            }
+            catch (InterruptedException e)
+            {
+                e.printStackTrace();
+            }
+            catch (ExecutionException e)
+            {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
     private static class getPlayerCharacterByIDAsyncTask extends AsyncTask<UUID, Void, IPlayerCharacter>
     {
         private PathfinderRepositoryListener delegate = null;
@@ -103,8 +155,7 @@ public class PathfinderRepository
         protected IPlayerCharacter doInBackground(UUID... uuids)
         {
             PlayerCharacterEntity entityToConvert = asyncPlayerCharacterDao.getPlayerCharacterByID(uuids[0]);
-            IPlayerCharacter characterToReturn = DatabaseEntityObjectConverter.ConverterPlayerCharacterEntityToPlayerCharacterObject(entityToConvert);
-            return characterToReturn;
+            return DatabaseEntityObjectConverter.ConverterPlayerCharacterEntityToPlayerCharacterObject(entityToConvert);
         }
 
         @Override

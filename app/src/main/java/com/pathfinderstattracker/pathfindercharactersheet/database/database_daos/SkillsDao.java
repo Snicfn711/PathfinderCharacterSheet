@@ -16,4 +16,5 @@ public interface SkillsDao
     void insertSkill(SkillEntity skillToInsert);
     @Query("SELECT * FROM skills ")
     List<SkillEntity> getUneditedSkillsList();
+
 }

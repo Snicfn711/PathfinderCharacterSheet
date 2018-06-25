@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @Dao
-
+@Deprecated
 public interface WeaponEnchantmentDao
 {
     @Insert
