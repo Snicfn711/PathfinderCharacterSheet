@@ -1,16 +1,12 @@
 package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 
 import android.app.Activity;
-import android.app.Application;
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +18,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
@@ -387,6 +384,14 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
 
     @Override
     public void getUnformattedSkillsTaskFinished(List<ISkill> result)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result)
     {
         //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
         //It's a code smell, but it works for now

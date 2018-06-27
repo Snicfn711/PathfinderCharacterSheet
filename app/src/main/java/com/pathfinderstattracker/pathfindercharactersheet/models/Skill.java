@@ -2,6 +2,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.models;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -10,7 +11,7 @@ import java.util.UUID;
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public class Skill implements ISkill, Comparable<ISkill>
+public class Skill implements ISkill, Comparable<ISkill>, Serializable
 {
     private UUID SkillID;
     private AbilityScoreEnum AddedStat;

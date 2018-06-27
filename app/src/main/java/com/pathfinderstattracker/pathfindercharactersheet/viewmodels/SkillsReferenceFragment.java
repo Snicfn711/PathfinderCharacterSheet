@@ -1,6 +1,8 @@
 package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -18,6 +20,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.adapters.SkillRecycler
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
@@ -27,11 +30,10 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,12 +42,14 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class SkillsReferenceFragment extends Fragment implements PathfinderRepositoryListener, SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener
+public class SkillsReferenceFragment extends Fragment implements PathfinderRepositoryListener, SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener, SkillRecyclerViewAdapter.OnEditSkillLongClickListener
 {
     private OnListFragmentInteractionListener mListener;
     private Animation click;
     private IPlayerCharacter playerCharacter;
+    PathfinderRepository repository;
     private View rootView;
+    private static final int UPDATE_SKILL_POINTS_DIALOG = 1;
 
     public SkillsReferenceFragment()
     {
@@ -80,7 +84,7 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
             playerCharacter = (PlayerCharacter)getPlayerCharacter.get("PlayerCharacter");
         }
         rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
-        PathfinderRepository repository = new PathfinderRepository(this.getActivity().getApplication());
+        repository = new PathfinderRepository(this.getActivity().getApplication());
         repository.requestSkills(this);
 
         return rootView;
@@ -133,6 +137,15 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
     }
 
     @Override
+    public void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+
+    @Override
     public void getUnformattedSkillsTaskFinished(List<ISkill> result)
     {
         List<ISkill> skillsList = result;
@@ -140,7 +153,8 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
 
         for(ISkill skill : skillsList)
         {
-            SkillForDisplay temp = new SkillForDisplay(skill.getAddedStat(),
+            SkillForDisplay temp = new SkillForDisplay(skill.getSkillID(),
+                                                       skill.getAddedStat(),
                                                        skill.isArmorCheckPenaltyApplied(),
                                                        skill.getSkillName(),
                                                        GetSkillTotalForDisplay(skill));
@@ -215,6 +229,12 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
         OpenRollD20Dialog("Roll " + skillClicked.getSkillName() + " check", skillClicked.getTotalSkillScore());
     }
 
+    @Override
+    public void onEditSkillLongClickActivated(SkillForDisplay skillHeld)
+    {
+        OpenEditSkillsDialog(skillHeld);
+    }
+
 
     public interface OnListFragmentInteractionListener
     {
@@ -272,5 +292,32 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
         rollD20Dialog.setArguments(args);
         rollD20Dialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         rollD20Dialog.show(this.getFragmentManager(), "Roll a d20");
+    }
+
+    private void OpenEditSkillsDialog(SkillForDisplay skillHeld)
+    {
+        Bundle args = new Bundle();
+        args.putSerializable("CurrentSkillID", skillHeld.getSkillID());
+        args.putSerializable("CurrentPlayerCharacterID", playerCharacter.getPlayerCharacterID());
+        EditSkillValuesDialog editSkillValuesDialog = new EditSkillValuesDialog();
+        editSkillValuesDialog.setTargetFragment(this, UPDATE_SKILL_POINTS_DIALOG);
+        editSkillValuesDialog.setArguments(args);
+        editSkillValuesDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        editSkillValuesDialog.show(this.getFragmentManager(), "Edit Skill Values");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        Bundle bundle = data.getExtras();
+        switch(requestCode)
+        {
+            case UPDATE_SKILL_POINTS_DIALOG:
+                if (resultCode == Activity.RESULT_OK) {
+                    PlayerSkillsEntity playerSkillEntityToUpdate = (PlayerSkillsEntity) bundle.getSerializable("PlayerSkillEntityToUpdate");
+                    repository.updatePlayerSkillEntity(playerSkillEntityToUpdate);
+                }
+                break;
+        }
     }
 }

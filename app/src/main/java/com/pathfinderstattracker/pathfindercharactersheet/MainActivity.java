@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRep
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
@@ -25,6 +28,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipmen
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
@@ -146,6 +150,14 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
 
     @Override
     public void getUnformattedSkillsTaskFinished(List<ISkill> result)
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result)
     {
         //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
         //It's a code smell, but it works for now

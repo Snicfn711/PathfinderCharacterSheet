@@ -60,6 +60,8 @@
     <string name="SortByTotalRanks">Sort by Total Ranks</string>
     <string name="AddNewSkill">Add New Skill</string>
     <string name="RollSkillButtonContentDescription">Roll Skill Button</string>
+    <string name="LevelUpPoints">Level Up Skill Points</string>
+    <string name="FavoredClassPoints">Favored Class Points</string>
     <!--Equipment Strings-->
     <string name="MagicBonus">Magic Bonus</string>
     <string name="EquipmentAbilities">Abilities</string>
@@ -122,6 +124,7 @@
     <string name="EditCharacterProfile">Edit Character Profile</string>
     <string name="EditCharacterName">Edit Character Name</string>
     <string name="EditAbilityScores">Edit Ability Scores</string>
+    <string name="EditSkillValues">Edit Skill Points Invested</string>
     <string name="SaveChanges">Save Changes</string>
     <string name="AddNameHint">Enter Name Here</string>
     <string name="NewName">New Name</string>

@@ -9,11 +9,13 @@ import android.support.annotation.NonNull;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(primaryKeys = {"playerCharacterID", "skillID"},
+@Entity(tableName = "player_skills",
+        primaryKeys = {"playerCharacterID", "skillID"},
         foreignKeys = {@ForeignKey(entity=PlayerCharacterEntity.class,
                                    parentColumns = "playerCharacterID",
                                    childColumns = "playerCharacterID" ,
@@ -25,7 +27,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         indices = {@Index("playerCharacterID"),
                    @Index("skillID")})
 @TypeConverters(UUIDConverter.class)
-public class PlayerSkillsEntity
+public class PlayerSkillsEntity implements Serializable
 {
     @NonNull
     @ColumnInfo(name="playerCharacterID")

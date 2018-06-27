@@ -1,12 +1,13 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Stephen Hagen on 1/10/2018.
  */
 
-public interface ISkill extends Comparable<ISkill>
+public interface ISkill extends Comparable<ISkill>, Serializable
 {
     UUID getSkillID();
     void setSkillID(UUID skillID);

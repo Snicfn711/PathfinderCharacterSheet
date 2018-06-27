@@ -84,6 +84,18 @@ public class PathfinderRepository
         task.execute();
     }
 
+    public void requestPlayerSkillEntity(PathfinderRepositoryListener callingActivity, UUID playerCharacterID, UUID skillID)
+    {
+       getPlayerSkillEntityAsyncTask task = new getPlayerSkillEntityAsyncTask(playerSkillsDao);
+       task.delegate = callingActivity;
+       task.execute(playerCharacterID, skillID);
+    }
+
+    public void updatePlayerSkillEntity(PlayerSkillsEntity playerSkillsEntity)
+    {
+
+    }
+
     //endregion
 
     //region Async Tasks
@@ -227,6 +239,40 @@ public class PathfinderRepository
         protected  void onPostExecute(List<ISkill> result)
         {
             delegate.getUnformattedSkillsTaskFinished(result);
+        }
+    }
+
+    private static class getPlayerSkillEntityAsyncTask extends AsyncTask<UUID, Void, PlayerSkillsEntity>
+    {
+        private PlayerSkillsDao asyncPlayerSkillsDao;
+        private PathfinderRepositoryListener delegate = null;
+
+        getPlayerSkillEntityAsyncTask(PlayerSkillsDao dao){asyncPlayerSkillsDao = dao;}
+
+        @Override
+        protected PlayerSkillsEntity doInBackground(UUID... params)
+        {
+            return asyncPlayerSkillsDao.GetPlayerSkillEntity(params[0], params[1]);
+        }
+
+        protected  void onPostExecute(PlayerSkillsEntity result)
+        {
+            delegate.getPlayerSkillEntityTaskFinished(result);
+        }
+    }
+
+    private static class updatePlayerSkillEntityAsyncTask extends AsyncTask<PlayerSkillsEntity, Void, Void>
+    {
+        private PlayerSkillsDao asyncPlayerSkillsDao;
+        private PathfinderRepositoryListener delegate = null;
+
+        updatePlayerSkillEntityAsyncTask(PlayerSkillsDao dao){asyncPlayerSkillsDao = dao;}
+
+        @Override
+        protected Void doInBackground(PlayerSkillsEntity... params)
+        {
+            asyncPlayerSkillsDao.UpdatePlayerSkillsEntity(params[0]);
+            return null;
         }
     }
     //endregion

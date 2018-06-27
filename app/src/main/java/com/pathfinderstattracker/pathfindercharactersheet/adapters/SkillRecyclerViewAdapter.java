@@ -1,5 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.adapters;
 
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,16 +16,18 @@ import android.widget.TextView;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
+import java.util.UUID;
 
 public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecyclerViewAdapter.ViewHolder>
 {
-
     private final List<SkillForDisplay> mValues;
     private final OnListFragmentInteractionListener mListener;
     private final OnRollSkillCheckButtonClickedListener skillCheckButtonClickedListener;
+    private final OnEditSkillLongClickListener editSkillLongClickListener;
     private Animation click;
 
     public SkillRecyclerViewAdapter(List<SkillForDisplay> items, OnListFragmentInteractionListener listener, Fragment containingFragment)
@@ -38,6 +42,16 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
         {
             throw new RuntimeException(containingFragment.toString()
                     + " must implement OnPlayerCharacterUpdatedListener");
+        }
+
+        if(containingFragment instanceof OnEditSkillLongClickListener)
+        {
+            editSkillLongClickListener = (OnEditSkillLongClickListener)containingFragment;
+        }
+        else
+        {
+            throw new RuntimeException(containingFragment.toString()
+                    + " must implement OnEditSkillLongClickListener");
         }
     }
 
@@ -61,26 +75,28 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
         holder.skillTotal.setText(Integer.toString(mValues.get(position).getTotalSkillScore()));
         holder.skillStat.setText(mValues.get(position).getAddedStat().toString());
 
-        holder.recycledRow.setOnClickListener(new View.OnClickListener()
+        holder.recycledRow.setOnLongClickListener(new View.OnLongClickListener()
         {
-            @Override
-            public void onClick(View v)
-            {
-                if (null != mListener)
+                @Override
+                public boolean onLongClick (View v)
                 {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mSkill);
+                    SkillForDisplay skillForDisplay = new SkillForDisplay(holder.mSkill.getSkillID(),
+                            holder.mSkill.getAddedStat(),
+                            holder.mSkill.isArmorCheckPenaltyApplied(),
+                            holder.mSkill.getSkillName(),
+                            holder.mSkill.getTotalSkillScore());
+                    editSkillLongClickListener.onEditSkillLongClickActivated(skillForDisplay);
+                    return true;
                 }
-            }
-        });
+            });
 
         rollButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view)
             {
-                SkillForDisplay skillForDisplay = new SkillForDisplay(holder.mSkill.getAddedStat(),
+                SkillForDisplay skillForDisplay = new SkillForDisplay(holder.mSkill.getSkillID(),
+                                                                      holder.mSkill.getAddedStat(),
                                                                       holder.mSkill.isArmorCheckPenaltyApplied(),
                                                                       holder.mSkill.getSkillName(),
                                                                       holder.mSkill.getTotalSkillScore());
@@ -125,5 +141,10 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
     public interface OnRollSkillCheckButtonClickedListener
     {
         void onRollSkillCheckButtonPressed(SkillForDisplay skillClicked);
+    }
+
+    public interface OnEditSkillLongClickListener
+    {
+        void onEditSkillLongClickActivated(SkillForDisplay skillHeld);
     }
 }
