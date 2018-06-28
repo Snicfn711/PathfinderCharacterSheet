@@ -43,7 +43,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import java.util.UUID;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener, PathfinderRepositoryListener, StatsReferenceFragment.OnPlayerCharacterUpdatedListener
+public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener, StatsReferenceFragment.OnPlayerCharacterUpdatedListener, PathfinderRepository.FindPlayerCharacterAsyncTaskFinishedListener, PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener, PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener
 {
     PathfinderRepository repository;
     IPlayerCharacter newPlayerCharacter;//Todo: This is here so that when a new character is initialized we can properly initalize its skills, but it stinks. Look for a better way
@@ -117,8 +117,14 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void findCharacterProcessFinished(IPlayerCharacter playerCharacter)
+    public void onPlayerCharacterUpdated(IPlayerCharacter playerCharacter)
     {
+        ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
+        parentReferenceFragment.UpdateCharacter(playerCharacter);
+    }
+
+    @Override
+    public void onFindPlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter) {
         Bundle bundle = new Bundle();
         bundle.putSerializable("PlayerCharacter", playerCharacter);
         Fragment parentReferenceFragment = new ParentReferenceFragment();
@@ -128,37 +134,13 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void updateCharacterFinished(PlayerCharacter playerCharacter)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void getUnformattedSkillsTaskFinished(List<ISkill> result)
+    public void onGetUnformattedSkillsAsyncTaskFinished(List<ISkill> result)
     {
         repository.initializePlayerSkill(this,newPlayerCharacter, result);
     }
 
     @Override
-    public void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void initializePlayerSkillsTaskFinished()
+    public void onInitializePlayerSkillsAsyncTaskFinished()
     {
         Bundle bundle = new Bundle();
         bundle.putSerializable("PlayerCharacter", newPlayerCharacter);
@@ -166,12 +148,5 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         parentReferenceFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
-    }
-
-    @Override
-    public void onPlayerCharacterUpdated(IPlayerCharacter playerCharacter)
-    {
-        ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
-        parentReferenceFragment.UpdateCharacter(playerCharacter);
     }
 }

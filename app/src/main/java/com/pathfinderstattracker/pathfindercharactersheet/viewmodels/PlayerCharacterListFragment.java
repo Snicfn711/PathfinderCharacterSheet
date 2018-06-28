@@ -42,7 +42,7 @@ import java.util.UUID;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PlayerCharacterListFragment extends Fragment implements PathfinderRepositoryListener
+public class PlayerCharacterListFragment extends Fragment implements PathfinderRepository.GetPlayerCharacterNamesAndIDsAsyncTaskFinishedListener
 {
     private OnListFragmentInteractionListener mListener;
     private Animation click;
@@ -125,33 +125,8 @@ public class PlayerCharacterListFragment extends Fragment implements PathfinderR
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnListFragmentInteractionListener
-    {
-        // TODO: Update argument type and name
-        public void AddNewCharacter();
-        void onListFragmentInteraction(IPlayerCharacter item);
-    }
-
     @Override
-    public void findCharacterProcessFinished(IPlayerCharacter playerCharacter)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
+    public void onGetPlayerCharacterNamesAndIDsAsyncTaskFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
     {
         List<IPlayerCharacter> characterListToDisplay = new ArrayList<IPlayerCharacter>();
         List<PlayerCharacterNameAndIDEntity> characterNamesAndIDsFromDb = playerCharacterNamesAndIDs;
@@ -169,35 +144,20 @@ public class PlayerCharacterListFragment extends Fragment implements PathfinderR
         recyclerView.setAdapter(playerCharacterAdapter);
     }
 
-    @Override
-    public void updateCharacterFinished(PlayerCharacter playerCharacter)
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p/>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnListFragmentInteractionListener
     {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void getUnformattedSkillsTaskFinished(List<ISkill> result)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void initializePlayerSkillsTaskFinished()
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+        // TODO: Update argument type and name
+        public void AddNewCharacter();
+        void onListFragmentInteraction(IPlayerCharacter item);
     }
 }

@@ -8,12 +8,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.characters.Play
 
 import java.util.List;
 
+@Deprecated
 public interface PathfinderRepositoryListener
 {
-    void findCharacterProcessFinished(IPlayerCharacter playerCharacter);
-    void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs);
-    void updateCharacterFinished(PlayerCharacter playerCharacter);
-    void getUnformattedSkillsTaskFinished(List<ISkill> result);
-    void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result);
-    void initializePlayerSkillsTaskFinished();
+
 }

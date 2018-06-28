@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class EditSkillValuesDialog extends DialogFragment implements PathfinderRepositoryListener
+public class EditSkillValuesDialog extends DialogFragment implements PathfinderRepository.GetPlayerSkillEntityAsyncTaskFinishedListener
 {
     private EditText getLevelUpPoints;
     private EditText getFavoredClassPoints;
@@ -88,31 +88,7 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
     }
 
     @Override
-    public void findCharacterProcessFinished(IPlayerCharacter playerCharacter)
-    {
-
-    }
-
-    @Override
-    public void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
-    {
-
-    }
-
-    @Override
-    public void updateCharacterFinished(PlayerCharacter playerCharacter)
-    {
-
-    }
-
-    @Override
-    public void getUnformattedSkillsTaskFinished(List<ISkill> result)
-    {
-
-    }
-
-    @Override
-    public void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result)
+    public void onGetPlayerSkillEntityAsyncTaskFinished(PlayerSkillsEntity result)
     {
         getLevelUpPoints.setText(Integer.toString(result.getLevelUpPointsInvested()));
         getFavoredClassPoints.setText(Integer.toString(result.getFavoredClassPointsInvested()));
@@ -121,7 +97,7 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
         getSkillPointsButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v)
         {
             if(getLevelUpPoints.getText().toString().isEmpty() ||
-               getFavoredClassPoints.getText().toString().isEmpty())
+                    getFavoredClassPoints.getText().toString().isEmpty())
             {
                 //If any of the fields are empty, it means the user took the time to clear them out,
                 //and we don't them to be able to return to the main screen until they've fixed that
@@ -140,13 +116,5 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
             }
         }
         });
-    }
-
-    @Override
-    public void initializePlayerSkillsTaskFinished()
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
     }
 }

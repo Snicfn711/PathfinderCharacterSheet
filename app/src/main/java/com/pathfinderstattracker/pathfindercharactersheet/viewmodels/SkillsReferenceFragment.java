@@ -42,7 +42,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class SkillsReferenceFragment extends Fragment implements PathfinderRepositoryListener, SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener, SkillRecyclerViewAdapter.OnEditSkillLongClickListener
+public class SkillsReferenceFragment extends Fragment implements SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener, SkillRecyclerViewAdapter.OnEditSkillLongClickListener, PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener
 {
     private OnListFragmentInteractionListener mListener;
     private Animation click;
@@ -113,47 +113,7 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
     }
 
     @Override
-    public void findCharacterProcessFinished(IPlayerCharacter playerCharacter)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void updateCharacterFinished(PlayerCharacter playerCharacter)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void initializePlayerSkillsTaskFinished()
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void getUnformattedSkillsTaskFinished(List<ISkill> result)
+    public void onGetUnformattedSkillsAsyncTaskFinished(List<ISkill> result)
     {
         List<ISkill> skillsList = result;
         List<SkillForDisplay> skillsForDisplay = new ArrayList<>();
@@ -161,10 +121,10 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
         for(ISkill skill : skillsList)
         {
             SkillForDisplay temp = new SkillForDisplay(skill.getSkillID(),
-                                                       skill.getAddedStat(),
-                                                       skill.isArmorCheckPenaltyApplied(),
-                                                       skill.getSkillName(),
-                                                       GetSkillTotalForDisplay(skill));
+                    skill.getAddedStat(),
+                    skill.isArmorCheckPenaltyApplied(),
+                    skill.getSkillName(),
+                    GetSkillTotalForDisplay(skill));
             skillsForDisplay.add(temp);
         }
         // Set the adapter
@@ -190,7 +150,7 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
             public void onClick(View view)
             {
                 isClassSkillSortButton.startAnimation(click);
-                  //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
+                //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
 //                if(!Skill.checkIfSortedByProficiency(TempSkills))
 //                {
 //                    Collections.sort(TempSkills, Skill.compareByIsClassSkill);
@@ -208,7 +168,7 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
             public void onClick(View view)
             {
                 sortByRanksButton.startAnimation(click);
-                  //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
+                //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
 //                if(!Skill.checkIfSortedByTotalRanks(TempSkills))
 //                {
 //                    Collections.sort(TempSkills, Skill.compareByTotalRanks);
@@ -241,7 +201,6 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
     {
         OpenEditSkillsDialog(skillHeld);
     }
-
 
     public interface OnListFragmentInteractionListener
     {

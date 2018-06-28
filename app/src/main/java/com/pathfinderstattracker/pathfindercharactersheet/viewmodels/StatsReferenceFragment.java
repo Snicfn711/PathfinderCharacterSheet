@@ -61,7 +61,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 
-public class StatsReferenceFragment extends Fragment implements PathfinderRepositoryListener
+public class StatsReferenceFragment extends Fragment implements PathfinderRepository.UpdatePlayerCharacterAsyncTaskFinishedListener
 {
     private IPlayerCharacter currentPlayerCharacter;
     private PathfinderRepository repository;
@@ -347,23 +347,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
 
     //region Repository Listener Methods
     @Override
-    public void findCharacterProcessFinished(IPlayerCharacter playerCharacter)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void getCharacterNamesAndIDsProcessFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void updateCharacterFinished(PlayerCharacter playerCharacter)
+    public void onUpdatePlayerCharacterAsyncTaskFinished(PlayerCharacter playerCharacter)
     {
         AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
         SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
@@ -380,30 +364,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         combatManeuverReferenceBlockView.setValues(playerCharacter.getCombatManeuverStats());
 
         playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
-    }
-
-    @Override
-    public void getUnformattedSkillsTaskFinished(List<ISkill> result)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result)
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
-    }
-
-    @Override
-    public void initializePlayerSkillsTaskFinished()
-    {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
     }
     //endregion
 
