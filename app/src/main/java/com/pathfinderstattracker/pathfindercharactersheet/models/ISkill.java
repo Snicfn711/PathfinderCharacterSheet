@@ -17,4 +17,9 @@ public interface ISkill extends Comparable<ISkill>, Serializable
     boolean isArmorCheckPenaltyApplied();
     void setSkillName(String skillName);
     String getSkillName();
+    int getLevelUpPointsInvested();
+    void setLevelUpPointsInvested(int levelUpPointsInvested);
+    int getFavoredClassPointsInvested();
+    void setFavoredClassPointsInvested(int favoredClassPointsInvested);
+    int getTotalInvestedPoints();
 }

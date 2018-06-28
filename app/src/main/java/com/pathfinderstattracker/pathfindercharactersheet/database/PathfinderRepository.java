@@ -85,8 +85,10 @@ public class PathfinderRepository {
         task.execute(playerCharacterID, skillID);
     }
 
-    public void updatePlayerSkillEntity(PlayerSkillsEntity playerSkillsEntity) {
-
+    public void updatePlayerSkillEntity(PlayerSkillsEntity playerSkillsEntity)
+    {
+        updatePlayerSkillEntityAsyncTask task = new updatePlayerSkillEntityAsyncTask(playerSkillsDao);
+        task.execute(playerSkillsEntity);
     }
 
     //endregion
@@ -238,7 +240,6 @@ public class PathfinderRepository {
 
     private static class updatePlayerSkillEntityAsyncTask extends AsyncTask<PlayerSkillsEntity, Void, Void> {
         private PlayerSkillsDao asyncPlayerSkillsDao;
-        private UpdatePlayerSkillEntityAsyncTaskFinishedListener delegate = null;
 
         updatePlayerSkillEntityAsyncTask(PlayerSkillsDao dao) {
             asyncPlayerSkillsDao = dao;

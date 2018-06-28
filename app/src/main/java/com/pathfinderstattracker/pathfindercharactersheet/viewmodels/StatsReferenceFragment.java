@@ -390,13 +390,15 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         switch(requestCode)
         {
             case ADD_NEW_CHARACTER_NAME_DIALOG:
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK)
+                {
                     String newPlayerCharacterName = (String) bundle.getSerializable("NewPlayerCharacterName");
                     currentPlayerCharacter.setPlayerCharacterName(newPlayerCharacterName);
                 }
                 break;
             case UPDATE_ABILITY_SCORES_DIALOG:
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK)
+                {
                     List<IAbilityScore> updatedAbilityScores = (List<IAbilityScore>) bundle.getSerializable("UpdatedAbilityScores");
                     currentPlayerCharacter.setAbilityScores(updatedAbilityScores);
                 }
@@ -432,7 +434,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
 
     public interface OnPlayerCharacterUpdatedListener
     {
-        public void onPlayerCharacterUpdated(IPlayerCharacter playerCharacter);
+        void onPlayerCharacterUpdated(IPlayerCharacter playerCharacter);
     }
 
 }

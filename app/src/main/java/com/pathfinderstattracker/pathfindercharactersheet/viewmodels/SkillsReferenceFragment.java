@@ -18,36 +18,32 @@ import android.widget.TextView;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.SkillRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
-public class SkillsReferenceFragment extends Fragment implements SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener, SkillRecyclerViewAdapter.OnEditSkillLongClickListener, PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener
+public class SkillsReferenceFragment extends Fragment implements SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener, SkillRecyclerViewAdapter.OnEditSkillLongClickListener, PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener, PathfinderRepository.GetPlayerSkillEntityAsyncTaskFinishedListener
 {
     private OnListFragmentInteractionListener mListener;
     private Animation click;
-    private IPlayerCharacter playerCharacter;
-    PathfinderRepository repository;
+    private IPlayerCharacter currentPlayerCharacter;
+    private PathfinderRepository repository;
+    private List<ISkill> currentPlayerCharacterSkills;
+    private List<SkillForDisplay> currentPlayerCharacterSkillsForDisplay;
+    private SkillRecyclerViewAdapter skillAdapter;
     private View rootView;
     private static final int UPDATE_SKILL_POINTS_DIALOG = 1;
 
@@ -81,7 +77,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         Bundle getPlayerCharacter = this.getArguments();
         if(getPlayerCharacter != null)
         {
-            playerCharacter = (PlayerCharacter)getPlayerCharacter.get("PlayerCharacter");
+            currentPlayerCharacter = (PlayerCharacter)getPlayerCharacter.get("PlayerCharacter");
         }
         rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
         repository = new PathfinderRepository(this.getActivity().getApplication());
@@ -115,79 +111,13 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     @Override
     public void onGetUnformattedSkillsAsyncTaskFinished(List<ISkill> result)
     {
-        List<ISkill> skillsList = result;
-        List<SkillForDisplay> skillsForDisplay = new ArrayList<>();
+        currentPlayerCharacterSkills = result;
+        currentPlayerCharacterSkillsForDisplay = new ArrayList<>();
 
-        for(ISkill skill : skillsList)
+        for(ISkill skill : currentPlayerCharacterSkills)
         {
-            SkillForDisplay temp = new SkillForDisplay(skill.getSkillID(),
-                    skill.getAddedStat(),
-                    skill.isArmorCheckPenaltyApplied(),
-                    skill.getSkillName(),
-                    GetSkillTotalForDisplay(skill));
-            skillsForDisplay.add(temp);
+            repository.requestPlayerSkillEntity(this,currentPlayerCharacter.getPlayerCharacterID(),skill.getSkillID());
         }
-        // Set the adapter
-        Context context = rootView.getContext();
-        click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
-        final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
-        final SkillRecyclerViewAdapter skillAdapter = new SkillRecyclerViewAdapter(skillsForDisplay, mListener, this);
-        recyclerView.setAdapter(skillAdapter);
-
-        //Get and set our points invested
-        TextView skillPointsInvested = rootView.findViewById(R.id.TotalRanks);
-        TextView favoredClassPointsInvested = rootView.findViewById(R.id.FavoredClassRanks);
-        skillPointsInvested.setText(String.format("Total Ranks: %s", Integer.toString(GetTotalSkillPointsInvested(skillsList))));
-        favoredClassPointsInvested.setText(String.format("Favored Ranks: %s", Integer.toString(GetFavoredClassSkillPointsInvested(skillsList))));
-
-        //Get our buttons and set their onClickListeners
-        final ImageButton isClassSkillSortButton = rootView.findViewById(R.id.SortByIsClassSkill);
-        final ImageButton sortByRanksButton = rootView.findViewById(R.id.SortByRanks);
-        final ImageButton addNewSkillButton = rootView.findViewById(R.id.AddNewSkill);
-        isClassSkillSortButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                isClassSkillSortButton.startAnimation(click);
-                //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
-//                if(!Skill.checkIfSortedByProficiency(TempSkills))
-//                {
-//                    Collections.sort(TempSkills, Skill.compareByIsClassSkill);
-//                }
-//                else
-//                {
-//                    Collections.sort(TempSkills);
-//                }
-                skillAdapter.notifyDataSetChanged();
-            }
-        });
-        sortByRanksButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                sortByRanksButton.startAnimation(click);
-                //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
-//                if(!Skill.checkIfSortedByTotalRanks(TempSkills))
-//                {
-//                    Collections.sort(TempSkills, Skill.compareByTotalRanks);
-//                }
-//                else
-//                {
-//                    Collections.sort(TempSkills);
-//                }
-                skillAdapter.notifyDataSetChanged();
-            }
-        });
-        addNewSkillButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                addNewSkillButton.startAnimation(click);
-            }
-        });
     }
 
     @Override
@@ -202,6 +132,89 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         OpenEditSkillsDialog(skillHeld);
     }
 
+    @Override
+    public void onGetPlayerSkillEntityAsyncTaskFinished(PlayerSkillsEntity result)
+    {
+        for(ISkill skill : currentPlayerCharacterSkills)
+        {
+            if(skill.getSkillID().equals(result.getSkillID()))
+            {
+                currentPlayerCharacterSkillsForDisplay.add(new SkillForDisplay(result.getSkillID(),
+                                                                               skill.getAddedStat(),
+                                                                               skill.isArmorCheckPenaltyApplied(),
+                                                                               skill.getSkillName(),
+                                                                               GetSkillTotalForDisplay(skill,result)));
+                skill.setLevelUpPointsInvested(result.getLevelUpPointsInvested());
+                skill.setFavoredClassPointsInvested(result.getFavoredClassPointsInvested());
+            }
+        }
+
+        if(currentPlayerCharacterSkillsForDisplay.size() == currentPlayerCharacterSkills.size())
+        {
+            // Set the adapter
+            Context context = rootView.getContext();
+            click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
+            final RecyclerView recyclerView = rootView.findViewById(R.id.StatsRecycler);
+            skillAdapter = new SkillRecyclerViewAdapter(currentPlayerCharacterSkillsForDisplay, mListener, this);
+            recyclerView.setAdapter(skillAdapter);
+
+            //Get and set our points invested
+            TextView skillPointsInvested = rootView.findViewById(R.id.TotalRanks);
+            TextView favoredClassPointsInvested = rootView.findViewById(R.id.FavoredClassRanks);
+            skillPointsInvested.setText(String.format("Total Ranks: %s", Integer.toString(GetTotalSkillPointsInvested(currentPlayerCharacterSkills))));
+            favoredClassPointsInvested.setText(String.format("Favored Ranks: %s", Integer.toString(GetFavoredClassSkillPointsInvested(currentPlayerCharacterSkills))));
+
+            //Get our buttons and set their onClickListeners
+            final ImageButton isClassSkillSortButton = rootView.findViewById(R.id.SortByIsClassSkill);
+            final ImageButton sortByRanksButton = rootView.findViewById(R.id.SortByRanks);
+            final ImageButton addNewSkillButton = rootView.findViewById(R.id.AddNewSkill);
+            isClassSkillSortButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    isClassSkillSortButton.startAnimation(click);
+                    //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to change this part once we implement that
+//                if(!Skill.checkIfSortedByProficiency(TempSkills))
+//                {
+//                    Collections.sort(TempSkills, Skill.compareByIsClassSkill);
+//                }
+//                else
+//                {
+//                    Collections.sort(TempSkills);
+//                }
+                    skillAdapter.notifyDataSetChanged();
+                }
+            });
+            sortByRanksButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    sortByRanksButton.startAnimation(click);
+
+                if(!Skill.checkIfSortedByTotalRanks(currentPlayerCharacterSkills))
+                {
+                    Collections.sort(currentPlayerCharacterSkills, Skill.compareByTotalRanks);
+                }
+                else
+                {
+                    Collections.sort(currentPlayerCharacterSkills);
+                }
+                    skillAdapter.notifyDataSetChanged();
+                }
+            });
+            addNewSkillButton.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    addNewSkillButton.startAnimation(click);
+                }
+            });
+        }
+    }
+
     public interface OnListFragmentInteractionListener
     {
         // TODO: Update argument type and name
@@ -213,8 +226,8 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         int skillPoints = 0;
         for(ISkill skill:skillList)
         {
-            //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
-            //skillPoints += skill.getPointsInvested();
+            skillPoints += skill.getLevelUpPointsInvested();
+            skillPoints += skill.getFavoredClassPointsInvested();
         }
         return skillPoints;
     }
@@ -224,19 +237,18 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         int skillPoints = 0;
         for(ISkill skill:skillList)
         {
-            //As noted in the Skills object, we're changing where skill points are stored, so we're going to need to changed this part once we implement that
-           //skillPoints += skill.getFavoredClassPointsInvested();
+            skillPoints += skill.getFavoredClassPointsInvested();
         }
         return skillPoints;
     }
 
-    private int GetSkillTotalForDisplay(ISkill skillTotalToCalculate)
+    private int GetSkillTotalForDisplay(ISkill skillTotalToCalculate, PlayerSkillsEntity playerSkillsEntityWithPointsInvested)
     {
         AbilityScoreEnum statToCheck = skillTotalToCalculate.getAddedStat();
         int skillTotal = 0;
-        if(playerCharacter != null)
+        if(currentPlayerCharacter != null)
         {
-            for (IAbilityScore abilityScore : playerCharacter.getAbilityScores())
+            for (IAbilityScore abilityScore : currentPlayerCharacter.getAbilityScores())
             {
                 if(abilityScore.getStat() == statToCheck)
                 {
@@ -244,7 +256,29 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
                 }
             }
         }
-        //Since we still haven't implemented point investments, for now all that gets returned is the characters stat modifier
+        skillTotal += playerSkillsEntityWithPointsInvested.getLevelUpPointsInvested();
+        skillTotal += playerSkillsEntityWithPointsInvested.getFavoredClassPointsInvested();
+
+        return skillTotal;
+    }
+
+    private int GetSkillTotalForDisplay(SkillForDisplay skillTotalToCalculate, PlayerSkillsEntity playerSkillsEntityWithPointsInvested)
+    {
+        AbilityScoreEnum statToCheck = skillTotalToCalculate.getAddedStat();
+        int skillTotal = 0;
+        if(currentPlayerCharacter != null)
+        {
+            for (IAbilityScore abilityScore : currentPlayerCharacter.getAbilityScores())
+            {
+                if(abilityScore.getStat() == statToCheck)
+                {
+                    skillTotal += abilityScore.calculateModifier();
+                }
+            }
+        }
+        skillTotal += playerSkillsEntityWithPointsInvested.getLevelUpPointsInvested();
+        skillTotal += playerSkillsEntityWithPointsInvested.getFavoredClassPointsInvested();
+
         return skillTotal;
     }
 
@@ -264,7 +298,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     {
         Bundle args = new Bundle();
         args.putSerializable("CurrentSkillID", skillHeld.getSkillID());
-        args.putSerializable("CurrentPlayerCharacterID", playerCharacter.getPlayerCharacterID());
+        args.putSerializable("CurrentPlayerCharacterID", currentPlayerCharacter.getPlayerCharacterID());
         EditSkillValuesDialog editSkillValuesDialog = new EditSkillValuesDialog();
         editSkillValuesDialog.setTargetFragment(this, UPDATE_SKILL_POINTS_DIALOG);
         editSkillValuesDialog.setArguments(args);
@@ -279,9 +313,26 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         switch(requestCode)
         {
             case UPDATE_SKILL_POINTS_DIALOG:
-                if (resultCode == Activity.RESULT_OK) {
-                    PlayerSkillsEntity playerSkillEntityToUpdate = (PlayerSkillsEntity) bundle.getSerializable("PlayerSkillEntityToUpdate");
-                    repository.updatePlayerSkillEntity(playerSkillEntityToUpdate);
+                if (resultCode == Activity.RESULT_OK)
+                {
+                    PlayerSkillsEntity skillEntityFromDialog = (PlayerSkillsEntity)bundle.getSerializable("PlayerSkillEntityToUpdate");
+
+                    int indexToReplace = 0;
+                    for(SkillForDisplay temp : currentPlayerCharacterSkillsForDisplay)
+                    {
+                        if(temp.getSkillID().equals(skillEntityFromDialog.getSkillID()))
+                        {
+                            indexToReplace = currentPlayerCharacterSkillsForDisplay.indexOf(temp);
+                        }
+                    }
+                    SkillForDisplay updatedSkillForDisplay = new SkillForDisplay(skillEntityFromDialog.getSkillID(),
+                                                                                 currentPlayerCharacterSkillsForDisplay.get(indexToReplace).getAddedStat(),
+                                                                                 currentPlayerCharacterSkillsForDisplay.get(indexToReplace).isArmorCheckPenaltyApplied(),
+                                                                                 currentPlayerCharacterSkillsForDisplay.get(indexToReplace).getSkillName(),
+                                                                                 GetSkillTotalForDisplay(currentPlayerCharacterSkillsForDisplay.get(indexToReplace), skillEntityFromDialog));
+                    currentPlayerCharacterSkillsForDisplay.remove(indexToReplace);
+                    currentPlayerCharacterSkillsForDisplay.add(indexToReplace, updatedSkillForDisplay);
+                    skillAdapter.notifyDataSetChanged();
                 }
                 break;
         }

@@ -96,13 +96,16 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
         ImageButton getSkillPointsButton = rootView.findViewById(R.id.SaveSkillChanges);
         getSkillPointsButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v)
         {
-            if(getLevelUpPoints.getText().toString().isEmpty() ||
-                    getFavoredClassPoints.getText().toString().isEmpty())
+            if(getLevelUpPoints.getText().toString().isEmpty())
             {
-                //If any of the fields are empty, it means the user took the time to clear them out,
-                //and we don't them to be able to return to the main screen until they've fixed that
+                getLevelUpPoints.requestFocus();
             }
-            else
+            else if(getFavoredClassPoints.getText().toString().isEmpty())
+            {
+                getFavoredClassPoints.requestFocus();
+            }
+            else if(!getLevelUpPoints.getText().toString().isEmpty()&&
+                    !getFavoredClassPoints.getText().toString().isEmpty())
             {
                 PlayerSkillsEntity playerSkillsEntityToReturn = new PlayerSkillsEntity();
                 playerSkillsEntityToReturn.setPlayerID(currentPlayerCharacterID);
@@ -110,8 +113,10 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
                 playerSkillsEntityToReturn.setFavoredClassPointsInvested(Integer.parseInt(getFavoredClassPoints.getText().toString()));
                 playerSkillsEntityToReturn.setLevelUpPointsInvested(Integer.parseInt(getLevelUpPoints.getText().toString()));
 
-                Intent i = new Intent().putExtra("PlayerSkillEntityToUpdate", (Serializable)playerSkillsEntityToReturn);
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+                repository.updatePlayerSkillEntity(playerSkillsEntityToReturn);
+                //We're updating the entity here and also passing it back to the parent fragment so that the entity can get saved while the view is updating
+                Intent i = new Intent().putExtra("PlayerSkillEntityToUpdate", playerSkillsEntityToReturn);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,i);
                 dismiss();
             }
         }
