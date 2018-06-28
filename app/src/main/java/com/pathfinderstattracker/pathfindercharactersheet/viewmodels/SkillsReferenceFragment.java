@@ -144,6 +144,13 @@ public class SkillsReferenceFragment extends Fragment implements PathfinderRepos
         //TODO:Figure out how to properly use our PathfinderRepositoryListener
     }
 
+    @Override
+    public void initializePlayerSkillsTaskFinished()
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
 
     @Override
     public void getUnformattedSkillsTaskFinished(List<ISkill> result)

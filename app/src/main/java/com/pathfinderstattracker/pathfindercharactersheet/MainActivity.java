@@ -46,6 +46,7 @@ import java.util.List;
 public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener, PathfinderRepositoryListener, StatsReferenceFragment.OnPlayerCharacterUpdatedListener
 {
     PathfinderRepository repository;
+    IPlayerCharacter newPlayerCharacter;//Todo: This is here so that when a new character is initialized we can properly initalize its skills, but it stinks. Look for a better way
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -110,15 +111,9 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
 
     public void AddNewCharacter()
     {
-        IPlayerCharacter newPlayerCharacter = PlayerCharacter.CreateDefaultPlayerCharacterWithID(UUID.randomUUID());
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("PlayerCharacter", newPlayerCharacter);
+        newPlayerCharacter = PlayerCharacter.CreateDefaultPlayerCharacterWithID(UUID.randomUUID());
         repository.insertNewPlayerCharacter(newPlayerCharacter);
-        repository.initializePlayerSkill(newPlayerCharacter);
-        Fragment parentReferenceFragment = new ParentReferenceFragment();
-        parentReferenceFragment.setArguments(bundle);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
+        repository.requestSkills(this);
     }
 
     @Override
@@ -151,9 +146,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     @Override
     public void getUnformattedSkillsTaskFinished(List<ISkill> result)
     {
-        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
-        //It's a code smell, but it works for now
-        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+        repository.initializePlayerSkill(this,newPlayerCharacter, result);
     }
 
     @Override
@@ -162,6 +155,17 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
         //It's a code smell, but it works for now
         //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
+
+    @Override
+    public void initializePlayerSkillsTaskFinished()
+    {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("PlayerCharacter", newPlayerCharacter);
+        Fragment parentReferenceFragment = new ParentReferenceFragment();
+        parentReferenceFragment.setArguments(bundle);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
     }
 
     @Override

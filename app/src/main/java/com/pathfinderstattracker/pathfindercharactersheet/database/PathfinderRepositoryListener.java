@@ -15,4 +15,5 @@ public interface PathfinderRepositoryListener
     void updateCharacterFinished(PlayerCharacter playerCharacter);
     void getUnformattedSkillsTaskFinished(List<ISkill> result);
     void getPlayerSkillEntityTaskFinished(PlayerSkillsEntity result);
+    void initializePlayerSkillsTaskFinished();
 }

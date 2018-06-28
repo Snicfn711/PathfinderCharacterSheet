@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class PathfinderRepository
 {
@@ -50,10 +51,11 @@ public class PathfinderRepository
         new insertPlayerCharacterAsyncTask(playerCharacterDao).execute(EntityToInsert);
     }
 
-    public void initializePlayerSkill(IPlayerCharacter characterToInitialize)
+    public void initializePlayerSkill(PathfinderRepositoryListener callingActivity, IPlayerCharacter characterToInitialize, List<ISkill> skillsToInitialize)
     {
-        initializePlayerSkillsAsyncTask task = new initializePlayerSkillsAsyncTask(playerSkillsDao, skillsDao);
-        task.execute(characterToInitialize.getPlayerCharacterID());
+        initializePlayerSkillsAsyncTask task = new initializePlayerSkillsAsyncTask(playerSkillsDao);
+        task.delegate = callingActivity;
+        task.execute(characterToInitialize.getPlayerCharacterID(), skillsToInitialize);
     }
 
     public void requestPlayerNamesAndIDs(PathfinderRepositoryListener callingActivity)
@@ -116,43 +118,37 @@ public class PathfinderRepository
         }
     }
 
-    private static class initializePlayerSkillsAsyncTask extends AsyncTask<UUID, Void, Void>
+    private static class initializePlayerSkillsAsyncTask extends AsyncTask<Object, Void, Void>
     {
         private PlayerSkillsDao asyncPlayerSkillsDao;
-        private SkillsDao asyncSkillsDao;
+        private PathfinderRepositoryListener delegate;
 
-        initializePlayerSkillsAsyncTask(PlayerSkillsDao playerSkillsDao, SkillsDao skillsDao)
+        initializePlayerSkillsAsyncTask(PlayerSkillsDao playerSkillsDao)
         {
             asyncPlayerSkillsDao = playerSkillsDao;
-            asyncSkillsDao = skillsDao;
         }
 
         @Override
-        protected Void doInBackground(UUID... params)
+        protected Void doInBackground(Object... params)
         {
-            getUnformattedSkillsAsyncTask task = new getUnformattedSkillsAsyncTask(asyncSkillsDao);
-            try
+            UUID playerCharacterID = (UUID)params[0];
+            List<ISkill> skillsList = (List<ISkill>)params[1];
+            for(ISkill skill : skillsList)
             {
-                List<ISkill> skillsList = task.execute().get();
-                for(ISkill skill : skillsList)
-                {
-                    PlayerSkillsEntity temp = new PlayerSkillsEntity();
-                    temp.setPlayerID(params[0]);
-                    temp.setSkillID(skill.getSkillID());
-                    temp.setLevelUpPointsInvested(0);
-                    temp.setFavoredClassPointsInvested(0);
-                    asyncPlayerSkillsDao.InsertPlayerSkill(temp);
-                }
-            }
-            catch (InterruptedException e)
-            {
-                e.printStackTrace();
-            }
-            catch (ExecutionException e)
-            {
-                e.printStackTrace();
+                PlayerSkillsEntity temp = new PlayerSkillsEntity();
+                temp.setPlayerID(playerCharacterID);
+                temp.setSkillID(skill.getSkillID());
+                temp.setLevelUpPointsInvested(0);
+                temp.setFavoredClassPointsInvested(0);
+                asyncPlayerSkillsDao.InsertPlayerSkill(temp);
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nothing)
+        {
+            delegate.initializePlayerSkillsTaskFinished();
         }
     }
 

@@ -141,4 +141,12 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
         }
         });
     }
+
+    @Override
+    public void initializePlayerSkillsTaskFinished()
+    {
+        //Required method inherited from PathfinderRepositoryListener that doesn't do anything here.
+        //It's a code smell, but it works for now
+        //TODO:Figure out how to properly use our PathfinderRepositoryListener
+    }
 }
