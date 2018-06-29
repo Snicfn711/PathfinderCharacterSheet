@@ -107,4 +107,9 @@ public class ParentReferenceFragment extends Fragment
         referenceFragmentAdapter.setArgs(bundle);
         referenceFragmentAdapter.notifyDataSetChanged();
     }
+
+    public void RefreshSkills()
+    {
+        referenceFragmentAdapter.notifyDataSetChanged();
+    }
 }

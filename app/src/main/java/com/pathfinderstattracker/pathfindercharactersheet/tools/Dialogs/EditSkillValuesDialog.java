@@ -114,9 +114,7 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
                 playerSkillsEntityToReturn.setLevelUpPointsInvested(Integer.parseInt(getLevelUpPoints.getText().toString()));
 
                 repository.updatePlayerSkillEntity(playerSkillsEntityToReturn);
-                //We're updating the entity here and also passing it back to the parent fragment so that the entity can get saved while the view is updating
-                Intent i = new Intent().putExtra("PlayerSkillEntityToUpdate", playerSkillsEntityToReturn);
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,i);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,new Intent());
                 dismiss();
             }
         }

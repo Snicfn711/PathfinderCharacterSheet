@@ -38,6 +38,7 @@ import java.util.UUID;
 public class SkillsReferenceFragment extends Fragment implements SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener, SkillRecyclerViewAdapter.OnEditSkillLongClickListener, PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener, PathfinderRepository.GetPlayerSkillEntityAsyncTaskFinishedListener
 {
     private OnListFragmentInteractionListener mListener;
+    private OnSkillsUpdatedListener skillsUpdatedListener;
     private Animation click;
     private IPlayerCharacter currentPlayerCharacter;
     private PathfinderRepository repository;
@@ -94,10 +95,20 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         if (context instanceof OnListFragmentInteractionListener)
         {
             mListener = (OnListFragmentInteractionListener) context;
-        } else
+        }
+        else
         {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
+        }
+        if(context instanceof OnSkillsUpdatedListener)
+        {
+            skillsUpdatedListener = (OnSkillsUpdatedListener) context;
+        }
+        else
+        {
+            throw new RuntimeException(context.toString()
+                   +" must implement OnSkillsUpdatedListener");
         }
     }
 
@@ -262,26 +273,6 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         return skillTotal;
     }
 
-    private int GetSkillTotalForDisplay(SkillForDisplay skillTotalToCalculate, PlayerSkillsEntity playerSkillsEntityWithPointsInvested)
-    {
-        AbilityScoreEnum statToCheck = skillTotalToCalculate.getAddedStat();
-        int skillTotal = 0;
-        if(currentPlayerCharacter != null)
-        {
-            for (IAbilityScore abilityScore : currentPlayerCharacter.getAbilityScores())
-            {
-                if(abilityScore.getStat() == statToCheck)
-                {
-                    skillTotal += abilityScore.calculateModifier();
-                }
-            }
-        }
-        skillTotal += playerSkillsEntityWithPointsInvested.getLevelUpPointsInvested();
-        skillTotal += playerSkillsEntityWithPointsInvested.getFavoredClassPointsInvested();
-
-        return skillTotal;
-    }
-
     private void OpenRollD20Dialog(String titleText, int addedValue)
     {
         Bundle args = new Bundle();
@@ -309,32 +300,22 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        Bundle bundle = data.getExtras();
         switch(requestCode)
         {
             case UPDATE_SKILL_POINTS_DIALOG:
                 if (resultCode == Activity.RESULT_OK)
                 {
-                    PlayerSkillsEntity skillEntityFromDialog = (PlayerSkillsEntity)bundle.getSerializable("PlayerSkillEntityToUpdate");
-
-                    int indexToReplace = 0;
-                    for(SkillForDisplay temp : currentPlayerCharacterSkillsForDisplay)
-                    {
-                        if(temp.getSkillID().equals(skillEntityFromDialog.getSkillID()))
-                        {
-                            indexToReplace = currentPlayerCharacterSkillsForDisplay.indexOf(temp);
-                        }
-                    }
-                    SkillForDisplay updatedSkillForDisplay = new SkillForDisplay(skillEntityFromDialog.getSkillID(),
-                                                                                 currentPlayerCharacterSkillsForDisplay.get(indexToReplace).getAddedStat(),
-                                                                                 currentPlayerCharacterSkillsForDisplay.get(indexToReplace).isArmorCheckPenaltyApplied(),
-                                                                                 currentPlayerCharacterSkillsForDisplay.get(indexToReplace).getSkillName(),
-                                                                                 GetSkillTotalForDisplay(currentPlayerCharacterSkillsForDisplay.get(indexToReplace), skillEntityFromDialog));
-                    currentPlayerCharacterSkillsForDisplay.remove(indexToReplace);
-                    currentPlayerCharacterSkillsForDisplay.add(indexToReplace, updatedSkillForDisplay);
-                    skillAdapter.notifyDataSetChanged();
+                     //Once the skills are updated, we can just ask the MainActivity to refresh the fragment.
+                     //This can cause a little bit of a delay in coming back from the edit dialog due to how much goes into getting the skills.
+                     //Todo:Figure out how to speed up the process so we can remove this delay.
+                     skillsUpdatedListener.onSkillsUpdated();
                 }
                 break;
         }
+    }
+
+    public interface OnSkillsUpdatedListener
+    {
+        void onSkillsUpdated();
     }
 }

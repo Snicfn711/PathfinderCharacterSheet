@@ -43,7 +43,19 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import java.util.UUID;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener, SkillsReferenceFragment.OnListFragmentInteractionListener, EquipmentReferenceFragment.OnListFragmentInteractionListener, SpellReferenceFragment.OnListFragmentInteractionListener, InventoryReferenceFragment.OnListFragmentInteractionListener, AbilityReferenceFragment.OnListFragmentInteractionListener, PlayerCharacterListFragment.OnListFragmentInteractionListener, ParentReferenceFragment.OnFragmentInteractionListener, StatsReferenceFragment.OnPlayerCharacterUpdatedListener, PathfinderRepository.FindPlayerCharacterAsyncTaskFinishedListener, PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener, PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener
+public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener,
+                                                              SkillsReferenceFragment.OnListFragmentInteractionListener,
+                                                              EquipmentReferenceFragment.OnListFragmentInteractionListener,
+                                                              SpellReferenceFragment.OnListFragmentInteractionListener,
+                                                              InventoryReferenceFragment.OnListFragmentInteractionListener,
+                                                              AbilityReferenceFragment.OnListFragmentInteractionListener,
+                                                              PlayerCharacterListFragment.OnListFragmentInteractionListener,
+                                                              ParentReferenceFragment.OnFragmentInteractionListener,
+                                                              StatsReferenceFragment.OnPlayerCharacterUpdatedListener,
+                                                              PathfinderRepository.FindPlayerCharacterAsyncTaskFinishedListener,
+                                                              PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener,
+                                                              PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener,
+                                                              SkillsReferenceFragment.OnSkillsUpdatedListener
 {
     PathfinderRepository repository;
     IPlayerCharacter newPlayerCharacter;//Todo: This is here so that when a new character is initialized we can properly initalize its skills, but it stinks. Look for a better way
@@ -148,5 +160,12 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         parentReferenceFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
+    }
+
+    @Override
+    public void onSkillsUpdated()
+    {
+        ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
+        parentReferenceFragment.RefreshSkills();
     }
 }

@@ -129,15 +129,31 @@ public class EditAbilityScoresDialog extends DialogFragment
 
         getAbilityScoresButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v)
         {
-            if(getStrength.getText().toString().isEmpty() ||
-               getDexterity.getText().toString().isEmpty() ||
-               getConstitution.getText().toString().isEmpty() ||
-               getIntelligence.getText().toString().isEmpty() ||
-               getWisdom.getText().toString().isEmpty() ||
-               getCharisma.getText().toString().isEmpty())
+            if(getStrength.getText().toString().isEmpty())
             {
                 //If any of the fields are empty, it means the user took the time to clear them out,
-                //and we don't them to be able to return to the main screen until they've fixed that
+                //and we don't them to be able to save until they've fixed that.
+                getStrength.requestFocus();
+            }
+            else if(getDexterity.getText().toString().isEmpty())
+            {
+                getDexterity.requestFocus();
+            }
+            else if(getConstitution.getText().toString().isEmpty())
+            {
+                getConstitution.requestFocus();
+            }
+            else if(getIntelligence.getText().toString().isEmpty())
+            {
+                getIntelligence.requestFocus();
+            }
+            else if(getWisdom.getText().toString().isEmpty())
+            {
+                getWisdom.requestFocus();
+            }
+            else if(getCharisma.getText().toString().isEmpty())
+            {
+                getCharisma.requestFocus();
             }
             else
             {
