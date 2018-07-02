@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <RelativeLayout android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_height="wrap_content"
         android:layout_width="match_parent">
         <LinearLayout android:id="@+id/armorSection"
             android:layout_width="match_parent"
@@ -12,21 +13,21 @@
             android:layout_marginBottom="15dp"
             android:baselineAligned="false"
             android:orientation="horizontal">
-            <com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView
-                android:id="@+id/armorList"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"/>
             <com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_SR_ReferenceBlockView
                 android:id="@+id/hp_bab_srList"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_height="240sp"
+                android:layout_weight=".4"/>
+            <com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView
+                android:id="@+id/armorList"
+                android:layout_width="0dp"
+                android:layout_height="160sp"
+                android:layout_weight=".6"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"/>
         </LinearLayout>
         <LinearLayout android:id="@+id/movementSection"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:layout_below="@id/armorSection"
@@ -34,43 +35,45 @@
             <com.pathfinderstattracker.pathfindercharactersheet.views.MovementReferenceBlockView
                 android:id="@+id/movementList"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"/>
+                android:layout_height="280sp"
+                android:layout_weight=".55"/>
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_weight=".45"
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
                 android:orientation="vertical">
                 <com.pathfinderstattracker.pathfindercharactersheet.views.SavesReferenceBlockView
                     android:id="@+id/savesList"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="160sp"
                     android:layout_marginBottom="15dp"/>
                 <com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView
                     android:id="@+id/combatManeuverList"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="160sp"/>
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/statsSection"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
             android:layout_below="@id/movementSection"
             android:orientation="horizontal"
             android:baselineAligned="false">
                 <com.pathfinderstattracker.pathfindercharactersheet.views.AbilityScoreReferenceBlockView
                     android:id="@+id/statsList"
-                    android:layout_height="wrap_content"
+                    android:layout_height="280sp"
                     android:layout_width="0dp"
-                    android:layout_weight=".5"/>
+                    android:layout_weight=".7"/>
                 <com.pathfinderstattracker.pathfindercharactersheet.views.InitiativeReferenceBlockView
                     android:id="@+id/initiativeList"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80sp"
                     android:layout_width="0dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
-                    android:layout_weight=".5"/>
+                    android:layout_weight=".3"/>
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

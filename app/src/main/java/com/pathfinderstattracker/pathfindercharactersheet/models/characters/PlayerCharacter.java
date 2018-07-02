@@ -228,9 +228,9 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         CalculateReflexSave();
         CalculateWillSave();
         CalculateInitiative();
+        CalculateTotalAC();
         CalculateFlatFootedAC();
         CalculateTouchAC();
-        CalculateTotalAC();
         CalculateHitPoints();
         CalculateCombatManeuvers();
     }
