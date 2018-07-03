@@ -10,13 +10,13 @@
         <LinearLayout android:id="@+id/armorSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:baselineAligned="false"
             android:orientation="horizontal">
-            <com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_SR_ReferenceBlockView
+            <com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_ReferenceBlockView
                 android:id="@+id/hp_bab_srList"
                 android:layout_width="0dp"
-                android:layout_height="240sp"
+                android:layout_height="160sp"
                 android:layout_weight=".4"/>
             <com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView
                 android:id="@+id/armorList"
@@ -29,7 +29,7 @@
         <LinearLayout android:id="@+id/movementSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="5dp"
             android:layout_below="@id/armorSection"
             android:baselineAligned="false">
             <com.pathfinderstattracker.pathfindercharactersheet.views.MovementReferenceBlockView
@@ -48,11 +48,11 @@
                     android:id="@+id/savesList"
                     android:layout_width="match_parent"
                     android:layout_height="160sp"
-                    android:layout_marginBottom="15dp"/>
-                <com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView
-                    android:id="@+id/combatManeuverList"
-                    android:layout_width="match_parent"
-                    android:layout_height="160sp"/>
+                    android:layout_marginBottom="20sp"/>
+                <com.pathfinderstattracker.pathfindercharactersheet.views.InitiativeReferenceBlockView
+                    android:id="@+id/initiativeList"
+                    android:layout_height="80sp"
+                    android:layout_width="match_parent"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
@@ -67,13 +67,23 @@
                     android:layout_height="280sp"
                     android:layout_width="0dp"
                     android:layout_weight=".7"/>
-                <com.pathfinderstattracker.pathfindercharactersheet.views.InitiativeReferenceBlockView
-                    android:id="@+id/initiativeList"
-                    android:layout_height="80sp"
+                <LinearLayout
                     android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
-                    android:layout_weight=".3"/>
+                    android:layout_weight=".3">
+                    <com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView
+                        android:id="@+id/combatManeuverList"
+                        android:layout_width="match_parent"
+                        android:layout_height="160sp"
+                        android:layout_marginBottom="5dp"/>
+                    <com.pathfinderstattracker.pathfindercharactersheet.views.SpellResistanceReferenceBlockView
+                        android:id="@+id/spellResistanceView"
+                        android:layout_width="match_parent"
+                        android:layout_height="80sp"/>
+                </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

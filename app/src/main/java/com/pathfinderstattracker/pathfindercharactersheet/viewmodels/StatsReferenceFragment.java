@@ -16,13 +16,9 @@ import android.widget.ImageButton;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
-import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
@@ -33,20 +29,18 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipmen
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WondrousItems;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.races.IMovement;
-import com.pathfinderstattracker.pathfindercharactersheet.models.races.Movement;
-import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementManeuverabilityEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddNameDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditAbilityScoresDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView;
-import com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_SR_ReferenceBlockView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_ReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.InitiativeReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.MovementReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.SavesReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.AbilityScoreReferenceBlockView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.SpellResistanceReferenceBlockView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -298,8 +292,10 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         armorView.setValues(currentPlayerCharacter.getTotalAC(), currentPlayerCharacter.getTouchAC(), currentPlayerCharacter.getFlatFootedAC());
 
         //Populate and bind our HP, BAB, SR section
-        HP_BAB_SR_ReferenceBlockView hp_BAB_SRView = rootView.findViewById(R.id.hp_bab_srList);
-        hp_BAB_SRView.setValues(currentPlayerCharacter.getCalculatedHitPoints(),currentPlayerCharacter.getTotalBaseAttackBonus(), currentPlayerCharacter.getSpellResistance());
+        HP_BAB_ReferenceBlockView hp_BAB_SRView = rootView.findViewById(R.id.hp_bab_srList);
+        SpellResistanceReferenceBlockView spellResistanceReferenceBlockView = rootView.findViewById(R.id.spellResistanceView);
+        hp_BAB_SRView.setValues(currentPlayerCharacter.getCalculatedHitPoints(),currentPlayerCharacter.getTotalBaseAttackBonus());
+        spellResistanceReferenceBlockView.setValues(currentPlayerCharacter.getSpellResistance());
         //endregion
 
         return rootView;
@@ -353,15 +349,17 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
         InitiativeReferenceBlockView initiativeReferenceBlockView = rootView.findViewById(R.id.initiativeList);
         ACReferenceBlockView acReferenceBlockView = rootView.findViewById(R.id.armorList);
-        HP_BAB_SR_ReferenceBlockView hp_bab_sr_referenceBlockView = rootView.findViewById(R.id.hp_bab_srList);
+        HP_BAB_ReferenceBlockView hp_bab__referenceBlockView = rootView.findViewById(R.id.hp_bab_srList);
         CombatManeuverReferenceBlockView combatManeuverReferenceBlockView = rootView.findViewById(R.id.combatManeuverList);
+        SpellResistanceReferenceBlockView spellResistanceReferenceBlockView = rootView.findViewById(R.id.spellResistanceView);
 
         statsView.setValues(playerCharacter.getAbilityScores());
         savesView.setValues(playerCharacter.getFortitudeSave(), playerCharacter.getReflexSave(), playerCharacter.getWillSave());
         initiativeReferenceBlockView.setValues(playerCharacter.getInitiative());
         acReferenceBlockView.setValues(playerCharacter.getTotalAC(), playerCharacter.getTouchAC(), playerCharacter.getFlatFootedAC());
-        hp_bab_sr_referenceBlockView.setValues(playerCharacter.getCalculatedHitPoints(), playerCharacter.getTotalBaseAttackBonus(), playerCharacter.getSpellResistance());
+        hp_bab__referenceBlockView.setValues(playerCharacter.getCalculatedHitPoints(), playerCharacter.getTotalBaseAttackBonus());
         combatManeuverReferenceBlockView.setValues(playerCharacter.getCombatManeuverStats());
+        spellResistanceReferenceBlockView.setValues(playerCharacter.getSpellResistance());
 
         playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
     }

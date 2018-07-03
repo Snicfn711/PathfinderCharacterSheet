@@ -10,7 +10,7 @@
     </declare-styleable>
     <declare-styleable name="StatRowView"/>
     <declare-styleable name="InitiativeReferenceBlockView"/>
-    <declare-styleable name="HP_BAB_SR_ReferenceBlockView"/>
+    <declare-styleable name="HP_BAB_ReferenceBlockView"/>
     <declare-styleable name="ACReferenceBlockView"/>
     <declare-styleable name="WeaponDetailView"/>
     <declare-styleable name="ProtectionDetailView"/>

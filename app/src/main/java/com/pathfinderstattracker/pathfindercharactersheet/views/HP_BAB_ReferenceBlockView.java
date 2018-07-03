@@ -12,14 +12,13 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IHit
 /**
  * TODO: document your custom view class.
  */
-public class HP_BAB_SR_ReferenceBlockView extends LinearLayout
+public class HP_BAB_ReferenceBlockView extends LinearLayout
 {
     private TextView hitPoints;
     private TextView baseAttackBonus;
-    private TextView spellResistance;
 
 
-    public HP_BAB_SR_ReferenceBlockView(Context context, AttributeSet attrs)
+    public HP_BAB_ReferenceBlockView(Context context, AttributeSet attrs)
     {
         super(context, attrs);
         initializeViews(context);
@@ -30,19 +29,17 @@ public class HP_BAB_SR_ReferenceBlockView extends LinearLayout
         super.onFinishInflate();
         hitPoints = this.findViewById(R.id.HitPointValue);
         baseAttackBonus = this.findViewById(R.id.BaseAttackBonusValue);
-        spellResistance = this.findViewById(R.id.SpellResistanceValue);
     }
 
     private void initializeViews(Context context)
     {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.hp_bab_sr_reference_block_view, this);
+        inflater.inflate(R.layout.hp_bab_reference_block_view, this);
     }
 
-    public void setValues(IHitPoints hitPoints, int baseAttackBonus, int spellResistance)
+    public void setValues(IHitPoints hitPoints, int baseAttackBonus)
     {
         this.hitPoints.setText(Integer.toString(hitPoints.getValue()));
         this.baseAttackBonus.setText(Integer.toString(baseAttackBonus));
-        this.spellResistance.setText(Integer.toString(spellResistance));
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        android:gravity="center"
+        android:text="@string/SpellResistance"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:background="@drawable/header_border"
+        android:textColor="@color/colorPlainText"/>
+    <TextView
+        android:id="@+id/SpellResistanceValue"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".5"
+        android:gravity="center"
+        android:background="@drawable/field_border"
+        android:textColor="@color/colorPlainText"/>
+</LinearLayout>

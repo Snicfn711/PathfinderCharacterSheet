@@ -5,7 +5,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".166"
+        android:layout_weight=".25"
         android:gravity="center"
         android:text="@string/HitPoints"
         android:maxLines="1"
@@ -16,14 +16,14 @@
         android:id="@+id/HitPointValue"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".166"
+        android:layout_weight=".25"
         android:gravity="center"
         android:background="@drawable/field_border"
         android:textColor="@color/colorPlainText"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".166"
+        android:layout_weight=".25"
         android:gravity="center"
         android:text="@string/BaseAttackBonus"
         android:maxLines="1"
@@ -34,25 +34,7 @@
         android:id="@+id/BaseAttackBonusValue"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".166"
-        android:gravity="center"
-        android:background="@drawable/field_border"
-        android:textColor="@color/colorPlainText"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".166"
-        android:gravity="center"
-        android:text="@string/SpellResistance"
-        android:maxLines="1"
-        android:ellipsize="end"
-        android:background="@drawable/header_border"
-        android:textColor="@color/colorPlainText"/>
-    <TextView
-        android:id="@+id/SpellResistanceValue"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".166"
+        android:layout_weight=".25"
         android:gravity="center"
         android:background="@drawable/field_border"
         android:textColor="@color/colorPlainText"/>

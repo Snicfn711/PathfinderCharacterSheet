@@ -41,18 +41,18 @@ public class MovementReferenceBlockView extends LinearLayout
     protected void onFinishInflate()
     {
         super.onFinishInflate();
-        baseMovementFeet = this.findViewById(R.id.BaseMovmentSpeedFeetValue);
-        baseMovementSquares = this.findViewById(R.id.BaseMovmentSpeedSquaresValue);
-        armorMovementFeet = this.findViewById(R.id.ArmorMovmentSpeedFeetValue);
+        baseMovementFeet = this.findViewById(R.id.BaseMovementSpeedFeetValue);
+        baseMovementSquares = this.findViewById(R.id.BaseMovementSpeedSquaresValue);
+        armorMovementFeet = this.findViewById(R.id.ArmorMovementSpeedFeetValue);
         armorMovementSquares = this.findViewById(R.id.ArmorMovementSpeedSquaresValue);
-        flyMovementFeet = this.findViewById(R.id.FlyMovmentSpeedFeetValue);
-        flyMovementSquares = this.findViewById(R.id.FlyMovmentSpeedSquaresValue);
-        swimMovementFeet = this.findViewById(R.id.SwimMovmentSpeedFeetValue);
-        swimMovementSquares = this.findViewById(R.id.SwimMovmentSpeedSquaresValue);
-        climbMovementFeet = this.findViewById(R.id.ClimbMovmentSpeedFeetValue);
-        climbMovementSquares = this.findViewById(R.id.ClimbMovmentSpeedSquaresValue);
-        burrowMovementFeet = this.findViewById(R.id.BurrowMovmentSpeedFeetValue);
-        burrowMovementSquares = this.findViewById(R.id.BurrowMovmentSpeedSquaresValue);
+        flyMovementFeet = this.findViewById(R.id.FlyMovementSpeedFeetValue);
+        flyMovementSquares = this.findViewById(R.id.FlyMovementSpeedSquaresValue);
+        swimMovementFeet = this.findViewById(R.id.SwimMovementSpeedFeetValue);
+        swimMovementSquares = this.findViewById(R.id.SwimMovementSpeedSquaresValue);
+        climbMovementFeet = this.findViewById(R.id.ClimbMovementSpeedFeetValue);
+        climbMovementSquares = this.findViewById(R.id.ClimbMovementSpeedSquaresValue);
+        burrowMovementFeet = this.findViewById(R.id.BurrowMovementSpeedFeetValue);
+        burrowMovementSquares = this.findViewById(R.id.BurrowMovementSpeedSquaresValue);
     }
 
     public void setValues(List<IMovement> movementList)
