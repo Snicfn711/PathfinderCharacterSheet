@@ -230,7 +230,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
             @Override
             public void onClick(View view)
             {
-                int bobo = 1;
                 rollInitiative.startAnimation(click);
                 OpenRollD20Dialog("Roll Initiative", currentPlayerCharacter.getInitiative());
             }
@@ -345,21 +344,21 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     @Override
     public void onUpdatePlayerCharacterAsyncTaskFinished(PlayerCharacter playerCharacter)
     {
-        AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
-        SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
-        InitiativeReferenceBlockView initiativeReferenceBlockView = rootView.findViewById(R.id.initiativeList);
-        ACReferenceBlockView acReferenceBlockView = rootView.findViewById(R.id.armorList);
-        HP_BAB_ReferenceBlockView hp_bab__referenceBlockView = rootView.findViewById(R.id.hp_bab_srList);
-        CombatManeuverReferenceBlockView combatManeuverReferenceBlockView = rootView.findViewById(R.id.combatManeuverList);
-        SpellResistanceReferenceBlockView spellResistanceReferenceBlockView = rootView.findViewById(R.id.spellResistanceView);
-
-        statsView.setValues(playerCharacter.getAbilityScores());
-        savesView.setValues(playerCharacter.getFortitudeSave(), playerCharacter.getReflexSave(), playerCharacter.getWillSave());
-        initiativeReferenceBlockView.setValues(playerCharacter.getInitiative());
-        acReferenceBlockView.setValues(playerCharacter.getTotalAC(), playerCharacter.getTouchAC(), playerCharacter.getFlatFootedAC());
-        hp_bab__referenceBlockView.setValues(playerCharacter.getCalculatedHitPoints(), playerCharacter.getTotalBaseAttackBonus());
-        combatManeuverReferenceBlockView.setValues(playerCharacter.getCombatManeuverStats());
-        spellResistanceReferenceBlockView.setValues(playerCharacter.getSpellResistance());
+//        AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
+//        SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
+//        InitiativeReferenceBlockView initiativeReferenceBlockView = rootView.findViewById(R.id.initiativeList);
+//        ACReferenceBlockView acReferenceBlockView = rootView.findViewById(R.id.armorList);
+//        HP_BAB_ReferenceBlockView hp_bab__referenceBlockView = rootView.findViewById(R.id.hp_bab_srList);
+//        CombatManeuverReferenceBlockView combatManeuverReferenceBlockView = rootView.findViewById(R.id.combatManeuverList);
+//        SpellResistanceReferenceBlockView spellResistanceReferenceBlockView = rootView.findViewById(R.id.spellResistanceView);
+//
+//        statsView.setValues(playerCharacter.getAbilityScores());
+//        savesView.setValues(playerCharacter.getFortitudeSave(), playerCharacter.getReflexSave(), playerCharacter.getWillSave());
+//        initiativeReferenceBlockView.setValues(playerCharacter.getInitiative());
+//        acReferenceBlockView.setValues(playerCharacter.getTotalAC(), playerCharacter.getTouchAC(), playerCharacter.getFlatFootedAC());
+//        hp_bab__referenceBlockView.setValues(playerCharacter.getCalculatedHitPoints(), playerCharacter.getTotalBaseAttackBonus());
+//        combatManeuverReferenceBlockView.setValues(playerCharacter.getCombatManeuverStats());
+//        spellResistanceReferenceBlockView.setValues(playerCharacter.getSpellResistance());
 
         playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
     }

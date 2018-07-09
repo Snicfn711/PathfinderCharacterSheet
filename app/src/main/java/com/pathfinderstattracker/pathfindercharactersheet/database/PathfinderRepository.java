@@ -79,10 +79,10 @@ public class PathfinderRepository {
         task.execute();
     }
 
-    public void requestPlayerSkillEntity(GetPlayerSkillEntityAsyncTaskFinishedListener callingActivity, UUID playerCharacterID, UUID skillID) {
+    public void requestPlayerSkillEntity(GetPlayerSkillEntityAsyncTaskFinishedListener callingActivity, UUID playerCharacterID) {
         getPlayerSkillEntityAsyncTask task = new getPlayerSkillEntityAsyncTask(playerSkillsDao);
         task.delegate = callingActivity;
-        task.execute(playerCharacterID, skillID);
+        task.execute(playerCharacterID);
     }
 
     public void updatePlayerSkillEntity(PlayerSkillsEntity playerSkillsEntity)
@@ -220,7 +220,7 @@ public class PathfinderRepository {
         }
     }
 
-    private static class getPlayerSkillEntityAsyncTask extends AsyncTask<UUID, Void, PlayerSkillsEntity> {
+    private static class getPlayerSkillEntityAsyncTask extends AsyncTask<UUID, Void, List<PlayerSkillsEntity>> {
         private PlayerSkillsDao asyncPlayerSkillsDao;
         private GetPlayerSkillEntityAsyncTaskFinishedListener delegate = null;
 
@@ -229,11 +229,11 @@ public class PathfinderRepository {
         }
 
         @Override
-        protected PlayerSkillsEntity doInBackground(UUID... params) {
-            return asyncPlayerSkillsDao.GetPlayerSkillEntity(params[0], params[1]);
+        protected List<PlayerSkillsEntity> doInBackground(UUID... params) {
+            return asyncPlayerSkillsDao.GetPlayerSkillEntity(params[0]);
         }
 
-        protected void onPostExecute(PlayerSkillsEntity result) {
+        protected void onPostExecute(List<PlayerSkillsEntity> result) {
             delegate.onGetPlayerSkillEntityAsyncTaskFinished(result);
         }
     }
@@ -276,7 +276,7 @@ public class PathfinderRepository {
 
     public interface GetPlayerSkillEntityAsyncTaskFinishedListener
     {
-        void onGetPlayerSkillEntityAsyncTaskFinished(PlayerSkillsEntity result);
+        void onGetPlayerSkillEntityAsyncTaskFinished(List<PlayerSkillsEntity> result);
     }
 
     public interface UpdatePlayerSkillEntityAsyncTaskFinishedListener

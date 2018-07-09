@@ -9,6 +9,7 @@ import android.arch.persistence.room.Update;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
 
+import java.util.List;
 import java.util.UUID;
 
 @Dao
@@ -18,9 +19,8 @@ public interface PlayerSkillsDao
     @Insert
     void InsertPlayerSkill(PlayerSkillsEntity playerSkillsEntity);
     @Query("SELECT * FROM player_skills " +
-           "WHERE playerCharacterID = :playerCharacterID " +
-           "AND skillID = :skillID")
-    PlayerSkillsEntity GetPlayerSkillEntity(UUID playerCharacterID, UUID skillID);
+           "WHERE playerCharacterID = :playerCharacterID")
+    List<PlayerSkillsEntity> GetPlayerSkillEntity(UUID playerCharacterID);
     @Update
     void UpdatePlayerSkillsEntity(PlayerSkillsEntity playerSkillEntityToUpdate);
 }

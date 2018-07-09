@@ -68,7 +68,7 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
         currentSkillID = (UUID)getArguments().getSerializable("CurrentSkillID");
         currentPlayerCharacterID = (UUID)getArguments().getSerializable("CurrentPlayerCharacterID");
 
-        repository.requestPlayerSkillEntity(this, currentPlayerCharacterID, currentSkillID);
+        repository.requestPlayerSkillEntity(this, currentPlayerCharacterID);
         return rootView;
     }
 
@@ -88,10 +88,16 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
     }
 
     @Override
-    public void onGetPlayerSkillEntityAsyncTaskFinished(PlayerSkillsEntity result)
+    public void onGetPlayerSkillEntityAsyncTaskFinished(List<PlayerSkillsEntity> result)
     {
-        getLevelUpPoints.setText(Integer.toString(result.getLevelUpPointsInvested()));
-        getFavoredClassPoints.setText(Integer.toString(result.getFavoredClassPointsInvested()));
+        for(PlayerSkillsEntity playerSkillsEntity : result)
+        {
+            if(playerSkillsEntity.getSkillID().equals(currentSkillID))
+            {
+                getLevelUpPoints.setText(Integer.toString(playerSkillsEntity.getLevelUpPointsInvested()));
+                getFavoredClassPoints.setText(Integer.toString(playerSkillsEntity.getFavoredClassPointsInvested()));
+            }
+        }
 
         ImageButton getSkillPointsButton = rootView.findViewById(R.id.SaveSkillChanges);
         getSkillPointsButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v)
