@@ -7,11 +7,13 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.os.AsyncTask;
 
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.ArmorDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerSkillsDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.SkillsDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.WeaponEnchantmentDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.AbilityEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatAbilityListEntityClass;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatPrerequisiteListEntity;
@@ -36,7 +38,8 @@ import java.io.File;
 
 @Database(entities = {SkillEntity.class,
                       PlayerCharacterEntity.class,
-                      PlayerSkillsEntity.class},
+                      PlayerSkillsEntity.class,
+                      ArmorEntity.class},
                       version = 1)
 @TypeConverters(WeaponTagEnumListConverter.class)
 public abstract class PathfinderDatabase extends RoomDatabase
@@ -46,6 +49,7 @@ public abstract class PathfinderDatabase extends RoomDatabase
     public abstract PlayerCharacterDao PlayerCharacterDao();
     public abstract PlayerSkillsDao PlayerSkillsDao();
     public abstract SkillsDao SkillsDao();
+    public abstract ArmorDao ArmorDao();
 
     public static PathfinderDatabase getDatabase(Context context)
     {

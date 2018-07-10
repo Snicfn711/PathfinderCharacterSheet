@@ -8,7 +8,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementM
  * Created by Stephen Hagen on 5/1/2018.
  */
 
-public class MovementManuverabilityEnumConverter
+public class MovementManeuverabilityEnumConverter
 {
     @TypeConverter
     public MovementManeuverabilityEnum fromString(String value)
@@ -26,9 +26,7 @@ public class MovementManuverabilityEnumConverter
             case "Perfect":
                 return MovementManeuverabilityEnum.Perfect;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                return MovementManeuverabilityEnum.Average;
+                throw new RuntimeException("MovementManeuverabilityEnumConverter was given an invalid MovementManeuverabilityEnum");
         }
     }
 

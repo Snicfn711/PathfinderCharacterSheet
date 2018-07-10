@@ -45,9 +45,7 @@ public class WeaponTagEnumConverter
             case "Finesse":
                 return WeaponTagEnum.Finesse;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                return WeaponTagEnum.Improvised;
+                throw new RuntimeException("WeaponTagEnumConverter was given an invalid WeaponTagEnum");
         }
     }
 

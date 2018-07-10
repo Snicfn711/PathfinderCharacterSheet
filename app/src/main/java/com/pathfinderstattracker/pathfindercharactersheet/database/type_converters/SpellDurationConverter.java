@@ -24,16 +24,18 @@ public class SpellDurationConverter
         {
             case "Instant":
                 formattedSpellDuration.setSpellDuration(SpellDurationEnum.Instant);
+                break;
             case "Concentration":
                 formattedSpellDuration.setSpellDuration(SpellDurationEnum.Concentration);
+                break;
             case "Timed":
                 formattedSpellDuration.setSpellDuration(SpellDurationEnum.Timed);
+                break;
             case "Permanent":
                 formattedSpellDuration.setSpellDuration(SpellDurationEnum.Permanent);
+                break;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                formattedSpellDuration.setSpellDuration(SpellDurationEnum.Instant);
+                throw new RuntimeException("SpellDurationConverter was given an invalid SpellDurationEnum");
         }
         return formattedSpellDuration;
 }

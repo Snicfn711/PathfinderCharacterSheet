@@ -49,9 +49,7 @@ public class SpellAreaConverter
             case "Sphere":
                 return SpellAreaEnum.Sphere;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                return SpellAreaEnum.Cone;
+                throw new RuntimeException("SpellAreaConverter was given an invalid SpellAreaEnum");
 
         }
     }

@@ -35,9 +35,7 @@ public class SizeCategoryEnumConverter
             case "Colossal_Plus":
                 return SizeCategoryEnum.Colossal_Plus;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                return SizeCategoryEnum.Medium;
+                throw new RuntimeException("SizeCategoryEnumConverter was given an invalid SizeCategoryEnum");
         }
     }
 

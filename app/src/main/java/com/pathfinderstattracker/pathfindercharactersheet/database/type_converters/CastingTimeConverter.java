@@ -56,9 +56,7 @@ public class CastingTimeConverter
             case "More":
                 return ActionsEnum.More;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                return ActionsEnum.More;
+                throw new RuntimeException("CastingTimeConverter was given an invalid ActionsEnum");
         }
     }
 }

@@ -344,36 +344,10 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     @Override
     public void onUpdatePlayerCharacterAsyncTaskFinished(PlayerCharacter playerCharacter)
     {
-//        AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
-//        SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
-//        InitiativeReferenceBlockView initiativeReferenceBlockView = rootView.findViewById(R.id.initiativeList);
-//        ACReferenceBlockView acReferenceBlockView = rootView.findViewById(R.id.armorList);
-//        HP_BAB_ReferenceBlockView hp_bab__referenceBlockView = rootView.findViewById(R.id.hp_bab_srList);
-//        CombatManeuverReferenceBlockView combatManeuverReferenceBlockView = rootView.findViewById(R.id.combatManeuverList);
-//        SpellResistanceReferenceBlockView spellResistanceReferenceBlockView = rootView.findViewById(R.id.spellResistanceView);
-//
-//        statsView.setValues(playerCharacter.getAbilityScores());
-//        savesView.setValues(playerCharacter.getFortitudeSave(), playerCharacter.getReflexSave(), playerCharacter.getWillSave());
-//        initiativeReferenceBlockView.setValues(playerCharacter.getInitiative());
-//        acReferenceBlockView.setValues(playerCharacter.getTotalAC(), playerCharacter.getTouchAC(), playerCharacter.getFlatFootedAC());
-//        hp_bab__referenceBlockView.setValues(playerCharacter.getCalculatedHitPoints(), playerCharacter.getTotalBaseAttackBonus());
-//        combatManeuverReferenceBlockView.setValues(playerCharacter.getCombatManeuverStats());
-//        spellResistanceReferenceBlockView.setValues(playerCharacter.getSpellResistance());
-
         playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
     }
     //endregion
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener
     {
         // TODO: Update argument type and name
@@ -433,5 +407,4 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     {
         void onPlayerCharacterUpdated(IPlayerCharacter playerCharacter);
     }
-
 }

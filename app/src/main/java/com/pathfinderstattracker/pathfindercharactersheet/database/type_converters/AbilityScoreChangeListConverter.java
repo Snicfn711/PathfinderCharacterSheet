@@ -46,20 +46,24 @@ public class AbilityScoreChangeListConverter
         {
             case "STR":
                 formattedAbilityScoreChange.setStatChanged(AbilityScoreEnum.STR);
+                break;
             case "DEX":
                 formattedAbilityScoreChange.setStatChanged(AbilityScoreEnum.DEX);
+                break;
             case "CON":
                 formattedAbilityScoreChange.setStatChanged(AbilityScoreEnum.CON);
+                break;
             case "INT":
                 formattedAbilityScoreChange.setStatChanged(AbilityScoreEnum.INT);
+                break;
             case "WIS":
                 formattedAbilityScoreChange.setStatChanged(AbilityScoreEnum.WIS);
+                break;
             case "CHA":
                 formattedAbilityScoreChange.setStatChanged(AbilityScoreEnum.CHA);
+                break;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                formattedAbilityScoreChange.setStatChanged(AbilityScoreEnum.STR);
+                throw new RuntimeException("AbilityScoreChangeListConverter was given an invalid AbilityScoreEnum");
         }
         return formattedAbilityScoreChange;
     }

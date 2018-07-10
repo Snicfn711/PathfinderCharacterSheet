@@ -21,6 +21,9 @@ public class EncumbranceCalculator
                  characterStrengthScore = score.getAmount();
              }
         }
+        //Unfortunately carrying capacity doesn't have a formula that perfectly determines its value at all strength scores.
+        //There are a few stretches where the number is easier to determine, however for most points determining the proper score requires copious use of magic numbers.
+        //Since we're stuck with magic numbers anyways, we went with a switch-case to return the maximum carrying capacity.
         switch(characterStrengthScore)
         {
             case 1:

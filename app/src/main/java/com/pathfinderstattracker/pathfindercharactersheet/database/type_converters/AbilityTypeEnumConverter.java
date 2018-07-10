@@ -22,9 +22,7 @@ public class AbilityTypeEnumConverter
             case "SpellLike":
                 return AbilityTypeEnum.SpellLike;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                return AbilityTypeEnum.ExtraOrdinary;
+                throw new RuntimeException("AbilityTypeEnumConverter was given an invalid AbilityTypeEnum");
         }
     }
 

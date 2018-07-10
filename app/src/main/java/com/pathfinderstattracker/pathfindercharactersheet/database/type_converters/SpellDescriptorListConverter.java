@@ -97,9 +97,7 @@ public class SpellDescriptorListConverter
             case "Water":
                 return DescriptorEnum.Water;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                return DescriptorEnum.Acid;
+                throw new RuntimeException("SpellDescriptorListConverter was given an invalid DescriptorEnum");
         }
     }
 }

@@ -5,14 +5,14 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.MovementManuverabilityEnumConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.MovementManeuverabilityEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.MovementManeuverabilityEnum;
 
 /**
  * Created by Stephen Hagen on 5/1/2018.
  */
 @Entity
-@TypeConverters(MovementManuverabilityEnumConverter.class)
+@TypeConverters(MovementManeuverabilityEnumConverter.class)
 public class MovementEntity
 {
     @PrimaryKey

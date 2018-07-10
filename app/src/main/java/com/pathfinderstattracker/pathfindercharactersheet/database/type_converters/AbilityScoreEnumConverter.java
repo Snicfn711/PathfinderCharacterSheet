@@ -28,9 +28,7 @@ public class AbilityScoreEnumConverter
             case "CHA":
                 return AbilityScoreEnum.CHA;
             default:
-                //This may cause issues down the line if a non existent enum gets in the db somehow, but we don't have any error handling yet
-                //Todo: Add error handling
-                return AbilityScoreEnum.STR;
+                throw new RuntimeException("AbilityScoreEnumConverter was given an invalid AbilityScoreEnum");
         }
     }
 
