@@ -71,7 +71,7 @@ public class ProtectionDetailView extends ConstraintLayout
         }
         this.checkPenalty.setText(String.format("-%s", Integer.toString(protectionItem.getArmorCheckPenalty())));
         this.maxDex.setText(Integer.toString(protectionItem.getMaximumDexBonus()));
-        this.spellFailure.setText(String.format("%s%%", Integer.toString(protectionItem.getArcanceSpellFailureChance())));
+        this.spellFailure.setText(String.format("%s%%", Integer.toString(protectionItem.getArcaneSpellFailureChance())));
         this.weight.setText(String.format("%s lbs", Double.toString(protectionItem.getCurrentWeight())));
     }
 

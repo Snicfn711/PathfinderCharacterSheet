@@ -12,7 +12,7 @@ public interface IProtection extends IEquipment
     void setMaximumDexBonus(int maximumDexBonus);
     int getArmorCheckPenalty();
     void setArmorCheckPenalty(int armorCheckPenalty);
-    int getArcanceSpellFailureChance();
+    int getArcaneSpellFailureChance();
     void setArcaneSpellFailureChance(int arcaneSpellFailureChance);
     double getCurrentWeight();
     ArmorTypesEnum getArmorType();

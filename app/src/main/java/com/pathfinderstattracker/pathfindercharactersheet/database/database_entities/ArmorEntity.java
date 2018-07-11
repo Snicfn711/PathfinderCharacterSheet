@@ -6,10 +6,12 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
+import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.ArmorTypesEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.ArmorWeightCategoryEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.SizeCategoryEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
 
@@ -18,24 +20,23 @@ import java.util.UUID;
 @Entity(tableName = "armor")
 @TypeConverters({UUIDConverter.class,
                  SizeCategoryEnumConverter.class,
-                 ArmorWeightCategoryEnumConverter.class})
+                 ArmorWeightCategoryEnumConverter.class,
+                 ArmorTypesEnumConverter.class})
 public class ArmorEntity
 {
     @PrimaryKey
     @NonNull
     private UUID armorID;
     @ColumnInfo(name="cost")
-    protected double cost;
+    private double cost;
     @ColumnInfo(name="weight")
-    protected double weight;
+    private double weight;
     @ColumnInfo(name="name")
-    protected String name;
+    private String name;
     @ColumnInfo(name="description")
-    protected String description;
+    private String description;
     @ColumnInfo(name="ac_bonus")
     private int acBonus;
-    @ColumnInfo(name="magic_bonus")
-    private int magicBonus;
     @ColumnInfo(name="maximum_dex_bonus")
     private Integer maximumDexBonus;
     @ColumnInfo(name="armor_check_penalty")
@@ -48,10 +49,10 @@ public class ArmorEntity
     private ArmorWeightCategoryEnum weightCategory;
     @ColumnInfo(name="armor_size")
     private SizeCategoryEnum armorSize;
-    @ColumnInfo(name="is_magic")
-    private boolean isMagic;
     @ColumnInfo(name="is_fragile")
     private boolean isFragile;
+    @ColumnInfo(name = "armor_type")
+    private ArmorTypesEnum armorType;
 
     //region Getters and Setters
     @NonNull
@@ -103,14 +104,6 @@ public class ArmorEntity
         this.acBonus = acBonus;
     }
 
-    public int getMagicBonus() {
-        return magicBonus;
-    }
-
-    public void setMagicBonus(int magicBonus) {
-        this.magicBonus = magicBonus;
-    }
-
     public Integer getMaximumDexBonus() {
         return maximumDexBonus;
     }
@@ -159,16 +152,13 @@ public class ArmorEntity
         this.armorSize = armorSize;
     }
 
-    public boolean isMagic() {
-        return isMagic;
-    }
-
-    public void setMagic(boolean magic) {
-        isMagic = magic;
-    }
-
     public boolean isFragile(){return isFragile;}
+
     public void setFragile(boolean isFragile){this.isFragile = isFragile;}
+
+    public ArmorTypesEnum getArmorType(){return armorType;}
+
+    public void setArmorType(ArmorTypesEnum armorType){this.armorType = armorType;}
     //endregion
 
     private ArmorEntity()
@@ -178,15 +168,14 @@ public class ArmorEntity
         setName("");
         setDescription("");
         setAcBonus(0);
-        setMagicBonus(0);
         setMaximumDexBonus(null);
         setArmorCheckPenalty(null);
         setArcaneSpellFailureChance(null);
         setMaxSpeed(null);
         setWeightCategory(ArmorWeightCategoryEnum.Light);
         setArmorSize(SizeCategoryEnum.Medium);
-        setMagic(false);
         setFragile(false);
+        setArmorType(ArmorTypesEnum.Armor);
     }
 
     public ArmorEntity(UUID armorID)

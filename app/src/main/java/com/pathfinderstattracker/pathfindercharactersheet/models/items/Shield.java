@@ -84,7 +84,7 @@ public class Shield extends AbsItem implements IShield
     }
 
     @Override
-    public int getArcanceSpellFailureChance()
+    public int getArcaneSpellFailureChance()
     {
         return arcaneSpellFailureChance;
     }
@@ -172,7 +172,6 @@ public class Shield extends AbsItem implements IShield
         setIsMasterwork(isMasterwork);
         setEnchantments(enchantments);
     }
-
 
     public double getCurrentWeight()
     {

@@ -96,7 +96,7 @@ public class Armor extends AbsItem implements IArmor
     }
 
     @Override
-    public int getArcanceSpellFailureChance()
+    public int getArcaneSpellFailureChance()
     {
         return arcaneSpellFailureChance;
     }
@@ -144,7 +144,7 @@ public class Armor extends AbsItem implements IArmor
     @Override
     public ArmorTypesEnum getArmorType()
     {
-        //We're only doing this to allow for implementing custom items later. For now though, no shield should be providing anything other than an armor bonus.
+        //We're only doing this to allow for implementing custom items later. For now though, no armor should be providing anything other than an armor bonus.
         return ArmorTypesEnum.Armor;
     }
 
