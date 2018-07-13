@@ -9,6 +9,7 @@
     <string name="Error">Error</string>
     <string name="None">None</string>
     <string name="Emdash">-</string>
+    <string name="Confirm">Confirm</string>
     <!--Stat Strings-->
     <string name="StatScore">Score</string>
     <string name="StatModifier">Mod</string>
@@ -108,7 +109,7 @@
     <string name="CopperLabel">Copper: </string>
     <string name="TotalWeight">Total Weight: </string>
     <string name="TotalCost">Total Cost of Items: </string>
-    <string name="AddItemToInventroy">Add Item to Inventory</string>
+    <string name="AddItemToInventory">Add Item to Inventory</string>
     <string name="ItemName">Item Name</string>
     <string name="ItemCost">Cost</string>
     <string name="ItemWeight">Weight</string>
@@ -128,4 +129,13 @@
     <string name="SaveChanges">Save Changes</string>
     <string name="AddNameHint">Enter Name Here</string>
     <string name="NewName">New Name</string>
+    <!-- Add Armor To Inventory String -->
+    <string name="AddToInventoryLabel">Armor</string>
+    <string name="ACBonus">AC Bonus:</string>
+    <string name="MaxDexBonus">Max Dexterity Bonus:</string>
+    <string name="ArmorCheckPenalty">Armor Check Penalty:</string>
+    <string name="ArcaneSpellFailureChance">Arcane Spell Failure Chance:</string>
+    <string name="WeightLabel">Weight:</string>
+    <string name="CostLabel">Cost:</string>
+    <string name="MaximumSpeed">Maximum Speed:</string>
 </resources>

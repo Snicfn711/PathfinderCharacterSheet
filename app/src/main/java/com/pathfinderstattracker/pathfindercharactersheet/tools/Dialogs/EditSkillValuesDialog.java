@@ -14,17 +14,8 @@ import android.widget.ImageButton;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

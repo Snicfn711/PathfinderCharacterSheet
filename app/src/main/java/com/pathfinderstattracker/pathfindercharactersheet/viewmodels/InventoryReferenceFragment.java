@@ -2,6 +2,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ReusableMundaneItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddItemToInventoryDialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,10 +57,9 @@ public class InventoryReferenceFragment extends Fragment
     List<IItem> tempItems = new ArrayList<IItem>();
     //endregion
 
-    // TODO: Customize parameter argument names
-    // TODO: Customize parameters
     private OnListFragmentInteractionListener mListener;
     private Animation click;
+    private static final int ADD_ITEM_TO_INVENTORY = 1;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -93,7 +94,7 @@ public class InventoryReferenceFragment extends Fragment
 
         if (getArguments() != null)
         {
-            //Like above, since we don't have any paramters yet, there's not much to do here
+            //Like above, since we don't have any parameters yet, there's not much to do here
         }
     }
 
@@ -157,6 +158,7 @@ public class InventoryReferenceFragment extends Fragment
             public void onClick(View view)
             {
                 addNewItemButton.startAnimation(click);
+                OpenAddItemToInventoryDialog();
             }
         }));
 
@@ -213,5 +215,12 @@ public class InventoryReferenceFragment extends Fragment
             totalWeight += item.getWeightAtMediumSize();
         }
         return totalWeight;
+    }
+
+    private void OpenAddItemToInventoryDialog()
+    {
+        AddItemToInventoryDialog addItemToInventoryDialog = new AddItemToInventoryDialog();
+        addItemToInventoryDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        addItemToInventoryDialog.show(this.getFragmentManager(),"Add Item To Inventory");
     }
 }

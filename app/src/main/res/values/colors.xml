@@ -10,4 +10,5 @@
     <color name="black_overlay">#66000000</color>
     <color name="colorCaution">#EED202</color>
     <color name="colorWarning">#B33A3A</color>
+    <color name="black">#000000</color>
 </resources>

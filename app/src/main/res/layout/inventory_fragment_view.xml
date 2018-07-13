@@ -244,7 +244,7 @@
             android:layout_height="0dp"
             android:adjustViewBounds="false"
             android:background="@null"
-            android:contentDescription="@string/AddItemToInventroy"
+            android:contentDescription="@string/AddItemToInventory"
             android:scaleType="centerInside"
             android:src="@drawable/add_icon"
             app:layout_constraintTop_toBottomOf="@id/CopperLabel"
