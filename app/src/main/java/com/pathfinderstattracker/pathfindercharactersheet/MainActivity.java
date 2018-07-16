@@ -26,11 +26,14 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPla
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddItemToInventoryDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AddArmorToInventoryFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.ParentReferenceFragment;
@@ -55,7 +58,8 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
                                                               PathfinderRepository.FindPlayerCharacterAsyncTaskFinishedListener,
                                                               PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener,
                                                               PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener,
-                                                              SkillsReferenceFragment.OnSkillsUpdatedListener
+                                                              SkillsReferenceFragment.OnSkillsUpdatedListener,
+                                                              AddArmorToInventoryFragment.OnListFragmentInteractionListener
 {
     PathfinderRepository repository;
     IPlayerCharacter newPlayerCharacter;//Todo: This is here so that when a new character is initialized we can properly initalize its skills, but it stinks. Look for a better way
@@ -119,6 +123,12 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         {
             repository.requestPlayerCharacterByID(item.getPlayerCharacterID(),this);
         }
+    }
+
+    @Override
+    public void onListFragmentInteraction(IProtection item)
+    {
+
     }
 
     public void AddNewCharacter()

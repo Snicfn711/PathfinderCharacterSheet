@@ -2,20 +2,29 @@ package com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDialogFragment;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddItemToInventoryDialogAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 
-public class AddItemToInventoryDialog extends AppCompatDialogFragment
+public class AddItemToInventoryDialog extends DialogFragment
 {
+    AddItemToInventoryDialogAdapter addItemToInventoryDialogAdapter;
+    ViewPager viewPager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View rootView = inflater.inflate(R.layout.add_item_to_inventory_dialog_view, container, false);
+        addItemToInventoryDialogAdapter = new AddItemToInventoryDialogAdapter(getChildFragmentManager());
+        viewPager = (ViewPager)rootView.findViewById(R.id.AddItemToInventoryViewPager);
+        viewPager.setAdapter(addItemToInventoryDialogAdapter);
         return rootView;
     }
 
@@ -30,7 +39,7 @@ public class AddItemToInventoryDialog extends AppCompatDialogFragment
         if(d != null)
         {
             //The app is locked into a portrait view, so we're not too worried about checking our orientation or adjusting accordingly
-            d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (displayHeight * .5));
+            d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
     }
 }
