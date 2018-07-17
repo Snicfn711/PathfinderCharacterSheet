@@ -17,29 +17,41 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent=".2"/>
     <android.support.constraint.Guideline
+        android:id="@+id/AddArmorToInventoryDescriptionVerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".3"/>
+    <android.support.constraint.Guideline
         android:id="@+id/AddArmorToInventoryNameHorizontalGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".2"/>
+        app:layout_constraintGuide_percent=".12"/>
     <android.support.constraint.Guideline
         android:id="@+id/AddArmorToInventoryACBonusHorizontalGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".4"/>
+        app:layout_constraintGuide_percent=".24"/>
     <android.support.constraint.Guideline
         android:id="@+id/AddArmorToInventoryArmorPenaltyHorizontalGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".6"/>
+        app:layout_constraintGuide_percent=".36"/>
     <android.support.constraint.Guideline
         android:id="@+id/AddArmorToInventoryWeightHorizontalGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent=".8"/>
+        app:layout_constraintGuide_percent=".48"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/AddArmorToInventorySpeedHorizontalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".6"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -53,10 +65,11 @@
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryNameHorizontalGuideline"
         android:gravity="center"/>
     <Spinner
-        android:id="@+id/AddItemToInventoryDropdown"
+        android:id="@+id/AddArmorToInventoryDropdown"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
+        android:prompt="@string/SelectAnArmorPrompt"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryNameVerticalGuideline"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryNameVerticalGuideline"
         app:layout_constraintTop_toTopOf="parent"
@@ -64,7 +77,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryNameHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryACBonusLabel"
+        android:id="@+id/AddArmorToInventoryACBonusLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/ACBonus"
@@ -73,24 +86,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryNameHorizontalGuideline"
-        app:layout_constraintRight_toLeftOf="@id/AddItemToInventoryACBonusDisplay"
-        app:layout_constraintEnd_toStartOf="@id/AddItemToInventoryACBonusDisplay"
-        app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryACBonusHorizontalGuideline"
-        />
+        app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryACBonusDisplay"
+        app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryACBonusDisplay"
+        app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryACBonusHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryACBonusDisplay"
+        android:id="@+id/AddArmorToInventoryACBonusDisplay"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
         android:gravity="center"
-        app:layout_constraintLeft_toRightOf="@id/AddItemToInventoryACBonusLabel"
-        app:layout_constraintStart_toEndOf="@id/AddItemToInventoryACBonusLabel"
+        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryACBonusLabel"
+        app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryACBonusLabel"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryNameHorizontalGuideline"
         app:layout_constraintRight_toLeftOf="@+id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintEnd_toStartOf="@+id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryACBonusHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryMaxDexBonusLabel"
+        android:id="@+id/AddArmorToInventoryMaxDexBonusLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/MaxDexBonus"
@@ -99,23 +111,23 @@
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryNameHorizontalGuideline"
-        app:layout_constraintRight_toLeftOf="@id/AddItemToInventoryMaxDexBonusDisplay"
-        app:layout_constraintEnd_toStartOf="@id/AddItemToInventoryMaxDexBonusDisplay"
+        app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryMaxDexBonusDisplay"
+        app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryMaxDexBonusDisplay"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryACBonusHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryMaxDexBonusDisplay"
+        android:id="@+id/AddArmorToInventoryMaxDexBonusDisplay"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
         android:gravity="center"
-        app:layout_constraintLeft_toRightOf="@id/AddItemToInventoryMaxDexBonusLabel"
-        app:layout_constraintStart_toEndOf="@id/AddItemToInventoryMaxDexBonusLabel"
+        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryMaxDexBonusLabel"
+        app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryMaxDexBonusLabel"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryNameHorizontalGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryACBonusHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryArmorPenaltyLabel"
+        android:id="@+id/AddArmorToInventoryArmorPenaltyLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/ArmorCheckPenalty"
@@ -124,23 +136,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryACBonusHorizontalGuideline"
-        app:layout_constraintRight_toLeftOf="@id/AddItemToInventoryArmorPenaltyDisplay"
-        app:layout_constraintEnd_toStartOf="@id/AddItemToInventoryArmorPenaltyDisplay"
+        app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryArmorPenaltyDisplay"
+        app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryArmorPenaltyDisplay"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryArmorPenaltyHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryArmorPenaltyDisplay"
+        android:id="@+id/AddArmorToInventoryArmorPenaltyDisplay"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
         android:gravity="center"
-        app:layout_constraintLeft_toRightOf="@id/AddItemToInventoryArmorPenaltyLabel"
-        app:layout_constraintStart_toEndOf="@id/AddItemToInventoryArmorPenaltyLabel"
+        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryArmorPenaltyLabel"
+        app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryArmorPenaltyLabel"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryACBonusHorizontalGuideline"
         app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryArmorPenaltyHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryArcaneSpellFailureLabel"
+        android:id="@+id/AddArmorToInventoryArcaneSpellFailureLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/ArcaneSpellFailureChance"
@@ -149,23 +161,23 @@
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryACBonusHorizontalGuideline"
-        app:layout_constraintRight_toLeftOf="@id/AddItemToInventoryMaxDexBonusDisplay"
-        app:layout_constraintEnd_toStartOf="@id/AddItemToInventoryMaxDexBonusDisplay"
+        app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryMaxDexBonusDisplay"
+        app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryMaxDexBonusDisplay"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryArmorPenaltyHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryArcaneSpellFailureDisplay"
+        android:id="@+id/AddArmorToInventoryArcaneSpellFailureDisplay"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
         android:gravity="center"
-        app:layout_constraintLeft_toRightOf="@id/AddItemToInventoryArcaneSpellFailureLabel"
-        app:layout_constraintStart_toEndOf="@id/AddItemToInventoryArcaneSpellFailureLabel"
+        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryArcaneSpellFailureLabel"
+        app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryArcaneSpellFailureLabel"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryACBonusHorizontalGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryArmorPenaltyHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryWeightLabel"
+        android:id="@+id/AddArmorToInventoryWeightLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/WeightLabel"
@@ -174,23 +186,23 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryArmorPenaltyHorizontalGuideline"
-        app:layout_constraintRight_toLeftOf="@id/AddItemToInventoryWeightDisplay"
-        app:layout_constraintEnd_toStartOf="@id/AddItemToInventoryWeightDisplay"
+        app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryWeightDisplay"
+        app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryWeightDisplay"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryWeightHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryWeightDisplay"
+        android:id="@+id/AddArmorToInventoryWeightDisplay"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
         android:gravity="center"
-        app:layout_constraintLeft_toRightOf="@id/AddItemToInventoryWeightLabel"
-        app:layout_constraintStart_toEndOf="@id/AddItemToInventoryWeightLabel"
+        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryWeightLabel"
+        app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryWeightLabel"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryArmorPenaltyHorizontalGuideline"
         app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryWeightHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryCostLabel"
+        android:id="@+id/AddArmorToInventoryCostLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:text="@string/CostLabel"
@@ -199,46 +211,68 @@
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryArmorPenaltyHorizontalGuideline"
-        app:layout_constraintRight_toLeftOf="@id/AddItemToInventoryCostDisplay"
-        app:layout_constraintEnd_toStartOf="@id/AddItemToInventoryCostDisplay"
+        app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryCostDisplay"
+        app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryCostDisplay"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryWeightHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventoryCostDisplay"
+        android:id="@+id/AddArmorToInventoryCostDisplay"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
         android:gravity="center"
-        app:layout_constraintLeft_toRightOf="@id/AddItemToInventoryCostLabel"
-        app:layout_constraintStart_toEndOf="@id/AddItemToInventoryCostLabel"
+        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryCostLabel"
+        app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryCostLabel"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryArmorPenaltyHorizontalGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryWeightHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventorySpeedLabel"
+        android:id="@+id/AddArmorToInventorySpeedLabel"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:text="@string/ArmorCheckPenalty"
+        android:text="@string/MaximumSpeed"
         android:textColor="@color/colorPlainText"
         android:gravity="center_vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryWeightHorizontalGuideline"
-        app:layout_constraintRight_toLeftOf="@id/AddItemToInventorySpeedDisplay"
-        app:layout_constraintEnd_toStartOf="@id/AddItemToInventorySpeedDisplay"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintRight_toLeftOf="@id/AddArmorToInventorySpeedDisplay"
+        app:layout_constraintEnd_toStartOf="@id/AddArmorToInventorySpeedDisplay"
+        app:layout_constraintBottom_toTopOf="@id/AddArmorToInventorySpeedHorizontalGuideline"/>
     <TextView
-        android:id="@+id/AddItemToInventorySpeedDisplay"
+        android:id="@+id/AddArmorToInventorySpeedDisplay"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
         android:gravity="center"
-        app:layout_constraintLeft_toRightOf="@id/AddItemToInventorySpeedLabel"
-        app:layout_constraintStart_toEndOf="@id/AddItemToInventorySpeedLabel"
+        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventorySpeedLabel"
+        app:layout_constraintStart_toEndOf="@id/AddArmorToInventorySpeedLabel"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventoryWeightHorizontalGuideline"
         app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryCenterVerticalGuideline"
         app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryCenterVerticalGuideline"
+        app:layout_constraintBottom_toTopOf="@id/AddArmorToInventorySpeedHorizontalGuideline"/>
+    <TextView
+        android:id="@+id/AddArmorToInventoryDescriptionLabel"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textColor="@color/colorPlainText"
+        android:text="@string/DescriptionLabel"
+        android:gravity="left|top"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/AddArmorToInventorySpeedHorizontalGuideline"
+        app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryDescriptionVerticalGuideline"
+        app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryDescriptionVerticalGuideline"
         app:layout_constraintBottom_toBottomOf="parent"/>
-
-
+    <TextView
+        android:id="@+id/AddArmorToInventoryDescriptionDisplay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:textColor="@color/colorPlainText"
+        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryDescriptionVerticalGuideline"
+        app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryDescriptionVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/AddArmorToInventorySpeedHorizontalGuideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>
