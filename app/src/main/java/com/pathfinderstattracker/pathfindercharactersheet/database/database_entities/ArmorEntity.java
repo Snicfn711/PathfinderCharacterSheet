@@ -15,6 +15,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorType
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 @Entity(tableName = "armor")
@@ -22,7 +23,7 @@ import java.util.UUID;
                  SizeCategoryEnumConverter.class,
                  ArmorWeightCategoryEnumConverter.class,
                  ArmorTypesEnumConverter.class})
-public class ArmorEntity
+public class ArmorEntity implements Serializable
 {
     @PrimaryKey
     @NonNull
@@ -53,6 +54,8 @@ public class ArmorEntity
     private boolean isFragile;
     @ColumnInfo(name = "armor_type")
     private ArmorTypesEnum armorType;
+    @ColumnInfo(name = "magic_bonus")
+    private Integer magicBonus;
 
     //region Getters and Setters
     @NonNull
@@ -159,6 +162,9 @@ public class ArmorEntity
     public ArmorTypesEnum getArmorType(){return armorType;}
 
     public void setArmorType(ArmorTypesEnum armorType){this.armorType = armorType;}
+
+    public Integer getMagicBonus(){return magicBonus;}
+    public void setMagicBonus(Integer magicBonus){this.magicBonus = magicBonus;}
     //endregion
 
     private ArmorEntity()
@@ -182,5 +188,11 @@ public class ArmorEntity
     {
         this();
         setArmorID(armorID);
+    }
+
+    @Override
+    public String toString()
+    {
+        return name;
     }
 }

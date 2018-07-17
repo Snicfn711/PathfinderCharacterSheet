@@ -19,6 +19,7 @@ public class Shield extends AbsItem implements IShield
     private boolean isMagic;
     private int magicBonus;
     private boolean isMasterwork;
+    private boolean isFragile;
     private List<IWeaponEnchantment> enchantments; //Shields are enchanted as weapons in RAW?
     private ArmorTypesEnum armorType;
 
@@ -119,6 +120,18 @@ public class Shield extends AbsItem implements IShield
     public void setIsMagic(boolean isMagic)
     {
         this.isMagic = isMagic;
+    }
+
+    @Override
+    public boolean isFragile()
+    {
+        return isFragile;
+    }
+
+    @Override
+    public void setIsFragile(boolean isFragile)
+    {
+        this.isFragile = isFragile;
     }
 
     public boolean isMasterwork(){return isMasterwork;}

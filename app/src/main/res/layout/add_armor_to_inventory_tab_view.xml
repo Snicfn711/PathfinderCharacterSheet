@@ -69,7 +69,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
-        android:prompt="@string/SelectAnArmorPrompt"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryNameVerticalGuideline"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryNameVerticalGuideline"
         app:layout_constraintTop_toTopOf="parent"

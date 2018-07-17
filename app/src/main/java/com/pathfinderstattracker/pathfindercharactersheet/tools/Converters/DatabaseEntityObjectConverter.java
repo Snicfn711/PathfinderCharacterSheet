@@ -1,11 +1,26 @@
 package com.pathfinderstattracker.pathfindercharactersheet.tools.Converters;
 
+import android.arch.persistence.room.ColumnInfo;
+
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
+import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
+
+import java.util.List;
+import java.util.UUID;
 
 public class DatabaseEntityObjectConverter
 {
@@ -70,6 +85,81 @@ public class DatabaseEntityObjectConverter
         ObjectToReturn.setAddedStat(skillObject.getAddedStat());
         ObjectToReturn.setArmorCheckPenaltyApplied(skillObject.isArmorCheckPenaltyApplied());
         ObjectToReturn.setSkillName(skillObject.getSkillName());
+        return ObjectToReturn;
+    }
+
+    public static ArmorEntity ConvertProtectionObjectToArmorEntity(IProtection protection)
+    {
+        ArmorEntity ObjectToReturn = new ArmorEntity(protection.getItemID());
+        ObjectToReturn.setCost(protection.getCost());
+        ObjectToReturn.setWeight(protection.getCurrentWeight());
+        ObjectToReturn.setName(protection.getName());
+        ObjectToReturn.setDescription(protection.getDescription());
+        ObjectToReturn.setAcBonus(protection.getACBonus());
+        ObjectToReturn.setMaximumDexBonus(protection.getMaximumDexBonus());
+        ObjectToReturn.setArmorCheckPenalty(protection.getArmorCheckPenalty());
+        ObjectToReturn.setArcaneSpellFailureChance(protection.getArcaneSpellFailureChance());
+        if(protection instanceof IArmor)
+        {
+            ObjectToReturn.setMaxSpeed(((IArmor) protection).getMaxSpeed());
+            ObjectToReturn.setWeightCategory(((IArmor) protection).getWeightCategory());
+        }
+        else
+        {
+            ObjectToReturn.setMaxSpeed(null);
+            ObjectToReturn.setWeightCategory(null);
+        }
+        ObjectToReturn.setArmorSize(protection.getSizeCategory());
+        ObjectToReturn.setFragile(protection.isFragile());
+        ObjectToReturn.setArmorType(protection.getArmorType());
+        ObjectToReturn.setMagicBonus(protection.getMagicBonus());
+        return ObjectToReturn;
+    }
+
+    public static IArmor ConvertArmorEntityToArmorObject(ArmorEntity armorEntity)
+    {
+        IArmor ObjectToReturn = new Armor();
+
+        ObjectToReturn.setItemID(armorEntity.getArmorID());
+        ObjectToReturn.setCost(armorEntity.getCost());
+        ObjectToReturn.setWeightAtMediumSize(armorEntity.getWeight());
+        ObjectToReturn.setName(armorEntity.getName());
+        ObjectToReturn.setDescription(armorEntity.getDescription());
+        ObjectToReturn.setACBonus(armorEntity.getAcBonus());
+        ObjectToReturn.setMagicBonus(armorEntity.getMagicBonus());
+        ObjectToReturn.setMaxSpeed(armorEntity.getMaxSpeed());
+        ObjectToReturn.setWeightCategory(armorEntity.getWeightCategory());
+        ObjectToReturn.setMaximumDexBonus(armorEntity.getMaximumDexBonus());
+        ObjectToReturn.setArmorCheckPenalty(armorEntity.getArmorCheckPenalty());
+        ObjectToReturn.setArcaneSpellFailureChance(armorEntity.getArcaneSpellFailureChance());
+        ObjectToReturn.setSizeCategory(armorEntity.getArmorSize());
+        //This next line isn't strictly necessary since the getter always returns "Armor" but if we create weird custom amros it'll be useful
+        ObjectToReturn.setArmorType(armorEntity.getArmorType());
+        ObjectToReturn.setIsFragile(armorEntity.isFragile());
+
+        return ObjectToReturn;
+    }
+
+    public static IShield ConvertArmorEntityToShieldObject(ArmorEntity armorEntity)
+    {
+        IShield ObjectToReturn = new Shield();
+
+        ObjectToReturn.setItemID(armorEntity.getArmorID());
+        ObjectToReturn.setCost(armorEntity.getCost());
+        ObjectToReturn.setWeightAtMediumSize(armorEntity.getWeight());
+        ObjectToReturn.setName(armorEntity.getName());
+        ObjectToReturn.setDescription(armorEntity.getDescription());
+        ObjectToReturn.setACBonus(armorEntity.getAcBonus());
+        ObjectToReturn.setMagicBonus(armorEntity.getMagicBonus());
+        ObjectToReturn.setMaximumDexBonus(armorEntity.getMaximumDexBonus());
+        ObjectToReturn.setArmorCheckPenalty(armorEntity.getArmorCheckPenalty());
+        ObjectToReturn.setArcaneSpellFailureChance(armorEntity.getArcaneSpellFailureChance());
+        ObjectToReturn.setSizeCategory(armorEntity.getArmorSize());
+        //This next line isn't strictly necessary since the getter always returns "Armor" but if we create weird custom amros it'll be useful
+        ObjectToReturn.setArmorType(armorEntity.getArmorType());
+        ObjectToReturn.setIsFragile(armorEntity.isFragile());
+        //No shield affects either a player's max speed nor do they have armor weight categories, so those two fields are omitted here
+
         return ObjectToReturn;
     }
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.InventoryRecyclerViewAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.AbsItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ConsumableMundaneItem;
@@ -59,6 +60,7 @@ public class InventoryReferenceFragment extends Fragment
 
     private OnListFragmentInteractionListener mListener;
     private Animation click;
+    private PathfinderRepository repository;
     private static final int ADD_ITEM_TO_INVENTORY = 1;
 
     /**
@@ -104,6 +106,7 @@ public class InventoryReferenceFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.inventory_fragment_view, container, false);
         Context context = rootView.getContext();
+        repository = new PathfinderRepository(this.getActivity().getApplication());
 
         //Set up our adapter
         final RecyclerView inventoryRecyclerView = rootView.findViewById(R.id.InventoryRecycler);

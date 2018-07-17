@@ -8,6 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.ArmorDao;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerArmorDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerSkillsDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.SkillsDao;
@@ -18,6 +19,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.FeatPrerequisiteListEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.MovementEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PrerequisiteEntity;
@@ -39,7 +41,8 @@ import java.io.File;
 @Database(entities = {SkillEntity.class,
                       PlayerCharacterEntity.class,
                       PlayerSkillsEntity.class,
-                      ArmorEntity.class},
+                      ArmorEntity.class,
+                      PlayerArmorEntity.class},
                       version = 1)
 @TypeConverters(WeaponTagEnumListConverter.class)
 public abstract class PathfinderDatabase extends RoomDatabase
@@ -50,6 +53,7 @@ public abstract class PathfinderDatabase extends RoomDatabase
     public abstract PlayerSkillsDao PlayerSkillsDao();
     public abstract SkillsDao SkillsDao();
     public abstract ArmorDao ArmorDao();
+    public abstract PlayerArmorDao PlayerArmorDao();
 
     public static PathfinderDatabase getDatabase(Context context)
     {

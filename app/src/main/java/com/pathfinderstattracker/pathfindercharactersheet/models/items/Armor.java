@@ -19,6 +19,7 @@ public class Armor extends AbsItem implements IArmor
     private ArmorWeightCategoryEnum weightCategory;
     private SizeCategoryEnum armorSize;
     private boolean isMagic;
+    private boolean isFragile;
     private List<IArmorEnchantment> enchantments;
 
     //region Getters and Setters
@@ -152,6 +153,17 @@ public class Armor extends AbsItem implements IArmor
     public void setArmorType(ArmorTypesEnum armorType)
     {
         //Do nothing, see getArmorType for why
+    }
+
+    public boolean isFragile()
+    {
+        return isFragile;
+    }
+
+    @Override
+    public void setIsFragile(boolean isFragile)
+    {
+        this.isFragile = isFragile;
     }
     //endregion
 

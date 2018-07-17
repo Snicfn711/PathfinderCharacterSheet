@@ -6,13 +6,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 
-public class AddArmorToInventoryFragment extends Fragment
+import java.util.ArrayList;
+import java.util.List;
+
+public class AddArmorToInventoryFragment extends Fragment implements PathfinderRepository.GetAllArmorsAsyncTaskFinishedListener
 {
+    private View rootView;
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -49,8 +58,11 @@ public class AddArmorToInventoryFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        View rootView = inflater.inflate(R.layout.add_armor_to_inventory_tab_view, container, false);
+        rootView = inflater.inflate(R.layout.add_armor_to_inventory_tab_view, container, false);
         Context context = rootView.getContext();
+        PathfinderRepository repository = new PathfinderRepository(this.getActivity().getApplication());
+        repository.requestArmors(this);
+
         return rootView;
     }
 
@@ -90,5 +102,13 @@ public class AddArmorToInventoryFragment extends Fragment
     {
         // TODO: Update argument type and name
         void onListFragmentInteraction(IProtection item);
+    }
+
+    @Override
+    public void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result)
+    {
+        Spinner armorSpinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
+        ArrayAdapter<ArmorEntity> armorAdapter = new ArrayAdapter<ArmorEntity>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, result);
+        armorSpinner.setAdapter(armorAdapter);
     }
 }

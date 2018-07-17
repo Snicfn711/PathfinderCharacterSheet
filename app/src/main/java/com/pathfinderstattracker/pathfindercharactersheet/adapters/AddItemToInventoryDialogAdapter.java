@@ -5,7 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AddArmorToInventoryFragment;
+
+import java.util.List;
 
 public class AddItemToInventoryDialogAdapter extends FragmentPagerAdapter
 {
@@ -23,6 +26,7 @@ public class AddItemToInventoryDialogAdapter extends FragmentPagerAdapter
         {
             case 0:
                 fragment = new AddArmorToInventoryFragment();
+                fragment.setArguments(args);
                 return fragment;
             default:
                 return fragment;

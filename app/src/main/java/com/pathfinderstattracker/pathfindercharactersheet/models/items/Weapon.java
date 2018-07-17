@@ -26,6 +26,7 @@ public class Weapon extends AbsItem implements IWeapon
     private SizeCategoryEnum sizeCategory;
     private int requiredStrength;
     private List<IWeaponEnchantment> enchantments;
+    private boolean isFragile;
 
     //region Getters and Setters
     @Override
@@ -206,7 +207,8 @@ public class Weapon extends AbsItem implements IWeapon
     {
         this.enchantments = enchantments;
     }
-
+    public boolean isFragile() {return isFragile;}
+    public void setIsFragile(boolean isFragile){this.isFragile = isFragile;}
     //endregion
 
 

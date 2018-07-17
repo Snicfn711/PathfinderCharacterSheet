@@ -11,7 +11,12 @@ import android.view.ViewGroup;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddItemToInventoryDialogAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddItemToInventoryDialog extends DialogFragment
 {
@@ -42,4 +47,6 @@ public class AddItemToInventoryDialog extends DialogFragment
             d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         }
     }
+
+
 }

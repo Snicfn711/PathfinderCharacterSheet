@@ -4,9 +4,12 @@ import android.app.Application;
 import android.app.FragmentManager;
 import android.os.AsyncTask;
 
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.ArmorDao;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerArmorDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerSkillsDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.SkillsDao;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
@@ -17,6 +20,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
 import com.pathfinderstattracker.pathfindercharactersheet.views.InitiativeReferenceBlockView;
@@ -30,6 +34,8 @@ public class PathfinderRepository {
     private PlayerCharacterDao playerCharacterDao;
     private SkillsDao skillsDao;
     private PlayerSkillsDao playerSkillsDao;
+    private ArmorDao armorDao;
+    private PlayerArmorDao playerArmorDao;
 
     public PathfinderRepository(Application application) {
         PathfinderDatabase database = PathfinderDatabase.getDatabase(application);
@@ -39,6 +45,8 @@ public class PathfinderRepository {
         playerCharacterDao = database.PlayerCharacterDao();
         skillsDao = database.SkillsDao();
         playerSkillsDao = database.PlayerSkillsDao();
+        armorDao = database.ArmorDao();
+        playerArmorDao = database.PlayerArmorDao();
     }
 
     //region Synchronous Methods
@@ -89,6 +97,13 @@ public class PathfinderRepository {
     {
         updatePlayerSkillEntityAsyncTask task = new updatePlayerSkillEntityAsyncTask(playerSkillsDao);
         task.execute(playerSkillsEntity);
+    }
+
+    public void requestArmors(GetAllArmorsAsyncTaskFinishedListener callingActivity)
+    {
+        getAllArmorsAsyncTask task = new getAllArmorsAsyncTask(armorDao);
+        task.delegate = callingActivity;
+        task.execute();
     }
 
     //endregion
@@ -251,6 +266,26 @@ public class PathfinderRepository {
             return null;
         }
     }
+
+    private static class getAllArmorsAsyncTask extends AsyncTask<Void, Void, List<ArmorEntity>>
+    {
+        private ArmorDao asyncArmorDao;
+        private GetAllArmorsAsyncTaskFinishedListener delegate;
+
+        getAllArmorsAsyncTask(ArmorDao dao){asyncArmorDao = dao;}
+
+        @Override
+        protected List<ArmorEntity> doInBackground(Void... voids)
+        {
+            return asyncArmorDao.getAllArmors();
+        }
+
+        @Override
+        protected void onPostExecute(List<ArmorEntity> result)
+        {
+            delegate.onGetAllArmorsAsyncTaskFinished(result);
+        }
+    }
     //endregion
 
     //region Repository Listeners
@@ -287,6 +322,16 @@ public class PathfinderRepository {
     public interface InitializePlayerSkillsAsyncTaskFinishedListener
     {
         void onInitializePlayerSkillsAsyncTaskFinished();
+    }
+
+    public interface GetPlayerArmorEntityAsyncTaskFinishedListener
+    {
+        void onGetPlayerArmorEntityAsyncTaskFinished();
+    }
+
+    public interface GetAllArmorsAsyncTaskFinishedListener
+    {
+        void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result);
     }
     //endregion
 }

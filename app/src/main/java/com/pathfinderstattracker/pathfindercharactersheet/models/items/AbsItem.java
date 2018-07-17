@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Stephen Hagen on 3/29/2018.
@@ -11,12 +12,17 @@ import java.util.List;
 
 public abstract class AbsItem implements IItem
 {
+    protected UUID itemID;
     protected double cost;
     protected double weight;
     protected String name;
     protected String description;
 
     //region Getters and Setters
+    @Override
+    public UUID getItemID(){return itemID;}
+    @Override
+    public void setItemID(UUID itemID){this.itemID = itemID;}
     @Override
     public double getCost()
     {

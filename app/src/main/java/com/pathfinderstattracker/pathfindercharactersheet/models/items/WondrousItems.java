@@ -20,6 +20,7 @@ public class WondrousItems extends AbsItem implements IWondrousItems
     private ArmorTypesEnum armorType;
     private Integer acBonus;
     private SizeCategoryEnum sizeCategory;
+    private boolean isFragile;
 
     //region Getters and Setters
     public ArcaneAura getAura()
@@ -106,6 +107,8 @@ public class WondrousItems extends AbsItem implements IWondrousItems
     public void setArmorType(ArmorTypesEnum armorType){this.armorType = armorType;}
     public Integer getACBonus(){return  acBonus;}
     public void setACBonus(Integer acBonus){this.acBonus = acBonus;}
+    public boolean isFragile(){return isFragile;}
+    public void setIsFragile(boolean isFragile){this.isFragile = isFragile;}
     //endregion
 
     public WondrousItems()

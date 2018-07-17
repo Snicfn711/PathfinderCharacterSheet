@@ -16,6 +16,8 @@ public interface IEquipment extends IItem
     void setSizeCategory(SizeCategoryEnum sizeCategory);
     boolean isMagic();
     void setIsMagic(boolean isMagic);
+    boolean isFragile();
+    void setIsFragile(boolean isFragile);
     int getMagicBonus();
     void setMagicBonus(int magicBonus);
 }

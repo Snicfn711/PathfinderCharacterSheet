@@ -139,5 +139,5 @@
     <string name="CostLabel">Cost:</string>
     <string name="MaximumSpeed">Maximum Speed:</string>
     <string name="DescriptionLabel">Description:</string>
-    <string name="SelectAnArmorPrompt">Select an Armor</string>
+    <string name="SelectAnArmorHint">Select an Armor</string>
 </resources>
