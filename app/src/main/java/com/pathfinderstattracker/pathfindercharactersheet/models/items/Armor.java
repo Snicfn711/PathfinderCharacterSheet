@@ -13,8 +13,8 @@ public class Armor extends AbsItem implements IArmor
     private int acBonus;
     private int magicBonus;
     private Integer maximumDexBonus;
-    private Integer armorCheckPenalty;
-    private Integer arcaneSpellFailureChance;
+    private int armorCheckPenalty;
+    private int arcaneSpellFailureChance;
     private Integer maxSpeed;
     private ArmorWeightCategoryEnum weightCategory;
     private SizeCategoryEnum armorSize;
@@ -48,13 +48,13 @@ public class Armor extends AbsItem implements IArmor
     }
 
     @Override
-    public int getMaxSpeed()
+    public Integer getMaxSpeed()
     {
         return maxSpeed;
     }
 
     @Override
-    public void setMaxSpeed(int maxSpeed)
+    public void setMaxSpeed(Integer maxSpeed)
     {
         this.maxSpeed = maxSpeed;
     }
@@ -73,13 +73,13 @@ public class Armor extends AbsItem implements IArmor
     }
 
     @Override
-    public int getMaximumDexBonus()
+    public Integer getMaximumDexBonus()
     {
         return maximumDexBonus;
     }
 
     @Override
-    public void setMaximumDexBonus(int maximumDexBonus)
+    public void setMaximumDexBonus(Integer maximumDexBonus)
     {
         this.maximumDexBonus = maximumDexBonus;
     }
@@ -172,7 +172,7 @@ public class Armor extends AbsItem implements IArmor
         //Default constructor
     }
 
-    public Armor(String name, double cost, int acBonus, int magicBonus, Integer maximumDexBonus, Integer armorCheckPenalty, Integer arcaneSpellFailureChance, Integer maxSpeed, ArmorWeightCategoryEnum weightCategory, double weightAtMediumSize, SizeCategoryEnum armorSize, boolean isMagic, List<IArmorEnchantment> enchantments)
+    public Armor(String name, double cost, int acBonus, int magicBonus, Integer maximumDexBonus, int armorCheckPenalty, int arcaneSpellFailureChance, Integer maxSpeed, ArmorWeightCategoryEnum weightCategory, double weightAtMediumSize, SizeCategoryEnum armorSize, boolean isMagic, List<IArmorEnchantment> enchantments)
     {
         setName(name);
         setCost(cost);

@@ -38,12 +38,14 @@ public class ArmorEntity implements Serializable
     private String description;
     @ColumnInfo(name="ac_bonus")
     private int acBonus;
+    //Max dex bonus should default to infinity, but we'll use null instead
     @ColumnInfo(name="maximum_dex_bonus")
     private Integer maximumDexBonus;
+    //Armor check penalty, arcane spell failure chance, and magic bonus are all perfectly fine defaulting to 0, so they're fine as int
     @ColumnInfo(name="armor_check_penalty")
-    private Integer armorCheckPenalty;
+    private int armorCheckPenalty;
     @ColumnInfo(name="arcane_spell_failure_chance")
-    private Integer arcaneSpellFailureChance;
+    private int arcaneSpellFailureChance;
     @ColumnInfo(name="max_speed")
     private Integer maxSpeed;
     @ColumnInfo(name="weight_category")
@@ -55,7 +57,7 @@ public class ArmorEntity implements Serializable
     @ColumnInfo(name = "armor_type")
     private ArmorTypesEnum armorType;
     @ColumnInfo(name = "magic_bonus")
-    private Integer magicBonus;
+    private int magicBonus;
 
     //region Getters and Setters
     @NonNull
@@ -119,15 +121,15 @@ public class ArmorEntity implements Serializable
         return armorCheckPenalty;
     }
 
-    public void setArmorCheckPenalty(Integer armorCheckPenalty) {
+    public void setArmorCheckPenalty(int armorCheckPenalty) {
         this.armorCheckPenalty = armorCheckPenalty;
     }
 
-    public Integer getArcaneSpellFailureChance() {
+    public int getArcaneSpellFailureChance() {
         return arcaneSpellFailureChance;
     }
 
-    public void setArcaneSpellFailureChance(Integer arcaneSpellFailureChance) {
+    public void setArcaneSpellFailureChance(int arcaneSpellFailureChance) {
         this.arcaneSpellFailureChance = arcaneSpellFailureChance;
     }
 
@@ -175,8 +177,8 @@ public class ArmorEntity implements Serializable
         setDescription("");
         setAcBonus(0);
         setMaximumDexBonus(null);
-        setArmorCheckPenalty(null);
-        setArcaneSpellFailureChance(null);
+        setArmorCheckPenalty(0);
+        setArcaneSpellFailureChance(0);
         setMaxSpeed(null);
         setWeightCategory(ArmorWeightCategoryEnum.Light);
         setArmorSize(SizeCategoryEnum.Medium);

@@ -12,7 +12,7 @@ public class Shield extends AbsItem implements IShield
 {
     private int acBonus;
     private Integer maximumDexBonus;
-    private Integer armorCheckPenalty;
+    private int armorCheckPenalty;
     private int arcaneSpellFailureChance;
     private ShieldWeightCategoryEnum weightCategory;
     private SizeCategoryEnum armorSize;
@@ -61,13 +61,13 @@ public class Shield extends AbsItem implements IShield
     }
 
     @Override
-    public int getMaximumDexBonus()
+    public Integer getMaximumDexBonus()
     {
         return maximumDexBonus;
     }
 
     @Override
-    public void setMaximumDexBonus(int maximumDexBonus)
+    public void setMaximumDexBonus(Integer maximumDexBonus)
     {
         this.maximumDexBonus = maximumDexBonus;
     }

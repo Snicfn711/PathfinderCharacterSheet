@@ -108,7 +108,7 @@ public class ParentReferenceFragment extends Fragment
         referenceFragmentAdapter.notifyDataSetChanged();
     }
 
-    public void RefreshSkills()
+    public void ReloadScreen()
     {
         referenceFragmentAdapter.notifyDataSetChanged();
     }

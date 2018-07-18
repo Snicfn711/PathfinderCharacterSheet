@@ -6,8 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
@@ -59,6 +61,7 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
                              Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.add_armor_to_inventory_tab_view, container, false);
+        rootView.setTag("AddArmorRootView");
         Context context = rootView.getContext();
         PathfinderRepository repository = new PathfinderRepository(this.getActivity().getApplication());
         repository.requestArmors(this);
@@ -107,8 +110,68 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
     @Override
     public void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result)
     {
+        //We have to copy our result to a final object, otherwise we can't properly bind our results to their respective TextViews
+        final List<ArmorEntity> listToDisplay = result;
         Spinner armorSpinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
-        ArrayAdapter<ArmorEntity> armorAdapter = new ArrayAdapter<ArmorEntity>(this.getContext(), android.R.layout.simple_spinner_dropdown_item, result);
+        ArrayAdapter<ArmorEntity> armorAdapter = new ArrayAdapter<ArmorEntity>(this.getContext(), R.layout.dropdown_item_view, listToDisplay);
         armorSpinner.setAdapter(armorAdapter);
+        armorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                TextView acBonusDisplay = rootView.findViewById(R.id.AddArmorToInventoryACBonusDisplay);
+                TextView maxDexterityBonusDisplay = rootView.findViewById(R.id.AddArmorToInventoryMaxDexBonusDisplay);
+                TextView armorCheckPenaltyDisplay = rootView.findViewById(R.id.AddArmorToInventoryArmorPenaltyDisplay);
+                TextView arcaneSpellFailureDisplay = rootView.findViewById(R.id.AddArmorToInventoryArcaneSpellFailureDisplay);
+                TextView weightDisplay = rootView.findViewById(R.id.AddArmorToInventoryWeightDisplay);
+                TextView costDisplay = rootView.findViewById(R.id.AddArmorToInventoryCostDisplay);
+                TextView maxSpeedDisplay = rootView.findViewById(R.id.AddArmorToInventorySpeedDisplay);
+                TextView descriptionDisplay = rootView.findViewById(R.id.AddArmorToInventoryDescriptionDisplay);
+
+                acBonusDisplay.setText(Integer.toString(listToDisplay.get(position).getAcBonus()));
+                if(listToDisplay.get(position).getMaximumDexBonus() != null)
+                {
+                    maxDexterityBonusDisplay.setText(Integer.toString(listToDisplay.get(position).getMaximumDexBonus()));
+                }
+                else
+                {
+                    maxDexterityBonusDisplay.setText(getString(R.string.Emdash));
+                }
+                if(listToDisplay.get(position).getArmorCheckPenalty() != 0)
+                {
+                    armorCheckPenaltyDisplay.setText(Integer.toString(listToDisplay.get(position).getArmorCheckPenalty()));
+                }
+                else
+                {
+                    armorCheckPenaltyDisplay.setText(getString(R.string.Emdash));
+                }
+                if(listToDisplay.get(position).getArcaneSpellFailureChance() != 0)
+                {
+                    arcaneSpellFailureDisplay.setText(Integer.toString(listToDisplay.get(position).getArcaneSpellFailureChance()));
+                }
+                else
+                {
+                    arcaneSpellFailureDisplay.setText("-");
+                }
+                weightDisplay.setText(Double.toString(listToDisplay.get(position).getWeight()));
+                costDisplay.setText(Double.toString(listToDisplay.get(position).getCost()));
+                if(listToDisplay.get(position).getMaxSpeed() != null)
+                {
+                    maxSpeedDisplay.setText(Integer.toString(listToDisplay.get(position).getMaxSpeed()));
+                }
+                else
+                {
+                    maxSpeedDisplay.setText(getString(R.string.Emdash));
+                }
+                descriptionDisplay.setText(listToDisplay.get(position).getDescription());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+                //Do nothing
+            }
+        });
     }
 }

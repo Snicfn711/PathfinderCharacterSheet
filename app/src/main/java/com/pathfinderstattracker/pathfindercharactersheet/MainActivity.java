@@ -59,7 +59,8 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
                                                               PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener,
                                                               PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener,
                                                               SkillsReferenceFragment.OnSkillsUpdatedListener,
-                                                              AddArmorToInventoryFragment.OnListFragmentInteractionListener
+                                                              AddArmorToInventoryFragment.OnListFragmentInteractionListener,
+                                                              InventoryReferenceFragment.OnPlayerArmorUpdateListener
 {
     PathfinderRepository repository;
     IPlayerCharacter newPlayerCharacter;//Todo: This is here so that when a new character is initialized we can properly initalize its skills, but it stinks. Look for a better way
@@ -176,6 +177,13 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     public void onSkillsUpdated()
     {
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
-        parentReferenceFragment.RefreshSkills();
+        parentReferenceFragment.ReloadScreen();
+    }
+
+    @Override
+    public void onPlayerArmorUpdated()
+    {
+        ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
+        parentReferenceFragment.ReloadScreen();
     }
 }

@@ -7,8 +7,10 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Dao
 @TypeConverters({UUIDConverter.class})
@@ -18,4 +20,7 @@ public interface ArmorDao
     void insertArmor(ArmorEntity armorEntity);
     @Query("SELECT * FROM armor")
     List<ArmorEntity> getAllArmors();
+    @Query("SELECT * FROM armor " +
+           "WHERE armorID = :armorID")
+    ArmorEntity getSingleArmor(UUID armorID);
 }

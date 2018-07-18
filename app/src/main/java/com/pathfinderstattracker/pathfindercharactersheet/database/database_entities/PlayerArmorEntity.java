@@ -36,6 +36,9 @@ public class PlayerArmorEntity
     @ColumnInfo(name="armorID")
     private UUID armorID;
 
+    @ColumnInfo(name = "is_equipped")
+    private boolean isEquipped;
+
     //region Getters and Setters
     @NonNull
     public UUID getPlayerID()
@@ -58,6 +61,10 @@ public class PlayerArmorEntity
     {
         this.armorID = armorID;
     }
+
+    public boolean isEquipped(){return isEquipped;}
+
+    public void setIsEquipped(boolean isEquipped){this.isEquipped = isEquipped;}
     //endregion
 
     public PlayerArmorEntity()

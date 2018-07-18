@@ -121,7 +121,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         //The second time it has no parent fragment(?!) and get its arguments passed to it from the reference adapter.
         //If we don't account for that first pass, the code returns a null reference exception
         //TODO:Figure out why the fragment is getting created twice and see if we need both, or if there's a better spot to pass/get the arguments from.
-        Bundle bundle = new Bundle();
+        Bundle bundle;
         if(this.getParentFragment() == null)
         {
             bundle = this.getArguments();

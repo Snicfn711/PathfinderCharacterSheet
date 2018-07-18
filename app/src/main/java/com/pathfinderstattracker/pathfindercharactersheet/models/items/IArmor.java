@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface IArmor extends IProtection
 {
-    int getMaxSpeed();
-    void setMaxSpeed(int maxSpeed);
+    //The default for maximum speed is unbounded, so we'll represent that here with a null value
+    Integer getMaxSpeed();
+    void setMaxSpeed(Integer maxSpeed);
     ArmorWeightCategoryEnum getWeightCategory();
     void setWeightCategory(ArmorWeightCategoryEnum weightCategory);
     List<IArmorEnchantment> getEnchantments();

@@ -93,6 +93,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
+        android:text="@string/Emdash"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryACBonusLabel"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryACBonusLabel"
@@ -118,6 +119,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
+        android:text="@string/Emdash"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryMaxDexBonusLabel"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryMaxDexBonusLabel"
@@ -143,6 +145,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
+        android:text="@string/Emdash"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryArmorPenaltyLabel"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryArmorPenaltyLabel"
@@ -168,6 +171,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
+        android:text="@string/Emdash"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryArcaneSpellFailureLabel"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryArcaneSpellFailureLabel"
@@ -193,6 +197,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
+        android:text="@string/Emdash"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryWeightLabel"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryWeightLabel"
@@ -218,6 +223,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
+        android:text="@string/Emdash"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryCostLabel"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryCostLabel"
@@ -243,6 +249,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColor="@color/colorPlainText"
+        android:text="@string/Emdash"
         android:gravity="center"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventorySpeedLabel"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventorySpeedLabel"
@@ -263,15 +270,20 @@
         app:layout_constraintRight_toLeftOf="@id/AddArmorToInventoryDescriptionVerticalGuideline"
         app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryDescriptionVerticalGuideline"
         app:layout_constraintBottom_toBottomOf="parent"/>
-    <TextView
-        android:id="@+id/AddArmorToInventoryDescriptionDisplay"
+    <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryDescriptionVerticalGuideline"
         app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryDescriptionVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@id/AddArmorToInventorySpeedHorizontalGuideline"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/AddArmorToInventoryDescriptionDisplay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPlainText"
+            android:text="@string/Emdash"/>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>

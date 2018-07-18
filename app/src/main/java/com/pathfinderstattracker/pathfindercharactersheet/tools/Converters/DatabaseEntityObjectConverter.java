@@ -133,7 +133,7 @@ public class DatabaseEntityObjectConverter
         ObjectToReturn.setArmorCheckPenalty(armorEntity.getArmorCheckPenalty());
         ObjectToReturn.setArcaneSpellFailureChance(armorEntity.getArcaneSpellFailureChance());
         ObjectToReturn.setSizeCategory(armorEntity.getArmorSize());
-        //This next line isn't strictly necessary since the getter always returns "Armor" but if we create weird custom amros it'll be useful
+        //This next line isn't strictly necessary since the getter always returns "Armor" but if we create weird custom amrors it'll be useful
         ObjectToReturn.setArmorType(armorEntity.getArmorType());
         ObjectToReturn.setIsFragile(armorEntity.isFragile());
 
@@ -155,7 +155,7 @@ public class DatabaseEntityObjectConverter
         ObjectToReturn.setArmorCheckPenalty(armorEntity.getArmorCheckPenalty());
         ObjectToReturn.setArcaneSpellFailureChance(armorEntity.getArcaneSpellFailureChance());
         ObjectToReturn.setSizeCategory(armorEntity.getArmorSize());
-        //This next line isn't strictly necessary since the getter always returns "Armor" but if we create weird custom amros it'll be useful
+        //This next line isn't strictly necessary since the getter always returns "Shield" but if we create weird custom shields it'll be useful
         ObjectToReturn.setArmorType(armorEntity.getArmorType());
         ObjectToReturn.setIsFragile(armorEntity.isFragile());
         //No shield affects either a player's max speed nor do they have armor weight categories, so those two fields are omitted here
