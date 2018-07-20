@@ -1,12 +1,13 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Stephen Hagen on 12/26/2017.
  */
 
-public interface IItem extends Comparable<IItem>
+public interface IItem extends Comparable<IItem>, Serializable
 {
     UUID getItemID();
     void setItemID(UUID itemID);

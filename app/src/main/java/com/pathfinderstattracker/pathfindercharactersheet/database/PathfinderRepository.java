@@ -121,10 +121,9 @@ public class PathfinderRepository {
         task.execute(playerArmorEntity);
     }
 
-    public void insertPlayerArmorEntity(PlayerArmorEntity playerArmorEntity, InsertPlayerArmorAsyncTaskFinishedListener callingActivity)
+    public void insertPlayerArmorEntity(PlayerArmorEntity playerArmorEntity)
     {
         insertPlayerArmorAsyncTask task = new insertPlayerArmorAsyncTask(playerArmorDao);
-        task.delegate = callingActivity;
         task.execute(playerArmorEntity);
     }
 
@@ -343,7 +342,6 @@ public class PathfinderRepository {
     private static class insertPlayerArmorAsyncTask extends AsyncTask<PlayerArmorEntity, Void, Void>
     {
         private PlayerArmorDao asyncPlayerArmorDao;
-        private InsertPlayerArmorAsyncTaskFinishedListener delegate;
 
         insertPlayerArmorAsyncTask(PlayerArmorDao dao){asyncPlayerArmorDao = dao;}
 
@@ -352,12 +350,6 @@ public class PathfinderRepository {
         {
             asyncPlayerArmorDao.InsertPlayerArmor(params[0]);
             return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void nothing)
-        {
-            delegate.onInsertPlayerArmorAsyncTaskFinished();
         }
     }
 
@@ -448,11 +440,6 @@ public class PathfinderRepository {
     public interface GetAllArmorsAsyncTaskFinishedListener
     {
         void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result);
-    }
-
-    public interface InsertPlayerArmorAsyncTaskFinishedListener
-    {
-        void onInsertPlayerArmorAsyncTaskFinished();
     }
 
     public interface UpdatePlayerArmorAsyncTaskFinishedListener

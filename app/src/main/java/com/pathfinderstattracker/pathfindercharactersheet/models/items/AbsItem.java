@@ -2,6 +2,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -10,7 +11,7 @@ import java.util.UUID;
  * Created by Stephen Hagen on 3/29/2018.
  */
 
-public abstract class AbsItem implements IItem
+public abstract class AbsItem implements IItem, Serializable
 {
     protected UUID itemID;
     protected double cost;

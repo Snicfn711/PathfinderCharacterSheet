@@ -19,27 +19,35 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddItemToInventoryDialogAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AddArmorToInventoryFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class AddItemToInventoryDialog extends DialogFragment
 {
-    AddItemToInventoryDialogAdapter addItemToInventoryDialogAdapter;
-    ViewPager viewPager;
+    private AddItemToInventoryDialogAdapter addItemToInventoryDialogAdapter;
+    private ViewPager viewPager;
+    private UUID currentPlayerCharacterID;
+    private PathfinderRepository repository;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        repository = new PathfinderRepository(this.getActivity().getApplication());
         View rootView = inflater.inflate(R.layout.add_item_to_inventory_dialog_view, container, false);
         addItemToInventoryDialogAdapter = new AddItemToInventoryDialogAdapter(getChildFragmentManager());
         viewPager = (ViewPager)rootView.findViewById(R.id.AddItemToInventoryViewPager);
         viewPager.setAdapter(addItemToInventoryDialogAdapter);
         Button confirmButton = rootView.findViewById(R.id.AddItemToInventoryConfirmButton);
         confirmButton.setOnClickListener(new ConfirmButtonOnClickListener());
+
+        currentPlayerCharacterID = (UUID)getArguments().getSerializable("CurrentPlayerCharacterID");
+
         return rootView;
     }
 
@@ -71,7 +79,13 @@ public class AddItemToInventoryDialog extends DialogFragment
                 Spinner spinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
                 ArmorEntity armorToSave = (ArmorEntity)spinner.getSelectedItem();
 
-                Intent i = new Intent().putExtra("ArmorToAddToInventory", armorToSave.getArmorID().toString());
+                PlayerArmorEntity playerArmorEntityToInsert = new PlayerArmorEntity();
+                playerArmorEntityToInsert.setArmorID(armorToSave.getArmorID());
+                playerArmorEntityToInsert.setPlayerID(currentPlayerCharacterID);
+                playerArmorEntityToInsert.setIsEquipped(false);
+                repository.insertPlayerArmorEntity(playerArmorEntityToInsert);
+
+                Intent i = new Intent().putExtra("ArmorToAddToInventory", armorToSave);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
                 dismiss();
             }

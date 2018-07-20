@@ -12,17 +12,22 @@ import android.view.ViewGroup;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParentReferenceFragment extends Fragment implements PathfinderRepository.GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener,
-                                                                 PathfinderRepository.GetPlayerSkillEntityAsyncTaskFinishedListener
+                                                                 PathfinderRepository.GetPlayerSkillEntityAsyncTaskFinishedListener,
+                                                                 PathfinderRepository.GetSingleArmorAsyncTaskFinishedListener
 {
     private ReferenceFragmentAdapter referenceFragmentAdapter;
     private ViewPager mViewPager;
@@ -30,7 +35,8 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     private Bundle bundle;
     private IPlayerCharacter currentPlayerCharacter;
     private ArrayList<PlayerSkillsEntity> currentPlayerSkills;
-    private ArrayList<IProtection> currentPlayerArmor;
+    private ArrayList<IItem> currentPlayerInventory;
+    private int totalInventorySize;
 
     private OnFragmentInteractionListener mListener;
 
@@ -60,8 +66,10 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         bundle = getArguments();
         //Initialize the data for our current player character
         currentPlayerSkills = new ArrayList<>();
-        currentPlayerArmor = new ArrayList<>();
+        currentPlayerInventory = new ArrayList<>();
         currentPlayerCharacter = (PlayerCharacter)bundle.getSerializable("PlayerCharacter");
+
+        totalInventorySize = 0;
 
         //TODO: Like with MainActivity, we're likely going to be loading a fair amount of data here, so this could potentially use a loading screen.
         repository = new PathfinderRepository(this.getActivity().getApplication());
@@ -105,16 +113,54 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
 
     //region Database Callback Methods
     @Override
-    public void onGetArmorEntityForCurrentPlayerAsyncTaskFinished(List<PlayerArmorEntity> result)
-    {
-
-    }
-
-    @Override
     public void onGetPlayerSkillEntityAsyncTaskFinished(List<PlayerSkillsEntity> result)
     {
         currentPlayerSkills.addAll(result);
         bundle.putSerializable("PlayerSkillsList", currentPlayerSkills);
+    }
+
+    @Override
+    public void onGetArmorEntityForCurrentPlayerAsyncTaskFinished(List<PlayerArmorEntity> result)
+    {
+        totalInventorySize += result.size();
+        if(result.size() != 0)
+        {
+            for (PlayerArmorEntity entity : result)
+            {
+                repository.requestSingleArmor(entity.getArmorID(), this);
+            }
+        }
+        else
+        {
+            //TODO:We'll no be more careful about making sure we're passing an inventory in our bundle going forward, but this will work for now
+            bundle.putSerializable("PlayerInventory", currentPlayerInventory);
+        }
+
+    }
+
+    @Override
+    public void onGetSingleArmorAsyncTaskFinished(ArmorEntity result)
+    {
+        if(result.getArmorType() == ArmorTypesEnum.Armor)
+        {
+            currentPlayerInventory.add(DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(result));
+        }
+        else if(result.getArmorType() == ArmorTypesEnum.Shield)
+        {
+            currentPlayerInventory.add(DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(result));
+        }
+        else
+        {
+            throw new RuntimeException("The current player character has been given an invalid shield or armor");
+        }
+        if(currentPlayerInventory.size() == totalInventorySize)
+        {
+            if(bundle.containsKey("PlayerInventory"))
+            {
+                bundle.remove("PlayerInventory");
+            }
+            bundle.putSerializable("PlayerInventory", currentPlayerInventory);
+        }
     }
     //endregion
 
@@ -148,6 +194,15 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         }
         bundle.remove("PlayerSkillsList");
         bundle.putSerializable("PlayerSkillsList", currentPlayerSkills);
+        ReloadScreen();
+    }
+
+    public void AddArmor(IProtection armorToUpdate)
+    {
+        currentPlayerInventory.add(armorToUpdate);
+
+        bundle.remove("PlayerInventory");
+        bundle.putSerializable("PlayerInventory", currentPlayerInventory);
         ReloadScreen();
     }
 }

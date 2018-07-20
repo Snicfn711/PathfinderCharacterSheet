@@ -30,6 +30,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorType
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ConsumableMundaneItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ReusableMundaneItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
@@ -48,19 +49,16 @@ import java.util.UUID;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class InventoryReferenceFragment extends Fragment implements PathfinderRepository.InsertPlayerArmorAsyncTaskFinishedListener,
-                                                                    PathfinderRepository.GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener,
-                                                                    PathfinderRepository.GetSingleArmorAsyncTaskFinishedListener
+public class InventoryReferenceFragment extends Fragment
 {
     private OnListFragmentInteractionListener mListener;
-    private OnPlayerArmorUpdateListener armorUpdatedListener;
+    private OnPlayerArmorAddedListener armorUpdatedListener;
     private IPlayerCharacter currentPlayerCharacter;
     private Animation click;
-    private PathfinderRepository repository;
     private View rootView;
     private List<IItem> currentInventory;
-    private int totalInventorySize;
     private static final int ADD_ITEM_TO_INVENTORY = 1;
+    private Bundle  bundle;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -96,16 +94,15 @@ public class InventoryReferenceFragment extends Fragment implements PathfinderRe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        Bundle getPlayerCharacter = this.getArguments();
-        if(getPlayerCharacter != null)
+        Bundle bundle = this.getArguments();
+        if(bundle != null)
         {
-            currentPlayerCharacter = (PlayerCharacter)getPlayerCharacter.get("PlayerCharacter");
+            currentPlayerCharacter = (PlayerCharacter)bundle.get("PlayerCharacter");
+            currentInventory = (List<IItem>)bundle.get("PlayerInventory");
         }
+
         rootView = inflater.inflate(R.layout.inventory_fragment_view, container, false);
         Context context = rootView.getContext();
-        repository = new PathfinderRepository(this.getActivity().getApplication());
-        repository.requestPlayerArmors(currentPlayerCharacter.getPlayerCharacterID(),this);
-        totalInventorySize = 0;
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final ImageButton addNewItemButton = rootView.findViewById(R.id.AddItemToInventory);
         addNewItemButton.setOnClickListener((new View.OnClickListener()
@@ -118,7 +115,54 @@ public class InventoryReferenceFragment extends Fragment implements PathfinderRe
             }
         }));
 
-        currentInventory = new ArrayList<>();
+        final RecyclerView inventoryRecyclerView = rootView.findViewById(R.id.InventoryRecycler);
+        final InventoryRecyclerViewAdapter inventoryRecyclerViewAdapter = new InventoryRecyclerViewAdapter(currentInventory, mListener);
+        inventoryRecyclerView.setAdapter(inventoryRecyclerViewAdapter);
+
+        //Set up the click animations for our sort/add buttons
+        final Button sortByEquippedButton = rootView.findViewById(R.id.SortByEquipped);
+        final Button sortByWeightButton = rootView.findViewById(R.id.SortByWeight);
+
+        sortByEquippedButton.setOnClickListener((new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                sortByEquippedButton.startAnimation(click);
+                if (!AbsItem.checkIfSortedByEquipment(currentInventory))
+                {
+                    Collections.sort(currentInventory, AbsItem.compareEquipment);
+                }
+                else
+                {
+                    Collections.sort(currentInventory);
+                }
+                inventoryRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        }));
+
+        sortByWeightButton.setOnClickListener((new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                sortByWeightButton.startAnimation(click);
+                if (!AbsItem.checkIfSortedByWeight(currentInventory))
+                {
+                    Collections.sort(currentInventory, AbsItem.compareByWeight);
+                }
+                else
+                {
+                    Collections.sort(currentInventory);
+                }
+                inventoryRecyclerViewAdapter.notifyDataSetChanged();
+            }
+        }));
+
+        final TextView totalWeight = rootView.findViewById(R.id.TotalWeight);
+        totalWeight.setText(String.format("Total Weight: %s", Double.toString(getTotalWeight(currentInventory))));
+        final TextView totalCost = rootView.findViewById(R.id.TotalCost);
+        totalCost.setText(String.format("Total Cost of Items: %s", Double.toString(getTotalCost(currentInventory))));
 
         return rootView;
     }
@@ -136,9 +180,9 @@ public class InventoryReferenceFragment extends Fragment implements PathfinderRe
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
-        if(context instanceof OnPlayerArmorUpdateListener)
+        if(context instanceof OnPlayerArmorAddedListener)
         {
-            armorUpdatedListener = (OnPlayerArmorUpdateListener)context;
+            armorUpdatedListener = (OnPlayerArmorAddedListener)context;
         }
         else
         {
@@ -154,97 +198,13 @@ public class InventoryReferenceFragment extends Fragment implements PathfinderRe
         mListener = null;
     }
 
-    @Override
-    public void onInsertPlayerArmorAsyncTaskFinished()
-    {
-        armorUpdatedListener.onPlayerArmorUpdated();
-    }
-
-    @Override
-    public void onGetArmorEntityForCurrentPlayerAsyncTaskFinished(List<PlayerArmorEntity> result)
-    {
-        //Relying on this total inventory size may cause issues down the line when we're implementing other object types, but it should work for now.
-        totalInventorySize += result.size();
-        for(PlayerArmorEntity entity : result)
-        {
-            repository.requestSingleArmor(entity.getArmorID(), this);
-        }
-    }
-
-    @Override
-    public void onGetSingleArmorAsyncTaskFinished(ArmorEntity result)
-    {
-        if(result.getArmorType() == ArmorTypesEnum.Armor)
-        {
-            currentInventory.add(DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(result));
-        }
-        else if(result.getArmorType() == ArmorTypesEnum.Shield)
-        {
-            currentInventory.add(DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(result));
-        }
-        else
-        {
-            throw new RuntimeException("The current player character has been given an invalid shield or armor");
-        }
-        if(currentInventory.size() == totalInventorySize)
-        {
-            final RecyclerView inventoryRecyclerView = rootView.findViewById(R.id.InventoryRecycler);
-            final InventoryRecyclerViewAdapter inventoryRecyclerViewAdapter = new InventoryRecyclerViewAdapter(currentInventory, mListener);
-            inventoryRecyclerView.setAdapter(inventoryRecyclerViewAdapter);
-
-            //Set up the click animations for our sort/add buttons
-            final Button sortByEquippedButton = rootView.findViewById(R.id.SortByEquipped);
-            final Button sortByWeightButton = rootView.findViewById(R.id.SortByWeight);
-
-            sortByEquippedButton.setOnClickListener((new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    sortByEquippedButton.startAnimation(click);
-                    if (!AbsItem.checkIfSortedByEquipment(currentInventory))
-                    {
-                        Collections.sort(currentInventory, AbsItem.compareEquipment);
-                    }
-                    else
-                    {
-                        Collections.sort(currentInventory);
-                    }
-                    inventoryRecyclerViewAdapter.notifyDataSetChanged();
-                }
-            }));
-
-            sortByWeightButton.setOnClickListener((new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    sortByWeightButton.startAnimation(click);
-                    if (!AbsItem.checkIfSortedByWeight(currentInventory))
-                    {
-                        Collections.sort(currentInventory, AbsItem.compareByWeight);
-                    }
-                    else
-                    {
-                        Collections.sort(currentInventory);
-                    }
-                    inventoryRecyclerViewAdapter.notifyDataSetChanged();
-                }
-            }));
-
-            final TextView totalWeight = rootView.findViewById(R.id.TotalWeight);
-            totalWeight.setText(String.format("Total Weight: %s", Double.toString(getTotalWeight(currentInventory))));
-            final TextView totalCost = rootView.findViewById(R.id.TotalCost);
-            totalCost.setText(String.format("Total Cost of Items: %s", Double.toString(getTotalCost(currentInventory))));
-        }
-    }
-
     public interface OnListFragmentInteractionListener
     {
         // TODO: Update argument type and name
         void onListFragmentInteraction(IItem item);
     }
 
+    //region Private Methods
     private double getTotalCost(List<IItem> items)
     {
         double totalCost = 0;
@@ -267,34 +227,41 @@ public class InventoryReferenceFragment extends Fragment implements PathfinderRe
 
     private void OpenAddItemToInventoryDialog()
     {
+        Bundle args = new Bundle();
+        args.putSerializable("CurrentPlayerCharacterID", currentPlayerCharacter.getPlayerCharacterID());
+
         AddItemToInventoryDialog addItemToInventoryDialog = new AddItemToInventoryDialog();
+        addItemToInventoryDialog.setArguments(args);
         addItemToInventoryDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         addItemToInventoryDialog.setTargetFragment(this, ADD_ITEM_TO_INVENTORY);
         addItemToInventoryDialog.show(this.getFragmentManager(),"Add Item To Inventory");
     }
+    //endregion
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        Bundle bundle = data.getExtras();
         switch(requestCode)
         {
             case ADD_ITEM_TO_INVENTORY:
                 if (resultCode == Activity.RESULT_OK)
                 {
-                    UUID armorIDToAddToInventory = UUID.fromString((String)bundle.getSerializable("ArmorToAddToInventory"));
-                    PlayerArmorEntity playerArmorEntityToInsert = new PlayerArmorEntity();
-                    playerArmorEntityToInsert.setArmorID(armorIDToAddToInventory);
-                    playerArmorEntityToInsert.setPlayerID(currentPlayerCharacter.getPlayerCharacterID());
-                    playerArmorEntityToInsert.setIsEquipped(false);
-                    repository.insertPlayerArmorEntity(playerArmorEntityToInsert,this);
+                    ArmorEntity armorToConvert= (ArmorEntity)data.getExtras().getSerializable("ArmorToAddToInventory");
+                    if(armorToConvert.getArmorType() == ArmorTypesEnum.Armor)
+                    {
+                        armorUpdatedListener.onPlayerArmorAdded(DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(armorToConvert));
+                    }
+                    else if(armorToConvert.getArmorType() == ArmorTypesEnum.Shield)
+                    {
+                        armorUpdatedListener.onPlayerArmorAdded(DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(armorToConvert));
+                    }
                 }
                 break;
         }
     }
 
-    public interface OnPlayerArmorUpdateListener
+    public interface OnPlayerArmorAddedListener
     {
-        void onPlayerArmorUpdated();
+        void onPlayerArmorAdded(IProtection protectionToAddToInventory);
     }
 }

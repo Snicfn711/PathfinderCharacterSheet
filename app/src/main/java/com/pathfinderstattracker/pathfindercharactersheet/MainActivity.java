@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
                                                               PathfinderRepository.GetDefaultSkillsAsyncTaskFinishedListener,
                                                               SkillsReferenceFragment.OnSkillsUpdatedListener,
                                                               AddArmorToInventoryFragment.OnListFragmentInteractionListener,
-                                                              InventoryReferenceFragment.OnPlayerArmorUpdateListener,
+                                                              InventoryReferenceFragment.OnPlayerArmorAddedListener,
                                                               PathfinderRepository.GetAllArmorsAsyncTaskFinishedListener,
                                                               PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener
 {
@@ -174,10 +174,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     {
         //We're converting to an ArrayList since it's serializable, and the alternative is mucking about with ISkill to make it parcelable
         defaultSkillList = new ArrayList<>();
-        for(ISkill skill : result)
-        {
-            defaultSkillList.add(skill);
-        }
+        defaultSkillList.addAll(result);
         if(bundle == null || bundle.isEmpty())
         {
             bundle = new Bundle();
@@ -222,10 +219,10 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onPlayerArmorUpdated()
+    public void onPlayerArmorAdded(IProtection armorItemUpdated)
     {
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
-        parentReferenceFragment.ReloadScreen();
+        parentReferenceFragment.AddArmor(armorItemUpdated);
     }
 
     private void moveToParentReferenceScreen()
