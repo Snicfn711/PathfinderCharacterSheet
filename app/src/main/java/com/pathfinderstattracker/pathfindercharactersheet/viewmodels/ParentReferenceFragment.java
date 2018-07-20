@@ -11,13 +11,27 @@ import android.view.ViewGroup;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 
-public class ParentReferenceFragment extends Fragment
+import java.util.ArrayList;
+import java.util.List;
+
+public class ParentReferenceFragment extends Fragment implements PathfinderRepository.GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener,
+                                                                 PathfinderRepository.GetPlayerSkillEntityAsyncTaskFinishedListener
 {
-    ReferenceFragmentAdapter referenceFragmentAdapter;
-    ViewPager mViewPager;
+    private ReferenceFragmentAdapter referenceFragmentAdapter;
+    private ViewPager mViewPager;
+    private PathfinderRepository repository;
+    private Bundle bundle;
+    private IPlayerCharacter currentPlayerCharacter;
+    private ArrayList<PlayerSkillsEntity> currentPlayerSkills;
+    private ArrayList<IProtection> currentPlayerArmor;
+
     private OnFragmentInteractionListener mListener;
 
     public ParentReferenceFragment()
@@ -25,16 +39,8 @@ public class ParentReferenceFragment extends Fragment
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ParentReferenceFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ParentReferenceFragment newInstance(String param1, String param2) {
+    public static ParentReferenceFragment newInstance(String param1, String param2)
+    {
         ParentReferenceFragment fragment = new ParentReferenceFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
@@ -51,12 +57,24 @@ public class ParentReferenceFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        bundle = getArguments();
+        //Initialize the data for our current player character
+        currentPlayerSkills = new ArrayList<>();
+        currentPlayerArmor = new ArrayList<>();
+        currentPlayerCharacter = (PlayerCharacter)bundle.getSerializable("PlayerCharacter");
+
+        //TODO: Like with MainActivity, we're likely going to be loading a fair amount of data here, so this could potentially use a loading screen.
+        repository = new PathfinderRepository(this.getActivity().getApplication());
+        repository.requestPlayerSkillEntity(this, currentPlayerCharacter.getPlayerCharacterID());
+        repository.requestPlayerArmors(currentPlayerCharacter.getPlayerCharacterID(),this);
+
+        //Inflate our view, bind and set our adapter and view pager
         View rootView = inflater.inflate(R.layout.parent_reference_fragment, container, false);
         referenceFragmentAdapter = new ReferenceFragmentAdapter(getFragmentManager());
-        referenceFragmentAdapter.setArgs(getArguments());
-        mViewPager = (ViewPager)rootView.findViewById(R.id.referenceFragmentPager);
+        referenceFragmentAdapter.setArgs(bundle);
+        mViewPager = rootView.findViewById(R.id.referenceFragmentPager);
         mViewPager.setAdapter(referenceFragmentAdapter);
-        // Inflate the layout for this fragment
+
         return rootView;
 
     }
@@ -85,16 +103,21 @@ public class ParentReferenceFragment extends Fragment
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    //region Database Callback Methods
+    @Override
+    public void onGetArmorEntityForCurrentPlayerAsyncTaskFinished(List<PlayerArmorEntity> result)
+    {
+
+    }
+
+    @Override
+    public void onGetPlayerSkillEntityAsyncTaskFinished(List<PlayerSkillsEntity> result)
+    {
+        currentPlayerSkills.addAll(result);
+        bundle.putSerializable("PlayerSkillsList", currentPlayerSkills);
+    }
+    //endregion
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -111,5 +134,20 @@ public class ParentReferenceFragment extends Fragment
     public void ReloadScreen()
     {
         referenceFragmentAdapter.notifyDataSetChanged();
+    }
+
+    public void UpdateSkill(PlayerSkillsEntity skillToUpdate)
+    {
+        for(PlayerSkillsEntity skill : currentPlayerSkills)
+        {
+            if(skill.getSkillID().equals(skillToUpdate.getSkillID()))
+            {
+                skill.setLevelUpPointsInvested(skillToUpdate.getLevelUpPointsInvested());
+                skill.setFavoredClassPointsInvested(skillToUpdate.getFavoredClassPointsInvested());
+            }
+        }
+        bundle.remove("PlayerSkillsList");
+        bundle.putSerializable("PlayerSkillsList", currentPlayerSkills);
+        ReloadScreen();
     }
 }

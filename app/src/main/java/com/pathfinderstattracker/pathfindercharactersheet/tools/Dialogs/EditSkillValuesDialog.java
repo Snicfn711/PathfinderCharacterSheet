@@ -27,6 +27,7 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
     private UUID currentPlayerCharacterID;
     private View rootView;
     private PathfinderRepository repository;
+    private PlayerSkillsEntity currentPlayerSkill;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -87,6 +88,7 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
             {
                 getLevelUpPoints.setText(Integer.toString(playerSkillsEntity.getLevelUpPointsInvested()));
                 getFavoredClassPoints.setText(Integer.toString(playerSkillsEntity.getFavoredClassPointsInvested()));
+                currentPlayerSkill = playerSkillsEntity;
             }
         }
 
@@ -104,14 +106,12 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
             else if(!getLevelUpPoints.getText().toString().isEmpty()&&
                     !getFavoredClassPoints.getText().toString().isEmpty())
             {
-                PlayerSkillsEntity playerSkillsEntityToReturn = new PlayerSkillsEntity();
-                playerSkillsEntityToReturn.setPlayerID(currentPlayerCharacterID);
-                playerSkillsEntityToReturn.setSkillID(currentSkillID);
-                playerSkillsEntityToReturn.setFavoredClassPointsInvested(Integer.parseInt(getFavoredClassPoints.getText().toString()));
-                playerSkillsEntityToReturn.setLevelUpPointsInvested(Integer.parseInt(getLevelUpPoints.getText().toString()));
+                currentPlayerSkill.setFavoredClassPointsInvested(Integer.parseInt(getFavoredClassPoints.getText().toString()));
+                currentPlayerSkill.setLevelUpPointsInvested(Integer.parseInt(getLevelUpPoints.getText().toString()));
 
-                repository.updatePlayerSkillEntity(playerSkillsEntityToReturn);
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK,new Intent());
+                repository.updatePlayerSkillEntity(currentPlayerSkill);
+                Intent returnIntent = new Intent().putExtra("UpdatedSkill", currentPlayerSkill);
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, returnIntent);
                 dismiss();
             }
         }

@@ -16,6 +16,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderDat
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
@@ -24,10 +25,12 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddItemToInventoryDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
@@ -43,6 +46,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsRefere
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 
+import java.util.ArrayList;
 import java.util.UUID;
 import java.util.List;
 
@@ -56,24 +60,44 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
                                                               ParentReferenceFragment.OnFragmentInteractionListener,
                                                               StatsReferenceFragment.OnPlayerCharacterUpdatedListener,
                                                               PathfinderRepository.FindPlayerCharacterAsyncTaskFinishedListener,
-                                                              PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener,
-                                                              PathfinderRepository.GetUnformattedSkillsAsyncTaskFinishedListener,
+                                                              PathfinderRepository.GetDefaultSkillsAsyncTaskFinishedListener,
                                                               SkillsReferenceFragment.OnSkillsUpdatedListener,
                                                               AddArmorToInventoryFragment.OnListFragmentInteractionListener,
-                                                              InventoryReferenceFragment.OnPlayerArmorUpdateListener
+                                                              InventoryReferenceFragment.OnPlayerArmorUpdateListener,
+                                                              PathfinderRepository.GetAllArmorsAsyncTaskFinishedListener,
+                                                              PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener
 {
-    PathfinderRepository repository;
-    IPlayerCharacter newPlayerCharacter;//Todo: This is here so that when a new character is initialized we can properly initalize its skills, but it stinks. Look for a better way
+    private PathfinderRepository repository;
+    private ArrayList<ISkill> defaultSkillList;
+    private ArrayList<IProtection> defaultArmorList;
+    private Bundle bundle; //This bundle is for all of our non-character specific data(i.e. Default Skills, Default Armor, etc).
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //TODO:This is likely where we're going to end up loading a fair amount of default data should get some kind of loading screen later on
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         repository = new PathfinderRepository(this.getApplication());
         Fragment characterListFragment = new PlayerCharacterListFragment();
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.MainActivity, characterListFragment).commit();
+        repository.requestSkills(this);
+        repository.requestArmors(this);
+    }
+
+    //region Fragment Interaction Listeners
+    @Override
+    public void onListFragmentInteraction(IPlayerCharacter item)
+    {
+        if(item == null)
+        {
+            AddNewCharacter();
+        }
+        else
+        {
+            repository.requestPlayerCharacterByID(item.getPlayerCharacterID(),this);
+        }
     }
 
     @Override
@@ -114,29 +138,19 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onListFragmentInteraction(IPlayerCharacter item)
-    {
-        if(item == null)
-        {
-            AddNewCharacter();
-        }
-        else
-        {
-            repository.requestPlayerCharacterByID(item.getPlayerCharacterID(),this);
-        }
-    }
-
-    @Override
     public void onListFragmentInteraction(IProtection item)
     {
 
     }
+    //endregion
 
     public void AddNewCharacter()
     {
-        newPlayerCharacter = PlayerCharacter.CreateDefaultPlayerCharacterWithID(UUID.randomUUID());
+        IPlayerCharacter newPlayerCharacter = PlayerCharacter.CreateDefaultPlayerCharacterWithID(UUID.randomUUID());
         repository.insertNewPlayerCharacter(newPlayerCharacter);
-        repository.requestSkills(this);
+        repository.initializePlayerSkill(this, newPlayerCharacter, defaultSkillList);
+
+        bundle.putSerializable("PlayerCharacter", newPlayerCharacter);
     }
 
     @Override
@@ -147,37 +161,64 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onFindPlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter) {
-        Bundle bundle = new Bundle();
+    public void onFindPlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter)
+    {
+        bundle = new Bundle();
         bundle.putSerializable("PlayerCharacter", playerCharacter);
-        Fragment parentReferenceFragment = new ParentReferenceFragment();
-        parentReferenceFragment.setArguments(bundle);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
+        moveToParentReferenceScreen();
+    }
+
+    //region Database Callback Methods
+    @Override
+    public void onGetDefaultSkillsAsyncTaskFinished(List<ISkill> result)
+    {
+        //We're converting to an ArrayList since it's serializable, and the alternative is mucking about with ISkill to make it parcelable
+        defaultSkillList = new ArrayList<>();
+        for(ISkill skill : result)
+        {
+            defaultSkillList.add(skill);
+        }
+        if(bundle == null || bundle.isEmpty())
+        {
+            bundle = new Bundle();
+        }
+        bundle.putSerializable("DefaultSkills", defaultSkillList);
     }
 
     @Override
-    public void onGetUnformattedSkillsAsyncTaskFinished(List<ISkill> result)
+    public void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result)
     {
-        repository.initializePlayerSkill(this,newPlayerCharacter, result);
+        defaultArmorList = new ArrayList<IProtection>();
+        for(ArmorEntity entity : result)
+        {
+            if(entity.getArmorType() == ArmorTypesEnum.Armor)
+            {
+                defaultArmorList.add(DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(entity));
+            }
+            else if(entity.getArmorType() == ArmorTypesEnum.Shield)
+            {
+                defaultArmorList.add(DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(entity));
+            }
+        }
+        if(bundle == null || bundle.isEmpty())
+        {
+            bundle = new Bundle();
+        }
+        bundle.putSerializable("DefaultArmors", defaultArmorList);
     }
 
     @Override
     public void onInitializePlayerSkillsAsyncTaskFinished()
     {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("PlayerCharacter", newPlayerCharacter);
-        Fragment parentReferenceFragment = new ParentReferenceFragment();
-        parentReferenceFragment.setArguments(bundle);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
+        moveToParentReferenceScreen();
     }
+    //endregion
 
     @Override
-    public void onSkillsUpdated()
+    public void onSkillsUpdated(PlayerSkillsEntity skillToUpdate)
     {
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
-        parentReferenceFragment.ReloadScreen();
+        parentReferenceFragment.UpdateSkill(skillToUpdate);
     }
 
     @Override
@@ -185,5 +226,13 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     {
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
         parentReferenceFragment.ReloadScreen();
+    }
+
+    private void moveToParentReferenceScreen()
+    {
+        Fragment parentReferenceFragment = new ParentReferenceFragment();
+        parentReferenceFragment.setArguments(bundle);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
     }
 }

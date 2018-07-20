@@ -22,6 +22,8 @@ import java.util.UUID;
                  UUIDConverter.class})
 public class SkillEntity
 {
+    //This entity is primarily used for initializing a default skill set for new characters. Afterward we'll reference the PlayerSkillEntity.
+    //This will allow players to add their own custom skills later on.
     @PrimaryKey
     @NonNull
     private UUID skillID;

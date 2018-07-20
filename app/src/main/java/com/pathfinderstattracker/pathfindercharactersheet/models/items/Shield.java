@@ -2,13 +2,14 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Stephen Hagen on 12/26/2017.
  */
 
-public class Shield extends AbsItem implements IShield
+public class Shield extends AbsItem implements IShield, Serializable
 {
     private int acBonus;
     private Integer maximumDexBonus;

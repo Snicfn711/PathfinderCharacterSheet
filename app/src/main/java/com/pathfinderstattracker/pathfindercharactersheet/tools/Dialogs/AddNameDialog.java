@@ -32,8 +32,8 @@ public class AddNameDialog extends DialogFragment
             }
             else
             {
-                Intent i = new Intent().putExtra("NewPlayerCharacterName", getNameText.getText().toString());
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+                Intent returnedIntent = new Intent().putExtra("NewPlayerCharacterName", getNameText.getText().toString());
+                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, returnedIntent);
                 dismiss();
             }
         }});

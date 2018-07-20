@@ -83,8 +83,8 @@ public class PathfinderRepository {
         task.execute(character);
     }
 
-    public void requestSkills(GetUnformattedSkillsAsyncTaskFinishedListener callingActivity) {
-        getUnformattedSkillsAsyncTask task = new getUnformattedSkillsAsyncTask(skillsDao);
+    public void requestSkills(GetDefaultSkillsAsyncTaskFinishedListener callingActivity) {
+        getDefaultSkillsAsyncTask task = new getDefaultSkillsAsyncTask(skillsDao);
         task.delegate = callingActivity;
         task.execute();
     }
@@ -172,6 +172,9 @@ public class PathfinderRepository {
                 temp.setSkillID(skill.getSkillID());
                 temp.setLevelUpPointsInvested(0);
                 temp.setFavoredClassPointsInvested(0);
+                temp.setAddedStat(skill.getAddedStat());
+                temp.setArmorCheckPenaltyApplied(skill.isArmorCheckPenaltyApplied());
+                temp.setSkillName(skill.getSkillName());
                 asyncPlayerSkillsDao.InsertPlayerSkill(temp);
             }
             return null;
@@ -241,11 +244,11 @@ public class PathfinderRepository {
         }
     }
 
-    private static class getUnformattedSkillsAsyncTask extends AsyncTask<Void, Void, List<ISkill>> {
+    private static class getDefaultSkillsAsyncTask extends AsyncTask<Void, Void, List<ISkill>> {
         private SkillsDao asyncSkillsDao;
-        private GetUnformattedSkillsAsyncTaskFinishedListener delegate = null;
+        private GetDefaultSkillsAsyncTaskFinishedListener delegate = null;
 
-        getUnformattedSkillsAsyncTask(SkillsDao dao) {
+        getDefaultSkillsAsyncTask(SkillsDao dao) {
             asyncSkillsDao = dao;
         }
 
@@ -260,7 +263,7 @@ public class PathfinderRepository {
         }
 
         protected void onPostExecute(List<ISkill> result) {
-            delegate.onGetUnformattedSkillsAsyncTaskFinished(result);
+            delegate.onGetDefaultSkillsAsyncTaskFinished(result);
         }
     }
 
@@ -417,9 +420,9 @@ public class PathfinderRepository {
         void onUpdatePlayerCharacterAsyncTaskFinished(PlayerCharacter playerCharacter);
     }
 
-    public interface GetUnformattedSkillsAsyncTaskFinishedListener
+    public interface GetDefaultSkillsAsyncTaskFinishedListener
     {
-        void onGetUnformattedSkillsAsyncTaskFinished(List<ISkill> result);
+        void onGetDefaultSkillsAsyncTaskFinished(List<ISkill> result);
     }
 
     public interface GetPlayerSkillEntityAsyncTaskFinishedListener

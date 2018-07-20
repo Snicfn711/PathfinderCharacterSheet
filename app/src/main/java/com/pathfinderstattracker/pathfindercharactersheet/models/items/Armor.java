@@ -2,13 +2,14 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Stephen Hagen on 12/26/2017.
  */
 
-public class Armor extends AbsItem implements IArmor
+public class Armor extends AbsItem implements IArmor, Serializable
 {
     private int acBonus;
     private int magicBonus;

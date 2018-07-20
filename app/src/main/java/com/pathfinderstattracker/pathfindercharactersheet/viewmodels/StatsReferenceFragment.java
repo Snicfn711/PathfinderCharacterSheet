@@ -357,20 +357,19 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        Bundle bundle = data.getExtras();
         switch(requestCode)
         {
             case ADD_NEW_CHARACTER_NAME_DIALOG:
                 if (resultCode == Activity.RESULT_OK)
                 {
-                    String newPlayerCharacterName = (String) bundle.getSerializable("NewPlayerCharacterName");
+                    String newPlayerCharacterName = (String) data.getExtras().getSerializable("NewPlayerCharacterName");
                     currentPlayerCharacter.setPlayerCharacterName(newPlayerCharacterName);
                 }
                 break;
             case UPDATE_ABILITY_SCORES_DIALOG:
                 if (resultCode == Activity.RESULT_OK)
                 {
-                    List<IAbilityScore> updatedAbilityScores = (List<IAbilityScore>) bundle.getSerializable("UpdatedAbilityScores");
+                    List<IAbilityScore> updatedAbilityScores = (List<IAbilityScore>)  data.getExtras().getSerializable("UpdatedAbilityScores");
                     currentPlayerCharacter.setAbilityScores(updatedAbilityScores);
                 }
                 break;
