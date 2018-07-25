@@ -98,7 +98,15 @@ public class InventoryReferenceFragment extends Fragment
         if(bundle != null)
         {
             currentPlayerCharacter = (PlayerCharacter)bundle.get("PlayerCharacter");
-            currentInventory = (List<IItem>)bundle.get("PlayerInventory");
+            //If the player character has an empty inventory, the ParentReferenceFragment won't pass anything, so we need to handle this case.
+            if(bundle.get("PlayerInventory") == null)
+            {
+                currentInventory = new ArrayList<>();
+            }
+            else
+            {
+                currentInventory = (List<IItem>) bundle.get("PlayerInventory");
+            }
         }
 
         rootView = inflater.inflate(R.layout.inventory_fragment_view, container, false);

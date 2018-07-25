@@ -130,12 +130,6 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
                 repository.requestSingleArmor(entity.getArmorID(), this);
             }
         }
-        else
-        {
-            //TODO:We'll no be more careful about making sure we're passing an inventory in our bundle going forward, but this will work for now
-            bundle.putSerializable("PlayerInventory", currentPlayerInventory);
-        }
-
     }
 
     @Override

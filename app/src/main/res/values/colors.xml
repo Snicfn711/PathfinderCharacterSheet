@@ -11,4 +11,6 @@
     <color name="colorCaution">#EED202</color>
     <color name="colorWarning">#B33A3A</color>
     <color name="black">#000000</color>
+    <color name="colorGrayedText">#A9A9A9</color>
+    <color name="colorLightGrayedText">#D3D3D3</color>
 </resources>

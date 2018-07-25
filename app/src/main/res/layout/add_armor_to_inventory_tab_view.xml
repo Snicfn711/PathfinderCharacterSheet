@@ -64,17 +64,21 @@
         app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryNameVerticalGuideline"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryNameHorizontalGuideline"
         android:gravity="center"/>
+
     <Spinner
         android:id="@+id/AddArmorToInventoryDropdown"
+        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+        android:padding="0dp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
-        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryNameVerticalGuideline"
-        app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryNameVerticalGuideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        android:overlapAnchor="false"
+        app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryNameHorizontalGuideline"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryNameHorizontalGuideline"/>
+        app:layout_constraintLeft_toRightOf="@id/AddArmorToInventoryNameVerticalGuideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@id/AddArmorToInventoryNameVerticalGuideline"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/AddArmorToInventoryACBonusLabel"
         android:layout_width="0dp"

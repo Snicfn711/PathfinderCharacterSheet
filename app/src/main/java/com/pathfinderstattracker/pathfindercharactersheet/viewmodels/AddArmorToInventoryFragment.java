@@ -12,9 +12,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddArmorToInventorySpinnerAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 
@@ -108,12 +111,58 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
     }
 
     @Override
+    public void onPause()
+    {
+        super.onPause();
+    }
+
+    @Override
     public void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result)
     {
-        //We have to copy our result to a final object, otherwise we can't properly bind our results to their respective TextViews
-        final List<ArmorEntity> listToDisplay = result;
+        final List<Object> lightArmorEntityArray = new ArrayList<>();
+        final List<Object> mediumArmorEntityArray = new ArrayList<>();
+        final List<Object> heavyArmorEntityArray = new ArrayList<>();
+        final List<Object> shieldEntityArray = new ArrayList<>();
+        final List<Object> armorEntityArrayWithSectionHeaders = new ArrayList<>();
+
+        lightArmorEntityArray.add("Select An Item");
+        lightArmorEntityArray.add("Light Armors");
+        mediumArmorEntityArray.add("Medium Armors");
+        heavyArmorEntityArray.add("Heavy Armors");
+        shieldEntityArray.add("Shields");
+
+        for (int i = 0; i < result.size() - 1; i++)
+        {
+            //Since the default weight category is Light, we also need to make sure that the armor type is armor,
+            //otherwise we end up getting shields in our light armor list.
+            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Light &&
+                    result.get(i).getArmorType() == ArmorTypesEnum.Armor)
+            {
+                lightArmorEntityArray.add(result.get(i));
+            }
+            //There aren't any shields that fall into different armor weight categories, and we shouldn't expect any to exist
+            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Medium)
+            {
+                mediumArmorEntityArray.add(result.get(i));
+            }
+            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Heavy)
+            {
+                heavyArmorEntityArray.add(result.get(i));
+            }
+            if (result.get(i).getArmorType() == ArmorTypesEnum.Shield)
+            {
+                shieldEntityArray.add(result.get(i));
+            }
+        }
+
+        armorEntityArrayWithSectionHeaders.addAll(lightArmorEntityArray);
+        armorEntityArrayWithSectionHeaders.addAll(mediumArmorEntityArray);
+        armorEntityArrayWithSectionHeaders.addAll(heavyArmorEntityArray);
+        armorEntityArrayWithSectionHeaders.addAll(shieldEntityArray);
+
         Spinner armorSpinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
-        ArrayAdapter<ArmorEntity> armorAdapter = new ArrayAdapter<ArmorEntity>(this.getContext(), R.layout.dropdown_item_view, listToDisplay);
+
+        AddArmorToInventorySpinnerAdapter armorAdapter = new AddArmorToInventorySpinnerAdapter(this.getContext(), R.layout.dropdown_item_view, armorEntityArrayWithSectionHeaders);
         armorSpinner.setAdapter(armorAdapter);
         armorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -129,42 +178,61 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
                 TextView maxSpeedDisplay = rootView.findViewById(R.id.AddArmorToInventorySpeedDisplay);
                 TextView descriptionDisplay = rootView.findViewById(R.id.AddArmorToInventoryDescriptionDisplay);
 
-                acBonusDisplay.setText(Integer.toString(listToDisplay.get(position).getAcBonus()));
-                if(listToDisplay.get(position).getMaximumDexBonus() != null)
+                if(armorEntityArrayWithSectionHeaders.get(position) instanceof String)
                 {
-                    maxDexterityBonusDisplay.setText(Integer.toString(listToDisplay.get(position).getMaximumDexBonus()));
+                    acBonusDisplay.setText(getContext().getResources().getString(R.string.Emdash));
+                    maxDexterityBonusDisplay.setText(getContext().getResources().getString(R.string.Emdash));
+                    armorCheckPenaltyDisplay.setText(getContext().getResources().getString(R.string.Emdash));
+                    arcaneSpellFailureDisplay.setText(getContext().getResources().getString(R.string.Emdash));
+                    weightDisplay.setText(getContext().getResources().getString(R.string.Emdash));
+                    costDisplay .setText(getContext().getResources().getString(R.string.Emdash));
+                    maxSpeedDisplay.setText(getContext().getResources().getString(R.string.Emdash));
+                    descriptionDisplay.setText(getContext().getResources().getString(R.string.Emdash));
+                }
+                else if(armorEntityArrayWithSectionHeaders.get(position) instanceof ArmorEntity)
+                {
+                    ArmorEntity armorToVerify = (ArmorEntity)armorEntityArrayWithSectionHeaders.get(position); 
+                    acBonusDisplay.setText(Integer.toString(armorToVerify.getAcBonus()));
+                    if (armorToVerify.getMaximumDexBonus() != null)
+                    {
+                        maxDexterityBonusDisplay.setText(Integer.toString(armorToVerify.getMaximumDexBonus()));
+                    }
+                    else
+                    {
+                        maxDexterityBonusDisplay.setText(getString(R.string.Emdash));
+                    }
+                    if (armorToVerify.getArmorCheckPenalty() != 0)
+                    {
+                        armorCheckPenaltyDisplay.setText(Integer.toString(armorToVerify.getArmorCheckPenalty()));
+                    }
+                    else
+                    {
+                        armorCheckPenaltyDisplay.setText(getString(R.string.Emdash));
+                    }
+                    if (armorToVerify.getArcaneSpellFailureChance() != 0)
+                    {
+                        arcaneSpellFailureDisplay.setText(Integer.toString(armorToVerify.getArcaneSpellFailureChance()));
+                    }
+                    else
+                    {
+                        arcaneSpellFailureDisplay.setText("-");
+                    }
+                    weightDisplay.setText(Double.toString(armorToVerify.getWeight()));
+                    costDisplay.setText(Double.toString(armorToVerify.getCost()));
+                    if (armorToVerify.getMaxSpeed() != null)
+                    {
+                        maxSpeedDisplay.setText(Integer.toString(armorToVerify.getMaxSpeed()));
+                    }
+                    else
+                    {
+                        maxSpeedDisplay.setText(getString(R.string.Emdash));
+                    }
+                    descriptionDisplay.setText(armorToVerify.getDescription());
                 }
                 else
                 {
-                    maxDexterityBonusDisplay.setText(getString(R.string.Emdash));
+                    throw new RuntimeException("A non-armor item was erroneously added via the add armor to inventory menu");
                 }
-                if(listToDisplay.get(position).getArmorCheckPenalty() != 0)
-                {
-                    armorCheckPenaltyDisplay.setText(Integer.toString(listToDisplay.get(position).getArmorCheckPenalty()));
-                }
-                else
-                {
-                    armorCheckPenaltyDisplay.setText(getString(R.string.Emdash));
-                }
-                if(listToDisplay.get(position).getArcaneSpellFailureChance() != 0)
-                {
-                    arcaneSpellFailureDisplay.setText(Integer.toString(listToDisplay.get(position).getArcaneSpellFailureChance()));
-                }
-                else
-                {
-                    arcaneSpellFailureDisplay.setText("-");
-                }
-                weightDisplay.setText(Double.toString(listToDisplay.get(position).getWeight()));
-                costDisplay.setText(Double.toString(listToDisplay.get(position).getCost()));
-                if(listToDisplay.get(position).getMaxSpeed() != null)
-                {
-                    maxSpeedDisplay.setText(Integer.toString(listToDisplay.get(position).getMaxSpeed()));
-                }
-                else
-                {
-                    maxSpeedDisplay.setText(getString(R.string.Emdash));
-                }
-                descriptionDisplay.setText(listToDisplay.get(position).getDescription());
             }
 
             @Override
@@ -175,3 +243,4 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
         });
     }
 }
+

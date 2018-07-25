@@ -75,6 +75,7 @@ public class AddItemToInventoryDialog extends DialogFragment
 
             if(currentFragment instanceof AddArmorToInventoryFragment)
             {
+                //Todo:We haven't properly considered the case of a user adding multiple instances of an item to their inventory, we need to fix that.
                 View rootView = viewPager.findViewWithTag("AddArmorRootView");
                 Spinner spinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
                 ArmorEntity armorToSave = (ArmorEntity)spinner.getSelectedItem();
