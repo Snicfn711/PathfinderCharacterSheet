@@ -22,25 +22,16 @@ import java.util.List;
 
 public class AddArmorToInventorySpinnerAdapter extends ArrayAdapter<Object>
 {
-    List<Object> itemsInSpinner;
-
     public AddArmorToInventorySpinnerAdapter(@NonNull Context context, int resource, @NonNull List<Object> items)
     {
         super(context, resource, items);
-        itemsInSpinner = items;
     }
 
     @Override
     public boolean isEnabled(int position)
     {
-        if(itemsInSpinner.get(position) instanceof String)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        //We don't our section headers to be selectable, so they're getting disabled here
+        return !(this.getItem(position) instanceof String);
     }
 
     @NonNull
@@ -54,13 +45,13 @@ public class AddArmorToInventorySpinnerAdapter extends ArrayAdapter<Object>
         view.setLayoutParams(params);
         if(position == 0)
         {
-            view.setText((String)itemsInSpinner.get(position));
+            view.setText((String)this.getItem(position));
             view.setGravity(Gravity.CENTER);
             view.setTextColor(getContext().getResources().getColor(R.color.colorGrayedText));
         }
         else
         {
-            view.setText(itemsInSpinner.get(position).toString());
+            view.setText(this.getItem(position).toString());
             view.setGravity(Gravity.CENTER);
             view.setTextColor(getContext().getResources().getColor(R.color.colorPlainText));
         }
@@ -76,22 +67,25 @@ public class AddArmorToInventorySpinnerAdapter extends ArrayAdapter<Object>
         params.setMargins(0,10,0,10);
         view.setLayoutParams(params);
 
+        //Since the only way we could figure out to get Section Headers into our list was a Strings from the fragment, we have to check for them here and modify our views here.
         if(position == 0)
         {
-            view.setText((String)itemsInSpinner.get(position));
+            //The spinner widget doesn't have a default implementation for default text, so we simply added a "Select an Item" text option at the beginning of our items
+            //This means then that we have to handle it separately here.
+            view.setText((String)this.getItem(position));
             view.setGravity(Gravity.START|Gravity.CENTER_VERTICAL);
             view.setTextColor(getContext().getResources().getColor(R.color.colorLightGrayedText));
         }
-        else if(itemsInSpinner.get(position) instanceof String)
+        else if(this.getItem(position) instanceof String)
         {
-            view.setText((String)itemsInSpinner.get(position));
+            view.setText((String)this.getItem(position));
             view.setGravity(Gravity.START|Gravity.CENTER_VERTICAL);
             view.setTextColor(getContext().getResources().getColor(R.color.colorWarning));
             view.setBackgroundColor(getContext().getResources().getColor(R.color.colorTransparentHeader));
         }
         else
         {
-            view.setText(itemsInSpinner.get(position).toString());
+            view.setText(this.getItem(position).toString());
             view.setGravity(Gravity.CENTER);
             view.setTextColor(getContext().getResources().getColor(R.color.colorPlainText));
         }

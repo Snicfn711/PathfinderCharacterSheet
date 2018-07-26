@@ -111,54 +111,41 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
     }
 
     @Override
-    public void onPause()
-    {
-        super.onPause();
-    }
-
-    @Override
     public void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result)
     {
-        final List<Object> lightArmorEntityArray = new ArrayList<>();
-        final List<Object> mediumArmorEntityArray = new ArrayList<>();
-        final List<Object> heavyArmorEntityArray = new ArrayList<>();
-        final List<Object> shieldEntityArray = new ArrayList<>();
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Unfortunately the process for getting section headers into our armor select dropdown is convoluted, since the adapter can't modify its data set easily  //
+        //This means we end up having to modify it here in the fragment instead and pass the resulting List into the adapter.                                     //
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         final List<Object> armorEntityArrayWithSectionHeaders = new ArrayList<>();
 
-        lightArmorEntityArray.add("Select An Item");
-        lightArmorEntityArray.add("Light Armors");
-        mediumArmorEntityArray.add("Medium Armors");
-        heavyArmorEntityArray.add("Heavy Armors");
-        shieldEntityArray.add("Shields");
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //Since we can't add empty spaces to our data set for the adapter to read as section headers and modify there,  //
+        //we're instead forced to put the section header strings directly into the list and handle them in the adapter  //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        armorEntityArrayWithSectionHeaders.add("Select An Item");
+        armorEntityArrayWithSectionHeaders.add("Light Armors");
 
         for (int i = 0; i < result.size() - 1; i++)
         {
-            //Since the default weight category is Light, we also need to make sure that the armor type is armor,
-            //otherwise we end up getting shields in our light armor list.
+            armorEntityArrayWithSectionHeaders.add(result.get(i));
+
             if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Light &&
-                    result.get(i).getArmorType() == ArmorTypesEnum.Armor)
+                    result.get(i + 1).getWeightCategory() == ArmorWeightCategoryEnum.Medium)
             {
-                lightArmorEntityArray.add(result.get(i));
+                armorEntityArrayWithSectionHeaders.add("Medium Armors");
             }
-            //There aren't any shields that fall into different armor weight categories, and we shouldn't expect any to exist
-            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Medium)
+            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Medium &&
+                    result.get(i + 1).getWeightCategory() == ArmorWeightCategoryEnum.Heavy)
             {
-                mediumArmorEntityArray.add(result.get(i));
+                armorEntityArrayWithSectionHeaders.add("Heavy Armors");
             }
-            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Heavy)
+            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Heavy &&
+                    result.get(i + 1).getArmorType() == ArmorTypesEnum.Shield)
             {
-                heavyArmorEntityArray.add(result.get(i));
-            }
-            if (result.get(i).getArmorType() == ArmorTypesEnum.Shield)
-            {
-                shieldEntityArray.add(result.get(i));
+                armorEntityArrayWithSectionHeaders.add("Shields");
             }
         }
-
-        armorEntityArrayWithSectionHeaders.addAll(lightArmorEntityArray);
-        armorEntityArrayWithSectionHeaders.addAll(mediumArmorEntityArray);
-        armorEntityArrayWithSectionHeaders.addAll(heavyArmorEntityArray);
-        armorEntityArrayWithSectionHeaders.addAll(shieldEntityArray);
 
         Spinner armorSpinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
 
@@ -180,6 +167,8 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
 
                 if(armorEntityArrayWithSectionHeaders.get(position) instanceof String)
                 {
+                    //Our spinner starts with a default string so we don't want to have our screen filled with unrelated information.
+                    //This also allows us to more gracefully handle if our section headers are accidentally made selectable/tone is somehow seected
                     acBonusDisplay.setText(getContext().getResources().getString(R.string.Emdash));
                     maxDexterityBonusDisplay.setText(getContext().getResources().getString(R.string.Emdash));
                     armorCheckPenaltyDisplay.setText(getContext().getResources().getString(R.string.Emdash));

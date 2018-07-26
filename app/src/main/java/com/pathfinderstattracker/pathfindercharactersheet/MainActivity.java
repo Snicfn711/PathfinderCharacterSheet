@@ -175,11 +175,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         //We're converting to an ArrayList since it's serializable, and the alternative is mucking about with ISkill to make it parcelable
         defaultSkillList = new ArrayList<>();
         defaultSkillList.addAll(result);
-        if(bundle == null || bundle.isEmpty())
-        {
-            bundle = new Bundle();
-        }
-        bundle.putSerializable("DefaultSkills", defaultSkillList);
+        //We used to stick our default skills in the bundle, however we don't actually need to do that, and we want to keep the size of the bundle down(it has a maximum size of 1MB)
     }
 
     @Override
