@@ -65,14 +65,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;//Used later in the code to determine which dialog is returning data to this fragment
     private static final int UPDATE_ABILITY_SCORES_DIALOG = 2;
 
-    //region Test Armor Items
-    private Armor armorBonus = new Armor("Armor", 5, 5, 0,3,3,3,3, ArmorWeightCategoryEnum.Heavy,5, SizeCategoryEnum.Medium,false,null);
-    private WondrousItems naturalArmorBonus = new WondrousItems("Natural Armor", 5,5, null, BodySlotsEnum.Throat, null, 100, ArmorTypesEnum.NaturalArmor, 3);
-    private Shield shieldArmorBonus = new Shield("Shield", 5,5,5,5,5,5, ShieldWeightCategoryEnum.Tower,SizeCategoryEnum.Small,false,5, false, null);
-    private WondrousItems dodgeArmorBonus = new WondrousItems("Dodge", 5, 5, null, BodySlotsEnum.Feet, null, 5, ArmorTypesEnum.Dodge, 2);
-    private List<IEquipment> tempArmorItems = new ArrayList<IEquipment>();
-    //endregion
-
     private OnFragmentInteractionListener mListener;
     private OnPlayerCharacterUpdatedListener playerCharacterUpdatedListener;
 
@@ -96,11 +88,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     {
         super.onCreate(savedInstanceState);
         click = AnimationUtils.loadAnimation(this.getContext(), R.anim.roll_button_click);
-        tempArmorItems.add(armorBonus);
-        tempArmorItems.add(naturalArmorBonus);
-        tempArmorItems.add(shieldArmorBonus);
-        tempArmorItems.add(dodgeArmorBonus);
-
         if (getArguments() != null)
         {
             //Like above, since we don't have any parameters yet, there's not much to do here
@@ -121,11 +108,11 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         //The second time it has no parent fragment(?!) and get its arguments passed to it from the reference adapter.
         //If we don't account for that first pass, the code returns a null reference exception
         //TODO:Figure out why the fragment is getting created twice and see if we need both, or if there's a better spot to pass/get the arguments from.
-        Bundle bundle;
+        Bundle getPlayerCharacterBundle;
         if(this.getParentFragment() == null)
         {
-            bundle = this.getArguments();
-            currentPlayerCharacter =  (PlayerCharacter)bundle.getSerializable("PlayerCharacter");
+            getPlayerCharacterBundle = this.getArguments();
+            currentPlayerCharacter =  (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
             if(currentPlayerCharacter.getPlayerCharacterName() == null || currentPlayerCharacter.getPlayerCharacterName().isEmpty())
             {
                 AddNameDialog getNameDialog = new AddNameDialog();
@@ -136,8 +123,8 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         }
         else
         {
-            bundle = this.getParentFragment().getArguments();
-            currentPlayerCharacter =  (PlayerCharacter)bundle.getSerializable("PlayerCharacter");
+            getPlayerCharacterBundle = this.getParentFragment().getArguments();
+            currentPlayerCharacter =  (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
         }
 
         //region Create and set our View Adapters

@@ -58,7 +58,6 @@ public class InventoryReferenceFragment extends Fragment
     private View rootView;
     private List<IItem> currentInventory;
     private static final int ADD_ITEM_TO_INVENTORY = 1;
-    private Bundle  bundle;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -94,18 +93,18 @@ public class InventoryReferenceFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        Bundle bundle = this.getArguments();
-        if(bundle != null)
+        Bundle getCurrentPlayerCharacterBundle = this.getArguments();
+        if(getCurrentPlayerCharacterBundle != null)
         {
-            currentPlayerCharacter = (PlayerCharacter)bundle.get("PlayerCharacter");
+            currentPlayerCharacter = (PlayerCharacter)getCurrentPlayerCharacterBundle.get("PlayerCharacter");
             //If the player character has an empty inventory, the ParentReferenceFragment won't pass anything, so we need to handle this case.
-            if(bundle.get("PlayerInventory") == null)
+            if(getCurrentPlayerCharacterBundle.get("PlayerInventory") == null)
             {
                 currentInventory = new ArrayList<>();
             }
             else
             {
-                currentInventory = (List<IItem>) bundle.get("PlayerInventory");
+                currentInventory = (List<IItem>) getCurrentPlayerCharacterBundle.get("PlayerInventory");
             }
         }
 

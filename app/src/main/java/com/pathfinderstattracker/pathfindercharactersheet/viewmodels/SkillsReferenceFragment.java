@@ -41,9 +41,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     private OnListFragmentInteractionListener mListener;
     private OnSkillsUpdatedListener skillsUpdatedListener;
     private Animation click;
-    private Bundle bundle;
     private IPlayerCharacter currentPlayerCharacter;
-    private PathfinderRepository repository;
     private ArrayList<PlayerSkillsEntity> currentPlayerCharacterSkills;
     private SkillRecyclerViewAdapter skillAdapter;
     private View rootView;
@@ -76,15 +74,17 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        bundle = getArguments();
-        if(bundle != null)
+        Bundle getCurrentCharacterBundle = getArguments();
+        if(getCurrentCharacterBundle != null)
         {
-            currentPlayerCharacter = (PlayerCharacter)bundle.get("PlayerCharacter");
-            currentPlayerCharacterSkills = (ArrayList<PlayerSkillsEntity>)bundle.get("PlayerSkillsList");
+            currentPlayerCharacter = (PlayerCharacter)getCurrentCharacterBundle.get("PlayerCharacter");
+            if(getCurrentCharacterBundle.containsKey("PlayerSkillsList"))
+            {
+                currentPlayerCharacterSkills = (ArrayList<PlayerSkillsEntity>)getCurrentCharacterBundle.get("PlayerSkillsList");
+            }
         }
         ArrayList<SkillForDisplay> skillsForDisplay = ConvertFromPlayerSkillsEntityArrayListToSkillForDisplayArrayList(currentPlayerCharacterSkills);
         rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
-        repository = new PathfinderRepository(this.getActivity().getApplication());
 
         // Set the adapter
         Context context = rootView.getContext();

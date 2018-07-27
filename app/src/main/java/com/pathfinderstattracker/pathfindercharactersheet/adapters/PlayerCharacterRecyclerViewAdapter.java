@@ -57,7 +57,7 @@ public class PlayerCharacterRecyclerViewAdapter extends RecyclerView.Adapter<Pla
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    //holder.recycledRow.startAnimation(click);
+                    holder.recycledRow.startAnimation(click);
                     mListener.onListFragmentInteraction(holder.playerCharacter);
                 }
             }

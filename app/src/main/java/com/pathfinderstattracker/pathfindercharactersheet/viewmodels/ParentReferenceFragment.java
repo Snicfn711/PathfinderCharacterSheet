@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.pathfinderstattracker.pathfindercharactersheet.MainActivity;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
@@ -32,7 +33,6 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     private ReferenceFragmentAdapter referenceFragmentAdapter;
     private ViewPager mViewPager;
     private PathfinderRepository repository;
-    private Bundle bundle;
     private IPlayerCharacter currentPlayerCharacter;
     private ArrayList<PlayerSkillsEntity> currentPlayerSkills;
     private ArrayList<IItem> currentPlayerInventory;
@@ -63,11 +63,11 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        bundle = getArguments();
+        Bundle getPlayerCharacterBundle = getArguments();
         //Initialize the data for our current player character
         currentPlayerSkills = new ArrayList<>();
         currentPlayerInventory = new ArrayList<>();
-        currentPlayerCharacter = (PlayerCharacter)bundle.getSerializable("PlayerCharacter");
+        currentPlayerCharacter = (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
 
         totalInventorySize = 0;
 
@@ -79,7 +79,10 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         //Inflate our view, bind and set our adapter and view pager
         View rootView = inflater.inflate(R.layout.parent_reference_fragment, container, false);
         referenceFragmentAdapter = new ReferenceFragmentAdapter(getFragmentManager());
-        referenceFragmentAdapter.setArgs(bundle);
+        //By creating our bundle to pass here, we're giving our initial StatsReferenceFragment an empty array of player skills
+        //This might seem bad, but since by this point the repository is already fetching their actual skills, we should be getting back our proper skills list before the user can scroll
+        //And this way we don't get a null reference in our SkillsReferenceFragment or InventoryReferenceFragment
+        referenceFragmentAdapter.setArgs(createBundle());
         mViewPager = rootView.findViewById(R.id.referenceFragmentPager);
         mViewPager.setAdapter(referenceFragmentAdapter);
 
@@ -116,7 +119,8 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     public void onGetPlayerSkillEntityAsyncTaskFinished(List<PlayerSkillsEntity> result)
     {
         currentPlayerSkills.addAll(result);
-        bundle.putSerializable("PlayerSkillsList", currentPlayerSkills);
+        referenceFragmentAdapter.setArgs(createBundle());
+        ReloadScreen();
     }
 
     @Override
@@ -149,11 +153,9 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         }
         if(currentPlayerInventory.size() == totalInventorySize)
         {
-            if(bundle.containsKey("PlayerInventory"))
-            {
-                bundle.remove("PlayerInventory");
-            }
-            bundle.putSerializable("PlayerInventory", currentPlayerInventory);
+
+            referenceFragmentAdapter.setArgs(createBundle());
+            ReloadScreen();
         }
     }
     //endregion
@@ -165,10 +167,9 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
 
     public void UpdateCharacter(IPlayerCharacter updatedCharacter)
     {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("PlayerCharacter", updatedCharacter);
-        referenceFragmentAdapter.setArgs(bundle);
-        referenceFragmentAdapter.notifyDataSetChanged();
+        currentPlayerCharacter = updatedCharacter;
+        referenceFragmentAdapter.setArgs(createBundle());
+        ReloadScreen();
     }
 
     public void ReloadScreen()
@@ -186,17 +187,26 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
                 skill.setFavoredClassPointsInvested(skillToUpdate.getFavoredClassPointsInvested());
             }
         }
-        bundle.remove("PlayerSkillsList");
-        bundle.putSerializable("PlayerSkillsList", currentPlayerSkills);
+        referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }
 
     public void AddArmor(IProtection armorToUpdate)
     {
         currentPlayerInventory.add(armorToUpdate);
-
-        bundle.remove("PlayerInventory");
-        bundle.putSerializable("PlayerInventory", currentPlayerInventory);
+        referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
+    }
+
+    private Bundle createBundle()
+    {
+        //We can't maintain a bundle at all times since they end up being too large, causing the application to fail when paused.
+        //By recreating the bundle, it only exists for the short period we need it for and then passes out of scope
+        //(notice that all of our calls to this createBundle() method don't actually persist the bundle in this class)
+        Bundle bundleToPass = new Bundle();
+        bundleToPass.putSerializable("PlayerInventory", currentPlayerInventory);
+        bundleToPass.putSerializable("PlayerSkillsList", currentPlayerSkills);
+        bundleToPass.putSerializable("PlayerCharacter", currentPlayerCharacter);
+        return bundleToPass;
     }
 }

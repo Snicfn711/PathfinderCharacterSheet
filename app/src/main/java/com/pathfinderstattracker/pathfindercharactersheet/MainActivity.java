@@ -163,7 +163,6 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     @Override
     public void onFindPlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter)
     {
-        bundle = new Bundle();
         bundle.putSerializable("PlayerCharacter", playerCharacter);
         moveToParentReferenceScreen();
     }
@@ -225,6 +224,8 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     {
         Fragment parentReferenceFragment = new ParentReferenceFragment();
         parentReferenceFragment.setArguments(bundle);
+        //We're clearing out our bundle so that when the application is paused it doesn't give a "TransactionTooLargeError"
+        bundle = null;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
     }
