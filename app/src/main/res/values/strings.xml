@@ -63,6 +63,10 @@
     <string name="RollSkillButtonContentDescription">Roll Skill Button</string>
     <string name="LevelUpPoints">Level Up Skill Points</string>
     <string name="FavoredClassPoints">Favored Class Points</string>
+    <string name="AddCustomSkill">Add Custom Skill</string>
+    <string name="SkillNameLabel">Skill Name:</string>
+    <string name="EnterSkillNameHint">Enter Skill Name</string>
+    <string name="AddedStatLabel">Stat:</string>
     <!--Equipment Strings-->
     <string name="MagicBonus">Magic Bonus</string>
     <string name="EquipmentAbilities">Abilities</string>

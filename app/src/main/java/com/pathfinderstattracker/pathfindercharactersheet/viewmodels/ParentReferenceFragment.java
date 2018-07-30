@@ -24,6 +24,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtecti
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ParentReferenceFragment extends Fragment implements PathfinderRepository.GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener,
@@ -187,6 +188,13 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
                 skill.setFavoredClassPointsInvested(skillToUpdate.getFavoredClassPointsInvested());
             }
         }
+        referenceFragmentAdapter.setArgs(createBundle());
+        ReloadScreen();
+    }
+
+    public void AddCustomSkill(PlayerSkillsEntity skillToAdd)
+    {
+        currentPlayerSkills.add(skillToAdd);
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }

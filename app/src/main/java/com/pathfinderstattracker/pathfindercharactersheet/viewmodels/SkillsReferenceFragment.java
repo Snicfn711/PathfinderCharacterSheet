@@ -27,6 +27,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddCustomSkillDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 
@@ -40,12 +41,14 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
 {
     private OnListFragmentInteractionListener mListener;
     private OnSkillsUpdatedListener skillsUpdatedListener;
+    private OnCustomSkillAddedListener customSkillAddedListener;
     private Animation click;
     private IPlayerCharacter currentPlayerCharacter;
     private ArrayList<PlayerSkillsEntity> currentPlayerCharacterSkills;
     private SkillRecyclerViewAdapter skillAdapter;
     private View rootView;
     private static final int UPDATE_SKILL_POINTS_DIALOG = 1;
+    private static final int ADD_CUSTOM_SKILL_DIALOG = 2;
 
     public SkillsReferenceFragment()
     {
@@ -81,6 +84,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
             if(getCurrentCharacterBundle.containsKey("PlayerSkillsList"))
             {
                 currentPlayerCharacterSkills = (ArrayList<PlayerSkillsEntity>)getCurrentCharacterBundle.get("PlayerSkillsList");
+                Collections.sort(currentPlayerCharacterSkills);
             }
         }
         ArrayList<SkillForDisplay> skillsForDisplay = ConvertFromPlayerSkillsEntityArrayListToSkillForDisplayArrayList(currentPlayerCharacterSkills);
@@ -145,6 +149,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
             public void onClick(View view)
             {
                 addNewSkillButton.startAnimation(click);
+                OpenAddCustomSkillDialog();
             }
         });
 
@@ -173,6 +178,15 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         {
             throw new RuntimeException(context.toString()
                    +" must implement OnSkillsUpdatedListener");
+        }
+        if(context instanceof OnCustomSkillAddedListener)
+        {
+            customSkillAddedListener = (OnCustomSkillAddedListener) context;
+        }
+        else
+        {
+            throw new RuntimeException(context.toString()
+                                               +" must implement OnCustomSkillAddedListener");
         }
     }
 
@@ -237,12 +251,23 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
                      skillsUpdatedListener.onSkillsUpdated(updatedSkill);
                 }
                 break;
+            case ADD_CUSTOM_SKILL_DIALOG:
+                if(resultCode == Activity.RESULT_OK)
+                {
+                    PlayerSkillsEntity customSkillAdded = (PlayerSkillsEntity)data.getExtras().getSerializable("CustomSkillAdded");
+                    customSkillAddedListener.onCustomSkillAdded(customSkillAdded);
+                }
         }
     }
 
     public interface OnSkillsUpdatedListener
     {
         void onSkillsUpdated(PlayerSkillsEntity skillToUpdate);
+    }
+
+    public interface OnCustomSkillAddedListener
+    {
+        void onCustomSkillAdded(PlayerSkillsEntity skillToAdd);
     }
 
     //region Private Methods
@@ -299,6 +324,17 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
             skillPoints += skill.getFavoredClassPointsInvested();
         }
         return skillPoints;
+    }
+
+    private void OpenAddCustomSkillDialog()
+    {
+        Bundle args = new Bundle();
+        args.putSerializable("CurrentPlayerCharacterID", currentPlayerCharacter.getPlayerCharacterID());
+        AddCustomSkillDialog addCustomSkillDialog = new AddCustomSkillDialog();
+        addCustomSkillDialog.setArguments(args);
+        addCustomSkillDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        addCustomSkillDialog.setTargetFragment(this, ADD_CUSTOM_SKILL_DIALOG);
+        addCustomSkillDialog.show(this.getFragmentManager(),"Add Custom Skill");
     }
     //endregion
 }

@@ -26,11 +26,7 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
         foreignKeys = {@ForeignKey(entity=PlayerCharacterEntity.class,
                                    parentColumns = "playerCharacterID",
                                    childColumns = "playerCharacterID" ,
-                                   onDelete=CASCADE),
-                       @ForeignKey(entity=SkillEntity.class,
-                                   parentColumns = "skillID",
-                                   childColumns = "skillID",
-                                   onDelete = CASCADE)},
+                                   onDelete=CASCADE)},
         indices = {@Index("playerCharacterID"),
                    @Index("skillID")})
 @TypeConverters({UUIDConverter.class,

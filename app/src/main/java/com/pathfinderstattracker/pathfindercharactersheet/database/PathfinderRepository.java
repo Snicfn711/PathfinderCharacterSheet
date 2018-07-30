@@ -95,6 +95,12 @@ public class PathfinderRepository {
         task.execute(playerCharacterID);
     }
 
+    public void insertPlayerSkillEntity(PlayerSkillsEntity playerSkillsEntity)
+    {
+        insertPlayerSkillsEntityAsyncTask task = new insertPlayerSkillsEntityAsyncTask(playerSkillsDao);
+        task.execute(playerSkillsEntity);
+    }
+
     public void updatePlayerSkillEntity(PlayerSkillsEntity playerSkillsEntity)
     {
         updatePlayerSkillEntityAsyncTask task = new updatePlayerSkillEntityAsyncTask(playerSkillsDao);
@@ -183,6 +189,23 @@ public class PathfinderRepository {
         protected void onPostExecute(Void nothing)
         {
             delegate.onInitializePlayerSkillsAsyncTaskFinished();
+        }
+    }
+
+    private static class insertPlayerSkillsEntityAsyncTask extends AsyncTask<PlayerSkillsEntity, Void, Void>
+    {
+        private PlayerSkillsDao asyncPlayerSkillsDao;
+
+        insertPlayerSkillsEntityAsyncTask(PlayerSkillsDao playerSkillsDao)
+        {
+            asyncPlayerSkillsDao = playerSkillsDao;
+        }
+
+        @Override
+        protected Void doInBackground(PlayerSkillsEntity... params)
+        {
+            asyncPlayerSkillsDao.InsertPlayerSkill(params[0]);
+            return null;
         }
     }
 

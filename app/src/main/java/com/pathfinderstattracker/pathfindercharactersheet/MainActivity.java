@@ -65,7 +65,8 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
                                                               AddArmorToInventoryFragment.OnListFragmentInteractionListener,
                                                               InventoryReferenceFragment.OnPlayerArmorAddedListener,
                                                               PathfinderRepository.GetAllArmorsAsyncTaskFinishedListener,
-                                                              PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener
+                                                              PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener,
+                                                              SkillsReferenceFragment.OnCustomSkillAddedListener
 {
     private PathfinderRepository repository;
     private ArrayList<ISkill> defaultSkillList;
@@ -160,6 +161,9 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         parentReferenceFragment.UpdateCharacter(playerCharacter);
     }
 
+
+
+    //region Database Callback Methods
     @Override
     public void onFindPlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter)
     {
@@ -167,7 +171,6 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         moveToParentReferenceScreen();
     }
 
-    //region Database Callback Methods
     @Override
     public void onGetDefaultSkillsAsyncTaskFinished(List<ISkill> result)
     {
@@ -206,6 +209,8 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
     //endregion
 
+
+
     @Override
     public void onSkillsUpdated(PlayerSkillsEntity skillToUpdate)
     {
@@ -228,5 +233,12 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         bundle = null;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
+    }
+
+    @Override
+    public void onCustomSkillAdded(PlayerSkillsEntity skillToAdd)
+    {
+        ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
+        parentReferenceFragment.AddCustomSkill(skillToAdd);
     }
 }
