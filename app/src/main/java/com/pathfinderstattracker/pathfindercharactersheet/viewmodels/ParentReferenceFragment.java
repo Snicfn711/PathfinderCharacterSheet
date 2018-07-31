@@ -32,14 +32,13 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
                                                                  PathfinderRepository.GetSingleArmorAsyncTaskFinishedListener
 {
     private ReferenceFragmentAdapter referenceFragmentAdapter;
-    private ViewPager mViewPager;
+    private OnFragmentInteractionListener mListener;
     private PathfinderRepository repository;
+
     private IPlayerCharacter currentPlayerCharacter;
     private ArrayList<PlayerSkillsEntity> currentPlayerSkills;
     private ArrayList<IItem> currentPlayerInventory;
     private int totalInventorySize;
-
-    private OnFragmentInteractionListener mListener;
 
     public ParentReferenceFragment()
     {
@@ -84,7 +83,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         //This might seem bad, but since by this point the repository is already fetching their actual skills, we should be getting back our proper skills list before the user can scroll
         //And this way we don't get a null reference in our SkillsReferenceFragment or InventoryReferenceFragment
         referenceFragmentAdapter.setArgs(createBundle());
-        mViewPager = rootView.findViewById(R.id.referenceFragmentPager);
+        ViewPager mViewPager = rootView.findViewById(R.id.referenceFragmentPager);
         mViewPager.setAdapter(referenceFragmentAdapter);
 
         return rootView;
@@ -113,6 +112,12 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public interface OnFragmentInteractionListener
+    {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 
     //region Database Callback Methods
@@ -161,23 +166,13 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     }
     //endregion
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
+    //region Methods Called by MainActivity
     public void UpdateCharacter(IPlayerCharacter updatedCharacter)
     {
         currentPlayerCharacter = updatedCharacter;
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }
-
-    public void ReloadScreen()
-    {
-        referenceFragmentAdapter.notifyDataSetChanged();
-    }
-
     public void UpdateSkill(PlayerSkillsEntity skillToUpdate)
     {
         for(PlayerSkillsEntity skill : currentPlayerSkills)
@@ -205,6 +200,13 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }
+    //endregion
+
+    //region Private Methods
+    private void ReloadScreen()
+    {
+        referenceFragmentAdapter.notifyDataSetChanged();
+    }
 
     private Bundle createBundle()
     {
@@ -217,4 +219,5 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         bundleToPass.putSerializable("PlayerCharacter", currentPlayerCharacter);
         return bundleToPass;
     }
+    //endregion
 }

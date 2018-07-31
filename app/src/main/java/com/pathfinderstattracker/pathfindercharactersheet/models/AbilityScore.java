@@ -39,7 +39,16 @@ public class AbilityScore implements IAbilityScore, Serializable
 
     public int calculateModifier()
     {
-        return (Amount - 10)/2;
+        if(Amount >= 10)
+        {
+            return (Amount - 10) / 2;
+        }
+        else
+        {
+            //For some reason, rounding isn't working like we need for negative numbers, rounding to the number closest to 0, instead of farthest (so -2.5 becomes -2 instead of -3)
+            //And it's not really worth the time to look into the intricacies of math operations to find the right call, so we've split the call instead
+            return (Amount - 11)/2;
+        }
     }
 
     @Override

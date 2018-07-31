@@ -57,16 +57,16 @@ import java.util.List;
 
 public class StatsReferenceFragment extends Fragment implements PathfinderRepository.UpdatePlayerCharacterAsyncTaskFinishedListener
 {
-    private IPlayerCharacter currentPlayerCharacter;
     private PathfinderRepository repository;
-    private View rootView;
-    private Animation click;
-
-    private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;//Used later in the code to determine which dialog is returning data to this fragment
-    private static final int UPDATE_ABILITY_SCORES_DIALOG = 2;
-
     private OnFragmentInteractionListener mListener;
     private OnPlayerCharacterUpdatedListener playerCharacterUpdatedListener;
+    private Animation click;
+
+    private IPlayerCharacter currentPlayerCharacter;
+
+    //Used later in the code to determine which dialog is returning data to this fragment
+    private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;
+    private static final int UPDATE_ABILITY_SCORES_DIALOG = 2;
 
     public StatsReferenceFragment()
     {
@@ -99,7 +99,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
                              Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
+        View rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
         Activity context = this.getActivity();
         repository = new PathfinderRepository(this.getActivity().getApplication());
 
@@ -327,20 +327,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         mListener = null;
     }
 
-    //region Repository Listener Methods
-    @Override
-    public void onUpdatePlayerCharacterAsyncTaskFinished(PlayerCharacter playerCharacter)
-    {
-        playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
-    }
-    //endregion
-
-    public interface OnFragmentInteractionListener
-    {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -364,7 +350,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         repository.updatePlayerCharacter(DatabaseEntityObjectConverter.ConvertPlayerCharacterObjectToPlayerCharacterEntity(currentPlayerCharacter), this);
     }
 
-
+    //region Open Dialog Methods
     private void OpenEditAbilityScoresDialog()
     {
         Bundle args = new Bundle();
@@ -388,9 +374,26 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         rollD20Dialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         rollD20Dialog.show(this.getFragmentManager(), "Roll a d20");
     }
+    //endregion
 
+    //region Listener Interfaces
     public interface OnPlayerCharacterUpdatedListener
     {
         void onPlayerCharacterUpdated(IPlayerCharacter playerCharacter);
     }
+
+    public interface OnFragmentInteractionListener
+    {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
+    }
+    //endregion
+
+    //region Repository Listener Methods
+    @Override
+    public void onUpdatePlayerCharacterAsyncTaskFinished(PlayerCharacter playerCharacter)
+    {
+        playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
+    }
+    //endregion
 }

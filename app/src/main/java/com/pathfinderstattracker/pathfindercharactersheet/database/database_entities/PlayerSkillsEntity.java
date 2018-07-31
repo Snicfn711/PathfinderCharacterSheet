@@ -22,13 +22,13 @@ import java.util.UUID;
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "player_skills",
-        primaryKeys = {"playerCharacterID", "skillID"},
+        primaryKeys = {"playerCharacterID", "skill_name"},
         foreignKeys = {@ForeignKey(entity=PlayerCharacterEntity.class,
                                    parentColumns = "playerCharacterID",
                                    childColumns = "playerCharacterID" ,
                                    onDelete=CASCADE)},
         indices = {@Index("playerCharacterID"),
-                   @Index("skillID")})
+                   @Index("skill_name")})
 @TypeConverters({UUIDConverter.class,
                  AbilityScoreEnumConverter.class})
 public class PlayerSkillsEntity implements Serializable, Comparable<PlayerSkillsEntity>
@@ -43,6 +43,7 @@ public class PlayerSkillsEntity implements Serializable, Comparable<PlayerSkills
     private AbilityScoreEnum AddedStat;
     @ColumnInfo(name = "armor_check_penalty_applied")
     private boolean ArmorCheckPenaltyApplied;
+    @NonNull
     @ColumnInfo(name = "skill_name")
     private String SkillName;
     @ColumnInfo(name="level_up_points_invested")

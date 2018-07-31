@@ -3,6 +3,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.SkillRecyclerViewAdapter;
@@ -37,7 +39,8 @@ import java.util.List;
 import java.util.UUID;
 
 public class SkillsReferenceFragment extends Fragment implements SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener,
-                                                                 SkillRecyclerViewAdapter.OnEditSkillLongClickListener
+                                                                 SkillRecyclerViewAdapter.OnEditSkillLongClickListener,
+                                                                 PathfinderRepository.InsertCustomSkillListener
 {
     private OnListFragmentInteractionListener mListener;
     private OnSkillsUpdatedListener skillsUpdatedListener;
@@ -47,15 +50,12 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     private ArrayList<PlayerSkillsEntity> currentPlayerCharacterSkills;
     private SkillRecyclerViewAdapter skillAdapter;
     private View rootView;
+    private PathfinderRepository repository;
     private static final int UPDATE_SKILL_POINTS_DIALOG = 1;
     private static final int ADD_CUSTOM_SKILL_DIALOG = 2;
 
     public SkillsReferenceFragment()
     {
-        /**
-         * Mandatory empty constructor for the fragment manager to instantiate the
-         * fragment (e.g. upon screen orientation changes).
-         */
     }
 
     @SuppressWarnings("unused")
@@ -77,6 +77,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        repository = new PathfinderRepository(this.getActivity().getApplication());
         Bundle getCurrentCharacterBundle = getArguments();
         if(getCurrentCharacterBundle != null)
         {
@@ -209,6 +210,20 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         OpenEditSkillsDialog(skillHeld);
     }
 
+    @Override
+    public void onInsertCustomSkillAsyncTaskFinished(PlayerSkillsEntity insertedPlayerSkill, Exception thrownException)
+    {
+        if(thrownException instanceof SQLiteConstraintException)
+        {
+            String toastText = "The Skill " + insertedPlayerSkill.getSkillName() + " Has Already Been Added For This Character";
+            Toast.makeText(this.getContext(), toastText, Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            customSkillAddedListener.onCustomSkillAdded(insertedPlayerSkill);
+        }
+    }
+
     public interface OnListFragmentInteractionListener
     {
         // TODO: Update argument type and name
@@ -255,7 +270,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
                 if(resultCode == Activity.RESULT_OK)
                 {
                     PlayerSkillsEntity customSkillAdded = (PlayerSkillsEntity)data.getExtras().getSerializable("CustomSkillAdded");
-                    customSkillAddedListener.onCustomSkillAdded(customSkillAdded);
+                    repository.insertPlayerSkillEntity(this,customSkillAdded);
                 }
         }
     }

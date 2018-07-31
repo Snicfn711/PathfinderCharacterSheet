@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.pathfinderstattracker.pathfindercharactersheet.MainActivity;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
@@ -111,12 +112,10 @@ public class AddCustomSkillDialog extends DialogFragment
                 playerSkillsEntityToInsert.setSkillName(customSkillNameEditText.getText().toString());
                 playerSkillsEntityToInsert.setLevelUpPointsInvested(0);
                 playerSkillsEntityToInsert.setFavoredClassPointsInvested(0);
-                repository.insertPlayerSkillEntity(playerSkillsEntityToInsert);
 
                 Intent i = new Intent().putExtra("CustomSkillAdded", playerSkillsEntityToInsert);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
                 dismiss();
         }
     }
-
 }
