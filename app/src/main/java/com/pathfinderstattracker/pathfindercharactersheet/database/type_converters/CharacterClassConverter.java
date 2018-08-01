@@ -2,7 +2,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.type_convert
 
 import android.arch.persistence.room.TypeConverter;
 
-import com.pathfinderstattracker.pathfindercharactersheet.models.classes.CharacterClass;
 import com.pathfinderstattracker.pathfindercharactersheet.models.classes.ICharacterClass;
 import com.pathfinderstattracker.pathfindercharactersheet.models.classes.MartialCharacterClass;
 

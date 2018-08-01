@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.pathfinderstattracker.pathfindercharactersheet.MainActivity;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
@@ -24,7 +23,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtecti
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ParentReferenceFragment extends Fragment implements PathfinderRepository.GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener,

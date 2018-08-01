@@ -13,9 +13,6 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class RollD20Dialog extends DialogFragment

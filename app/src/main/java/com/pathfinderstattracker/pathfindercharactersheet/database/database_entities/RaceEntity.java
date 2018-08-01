@@ -5,7 +5,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreChangeConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreChangeListConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.BodySlotEnumListConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.CreatureTypeConverter;
@@ -13,11 +12,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.type_converte
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.StringListConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreChange;
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.CreatureType;
-import com.pathfinderstattracker.pathfindercharactersheet.models.races.IMovement;
-import com.pathfinderstattracker.pathfindercharactersheet.models.races.ISense;
 
 import java.util.List;
 

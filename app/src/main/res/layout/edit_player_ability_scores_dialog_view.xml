@@ -80,6 +80,7 @@
         android:textColor="@color/colorPlainText"
         android:gravity="center"
         android:textSize="25sp"
+        android:labelFor="@id/GetStrength"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditAbilityScoreGuideline"
@@ -98,7 +99,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditStrengthGuideline"
         android:gravity="center"
-        android:inputType="number"/>
+        android:inputType="number"
+        android:hint="@string/SetStrengthHint"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -106,6 +108,7 @@
         android:textColor="@color/colorPlainText"
         android:gravity="center"
         android:textSize="25sp"
+        android:labelFor="@id/GetDexterity"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditStrengthGuideline"
@@ -124,7 +127,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditDexterityGuideline"
         android:gravity="center"
-        android:inputType="number" />
+        android:inputType="number"
+        android:hint="@string/SetDexterityHint"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -132,6 +136,7 @@
         android:textColor="@color/colorPlainText"
         android:gravity="center"
         android:textSize="20sp"
+        android:labelFor="@id/GetConstitution"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditDexterityGuideline"
@@ -150,7 +155,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditConstitutionGuidelineGuideline"
         android:gravity="center"
-        android:inputType="number"/>
+        android:inputType="number"
+        android:hint="@string/SetConstitutionHint"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -158,6 +164,7 @@
         android:textColor="@color/colorPlainText"
         android:gravity="center"
         android:textSize="20sp"
+        android:labelFor="@id/GetIntelligence"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditConstitutionGuidelineGuideline"
@@ -176,7 +183,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditIntelligenceGuideline"
         android:gravity="center"
-        android:inputType="number" />
+        android:inputType="number"
+        android:hint="@string/SetIntelligenceHint"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -184,6 +192,7 @@
         android:textColor="@color/colorPlainText"
         android:gravity="center"
         android:textSize="22sp"
+        android:labelFor="@id/GetWisdom"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditIntelligenceGuideline"
@@ -202,7 +211,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditWisdomGuideline"
         android:gravity="center"
-        android:inputType="number" />
+        android:inputType="number"
+        android:hint="@string/SetWisdomHint"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -210,6 +220,7 @@
         android:textColor="@color/colorPlainText"
         android:gravity="center"
         android:textSize="25sp"
+        android:labelFor="@id/GetCharisma"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/HorizontalEditWisdomGuideline"
@@ -228,7 +239,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/HorizontalEditCharismaGuideline"
         android:gravity="center"
-        android:inputType="number" />
+        android:inputType="number"
+        android:hint="@string/SetCharismaHint"/>
     <ImageButton
         android:id="@+id/SaveAbilityScores"
         android:layout_width="0dp"

@@ -32,7 +32,7 @@ public class WeaponWeightClassEnumListConverter
         {
             return null;
         }
-        StringBuilder formattedString = new StringBuilder(new String());
+        StringBuilder formattedString = new StringBuilder();
         for(WeaponWeightClassEnum tagEnum: value)
         {
             formattedString.append(tagEnum.toString()).append("/");

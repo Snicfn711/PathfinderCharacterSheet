@@ -3,7 +3,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.models.characters;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
@@ -318,7 +317,7 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         CreatedPlayerCharacter.setBaseHitPoints(new HitPoints(0,0));
         CreatedPlayerCharacter.setTotalAC(10);
         CreatedPlayerCharacter.setDamageReduction(new DamageReduction(0,"",""));
-        CreatedPlayerCharacter.setLanguagesKnown(new ArrayList<String>(Arrays.asList("Common")));
+        CreatedPlayerCharacter.setLanguagesKnown(new ArrayList<>(Arrays.asList("Common")));
         CreatedPlayerCharacter.setCombatManeuverStats(new CombatManeuver(0,10));
         CreatedPlayerCharacter.setSpellResistance(0);
         CreatedPlayerCharacter.setFortitudeSave(0);
@@ -521,7 +520,7 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
     {
         int equipmentModifier = 0;
         int abilityScoreModifier = 0;
-        int featModifer = 0;
+        int featModifier = 0;
         if(Equipment != null)
         {
             //TODO:Come back and actually check out what we get from equipment once we've fleshed it out
@@ -542,14 +541,14 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
                 }
             }
         }
-        FortitudeSave = equipmentModifier + featModifer + abilityScoreModifier;
+        FortitudeSave = equipmentModifier + featModifier + abilityScoreModifier;
     }
 
     private void CalculateReflexSave()
     {
         int equipmentModifier = 0;
         int abilityScoreModifier = 0;
-        int featModifer = 0;
+        int featModifier = 0;
         if(Equipment != null)
         {
             //TODO:Come back and actually check out what we get from equipment once we've fleshed it out
@@ -570,14 +569,14 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
                 }
             }
         }
-        ReflexSave = equipmentModifier + featModifer + abilityScoreModifier;
+        ReflexSave = equipmentModifier + featModifier + abilityScoreModifier;
     }
 
     private void CalculateWillSave()
     {
         int equipmentModifier = 0;
         int abilityScoreModifier = 0;
-        int featModifer = 0;
+        int featModifier = 0;
         if(Equipment != null)
         {
             //TODO:Come back and actually check out what we get from equipment once we've fleshed it out
@@ -598,14 +597,14 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
                 }
             }
         }
-        WillSave = equipmentModifier + featModifer + abilityScoreModifier;
+        WillSave = equipmentModifier + featModifier + abilityScoreModifier;
     }
 
     private void CalculateInitiative()
     {
         int equipmentModifier = 0;
         int abilityScoreModifier = 0;
-        int featModifer = 0;
+        int featModifier = 0;
         if(Equipment != null)
         {
             //TODO:Come back and actually check out what we get from equipment once we've fleshed it out
@@ -626,7 +625,7 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
                 }
             }
         }
-        Initiative = equipmentModifier + featModifer + abilityScoreModifier;
+        Initiative = equipmentModifier + featModifier + abilityScoreModifier;
     }
 
     private void CalculateHitPoints()

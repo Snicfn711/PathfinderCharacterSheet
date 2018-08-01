@@ -84,10 +84,10 @@ public class AbilityRecyclerViewAdapter extends RecyclerView.Adapter<AbilityRecy
         {
             super(view);
             recycledRow = view;
-            abilityName = (TextView) view.findViewById(R.id.AbilityName);
-            abilityShortDescription = (TextView) view.findViewById(R.id.ShortAbilityDescription);
+            abilityName = view.findViewById(R.id.AbilityName);
+            abilityShortDescription = view.findViewById(R.id.ShortAbilityDescription);
             //abilitySource = (TextView) view.findViewById(R.id.content);
-            abilityFullDescription = (TextView) view.findViewById(R.id.FullAbilityDescription);
+            abilityFullDescription = view.findViewById(R.id.FullAbilityDescription);
         }
 
         @Override

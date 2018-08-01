@@ -3,7 +3,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
@@ -26,7 +25,7 @@ public class SkillEntity
     //This will allow players to add their own custom skills later on.
     @PrimaryKey
     @NonNull
-    private UUID skillID;
+    private UUID skillID = new UUID(0,0);
     @ColumnInfo(name = "added_stat")
     private AbilityScoreEnum AddedStat;
     @ColumnInfo(name = "armor_check_penalty_applied")
@@ -35,12 +34,14 @@ public class SkillEntity
     private String SkillName;
 
     //region Getters and Setters
+    @NonNull
     public UUID getSkillID()
     {
         return skillID;
     }
 
-    public void setSkillID(UUID skillID)
+
+    public void setSkillID(@NonNull UUID skillID)
     {
         this.skillID = skillID;
     }

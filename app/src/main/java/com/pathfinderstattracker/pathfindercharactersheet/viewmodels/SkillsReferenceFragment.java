@@ -21,11 +21,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.SkillRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
-import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
@@ -36,7 +33,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20D
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 public class SkillsReferenceFragment extends Fragment implements SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener,
                                                                  SkillRecyclerViewAdapter.OnEditSkillLongClickListener,

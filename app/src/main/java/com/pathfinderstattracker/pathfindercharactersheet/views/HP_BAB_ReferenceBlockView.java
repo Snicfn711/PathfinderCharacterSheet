@@ -33,7 +33,7 @@ public class HP_BAB_ReferenceBlockView extends LinearLayout
 
     private void initializeViews(Context context)
     {
-        LayoutInflater inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.hp_bab_reference_block_view, this);
     }
 

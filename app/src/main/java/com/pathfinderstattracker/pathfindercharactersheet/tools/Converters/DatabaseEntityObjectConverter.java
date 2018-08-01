@@ -1,26 +1,17 @@
 package com.pathfinderstattracker.pathfindercharactersheet.tools.Converters;
 
-import android.arch.persistence.room.ColumnInfo;
-
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
-
-import java.util.List;
-import java.util.UUID;
 
 public class DatabaseEntityObjectConverter
 {

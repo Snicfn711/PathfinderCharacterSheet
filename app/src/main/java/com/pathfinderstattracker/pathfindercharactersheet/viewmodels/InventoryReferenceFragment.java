@@ -18,30 +18,19 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.InventoryRecyclerViewAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.AbsItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ConsumableMundaneItem;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ReusableMundaneItem;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddItemToInventoryDialog;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * A fragment representing a list of Items.
@@ -82,11 +71,6 @@ public class InventoryReferenceFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null)
-        {
-            //Like above, since we don't have any parameters yet, there's not much to do here
-        }
     }
 
     @Override

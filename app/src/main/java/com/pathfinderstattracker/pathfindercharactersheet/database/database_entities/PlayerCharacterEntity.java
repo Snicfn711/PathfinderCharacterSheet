@@ -42,7 +42,7 @@ public class PlayerCharacterEntity
 {
     @PrimaryKey
     @NonNull
-    private UUID playerCharacterID;
+    private UUID playerCharacterID = new UUID(0,0);
     @ColumnInfo(name="character_name")
     private String playerCharacterName;
     @ColumnInfo(name="character_level")
@@ -82,8 +82,8 @@ public class PlayerCharacterEntity
         return playerCharacterID;
     }
 
-    @NonNull
-    public void setPlayerCharacterID(UUID playerCharacterID) {
+
+    public void setPlayerCharacterID(@NonNull UUID playerCharacterID) {
         this.playerCharacterID = playerCharacterID;
     }
 
@@ -227,7 +227,7 @@ public class PlayerCharacterEntity
         setBaseHitPoints(new HitPoints(0,0));
         setTotalAC(0);
         setDamageReduction(new DamageReduction(0,"",""));
-        setLanguagesKnown(new ArrayList<String>(Arrays.asList("Common")));
+        setLanguagesKnown(new ArrayList<>(Arrays.asList("Common")));
         setAbilityScores(new ArrayList<IAbilityScore>(Arrays.asList(new AbilityScore(AbilityScoreEnum.STR,10),
                                                                     new AbilityScore(AbilityScoreEnum.DEX, 10),
                                                                     new AbilityScore(AbilityScoreEnum.CON, 10),

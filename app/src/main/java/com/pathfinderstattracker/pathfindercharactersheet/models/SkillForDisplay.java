@@ -66,7 +66,7 @@ public class SkillForDisplay implements Comparable<SkillForDisplay>
     @Override
     public int compareTo(@NonNull SkillForDisplay o)
     {
-        SkillForDisplay temp = (SkillForDisplay)o;
+        SkillForDisplay temp = o;
         return this.SkillName.compareTo(temp.getSkillName());
     }
 }

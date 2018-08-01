@@ -3,8 +3,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,25 +14,12 @@ import android.widget.ImageButton;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.PlayerCharacterRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import  com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
-import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
-import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.DamageReduction;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.HitPoints;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * A fragment representing a list of Items.
@@ -70,13 +55,9 @@ public class PlayerCharacterListFragment extends Fragment implements PathfinderR
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null)
-        {
-            //Like above, since we don't have any parameters yet, there's not much to do here
-        }
     }
 
     @Override

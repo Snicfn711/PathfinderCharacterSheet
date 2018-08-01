@@ -4,9 +4,6 @@ import android.arch.persistence.room.TypeConverter;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponTagEnum;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Stephen Hagen on 5/4/2018.
  */

@@ -26,7 +26,7 @@ public class AbilityScoreListConverter
     @TypeConverter
     public String toString(List<IAbilityScore> value)
     {
-        StringBuilder formattedString = new StringBuilder(new String());
+        StringBuilder formattedString = new StringBuilder();
         for(IAbilityScore IAbilityScore: value)
         {
             formattedString.append(IAbilityScore.toString()).append("/");

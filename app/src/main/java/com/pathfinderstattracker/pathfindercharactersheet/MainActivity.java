@@ -1,25 +1,14 @@
 package com.pathfinderstattracker.pathfindercharactersheet;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderDatabase;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerCharacterDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
@@ -31,24 +20,19 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddItemToInventoryDialog;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AddArmorToInventoryFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.ParentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.PlayerCharacterListFragment;
+import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
 
 public class MainActivity extends FragmentActivity implements StatsReferenceFragment.OnFragmentInteractionListener,
                                                               SkillsReferenceFragment.OnListFragmentInteractionListener,

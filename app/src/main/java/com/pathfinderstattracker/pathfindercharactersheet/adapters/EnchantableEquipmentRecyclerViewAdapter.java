@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;

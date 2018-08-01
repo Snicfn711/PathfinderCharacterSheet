@@ -17,18 +17,9 @@ import android.widget.ImageButton;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
-import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.WondrousItems;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddNameDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditAbilityScoresDialog;
@@ -43,7 +34,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.views.AbilityScoreRefe
 import com.pathfinderstattracker.pathfindercharactersheet.views.SpellResistanceReferenceBlockView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -88,10 +78,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     {
         super.onCreate(savedInstanceState);
         click = AnimationUtils.loadAnimation(this.getContext(), R.anim.roll_button_click);
-        if (getArguments() != null)
-        {
-            //Like above, since we don't have any parameters yet, there's not much to do here
-        }
     }
 
     @Override

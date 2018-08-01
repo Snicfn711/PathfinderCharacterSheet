@@ -5,20 +5,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepositoryListener;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.PlayerCharacterListFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SpellReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
-
-import java.util.List;
 
 /**
  * Created by Stephen Hagen on 2/20/2018.

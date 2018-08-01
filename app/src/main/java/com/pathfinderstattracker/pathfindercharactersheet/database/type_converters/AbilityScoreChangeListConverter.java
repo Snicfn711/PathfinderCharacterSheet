@@ -4,7 +4,6 @@ import android.arch.persistence.room.TypeConverter;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreChange;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScoreChange;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class AbilityScoreChangeListConverter
     @TypeConverter
     public String toString(List<AbilityScoreChange> value)
     {
-        StringBuilder formattedString = new StringBuilder(new String());
+        StringBuilder formattedString = new StringBuilder();
         for(AbilityScoreChange abilityScoreChange: value)
         {
             formattedString.append(abilityScoreChange.toString()).append("/");

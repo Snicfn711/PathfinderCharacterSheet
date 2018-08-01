@@ -45,9 +45,10 @@ public class AbilityScore implements IAbilityScore, Serializable
         }
         else
         {
-            //For some reason, rounding isn't working like we need for negative numbers, rounding to the number closest to 0, instead of farthest (so -2.5 becomes -2 instead of -3)
-            //And it's not really worth the time to look into the intricacies of math operations to find the right call, so we've split the call instead
-            return (Amount - 11)/2;
+
+            //While this is technically more complicated than our previous solution of (Amount - 11)/2, we're keeping it because it more clearly shows what's being done.
+            //This solution also more properly utilizes our math functions, rather than relying on a quirk of integer division.
+            return (int)Math.floor((Amount - 10.0)/2.0);
         }
     }
 

@@ -13,7 +13,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.type_converte
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -27,7 +26,7 @@ public class ArmorEntity implements Serializable
 {
     @PrimaryKey
     @NonNull
-    private UUID armorID;
+    private UUID armorID = new UUID(0,0);
     @ColumnInfo(name="cost")
     private double cost;
     @ColumnInfo(name="weight")

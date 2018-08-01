@@ -9,9 +9,7 @@ import android.arch.persistence.room.Update;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreConverter;
-import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreListConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 
 import java.util.UUID;
 import java.util.List;

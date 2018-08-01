@@ -246,7 +246,7 @@ public class Weapon extends AbsItem implements IWeapon
 
     public String returnCriticalString()
     {
-        String criticalString = "";
+        String criticalString;
         int criticalRange = calculateCriticalRange();
         if(criticalRange < 20)
         {

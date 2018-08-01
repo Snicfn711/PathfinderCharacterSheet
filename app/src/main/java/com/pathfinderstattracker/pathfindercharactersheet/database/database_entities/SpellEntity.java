@@ -16,7 +16,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.type_converte
 import com.pathfinderstattracker.pathfindercharactersheet.models.ArcaneSchoolEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.classes.ICharacterClass;
-import com.pathfinderstattracker.pathfindercharactersheet.models.spells.CastingTime;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.DescriptorEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ICastingTime;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpellArea;

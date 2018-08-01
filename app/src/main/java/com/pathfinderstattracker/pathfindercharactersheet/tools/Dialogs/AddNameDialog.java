@@ -26,11 +26,7 @@ public class AddNameDialog extends DialogFragment
         getNameText = rootView.findViewById(R.id.GetNewCharacterName);
         getNameButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v)
         {
-            if(getNameText.getText().toString().isEmpty())
-            {
-                //If no text has been entered, just return null
-            }
-            else
+            if(!getNameText.getText().toString().isEmpty())
             {
                 Intent returnedIntent = new Intent().putExtra("NewPlayerCharacterName", getNameText.getText().toString());
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, returnedIntent);

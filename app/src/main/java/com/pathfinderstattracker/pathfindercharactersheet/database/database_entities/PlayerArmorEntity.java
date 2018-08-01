@@ -31,10 +31,10 @@ public class PlayerArmorEntity
 {
     @NonNull
     @ColumnInfo(name="playerCharacterID")
-    private UUID playerID;
+    private UUID playerID = new UUID(0,0);
     @NonNull
     @ColumnInfo(name="armorID")
-    private UUID armorID;
+    private UUID armorID = new UUID(0,0);
 
     @ColumnInfo(name = "is_equipped")
     private boolean isEquipped;

@@ -1,9 +1,6 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
 import com.pathfinderstattracker.pathfindercharactersheet.models.BodySlotsEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
-
-import java.util.List;
 
 /**
  * Created by Stephen Hagen on 1/4/2018.

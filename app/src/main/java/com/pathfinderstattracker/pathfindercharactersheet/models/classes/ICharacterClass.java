@@ -1,6 +1,5 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.classes;
 
-import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;

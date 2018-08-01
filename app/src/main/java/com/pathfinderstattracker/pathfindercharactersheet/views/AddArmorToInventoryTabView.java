@@ -1,9 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.views;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.TabItem;
 import android.view.LayoutInflater;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;

@@ -1,7 +1,5 @@
 package com.pathfinderstattracker.pathfindercharactersheet.adapters;
 
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,13 +12,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
-import java.util.UUID;
 
 public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecyclerViewAdapter.ViewHolder>
 {

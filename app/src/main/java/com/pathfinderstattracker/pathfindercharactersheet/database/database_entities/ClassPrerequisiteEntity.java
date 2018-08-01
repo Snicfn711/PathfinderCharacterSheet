@@ -4,8 +4,6 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.pathfinderstattracker.pathfindercharactersheet.models.classes.ICharacterClass;
-
 /**
  * Created by Stephen Hagen on 5/1/2018.
  */

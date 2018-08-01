@@ -1,12 +1,8 @@
 package com.pathfinderstattracker.pathfindercharactersheet.database;
 
-import android.app.Activity;
 import android.app.Application;
-import android.app.FragmentManager;
-import android.content.Context;
 import android.database.sqlite.SQLiteConstraintException;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.ArmorDao;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_daos.PlayerArmorDao;
@@ -19,24 +15,15 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScore;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment;
-import com.pathfinderstattracker.pathfindercharactersheet.views.InitiativeReferenceBlockView;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
 public class PathfinderRepository
 {

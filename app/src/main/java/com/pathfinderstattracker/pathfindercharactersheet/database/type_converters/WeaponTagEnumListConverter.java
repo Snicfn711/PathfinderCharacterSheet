@@ -32,7 +32,7 @@ public class WeaponTagEnumListConverter
         {
             return null;
         }
-        StringBuilder formattedString = new StringBuilder(new String());
+        StringBuilder formattedString = new StringBuilder();
         for(WeaponTagEnum tagEnum: value)
         {
             formattedString.append(tagEnum.toString()).append("/");

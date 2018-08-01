@@ -2,7 +2,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.views;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +13,6 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditAbilityScoresDialog;
-import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.StatsReferenceFragment;
 
 import java.util.List;
 

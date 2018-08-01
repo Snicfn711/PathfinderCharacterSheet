@@ -7,11 +7,6 @@ import android.arch.persistence.room.TypeConverters;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityTypeEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityTypeEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IBonus;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IPenalty;
-import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
-
-import java.util.List;
 
 /**
  * Created by Stephen Hagen on 4/25/2018.

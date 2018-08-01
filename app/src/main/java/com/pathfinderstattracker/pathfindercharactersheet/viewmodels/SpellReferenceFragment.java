@@ -182,11 +182,6 @@ public class SpellReferenceFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null)
-        {
-            //Like above, since we don't have any paramters yet, there's not much to do here
-        }
     }
 
     @Override
@@ -300,7 +295,7 @@ public class SpellReferenceFragment extends Fragment
         //For each section of spells(Cantrips, First Level Spells, etc)  find the tagged views for the spell list and it's headers
         for(int i = 0; i < sectionCount; i++)
         {
-            final View sectionView = (View)rootLayout.getChildAt(i);
+            final View sectionView = rootLayout.getChildAt(i);
             View tempSpellList = sectionView.findViewWithTag("SpellList");
             //If we don't check for null values before adding to the lists, the lists continue growing in size, causing null pointer references when we try to bind our onClickListeners
             if(tempSpellList != null)

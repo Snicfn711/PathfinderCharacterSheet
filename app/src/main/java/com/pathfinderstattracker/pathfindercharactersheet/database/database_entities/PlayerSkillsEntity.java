@@ -7,12 +7,9 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
-import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreEnumConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 
 import java.io.Serializable;
 import java.util.Comparator;
@@ -35,39 +32,41 @@ public class PlayerSkillsEntity implements Serializable, Comparable<PlayerSkills
 {
     @NonNull
     @ColumnInfo(name="playerCharacterID")
-    private UUID playerID;
+    private UUID playerID = new UUID(0,0);
     @NonNull
     @ColumnInfo(name="skillID")
-    private UUID skillID;
+    private UUID skillID = new UUID(0,0);
     @ColumnInfo(name = "added_stat")
     private AbilityScoreEnum AddedStat;
     @ColumnInfo(name = "armor_check_penalty_applied")
     private boolean ArmorCheckPenaltyApplied;
     @NonNull
     @ColumnInfo(name = "skill_name")
-    private String SkillName;
+    private String SkillName = "";
     @ColumnInfo(name="level_up_points_invested")
     private int levelUpPointsInvested;
     @ColumnInfo(name="favored_class_points_invested")
     private int favoredClassPointsInvested;
 
     //region Getters and Setters
+    @NonNull
     public UUID getPlayerID()
     {
         return playerID;
     }
 
-    public void setPlayerID(UUID playerID)
+    public void setPlayerID(@NonNull UUID playerID)
     {
         this.playerID = playerID;
     }
 
+    @NonNull
     public UUID getSkillID()
     {
         return skillID;
     }
 
-    public void setSkillID(UUID skillID)
+    public void setSkillID(@NonNull UUID skillID)
     {
         this.skillID = skillID;
     }
@@ -112,12 +111,13 @@ public class PlayerSkillsEntity implements Serializable, Comparable<PlayerSkills
         ArmorCheckPenaltyApplied = armorCheckPenaltyApplied;
     }
 
+    @NonNull
     public String getSkillName()
     {
         return SkillName;
     }
 
-    public void setSkillName(String skillName)
+    public void setSkillName(@NonNull String skillName)
     {
         SkillName = skillName;
     }
@@ -132,7 +132,7 @@ public class PlayerSkillsEntity implements Serializable, Comparable<PlayerSkills
     @Override
     public int compareTo(@NonNull PlayerSkillsEntity o)
     {
-        PlayerSkillsEntity temp = (PlayerSkillsEntity)o;
+        PlayerSkillsEntity temp = o;
         return this.SkillName.compareTo(temp.getSkillName());
     }
 

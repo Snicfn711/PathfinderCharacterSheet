@@ -78,6 +78,7 @@
         android:src="@drawable/close_icon"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
+        android:contentDescription="@string/CloseDialog"
         app:layout_constraintLeft_toRightOf="@id/RollD20CloseButtonVerticalGuideline"
         app:layout_constraintStart_toEndOf="@id/RollD20CloseButtonVerticalGuideline"
         app:layout_constraintTop_toBottomOf="@id/RollD20ButtonHorizontalGuideline"

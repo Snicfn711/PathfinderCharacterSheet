@@ -13,19 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddItemToInventoryDialogAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AddArmorToInventoryFragment;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class AddItemToInventoryDialog extends DialogFragment
@@ -41,7 +36,7 @@ public class AddItemToInventoryDialog extends DialogFragment
         repository = new PathfinderRepository(this.getActivity().getApplication());
         View rootView = inflater.inflate(R.layout.add_item_to_inventory_dialog_view, container, false);
         addItemToInventoryDialogAdapter = new AddItemToInventoryDialogAdapter(getChildFragmentManager());
-        viewPager = (ViewPager)rootView.findViewById(R.id.AddItemToInventoryViewPager);
+        viewPager = rootView.findViewById(R.id.AddItemToInventoryViewPager);
         viewPager.setAdapter(addItemToInventoryDialogAdapter);
         Button confirmButton = rootView.findViewById(R.id.AddItemToInventoryConfirmButton);
         confirmButton.setOnClickListener(new ConfirmButtonOnClickListener());

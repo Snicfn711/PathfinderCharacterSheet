@@ -3,8 +3,6 @@ package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,10 +59,6 @@ public class AbilityReferenceFragment extends Fragment
         super.onCreate(savedInstanceState);
         tempAbilities.add(punch);
         tempAbilities.add(kick);
-        if (getArguments() != null)
-        {
-            //Like above, since we don't have any paramters yet, there's not much to do here
-        }
     }
 
     @Override
@@ -73,7 +67,7 @@ public class AbilityReferenceFragment extends Fragment
     {
         View rootView = inflater.inflate(R.layout.ability_fragment_view, container, false);
         Context context = rootView.getContext();
-        final RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.AbilityList);
+        final RecyclerView recyclerView = rootView.findViewById(R.id.AbilityList);
         final AbilityRecyclerViewAdapter abilityRecyclerViewAdapter = new AbilityRecyclerViewAdapter(tempAbilities, mListener);
         recyclerView.setAdapter(abilityRecyclerViewAdapter);
 

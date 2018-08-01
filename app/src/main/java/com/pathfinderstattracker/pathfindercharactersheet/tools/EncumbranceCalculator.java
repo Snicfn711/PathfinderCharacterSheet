@@ -13,7 +13,7 @@ public class EncumbranceCalculator
     {
         List<IAbilityScore> characterAbilityScores = characterToCheck.getAbilityScores();
         int characterStrengthScore = 1;
-        int heavyLoad= 10;
+        int heavyLoad;
         for(IAbilityScore score:characterAbilityScores)
         {
              if(score.getStat() == AbilityScoreEnum.STR)

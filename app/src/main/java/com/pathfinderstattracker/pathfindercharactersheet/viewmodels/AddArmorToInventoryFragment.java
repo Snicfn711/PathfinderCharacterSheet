@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -15,10 +14,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddArmorToInventorySpinnerAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 
 import java.util.ArrayList;
@@ -51,12 +48,7 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
-            //Like above, since we don't have any paramters yet, there's not much to do here
-        }
     }
 
     @Override

@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.models.characters.CombatManeuver;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.ICombatManeuver;
 
 public class CombatManeuverReferenceBlockView extends LinearLayout

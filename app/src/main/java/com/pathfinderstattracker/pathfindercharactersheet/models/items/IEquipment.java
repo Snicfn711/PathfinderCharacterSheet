@@ -1,10 +1,6 @@
 package com.pathfinderstattracker.pathfindercharactersheet.models.items;
 
-import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
-
-import java.util.List;
 
 /**
  * Created by Stephen Hagen on 12/26/2017.

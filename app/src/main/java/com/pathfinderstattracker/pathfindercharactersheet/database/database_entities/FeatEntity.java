@@ -2,15 +2,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-
-import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IBonus;
-import com.pathfinderstattracker.pathfindercharactersheet.models.IPenalty;
-import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IPrerequisite;
-
-import java.util.List;
 
 /**
  * Created by Stephen Hagen on 4/24/2018.

@@ -7,7 +7,6 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.ISense;
-import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
 
 import java.util.List;
 
@@ -198,7 +197,7 @@ public class WeaponEnchantment implements IWeaponEnchantment
     @Override
     public void setConditionalAttackBonus(int conditionalAttackBonus)
     {
-        conditionalAttackBonus = conditionalAttackBonus;
+        this.conditionalAttackBonus = conditionalAttackBonus;
     }
 
     @Override

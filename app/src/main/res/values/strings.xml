@@ -10,21 +10,28 @@
     <string name="None">None</string>
     <string name="Emdash">-</string>
     <string name="Confirm">Confirm</string>
+    <string name="CloseDialog">Close Dialog</string>
     <!--Stat Strings-->
     <string name="StatScore">Score</string>
     <string name="StatModifier">Mod</string>
     <string name="StrengthScore">Strength</string>
     <string name="RollStrength">Roll Strength Check</string>
+    <string name="SetStrengthHint">Set Strength Score</string>
     <string name="DexterityScore">Dexterity</string>
     <string name="RollDexterity">Roll Dexterity Check</string>
+    <string name="SetDexterityHint">Set Dexterity Score</string>
     <string name="ConstitutionScore">Constitution</string>
     <string name="RollConstitution">Roll Constitution Check</string>
+    <string name="SetConstitutionHint">Set Constitution Score</string>
     <string name="IntelligenceScore">Intelligence</string>
     <string name="RollIntelligence">Roll Intelligence Check</string>
+    <string name="SetIntelligenceHint">Set Intelligence Score</string>
     <string name="WisdomScore">Wisdom</string>
     <string name="RollWisdom">Roll Wisdom Check</string>
+    <string name="SetWisdomHint">Set Wisdom Score</string>
     <string name="CharismaScore">Charisma</string>
     <string name="RollCharisma">Roll Charisma Check</string>
+    <string name="SetCharismaHint">Set Charisma Score</string>
     <!--Movement Strings-->
     <string name="MovementFeet">Feet</string>
     <string name="MovementSquares">Squares</string>
@@ -67,6 +74,7 @@
     <string name="SkillNameLabel">Skill Name:</string>
     <string name="EnterSkillNameHint">Enter Skill Name</string>
     <string name="AddedStatLabel">Stat:</string>
+    <string name="SetPoints">Set Points</string>
     <!--Equipment Strings-->
     <string name="MagicBonus">Magic Bonus</string>
     <string name="EquipmentAbilities">Abilities</string>

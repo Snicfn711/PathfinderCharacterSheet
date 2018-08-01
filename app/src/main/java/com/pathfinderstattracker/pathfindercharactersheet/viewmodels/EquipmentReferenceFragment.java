@@ -130,11 +130,6 @@ public class EquipmentReferenceFragment extends Fragment
         TempEquipment.add(tower);
 
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null)
-        {
-            //Like above, since we don't have any parameters yet, there's not much to do here
-        }
     }
 
     @Override
