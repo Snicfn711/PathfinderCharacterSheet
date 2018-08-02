@@ -1,7 +1,9 @@
 package com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v4.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,24 +11,27 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher;
 
 import java.util.List;
 import java.util.UUID;
 
 public class EditSkillValuesDialog extends DialogFragment implements PathfinderRepository.GetPlayerSkillEntityAsyncTaskFinishedListener
 {
-    private EditText getLevelUpPoints;
-    private EditText getFavoredClassPoints;
-    private UUID currentSkillID;
-    private UUID currentPlayerCharacterID;
     private View rootView;
     private PathfinderRepository repository;
+
+    private EditText getLevelUpPoints;
+    private EditText getFavoredClassPoints;
+    private Button deleteSkillButton;
+    private UUID currentSkillID;
     private PlayerSkillsEntity currentPlayerSkill;
 
     @Override
@@ -58,7 +63,13 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
         });
 
         currentSkillID = (UUID)getArguments().getSerializable("CurrentSkillID");
-        currentPlayerCharacterID = (UUID)getArguments().getSerializable("CurrentPlayerCharacterID");
+        UUID currentPlayerCharacterID = (UUID) getArguments().getSerializable("CurrentPlayerCharacterID");
+        Boolean isFeatCustom = getArguments().getBoolean("IsFeatCustom");
+        deleteSkillButton = rootView.findViewById(R.id.DeleteSkillButton);
+        if(isFeatCustom)
+        {
+            deleteSkillButton.setVisibility(View.VISIBLE);
+        }
 
         repository.requestPlayerSkillEntity(this, currentPlayerCharacterID);
         return rootView;
@@ -115,6 +126,38 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
                 dismiss();
             }
         }
+        });
+
+        deleteSkillButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        switch(which)
+                        {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                repository.deletePlayerSkillEntity(currentPlayerSkill);
+                                Intent returnIntent = new Intent().putExtra("DeletedSkill", currentPlayerSkill);
+                                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, returnIntent);
+                                dismiss();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage("Are you sure you want to delete the " + currentPlayerSkill.getSkillName() + " skill?")
+                       .setPositiveButton("Yes", dialogClickListener)
+                       .setNegativeButton("No", dialogClickListener)
+                       .show();
+            }
         });
     }
 }

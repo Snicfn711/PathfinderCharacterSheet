@@ -46,6 +46,32 @@ public class PathfinderRepository
     }
 
     //region Synchronous Methods
+    public void insertNewPlayerCharacter(IPlayerCharacter playerCharacter)
+    {
+        PlayerCharacterEntity EntityToInsert = DatabaseEntityObjectConverter.ConvertPlayerCharacterObjectToPlayerCharacterEntity(playerCharacter);
+        new insertPlayerCharacterAsyncTask(playerCharacterDao).execute(EntityToInsert);
+    }
+
+    public void insertPlayerSkillEntity(InsertCustomSkillListener callingActivity, PlayerSkillsEntity playerSkillsEntity)
+    {
+        insertPlayerSkillsEntityAsyncTask task = new insertPlayerSkillsEntityAsyncTask(playerSkillsDao);
+        task.delegate = callingActivity;
+        task.execute(playerSkillsEntity);
+    }
+
+    public void insertPlayerArmorEntity(PlayerArmorEntity playerArmorEntity)
+    {
+        insertPlayerArmorAsyncTask task = new insertPlayerArmorAsyncTask(playerArmorDao);
+        task.execute(playerArmorEntity);
+    }
+
+    public void initializePlayerSkill(InitializePlayerSkillsAsyncTaskFinishedListener callingActivity, IPlayerCharacter characterToInitialize, List<ISkill> skillsToInitialize)
+    {
+        initializePlayerSkillsAsyncTask task = new initializePlayerSkillsAsyncTask(playerSkillsDao);
+        task.delegate = callingActivity;
+        task.execute(characterToInitialize.getPlayerCharacterID(), skillsToInitialize);
+    }
+
     public void requestPlayerNamesAndIDs(GetPlayerCharacterNamesAndIDsAsyncTaskFinishedListener callingActivity)
     {
         getPlayerCharacterNamesAndIDsAsyncTask task = new getPlayerCharacterNamesAndIDsAsyncTask(playerCharacterDao);
@@ -115,34 +141,112 @@ public class PathfinderRepository
         task.execute(playerSkillsEntity);
     }
 
-    public void insertNewPlayerCharacter(IPlayerCharacter playerCharacter)
+    public void deletePlayerSkillEntity(PlayerSkillsEntity playerSkillEntity)
     {
-        PlayerCharacterEntity EntityToInsert = DatabaseEntityObjectConverter.ConvertPlayerCharacterObjectToPlayerCharacterEntity(playerCharacter);
-        new insertPlayerCharacterAsyncTask(playerCharacterDao).execute(EntityToInsert);
-    }
-
-    public void insertPlayerSkillEntity(InsertCustomSkillListener callingActivity, PlayerSkillsEntity playerSkillsEntity)
-    {
-        insertPlayerSkillsEntityAsyncTask task = new insertPlayerSkillsEntityAsyncTask(playerSkillsDao);
-        task.delegate = callingActivity;
-        task.execute(playerSkillsEntity);
-    }
-
-    public void insertPlayerArmorEntity(PlayerArmorEntity playerArmorEntity)
-    {
-        insertPlayerArmorAsyncTask task = new insertPlayerArmorAsyncTask(playerArmorDao);
-        task.execute(playerArmorEntity);
-    }
-
-    public void initializePlayerSkill(InitializePlayerSkillsAsyncTaskFinishedListener callingActivity, IPlayerCharacter characterToInitialize, List<ISkill> skillsToInitialize)
-    {
-        initializePlayerSkillsAsyncTask task = new initializePlayerSkillsAsyncTask(playerSkillsDao);
-        task.delegate = callingActivity;
-        task.execute(characterToInitialize.getPlayerCharacterID(), skillsToInitialize);
+        deletePlayerSkillEntityAsyncTask task = new deletePlayerSkillEntityAsyncTask(playerSkillsDao);
+        task.execute(playerSkillEntity);
     }
     //endregion
 
     //region Async Tasks
+    private static class insertPlayerCharacterAsyncTask extends AsyncTask<PlayerCharacterEntity, Void, Void> {
+        private PlayerCharacterDao asyncPlayerCharacterDao;
+
+        insertPlayerCharacterAsyncTask(PlayerCharacterDao dao) {
+            asyncPlayerCharacterDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final PlayerCharacterEntity... params) {
+            asyncPlayerCharacterDao.insertPlayerCharacter(params[0]);
+            return null;
+        }
+    }
+
+    private static class insertPlayerSkillsEntityAsyncTask extends AsyncTask<PlayerSkillsEntity, Void, PlayerSkillsEntity>
+    {
+        private PlayerSkillsDao asyncPlayerSkillsDao;
+        private Exception exception;
+        private PlayerSkillsEntity skillToAdd;
+        private InsertCustomSkillListener delegate = null;
+
+        insertPlayerSkillsEntityAsyncTask(PlayerSkillsDao playerSkillsDao)
+        {
+            asyncPlayerSkillsDao = playerSkillsDao;
+        }
+
+        @Override
+        protected PlayerSkillsEntity doInBackground(PlayerSkillsEntity... params)
+        {
+            skillToAdd = params[0];
+            try
+            {
+                asyncPlayerSkillsDao.InsertPlayerSkill(skillToAdd);
+            }
+            catch(SQLiteConstraintException e)
+            {
+                exception = e;
+            }
+            return skillToAdd;
+        }
+
+        protected void onPostExecute(PlayerSkillsEntity playerSkillsEntityToReturn)
+        {
+            //We're relying on the database to error out if the user tries to add a duplicate custom skill.
+            //It's rudimentary since it's only checking for exacat name matches, but it should work for now.
+            delegate.onInsertCustomSkillAsyncTaskFinished(playerSkillsEntityToReturn, exception);
+        }
+    }
+
+    private static class insertPlayerArmorAsyncTask extends AsyncTask<PlayerArmorEntity, Void, Void>
+    {
+        private PlayerArmorDao asyncPlayerArmorDao;
+
+        insertPlayerArmorAsyncTask(PlayerArmorDao dao){asyncPlayerArmorDao = dao;}
+
+        @Override
+        protected Void doInBackground(PlayerArmorEntity... params)
+        {
+            asyncPlayerArmorDao.InsertPlayerArmor(params[0]);
+            return null;
+        }
+    }
+
+    private static class initializePlayerSkillsAsyncTask extends AsyncTask<Object, Void, Void> {
+        private PlayerSkillsDao asyncPlayerSkillsDao;
+        private InitializePlayerSkillsAsyncTaskFinishedListener delegate;
+
+        initializePlayerSkillsAsyncTask(PlayerSkillsDao playerSkillsDao)
+        {
+            asyncPlayerSkillsDao = playerSkillsDao;
+        }
+
+        @Override
+        protected Void doInBackground(Object... params) {
+            UUID playerCharacterID = (UUID)params[0];
+            List<ISkill> skillsList = (List<ISkill>)params[1];
+            for(ISkill skill : skillsList)
+            {
+                PlayerSkillsEntity temp = new PlayerSkillsEntity();
+                temp.setPlayerID(playerCharacterID);
+                temp.setSkillID(skill.getSkillID());
+                temp.setLevelUpPointsInvested(0);
+                temp.setFavoredClassPointsInvested(0);
+                temp.setAddedStat(skill.getAddedStat());
+                temp.setArmorCheckPenaltyApplied(skill.isArmorCheckPenaltyApplied());
+                temp.setSkillName(skill.getSkillName());
+                asyncPlayerSkillsDao.InsertPlayerSkill(temp);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void nothing)
+        {
+            delegate.onInitializePlayerSkillsAsyncTaskFinished();
+        }
+    }
+
     private static class getPlayerCharacterByIDAsyncTask extends AsyncTask<UUID, Void, IPlayerCharacter> {
         private GetPlayerCharacterAsyncTaskFinishedListener delegate = null;
         private PlayerCharacterDao asyncPlayerCharacterDao;
@@ -338,106 +442,31 @@ public class PathfinderRepository
         }
     }
 
-    private static class insertPlayerCharacterAsyncTask extends AsyncTask<PlayerCharacterEntity, Void, Void> {
-        private PlayerCharacterDao asyncPlayerCharacterDao;
-
-        insertPlayerCharacterAsyncTask(PlayerCharacterDao dao) {
-            asyncPlayerCharacterDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final PlayerCharacterEntity... params) {
-            asyncPlayerCharacterDao.insertPlayerCharacter(params[0]);
-            return null;
-        }
-    }
-
-    private static class insertPlayerSkillsEntityAsyncTask extends AsyncTask<PlayerSkillsEntity, Void, PlayerSkillsEntity>
+    private static class deletePlayerSkillEntityAsyncTask extends AsyncTask<PlayerSkillsEntity, Void, Void>
     {
         private PlayerSkillsDao asyncPlayerSkillsDao;
-        private Exception exception;
-        private PlayerSkillsEntity skillToAdd;
-        private InsertCustomSkillListener delegate = null;
 
-        insertPlayerSkillsEntityAsyncTask(PlayerSkillsDao playerSkillsDao)
+        deletePlayerSkillEntityAsyncTask(PlayerSkillsDao dao){asyncPlayerSkillsDao = dao;}
+
+        protected Void doInBackground(PlayerSkillsEntity... params)
         {
-            asyncPlayerSkillsDao = playerSkillsDao;
-        }
-
-        @Override
-        protected PlayerSkillsEntity doInBackground(PlayerSkillsEntity... params)
-        {
-            skillToAdd = params[0];
-            try
-            {
-                asyncPlayerSkillsDao.InsertPlayerSkill(skillToAdd);
-            }
-            catch(SQLiteConstraintException e)
-            {
-                exception = e;
-            }
-            return skillToAdd;
-        }
-
-        protected void onPostExecute(PlayerSkillsEntity playerSkillsEntityToReturn)
-        {
-            //We're relying on the database to error out if the user tries to add a duplicate custom skill.
-            //It's rudimentary since it's only checking for exacat name matches, but it should work for now.
-            delegate.onInsertCustomSkillAsyncTaskFinished(playerSkillsEntityToReturn, exception);
-        }
-    }
-
-    private static class insertPlayerArmorAsyncTask extends AsyncTask<PlayerArmorEntity, Void, Void>
-    {
-        private PlayerArmorDao asyncPlayerArmorDao;
-
-        insertPlayerArmorAsyncTask(PlayerArmorDao dao){asyncPlayerArmorDao = dao;}
-
-        @Override
-        protected Void doInBackground(PlayerArmorEntity... params)
-        {
-            asyncPlayerArmorDao.InsertPlayerArmor(params[0]);
+            asyncPlayerSkillsDao.DeletePlayerSkill(params[0]);
             return null;
-        }
-    }
-
-    private static class initializePlayerSkillsAsyncTask extends AsyncTask<Object, Void, Void> {
-        private PlayerSkillsDao asyncPlayerSkillsDao;
-        private InitializePlayerSkillsAsyncTaskFinishedListener delegate;
-
-        initializePlayerSkillsAsyncTask(PlayerSkillsDao playerSkillsDao)
-        {
-            asyncPlayerSkillsDao = playerSkillsDao;
-        }
-
-        @Override
-        protected Void doInBackground(Object... params) {
-            UUID playerCharacterID = (UUID)params[0];
-            List<ISkill> skillsList = (List<ISkill>)params[1];
-            for(ISkill skill : skillsList)
-            {
-                PlayerSkillsEntity temp = new PlayerSkillsEntity();
-                temp.setPlayerID(playerCharacterID);
-                temp.setSkillID(skill.getSkillID());
-                temp.setLevelUpPointsInvested(0);
-                temp.setFavoredClassPointsInvested(0);
-                temp.setAddedStat(skill.getAddedStat());
-                temp.setArmorCheckPenaltyApplied(skill.isArmorCheckPenaltyApplied());
-                temp.setSkillName(skill.getSkillName());
-                asyncPlayerSkillsDao.InsertPlayerSkill(temp);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void nothing)
-        {
-            delegate.onInitializePlayerSkillsAsyncTaskFinished();
         }
     }
     //endregion
 
     //region Repository Listeners
+    public interface InsertCustomSkillListener
+    {
+        void onInsertCustomSkillAsyncTaskFinished(PlayerSkillsEntity insertedPlayerSkill, Exception thrownException);
+    }
+
+    public interface InitializePlayerSkillsAsyncTaskFinishedListener
+    {
+        void onInitializePlayerSkillsAsyncTaskFinished();
+    }
+
     public interface GetPlayerCharacterAsyncTaskFinishedListener
     {
         void onGetPlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter);
@@ -486,16 +515,6 @@ public class PathfinderRepository
     public interface UpdatePlayerSkillEntityAsyncTaskFinishedListener
     {
         void onUpdatePlayerSkillEntityAsyncTaskFinished();
-    }
-
-    public interface InsertCustomSkillListener
-    {
-        void onInsertCustomSkillAsyncTaskFinished(PlayerSkillsEntity insertedPlayerSkill, Exception thrownException);
-    }
-
-    public interface InitializePlayerSkillsAsyncTaskFinishedListener
-    {
-        void onInitializePlayerSkillsAsyncTaskFinished();
     }
     //endregion
 }

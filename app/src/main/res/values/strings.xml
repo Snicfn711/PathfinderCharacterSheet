@@ -75,6 +75,7 @@
     <string name="EnterSkillNameHint">Enter Skill Name</string>
     <string name="AddedStatLabel">Stat:</string>
     <string name="SetPoints">Set Points</string>
+    <string name="DeleteSkill">Delete Skill</string>
     <!--Equipment Strings-->
     <string name="MagicBonus">Magic Bonus</string>
     <string name="EquipmentAbilities">Abilities</string>

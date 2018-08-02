@@ -1,6 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.database.database_daos;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
@@ -23,4 +24,6 @@ public interface PlayerSkillsDao
     List<PlayerSkillsEntity> GetPlayerSkillEntity(UUID playerCharacterID);
     @Update
     void UpdatePlayerSkillsEntity(PlayerSkillsEntity playerSkillEntityToUpdate);
+    @Delete
+    void DeletePlayerSkill(PlayerSkillsEntity playerSkillsEntity);
 }

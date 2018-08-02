@@ -50,11 +50,11 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
                                                               InventoryReferenceFragment.OnPlayerArmorAddedListener,
                                                               PathfinderRepository.GetAllArmorsAsyncTaskFinishedListener,
                                                               PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener,
-                                                              SkillsReferenceFragment.OnCustomSkillAddedListener
+                                                              SkillsReferenceFragment.OnCustomSkillAddedListener,
+                                                              SkillsReferenceFragment.OnSkillsDeletedListener
 {
     private PathfinderRepository repository;
     private ArrayList<ISkill> defaultSkillList;
-    private ArrayList<IProtection> defaultArmorList;
     private Bundle bundle; //This bundle is for all of our non-character specific data(i.e. Default Skills, Default Armor, etc).
 
     @Override
@@ -166,6 +166,13 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
         parentReferenceFragment.AddCustomSkill(skillToAdd);
     }
+
+    @Override
+    public void onSkillDeleted(PlayerSkillsEntity skillToDelete)
+    {
+        ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
+        parentReferenceFragment.DeleteSkill(skillToDelete);
+    }
     //endregion
 
     //region Database Callback Methods
@@ -182,13 +189,18 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         //We're converting to an ArrayList since it's serializable, and the alternative is mucking about with ISkill to make it parcelable
         defaultSkillList = new ArrayList<>();
         defaultSkillList.addAll(result);
+        if(bundle == null || bundle.isEmpty())
+        {
+            bundle = new Bundle();
+        }
+        bundle.putSerializable("DefaultSkillsList", defaultSkillList);
         //We used to stick our default skills in the bundle, however we don't actually need to do that, and we want to keep the size of the bundle down(it has a maximum size of 1MB)
     }
 
     @Override
     public void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result)
     {
-        defaultArmorList = new ArrayList<IProtection>();
+        ArrayList<IProtection> defaultArmorList = new ArrayList<IProtection>();
         for(ArmorEntity entity : result)
         {
             if(entity.getArmorType() == ArmorTypesEnum.Armor)

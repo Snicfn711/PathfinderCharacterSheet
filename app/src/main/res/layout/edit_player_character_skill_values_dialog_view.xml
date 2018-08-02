@@ -36,6 +36,12 @@
         android:layout_height="wrap_content"
         app:layout_constraintGuide_percent=".8"
         android:orientation="vertical"/>
+    <android.support.constraint.Guideline
+        android:id="@+id/EditSkillsDeleteVerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent=".25"
+        android:orientation="vertical"/>
     <TextView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -105,6 +111,20 @@
         android:gravity="center"
         android:inputType="number"
         android:hint="@string/SetPoints"/>
+    <Button
+        android:id="@+id/DeleteSkillButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/DeleteSkill"
+        android:gravity="center"
+        android:layout_margin="5dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/EditsSkillValuesFavoredClassPointsHorizontalGuideline"
+        app:layout_constraintRight_toLeftOf="@id/EditSkillsDeleteVerticalGuideline"
+        app:layout_constraintEnd_toStartOf="@id/EditSkillsDeleteVerticalGuideline"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <ImageButton
         android:id="@+id/SaveSkillChanges"
         android:layout_width="0dp"
@@ -113,6 +133,7 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:src="@drawable/save_icon"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@id/EditSkillsSaveVerticalGuideline"

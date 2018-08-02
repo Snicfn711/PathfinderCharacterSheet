@@ -15,6 +15,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRep
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
@@ -23,6 +24,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtecti
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class ParentReferenceFragment extends Fragment implements PathfinderRepository.GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener,
@@ -36,6 +38,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     private IPlayerCharacter currentPlayerCharacter;
     private ArrayList<PlayerSkillsEntity> currentPlayerSkills;
     private ArrayList<IItem> currentPlayerInventory;
+    private ArrayList<ISkill> defaultSkills;
     private int totalInventorySize;
 
     public ParentReferenceFragment()
@@ -66,6 +69,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         currentPlayerSkills = new ArrayList<>();
         currentPlayerInventory = new ArrayList<>();
         currentPlayerCharacter = (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
+        defaultSkills = (ArrayList<ISkill>)getPlayerCharacterBundle.getSerializable("DefaultSkillsList");
 
         totalInventorySize = 0;
 
@@ -171,6 +175,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }
+
     public void UpdateSkill(PlayerSkillsEntity skillToUpdate)
     {
         for(PlayerSkillsEntity skill : currentPlayerSkills)
@@ -198,6 +203,20 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }
+
+    public void DeleteSkill(PlayerSkillsEntity skillToDelete)
+    {
+        for(Iterator<PlayerSkillsEntity> iterator = currentPlayerSkills.iterator(); iterator.hasNext();)
+        {
+            PlayerSkillsEntity entityToCheck = iterator.next();
+            if(entityToCheck.getSkillID().equals(skillToDelete.getSkillID()))
+            {
+                iterator.remove();
+            }
+        }
+        referenceFragmentAdapter.setArgs(createBundle());
+        ReloadScreen();
+    }
     //endregion
 
     //region Private Methods
@@ -215,6 +234,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         bundleToPass.putSerializable("PlayerInventory", currentPlayerInventory);
         bundleToPass.putSerializable("PlayerSkillsList", currentPlayerSkills);
         bundleToPass.putSerializable("PlayerCharacter", currentPlayerCharacter);
+        bundleToPass.putSerializable("DefaultSkills", defaultSkills);
         return bundleToPass;
     }
     //endregion

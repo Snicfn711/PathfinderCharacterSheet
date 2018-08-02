@@ -23,6 +23,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRep
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
@@ -38,20 +39,24 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
                                                                  SkillRecyclerViewAdapter.OnEditSkillLongClickListener,
                                                                  PathfinderRepository.InsertCustomSkillListener
 {
-    private OnListFragmentInteractionListener mListener;
-    private OnSkillsUpdatedListener skillsUpdatedListener;
-    private OnCustomSkillAddedListener customSkillAddedListener;
-    private Animation click;
-    private IPlayerCharacter currentPlayerCharacter;
-    private ArrayList<PlayerSkillsEntity> currentPlayerCharacterSkills;
     private SkillRecyclerViewAdapter skillAdapter;
-    private View rootView;
     private PathfinderRepository repository;
+    private Animation click;
     private static final int UPDATE_SKILL_POINTS_DIALOG = 1;
     private static final int ADD_CUSTOM_SKILL_DIALOG = 2;
 
+    private IPlayerCharacter currentPlayerCharacter;
+    private ArrayList<PlayerSkillsEntity> currentPlayerCharacterSkills = new ArrayList<>();
+    private ArrayList<ISkill> defaultSkills;
+    
+    private OnListFragmentInteractionListener mListener;
+    private OnSkillsUpdatedListener skillsUpdatedListener;
+    private OnCustomSkillAddedListener customSkillAddedListener;
+    private OnSkillsDeletedListener skillsDeletedListener;
+
     public SkillsReferenceFragment()
     {
+
     }
 
     @SuppressWarnings("unused")
@@ -70,6 +75,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     }
 
     @Override
+    @SuppressWarnings("unchecked cast")
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
@@ -83,9 +89,13 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
                 currentPlayerCharacterSkills = (ArrayList<PlayerSkillsEntity>)getCurrentCharacterBundle.get("PlayerSkillsList");
                 Collections.sort(currentPlayerCharacterSkills);
             }
+            if(getCurrentCharacterBundle.containsKey("DefaultSkills"))
+            {
+                defaultSkills = (ArrayList<ISkill>)getCurrentCharacterBundle.get("DefaultSkills");
+            }
         }
         ArrayList<SkillForDisplay> skillsForDisplay = ConvertFromPlayerSkillsEntityArrayListToSkillForDisplayArrayList(currentPlayerCharacterSkills);
-        rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
+        View rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
 
         // Set the adapter
         Context context = rootView.getContext();
@@ -153,7 +163,6 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         return rootView;
     }
 
-
     @Override
     public void onAttach(Context context)
     {
@@ -185,6 +194,15 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
             throw new RuntimeException(context.toString()
                                                +" must implement OnCustomSkillAddedListener");
         }
+        if(context instanceof OnSkillsDeletedListener)
+        {
+            skillsDeletedListener = (OnSkillsDeletedListener)context;
+        }
+        else
+        {
+            throw new RuntimeException(context.toString()
+                                               + " must implement OnSkillDeletedListener");
+        }
     }
 
     @Override
@@ -194,6 +212,38 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         mListener = null;
     }
 
+    @Override
+    @SuppressWarnings("ConstantConditions")
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch(requestCode)
+        {
+            case UPDATE_SKILL_POINTS_DIALOG:
+                if (resultCode == Activity.RESULT_OK)
+                {
+                    if (data.getExtras().containsKey("UpdatedSkill"))
+                    {
+                        PlayerSkillsEntity updatedSkill = (PlayerSkillsEntity)data.getExtras().getSerializable("UpdatedSkill");
+                        skillsUpdatedListener.onSkillsUpdated(updatedSkill);
+                    }
+                    else if(data.getExtras().containsKey("DeletedSkill"))
+                    {
+                        PlayerSkillsEntity deletedSkill = (PlayerSkillsEntity)data.getExtras().getSerializable("DeletedSkill");
+                        skillsDeletedListener.onSkillDeleted(deletedSkill);
+                    }
+
+                }
+                break;
+            case ADD_CUSTOM_SKILL_DIALOG:
+                if(resultCode == Activity.RESULT_OK)
+                {
+                    PlayerSkillsEntity customSkillAdded = (PlayerSkillsEntity)data.getExtras().getSerializable("CustomSkillAdded");
+                    repository.insertPlayerSkillEntity(this,customSkillAdded);
+                }
+        }
+    }
+
+    //region Local Button Listeners
     @Override
     public void onRollSkillCheckButtonPressed(SkillForDisplay skillClicked)
     {
@@ -205,7 +255,9 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     {
         OpenEditSkillsDialog(skillHeld);
     }
+    //endregion
 
+    //region Database Callback Methods
     @Override
     public void onInsertCustomSkillAsyncTaskFinished(PlayerSkillsEntity insertedPlayerSkill, Exception thrownException)
     {
@@ -219,56 +271,13 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
             customSkillAddedListener.onCustomSkillAdded(insertedPlayerSkill);
         }
     }
+    //endregion
 
+    //region Listener Interfaces
     public interface OnListFragmentInteractionListener
     {
         // TODO: Update argument type and name
         void onListFragmentInteraction(SkillForDisplay item);
-    }
-
-    private void OpenRollD20Dialog(String titleText, int addedValue)
-    {
-        Bundle args = new Bundle();
-        args.putString("TitleText", titleText);
-        args.putInt("AddedValue", addedValue);
-
-        RollD20Dialog rollD20Dialog = new RollD20Dialog();
-        rollD20Dialog.setArguments(args);
-        rollD20Dialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-        rollD20Dialog.show(this.getFragmentManager(), "Roll a d20");
-    }
-
-    private void OpenEditSkillsDialog(SkillForDisplay skillHeld)
-    {
-        Bundle args = new Bundle();
-        args.putSerializable("CurrentSkillID", skillHeld.getSkillID());
-        args.putSerializable("CurrentPlayerCharacterID", currentPlayerCharacter.getPlayerCharacterID());
-        EditSkillValuesDialog editSkillValuesDialog = new EditSkillValuesDialog();
-        editSkillValuesDialog.setTargetFragment(this, UPDATE_SKILL_POINTS_DIALOG);
-        editSkillValuesDialog.setArguments(args);
-        editSkillValuesDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-        editSkillValuesDialog.show(this.getFragmentManager(), "Edit Skill Values");
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        switch(requestCode)
-        {
-            case UPDATE_SKILL_POINTS_DIALOG:
-                if (resultCode == Activity.RESULT_OK)
-                {
-                     PlayerSkillsEntity updatedSkill = (PlayerSkillsEntity)data.getExtras().getSerializable("UpdatedSkill");
-                     skillsUpdatedListener.onSkillsUpdated(updatedSkill);
-                }
-                break;
-            case ADD_CUSTOM_SKILL_DIALOG:
-                if(resultCode == Activity.RESULT_OK)
-                {
-                    PlayerSkillsEntity customSkillAdded = (PlayerSkillsEntity)data.getExtras().getSerializable("CustomSkillAdded");
-                    repository.insertPlayerSkillEntity(this,customSkillAdded);
-                }
-        }
     }
 
     public interface OnSkillsUpdatedListener
@@ -280,6 +289,12 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     {
         void onCustomSkillAdded(PlayerSkillsEntity skillToAdd);
     }
+
+    public interface OnSkillsDeletedListener
+    {
+        void onSkillDeleted(PlayerSkillsEntity skillToDelete);
+    }
+    //endregion
 
     //region Private Methods
     private ArrayList<SkillForDisplay> ConvertFromPlayerSkillsEntityArrayListToSkillForDisplayArrayList(ArrayList<PlayerSkillsEntity> playerSkillsArrayListToConvert)
@@ -335,6 +350,42 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
             skillPoints += skill.getFavoredClassPointsInvested();
         }
         return skillPoints;
+    }
+
+    private void OpenRollD20Dialog(String titleText, int addedValue)
+    {
+        Bundle args = new Bundle();
+        args.putString("TitleText", titleText);
+        args.putInt("AddedValue", addedValue);
+
+        RollD20Dialog rollD20Dialog = new RollD20Dialog();
+        rollD20Dialog.setArguments(args);
+        rollD20Dialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        rollD20Dialog.show(this.getFragmentManager(), "Roll a d20");
+    }
+
+    private void OpenEditSkillsDialog(SkillForDisplay skillHeld)
+    {
+        Bundle args = new Bundle();
+        Boolean isFeatCustom = true;
+
+        for(ISkill defaultSkill : defaultSkills)
+        {
+            if(skillHeld.getSkillID().equals(defaultSkill.getSkillID()))
+            {
+                isFeatCustom = false;
+            }
+        }
+
+        args.putSerializable("CurrentSkillID", skillHeld.getSkillID());
+        args.putSerializable("CurrentPlayerCharacterID", currentPlayerCharacter.getPlayerCharacterID());
+        args.putBoolean("IsFeatCustom", isFeatCustom);
+
+        EditSkillValuesDialog editSkillValuesDialog = new EditSkillValuesDialog();
+        editSkillValuesDialog.setTargetFragment(this, UPDATE_SKILL_POINTS_DIALOG);
+        editSkillValuesDialog.setArguments(args);
+        editSkillValuesDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        editSkillValuesDialog.show(this.getFragmentManager(), "Edit Skill Values");
     }
 
     private void OpenAddCustomSkillDialog()
