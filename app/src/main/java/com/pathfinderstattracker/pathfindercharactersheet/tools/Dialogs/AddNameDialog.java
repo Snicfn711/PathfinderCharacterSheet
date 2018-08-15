@@ -24,6 +24,7 @@ public class AddNameDialog extends DialogFragment
         View rootView = inflater.inflate(R.layout.add_player_character_name_dialog_view, container,false);
         ImageButton getNameButton = rootView.findViewById(R.id.SaveNewCharactername);
         getNameText = rootView.findViewById(R.id.GetNewCharacterName);
+        this.setCancelable(false);
         getNameButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v)
         {
             if(!getNameText.getText().toString().isEmpty())
