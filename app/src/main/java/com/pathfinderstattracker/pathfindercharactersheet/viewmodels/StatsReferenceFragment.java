@@ -78,6 +78,18 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     {
         super.onCreate(savedInstanceState);
         click = AnimationUtils.loadAnimation(this.getContext(), R.anim.roll_button_click);
+        repository = new PathfinderRepository(this.getActivity().getApplication());
+
+        Bundle getPlayerCharacterBundle = this.getArguments();
+        currentPlayerCharacter =  (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
+
+        if(currentPlayerCharacter.getPlayerCharacterName() == null || currentPlayerCharacter.getPlayerCharacterName().isEmpty())
+        {
+            AddNameDialog getNameDialog = new AddNameDialog();
+            getNameDialog.setTargetFragment(this, ADD_NEW_CHARACTER_NAME_DIALOG);
+            getNameDialog.setStyle(DialogFragment.STYLE_NO_TITLE,0);
+            getNameDialog.show(this.getFragmentManager(),"Add Player Character Name");
+        }
     }
 
     @Override
@@ -86,32 +98,6 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
-        Activity context = this.getActivity();
-        repository = new PathfinderRepository(this.getActivity().getApplication());
-
-        //For some reason this fragment is getting created twice.
-        //The first time it has a parent fragment and can get the data from that, but has no arguments of its own
-        //The second time it has no parent fragment(?!) and get its arguments passed to it from the reference adapter.
-        //If we don't account for that first pass, the code returns a null reference exception
-        //TODO:Figure out why the fragment is getting created twice and see if we need both, or if there's a better spot to pass/get the arguments from.
-        Bundle getPlayerCharacterBundle;
-        if(this.getParentFragment() == null)
-        {
-            getPlayerCharacterBundle = this.getArguments();
-            currentPlayerCharacter =  (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
-            if(currentPlayerCharacter.getPlayerCharacterName() == null || currentPlayerCharacter.getPlayerCharacterName().isEmpty())
-            {
-                AddNameDialog getNameDialog = new AddNameDialog();
-                getNameDialog.setTargetFragment(this, ADD_NEW_CHARACTER_NAME_DIALOG);
-                getNameDialog.setStyle(DialogFragment.STYLE_NO_TITLE,0);
-                getNameDialog.show(this.getFragmentManager(),"Add Player Character Name");
-            }
-        }
-        else
-        {
-            getPlayerCharacterBundle = this.getParentFragment().getArguments();
-            currentPlayerCharacter =  (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
-        }
 
         //region Create and set our View Adapters
         //Populate and bind our stats list

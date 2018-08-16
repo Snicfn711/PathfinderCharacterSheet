@@ -233,6 +233,6 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         //We're clearing out our bundle so that when the application is paused it doesn't give a "TransactionTooLargeError"
         bundle = null;
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.PlayerChracterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
+        ft.replace(R.id.PlayerCharacterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
     }
 }
