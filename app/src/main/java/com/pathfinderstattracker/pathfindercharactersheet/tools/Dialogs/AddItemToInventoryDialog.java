@@ -70,12 +70,14 @@ public class AddItemToInventoryDialog extends DialogFragment
 
             if(currentFragment instanceof AddArmorToInventoryFragment)
             {
-                //Todo:We haven't properly considered the case of a user adding multiple instances of an item to their inventory, we need to fix that.
+                //We can now properly handle adding duplicate armors to out inventory, however the solution is armor specific
+                //It should easily transfer to weapons, but when we get to consumable goods we should use a different solution (twenty entries of potions would be a mess to look at)
                 View rootView = viewPager.findViewWithTag("AddArmorRootView");
                 Spinner spinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
                 ArmorEntity armorToSave = (ArmorEntity)spinner.getSelectedItem();
 
                 PlayerArmorEntity playerArmorEntityToInsert = new PlayerArmorEntity();
+                playerArmorEntityToInsert.setPlayerArmorID(UUID.randomUUID());
                 playerArmorEntityToInsert.setArmorID(armorToSave.getArmorID());
                 playerArmorEntityToInsert.setPlayerID(currentPlayerCharacterID);
                 playerArmorEntityToInsert.setIsEquipped(false);

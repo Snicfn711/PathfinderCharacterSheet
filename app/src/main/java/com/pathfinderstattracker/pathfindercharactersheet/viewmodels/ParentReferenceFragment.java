@@ -81,6 +81,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         //Inflate our view, bind and set our adapter and view pager
         View rootView = inflater.inflate(R.layout.parent_reference_fragment, container, false);
         referenceFragmentAdapter = new ReferenceFragmentAdapter(getFragmentManager());
+
         //By creating our bundle to pass here, we're giving our initial StatsReferenceFragment an empty array of player skills
         //This might seem bad, but since by this point the repository is already fetching their actual skills, we should be getting back our proper skills list before the user can scroll
         //And this way we don't get a null reference in our SkillsReferenceFragment or InventoryReferenceFragment

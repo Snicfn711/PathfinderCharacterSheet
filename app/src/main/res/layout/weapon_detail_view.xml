@@ -1,8 +1,14 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
     <!--Todo: Eventually we'll want another section for tracking ammo for ranged weapons, but since that's part of combat tracking, we'll skip it for now-->
+    <android.support.constraint.Guideline
+        android:id="@+id/WeaponDetailViewHorizontalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".5"/>
     <TextView
         android:id="@+id/MagicBonusDropdownLabel"
         android:layout_width="0dp"
@@ -12,8 +18,11 @@
         android:text="@string/MagicBonus"
         android:background="@drawable/header_border"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toLeftOf="@id/EquipmentAbilitiesDropdownLabel"
+        app:layout_constraintEnd_toStartOf="@id/EquipmentAbilitiesDropdownLabel"
+        app:layout_constraintBottom_toTopOf="@id/MagicBonusDropdown"
         app:layout_constraintHorizontal_chainStyle="spread"/>
     <TextView
         android:id="@+id/MagicBonusDropdown"
@@ -24,8 +33,11 @@
         android:textColor="@color/colorPlainText"
         android:background="@drawable/transparent_border"
         app:layout_constraintLeft_toLeftOf="@id/MagicBonusDropdownLabel"
+        app:layout_constraintStart_toStartOf="@id/MagicBonusDropdownLabel"
         app:layout_constraintTop_toBottomOf="@id/MagicBonusDropdownLabel"
-        app:layout_constraintRight_toRightOf="@id/MagicBonusDropdownLabel"/>
+        app:layout_constraintRight_toRightOf="@id/MagicBonusDropdownLabel"
+        app:layout_constraintEnd_toEndOf="@id/MagicBonusDropdownLabel"
+        app:layout_constraintBottom_toTopOf="@id/WeaponDetailViewHorizontalGuideline"/>
     <TextView
         android:id="@+id/EquipmentAbilitiesDropdownLabel"
         android:layout_width="0dp"
@@ -35,8 +47,11 @@
         android:text="@string/EquipmentAbilities"
         android:background="@drawable/header_border"
         app:layout_constraintLeft_toRightOf="@id/MagicBonusDropdownLabel"
+        app:layout_constraintStart_toEndOf="@id/MagicBonusDropdownLabel"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/EquipmentNameDropdownLabel"/>
+        app:layout_constraintRight_toLeftOf="@id/EquipmentNameDropdownLabel"
+        app:layout_constraintEnd_toStartOf="@id/EquipmentNameDropdownLabel"
+        app:layout_constraintBottom_toTopOf="@id/EquipmentAbilitiesDropdown"/>
     <TextView
         android:id="@+id/EquipmentAbilitiesDropdown"
         android:layout_width="0dp"
@@ -47,8 +62,11 @@
         android:textColor="@color/colorPlainText"
         android:background="@drawable/transparent_border"
         app:layout_constraintLeft_toLeftOf="@id/EquipmentAbilitiesDropdownLabel"
+        app:layout_constraintStart_toStartOf="@id/EquipmentAbilitiesDropdownLabel"
         app:layout_constraintTop_toBottomOf="@id/EquipmentAbilitiesDropdownLabel"
-        app:layout_constraintRight_toRightOf="@id/EquipmentAbilitiesDropdownLabel"/>
+        app:layout_constraintRight_toRightOf="@id/EquipmentAbilitiesDropdownLabel"
+        app:layout_constraintEnd_toEndOf="@id/EquipmentAbilitiesDropdownLabel"
+        app:layout_constraintBottom_toTopOf="@id/WeaponDetailViewHorizontalGuideline"/>
     <TextView
         android:id="@+id/EquipmentNameDropdownLabel"
         android:layout_width="0dp"
@@ -58,8 +76,11 @@
         android:text="@string/Name"
         android:background="@drawable/header_border"
         app:layout_constraintLeft_toRightOf="@id/EquipmentAbilitiesDropdownLabel"
+        app:layout_constraintStart_toEndOf="@id/EquipmentAbilitiesDropdownLabel"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/EquipmentNameDropdown"/>
     <TextView
         android:id="@+id/EquipmentNameDropdown"
         android:layout_width="0dp"
@@ -69,8 +90,11 @@
         android:textColor="@color/colorPlainText"
         android:background="@drawable/transparent_border"
         app:layout_constraintLeft_toLeftOf="@id/EquipmentNameDropdownLabel"
+        app:layout_constraintStart_toStartOf="@id/EquipmentNameDropdownLabel"
         app:layout_constraintTop_toBottomOf="@id/EquipmentNameDropdownLabel"
-        app:layout_constraintRight_toRightOf="@id/EquipmentNameDropdownLabel"/>
+        app:layout_constraintRight_toRightOf="@id/EquipmentNameDropdownLabel"
+        app:layout_constraintEnd_toEndOf="@id/EquipmentNameDropdownLabel"
+        app:layout_constraintBottom_toTopOf="@id/WeaponDetailViewHorizontalGuideline"/>
     <TextView
         android:id="@+id/EquipmentCriticalDropdownLabel"
         android:layout_width="0dp"
@@ -80,8 +104,11 @@
         android:text="@string/Critical"
         android:background="@drawable/header_border"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/MagicBonusDropdown"
-        app:layout_constraintRight_toLeftOf="@id/DamageTypeDropdownLabel"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/WeaponDetailViewHorizontalGuideline"
+        app:layout_constraintRight_toLeftOf="@id/DamageTypeDropdownLabel"
+        app:layout_constraintEnd_toStartOf="@id/DamageTypeDropdownLabel"
+        app:layout_constraintBottom_toTopOf="@id/EquipmentCriticalDropdown"/>
     <TextView
         android:id="@+id/EquipmentCriticalDropdown"
         android:layout_width="0dp"
@@ -91,8 +118,11 @@
         android:textColor="@color/colorPlainText"
         android:background="@drawable/transparent_border"
         app:layout_constraintLeft_toLeftOf="@id/EquipmentCriticalDropdownLabel"
+        app:layout_constraintStart_toStartOf="@id/EquipmentCriticalDropdownLabel"
         app:layout_constraintTop_toBottomOf="@id/EquipmentCriticalDropdownLabel"
-        app:layout_constraintRight_toRightOf="@id/EquipmentCriticalDropdownLabel"/>
+        app:layout_constraintRight_toRightOf="@id/EquipmentCriticalDropdownLabel"
+        app:layout_constraintEnd_toEndOf="@id/EquipmentCriticalDropdownLabel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
         android:id="@+id/DamageTypeDropdownLabel"
         android:layout_width="0dp"
@@ -102,8 +132,11 @@
         android:text="@string/DamageTypes"
         android:background="@drawable/header_border"
         app:layout_constraintLeft_toRightOf="@id/EquipmentCriticalDropdownLabel"
-        app:layout_constraintTop_toBottomOf="@id/MagicBonusDropdown"
-        app:layout_constraintRight_toLeftOf="@id/EquipmentRangeDropdownLabel"/>
+        app:layout_constraintStart_toEndOf="@id/EquipmentCriticalDropdownLabel"
+        app:layout_constraintTop_toBottomOf="@id/WeaponDetailViewHorizontalGuideline"
+        app:layout_constraintRight_toLeftOf="@id/EquipmentRangeDropdownLabel"
+        app:layout_constraintEnd_toStartOf="@id/EquipmentRangeDropdownLabel"
+        app:layout_constraintBottom_toTopOf="@id/DamageTypeDropdown"/>
     <TextView
         android:id="@+id/DamageTypeDropdown"
         android:layout_width="0dp"
@@ -113,8 +146,11 @@
         android:textColor="@color/colorPlainText"
         android:background="@drawable/transparent_border"
         app:layout_constraintLeft_toLeftOf="@id/DamageTypeDropdownLabel"
+        app:layout_constraintStart_toStartOf="@id/DamageTypeDropdownLabel"
         app:layout_constraintTop_toBottomOf="@id/DamageTypeDropdownLabel"
-        app:layout_constraintRight_toRightOf="@id/DamageTypeDropdownLabel"/>
+        app:layout_constraintRight_toRightOf="@id/DamageTypeDropdownLabel"
+        app:layout_constraintEnd_toEndOf="@id/DamageTypeDropdownLabel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
         android:id="@+id/EquipmentRangeDropdownLabel"
         android:layout_width="0dp"
@@ -124,8 +160,11 @@
         android:text="@string/Range"
         android:background="@drawable/header_border"
         app:layout_constraintLeft_toRightOf="@id/DamageTypeDropdownLabel"
-        app:layout_constraintTop_toBottomOf="@id/MagicBonusDropdown"
-        app:layout_constraintRight_toLeftOf="@id/EquipmentDamageDropdownLabel"/>
+        app:layout_constraintStart_toEndOf="@id/DamageTypeDropdownLabel"
+        app:layout_constraintTop_toBottomOf="@id/WeaponDetailViewHorizontalGuideline"
+        app:layout_constraintRight_toLeftOf="@id/EquipmentDamageDropdownLabel"
+        app:layout_constraintEnd_toStartOf="@id/EquipmentDamageDropdownLabel"
+        app:layout_constraintBottom_toTopOf="@id/EquipmentRangeDropdown"/>
     <TextView
         android:id="@+id/EquipmentRangeDropdown"
         android:layout_width="0dp"
@@ -135,8 +174,11 @@
         android:textColor="@color/colorPlainText"
         android:background="@drawable/transparent_border"
         app:layout_constraintLeft_toLeftOf="@id/EquipmentRangeDropdownLabel"
+        app:layout_constraintStart_toStartOf="@id/EquipmentRangeDropdownLabel"
         app:layout_constraintTop_toBottomOf="@id/EquipmentRangeDropdownLabel"
-        app:layout_constraintRight_toRightOf="@id/EquipmentRangeDropdownLabel"/>
+        app:layout_constraintRight_toRightOf="@id/EquipmentRangeDropdownLabel"
+        app:layout_constraintEnd_toEndOf="@id/EquipmentRangeDropdownLabel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
         android:id="@+id/EquipmentDamageDropdownLabel"
         android:layout_width="0dp"
@@ -146,8 +188,11 @@
         android:text="@string/Damage"
         android:background="@drawable/header_border"
         app:layout_constraintLeft_toRightOf="@id/EquipmentRangeDropdownLabel"
-        app:layout_constraintTop_toBottomOf="@id/MagicBonusDropdown"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintStart_toEndOf="@id/EquipmentRangeDropdownLabel"
+        app:layout_constraintTop_toBottomOf="@id/WeaponDetailViewHorizontalGuideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/EquipmentDamageDropdown"/>
     <TextView
         android:id="@+id/EquipmentDamageDropdown"
         android:layout_width="0dp"
@@ -157,6 +202,9 @@
         android:textColor="@color/colorPlainText"
         android:background="@drawable/transparent_border"
         app:layout_constraintLeft_toLeftOf="@id/EquipmentDamageDropdownLabel"
+        app:layout_constraintStart_toStartOf="@id/EquipmentDamageDropdownLabel"
         app:layout_constraintTop_toBottomOf="@id/EquipmentDamageDropdownLabel"
-        app:layout_constraintRight_toRightOf="@id/EquipmentDamageDropdownLabel"/>
+        app:layout_constraintRight_toRightOf="@id/EquipmentDamageDropdownLabel"
+        app:layout_constraintEnd_toEndOf="@id/EquipmentDamageDropdownLabel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>

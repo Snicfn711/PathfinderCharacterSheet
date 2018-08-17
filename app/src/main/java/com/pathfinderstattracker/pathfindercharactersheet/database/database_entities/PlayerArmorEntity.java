@@ -14,7 +14,7 @@ import java.util.UUID;
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "player_armor",
-        primaryKeys = {"playerCharacterID", "armorID"},
+        primaryKeys = {"playerArmorID"},
         foreignKeys = {@ForeignKey(entity=PlayerCharacterEntity.class,
                                    parentColumns = "playerCharacterID",
                                    childColumns = "playerCharacterID" ,
@@ -30,9 +30,12 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 public class PlayerArmorEntity
 {
     @NonNull
+    @ColumnInfo(name="playerArmorID")
+    private UUID playerArmorID = new UUID(0,0);
+
     @ColumnInfo(name="playerCharacterID")
     private UUID playerID = new UUID(0,0);
-    @NonNull
+
     @ColumnInfo(name="armorID")
     private UUID armorID = new UUID(0,0);
 
@@ -41,23 +44,23 @@ public class PlayerArmorEntity
 
     //region Getters and Setters
     @NonNull
-    public UUID getPlayerID()
-    {
-        return playerID;
-    }
+    public UUID getPlayerArmorID(){return playerArmorID;}
 
-    public void setPlayerID(@NonNull UUID playerID)
+    public void setPlayerArmorID(@NonNull UUID playerArmorID) {this.playerArmorID = playerArmorID;}
+
+    public UUID getPlayerID(){return playerID;}
+
+    public void setPlayerID(UUID playerID)
     {
         this.playerID = playerID;
     }
 
-    @NonNull
     public UUID getArmorID()
     {
         return armorID;
     }
 
-    public void setArmorID(@NonNull UUID armorID)
+    public void setArmorID(UUID armorID)
     {
         this.armorID = armorID;
     }
