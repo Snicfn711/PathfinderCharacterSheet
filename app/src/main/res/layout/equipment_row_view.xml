@@ -1,61 +1,114 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:background="@drawable/header_border">
-    <TextView android:id="@+id/EquipmentLabel"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:background="@drawable/header_border"
+                                             android:padding="0dp">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/EquipmentRowButtonVerticalGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".75" />
+
+    <TextView
+        android:id="@+id/EquipmentLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPlainText"
-        android:textAlignment="center"
         android:background="@drawable/header_border"
+        android:textAlignment="center"
+        android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/MagicBonus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/MagicBonus"
         android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toLeftOf="@id/EquipmentLabel"
         app:layout_constraintRight_toLeftOf="@id/EquipmentAbilities"
-        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"/>
+        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <TextView
         android:id="@+id/EquipmentAbilities"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/EquipmentAbilities"
         android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toRightOf="@id/MagicBonus"
         app:layout_constraintRight_toLeftOf="@id/EquipmentName"
-        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"/>
+        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
     <TextView
         android:id="@+id/EquipmentName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_goneMarginLeft="5dp"
+        app:layout_goneMarginStart="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/Name"
         android:textColor="@color/colorPlainText"
         app:layout_constraintLeft_toRightOf="@id/EquipmentAbilities"
-        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel" />
+        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
     <com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView
         android:id="@+id/WeaponDetailView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@id/EquipmentLabel"
         app:layout_constraintRight_toRightOf="@id/EquipmentLabel"
-        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel" />
+
     <com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView
-        android:layout_width="match_parent"
         android:id="@+id/ProtectionDetailView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@id/EquipmentLabel"
         app:layout_constraintRight_toRightOf="@id/EquipmentLabel"
-        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@id/EquipmentLabel" />
+
+    <android.support.constraint.Barrier
+        android:id="@+id/EquipmentRowButtonBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="WeaponDetailView, ProtectionDetailView"
+        app:layout_goneMarginTop="5dp" />
+
+    <Button
+        android:id="@+id/EquipmentRowUnequipButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="2dp"
+        android:text="@string/Unequip"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/EquipmentRowButtonVerticalGuideline"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toEndOf="@id/EquipmentRowButtonVerticalGuideline"
+        app:layout_constraintTop_toBottomOf="@id/EquipmentRowButtonBarrier" />
 </android.support.constraint.ConstraintLayout>

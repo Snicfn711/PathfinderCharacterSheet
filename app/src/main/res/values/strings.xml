@@ -91,6 +91,7 @@
     <string name="MaxDex">Max Dex</string>
     <string name="Weight">Weight</string>
     <string name="EquippedShort">E</string>
+    <string name="Unequip">Unequip</string>
     <!--Spell Strings-->
     <string name="CastingTime">Casting Time</string>
     <string name="Targets">Targets</string>

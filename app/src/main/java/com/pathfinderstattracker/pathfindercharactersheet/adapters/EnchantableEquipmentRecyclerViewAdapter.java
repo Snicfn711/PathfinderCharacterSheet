@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
@@ -117,6 +118,7 @@ public class EnchantableEquipmentRecyclerViewAdapter extends RecyclerView.Adapte
                     {
                         SwitchVisibility(holder.protectionDetailView);
                     }
+                    SwitchVisibility(holder.unequipButton);
                 }
             }
         });
@@ -137,6 +139,7 @@ public class EnchantableEquipmentRecyclerViewAdapter extends RecyclerView.Adapte
         private final TextView equipmentLabel;
         private final WeaponDetailView weaponDetailView;
         private final ProtectionDetailView protectionDetailView;
+        private final Button unequipButton;
         private IEquipment mEquipment;
 
         public ViewHolder(View view)
@@ -149,6 +152,7 @@ public class EnchantableEquipmentRecyclerViewAdapter extends RecyclerView.Adapte
             equipmentLabel = view.findViewById(R.id.EquipmentLabel);
             weaponDetailView = view.findViewById(R.id.WeaponDetailView);
             protectionDetailView = view.findViewById(R.id.ProtectionDetailView);
+            unequipButton = view.findViewById(R.id.EquipmentRowUnequipButton);
         }
 
         @Override
