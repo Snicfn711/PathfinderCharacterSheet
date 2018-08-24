@@ -20,11 +20,10 @@ import android.widget.Toast;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.SkillRecyclerViewAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddCustomSkillDialog;
@@ -46,7 +45,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     private static final int ADD_CUSTOM_SKILL_DIALOG = 2;
 
     private IPlayerCharacter currentPlayerCharacter;
-    private ArrayList<PlayerSkillsEntity> currentPlayerCharacterSkills = new ArrayList<>();
+    private ArrayList<ISkill> currentPlayerCharacterSkills = new ArrayList<>();
     private ArrayList<ISkill> defaultSkills;
     
     private OnListFragmentInteractionListener mListener;
@@ -86,7 +85,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
             currentPlayerCharacter = (PlayerCharacter)getCurrentCharacterBundle.get("PlayerCharacter");
             if(getCurrentCharacterBundle.containsKey("PlayerSkillsList"))
             {
-                currentPlayerCharacterSkills = (ArrayList<PlayerSkillsEntity>)getCurrentCharacterBundle.get("PlayerSkillsList");
+                currentPlayerCharacterSkills = (ArrayList<ISkill>)getCurrentCharacterBundle.get("PlayerSkillsList");
                 Collections.sort(currentPlayerCharacterSkills);
             }
             if(getCurrentCharacterBundle.containsKey("DefaultSkills"))
@@ -94,14 +93,13 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
                 defaultSkills = (ArrayList<ISkill>)getCurrentCharacterBundle.get("DefaultSkills");
             }
         }
-        ArrayList<SkillForDisplay> skillsForDisplay = ConvertFromPlayerSkillsEntityArrayListToSkillForDisplayArrayList(currentPlayerCharacterSkills);
         View rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);
 
         // Set the adapter
         Context context = rootView.getContext();
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final RecyclerView recyclerView = rootView.findViewById(R.id.SkillsRecycler);
-        skillAdapter = new SkillRecyclerViewAdapter(skillsForDisplay, mListener, this);
+        skillAdapter = new SkillRecyclerViewAdapter(currentPlayerCharacterSkills, currentPlayerCharacter.getAbilityScores(), mListener, this);
         recyclerView.setAdapter(skillAdapter);
 
         //Get and set our points invested
@@ -139,9 +137,9 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
             {
                 sortByRanksButton.startAnimation(click);
 
-                if(!PlayerSkillsEntity.checkIfSortedByTotalRanks(currentPlayerCharacterSkills))
+                if(!Skill.checkIfSortedByTotalRanks(currentPlayerCharacterSkills))
                 {
-                    Collections.sort(currentPlayerCharacterSkills, PlayerSkillsEntity.compareByTotalRanks);
+                    Collections.sort(currentPlayerCharacterSkills, Skill.compareByTotalRanks);
                 }
                 else
                 {
@@ -223,12 +221,14 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
                 {
                     if (data.getExtras().containsKey("UpdatedSkill"))
                     {
-                        PlayerSkillsEntity updatedSkill = (PlayerSkillsEntity)data.getExtras().getSerializable("UpdatedSkill");
+                        ISkill updatedSkill = (ISkill)data.getExtras().getSerializable("UpdatedSkill");
+                        repository.updateSkill(updatedSkill, currentPlayerCharacter.getPlayerCharacterID());
                         skillsUpdatedListener.onSkillsUpdated(updatedSkill);
                     }
                     else if(data.getExtras().containsKey("DeletedSkill"))
                     {
-                        PlayerSkillsEntity deletedSkill = (PlayerSkillsEntity)data.getExtras().getSerializable("DeletedSkill");
+                        ISkill deletedSkill = (ISkill)data.getExtras().getSerializable("DeletedSkill");
+                        repository.deleteCustomSkill(deletedSkill, currentPlayerCharacter.getPlayerCharacterID());
                         skillsDeletedListener.onSkillDeleted(deletedSkill);
                     }
 
@@ -237,21 +237,21 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
             case ADD_CUSTOM_SKILL_DIALOG:
                 if(resultCode == Activity.RESULT_OK)
                 {
-                    PlayerSkillsEntity customSkillAdded = (PlayerSkillsEntity)data.getExtras().getSerializable("CustomSkillAdded");
-                    repository.insertPlayerSkillEntity(this,customSkillAdded);
+                    ISkill customSkillAdded = (ISkill)data.getExtras().getSerializable("CustomSkillAdded");
+                    repository.insertCustomSkill(this,customSkillAdded, currentPlayerCharacter.getPlayerCharacterID());
                 }
         }
     }
 
     //region Local Button Listeners
     @Override
-    public void onRollSkillCheckButtonPressed(SkillForDisplay skillClicked)
+    public void onRollSkillCheckButtonPressed(ISkill skillClicked)
     {
-        OpenRollD20Dialog("Roll " + skillClicked.getSkillName() + " check", skillClicked.getTotalSkillScore());
+        OpenRollD20Dialog("Roll " + skillClicked.getSkillName() + " check", GetSkillTotalScore(currentPlayerCharacter, skillClicked));
     }
 
     @Override
-    public void onEditSkillLongClickActivated(SkillForDisplay skillHeld)
+    public void onEditSkillLongClickActivated(ISkill skillHeld)
     {
         OpenEditSkillsDialog(skillHeld);
     }
@@ -259,7 +259,7 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
 
     //region Database Callback Methods
     @Override
-    public void onInsertCustomSkillAsyncTaskFinished(PlayerSkillsEntity insertedPlayerSkill, Exception thrownException)
+    public void onInsertCustomSkillAsyncTaskFinished(ISkill insertedPlayerSkill, Exception thrownException)
     {
         if(thrownException instanceof SQLiteConstraintException)
         {
@@ -277,43 +277,29 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     public interface OnListFragmentInteractionListener
     {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(SkillForDisplay item);
+        void onListFragmentInteraction(ISkill item);
     }
 
     public interface OnSkillsUpdatedListener
     {
-        void onSkillsUpdated(PlayerSkillsEntity skillToUpdate);
+        void onSkillsUpdated(ISkill skillToUpdate);
     }
 
     public interface OnCustomSkillAddedListener
     {
-        void onCustomSkillAdded(PlayerSkillsEntity skillToAdd);
+        void onCustomSkillAdded(ISkill skillToAdd);
     }
 
     public interface OnSkillsDeletedListener
     {
-        void onSkillDeleted(PlayerSkillsEntity skillToDelete);
+        void onSkillDeleted(ISkill skillToDelete);
     }
     //endregion
 
     //region Private Methods
-    private ArrayList<SkillForDisplay> ConvertFromPlayerSkillsEntityArrayListToSkillForDisplayArrayList(ArrayList<PlayerSkillsEntity> playerSkillsArrayListToConvert)
+    private static int GetSkillTotalScore(IPlayerCharacter currentPlayerCharacter, ISkill playerSkillsWithPointsInvested)
     {
-        ArrayList<SkillForDisplay> listToReturn = new ArrayList<>();
-        for(PlayerSkillsEntity entity : playerSkillsArrayListToConvert)
-        {
-            listToReturn.add(new SkillForDisplay(entity.getSkillID(),
-                                                 entity.getAddedStat(),
-                                                 entity.isArmorCheckPenaltyApplied(),
-                                                 entity.getSkillName(),
-                                                 GetSkillTotalForDisplay(currentPlayerCharacter, entity)));
-        }
-        return listToReturn;
-    }
-
-    private static int GetSkillTotalForDisplay(IPlayerCharacter currentPlayerCharacter, PlayerSkillsEntity playerSkillsEntityWithPointsInvested)
-    {
-        AbilityScoreEnum statToCheck = playerSkillsEntityWithPointsInvested.getAddedStat();
+        AbilityScoreEnum statToCheck = playerSkillsWithPointsInvested.getAddedStat();
         int skillTotal = 0;
         if(currentPlayerCharacter != null)
         {
@@ -325,16 +311,16 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
                 }
             }
         }
-        skillTotal += playerSkillsEntityWithPointsInvested.getLevelUpPointsInvested();
-        skillTotal += playerSkillsEntityWithPointsInvested.getFavoredClassPointsInvested();
+        skillTotal += playerSkillsWithPointsInvested.getLevelUpPointsInvested();
+        skillTotal += playerSkillsWithPointsInvested.getFavoredClassPointsInvested();
 
         return skillTotal;
     }
 
-    private int GetTotalSkillPointsInvested(List<PlayerSkillsEntity> skillList)
+    private int GetTotalSkillPointsInvested(List<ISkill> skillList)
     {
         int skillPoints = 0;
-        for(PlayerSkillsEntity skill:skillList)
+        for(ISkill skill:skillList)
         {
             skillPoints += skill.getLevelUpPointsInvested();
             skillPoints += skill.getFavoredClassPointsInvested();
@@ -342,10 +328,10 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         return skillPoints;
     }
 
-    private int GetFavoredClassSkillPointsInvested(List<PlayerSkillsEntity> skillList)
+    private int GetFavoredClassSkillPointsInvested(List<ISkill> skillList)
     {
         int skillPoints = 0;
-        for(PlayerSkillsEntity skill:skillList)
+        for(ISkill skill:skillList)
         {
             skillPoints += skill.getFavoredClassPointsInvested();
         }
@@ -364,22 +350,21 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         rollD20Dialog.show(this.getFragmentManager(), "Roll a d20");
     }
 
-    private void OpenEditSkillsDialog(SkillForDisplay skillHeld)
+    private void OpenEditSkillsDialog(ISkill skillHeld)
     {
         Bundle args = new Bundle();
-        Boolean isFeatCustom = true;
+        Boolean isCustomSkill = true;
 
         for(ISkill defaultSkill : defaultSkills)
         {
             if(skillHeld.getSkillID().equals(defaultSkill.getSkillID()))
             {
-                isFeatCustom = false;
+                isCustomSkill = false;
             }
         }
 
-        args.putSerializable("CurrentSkillID", skillHeld.getSkillID());
-        args.putSerializable("CurrentPlayerCharacterID", currentPlayerCharacter.getPlayerCharacterID());
-        args.putBoolean("IsFeatCustom", isFeatCustom);
+        args.putSerializable("CurrentSkill", skillHeld);
+        args.putBoolean("isCustomSkill", isCustomSkill);
 
         EditSkillValuesDialog editSkillValuesDialog = new EditSkillValuesDialog();
         editSkillValuesDialog.setTargetFragment(this, UPDATE_SKILL_POINTS_DIALOG);
@@ -391,7 +376,6 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
     private void OpenAddCustomSkillDialog()
     {
         Bundle args = new Bundle();
-        args.putSerializable("CurrentPlayerCharacterID", currentPlayerCharacter.getPlayerCharacterID());
         AddCustomSkillDialog addCustomSkillDialog = new AddCustomSkillDialog();
         addCustomSkillDialog.setArguments(args);
         addCustomSkillDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);

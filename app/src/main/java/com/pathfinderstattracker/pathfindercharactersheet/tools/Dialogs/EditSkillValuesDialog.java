@@ -18,27 +18,46 @@ import android.widget.ImageButton;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher;
 
 import java.util.List;
 import java.util.UUID;
 
-public class EditSkillValuesDialog extends DialogFragment implements PathfinderRepository.GetPlayerSkillEntityAsyncTaskFinishedListener
+public class EditSkillValuesDialog extends DialogFragment
 {
-    private View rootView;
-    private PathfinderRepository repository;
 
     private EditText getLevelUpPoints;
     private EditText getFavoredClassPoints;
-    private Button deleteSkillButton;
-    private UUID currentSkillID;
-    private PlayerSkillsEntity currentPlayerSkill;
+    private ISkill currentSkill;
+    private Boolean isCustomSkill;
 
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        Dialog d = getDialog();
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        this.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int displayHeight = displayMetrics.heightPixels;
+        if(d != null)
+        {
+            //The app is locked into a portrait view, so we're not too worried about checking our orientation or adjusting accordingly
+            d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (displayHeight * .5));
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+       super.onCreate(savedInstanceState);
+       currentSkill = (ISkill)getArguments().getSerializable("CurrentSkill");
+       isCustomSkill = getArguments().getBoolean("isCustomSkill");
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        repository = new PathfinderRepository(this.getActivity().getApplication());
-        rootView = inflater.inflate(R.layout.edit_player_character_skill_values_dialog_view, container,false);
+        View rootView = inflater.inflate(R.layout.edit_player_character_skill_values_dialog_view, container, false);
 
         getLevelUpPoints = rootView.findViewById(R.id.GetLevelUpSkillPoints);
         getLevelUpPoints.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -62,46 +81,42 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
             }
         });
 
-        currentSkillID = (UUID)getArguments().getSerializable("CurrentSkillID");
-        UUID currentPlayerCharacterID = (UUID) getArguments().getSerializable("CurrentPlayerCharacterID");
-        Boolean isFeatCustom = getArguments().getBoolean("IsFeatCustom");
-        deleteSkillButton = rootView.findViewById(R.id.DeleteSkillButton);
-        if(isFeatCustom)
+        Button deleteSkillButton = rootView.findViewById(R.id.DeleteSkillButton);
+        if(isCustomSkill)
         {
             deleteSkillButton.setVisibility(View.VISIBLE);
         }
 
-        repository.requestPlayerSkillEntity(this, currentPlayerCharacterID);
-        return rootView;
-    }
-
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        Dialog d = getDialog();
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        this.getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int displayHeight = displayMetrics.heightPixels;
-        if(d != null)
+        deleteSkillButton.setOnClickListener(new View.OnClickListener()
         {
-            //The app is locked into a portrait view, so we're not too worried about checking our orientation or adjusting accordingly
-            d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int) (displayHeight * .5));
-        }
-    }
-
-    @Override
-    public void onGetPlayerSkillEntityAsyncTaskFinished(List<PlayerSkillsEntity> result)
-    {
-        for(PlayerSkillsEntity playerSkillsEntity : result)
-        {
-            if(playerSkillsEntity.getSkillID().equals(currentSkillID))
+            @Override
+            public void onClick(View v)
             {
-                getLevelUpPoints.setText(Integer.toString(playerSkillsEntity.getLevelUpPointsInvested()));
-                getFavoredClassPoints.setText(Integer.toString(playerSkillsEntity.getFavoredClassPointsInvested()));
-                currentPlayerSkill = playerSkillsEntity;
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        switch(which)
+                        {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                Intent returnIntent = new Intent().putExtra("DeletedSkill", currentSkill);
+                                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, returnIntent);
+                                dismiss();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                builder.setMessage("Are you sure you want to delete the " + currentSkill.getSkillName() + " skill?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener)
+                        .show();
             }
-        }
+        });
 
         ImageButton getSkillPointsButton = rootView.findViewById(R.id.SaveSkillChanges);
         getSkillPointsButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v)
@@ -117,47 +132,15 @@ public class EditSkillValuesDialog extends DialogFragment implements PathfinderR
             else if(!getLevelUpPoints.getText().toString().isEmpty()&&
                     !getFavoredClassPoints.getText().toString().isEmpty())
             {
-                currentPlayerSkill.setFavoredClassPointsInvested(Integer.parseInt(getFavoredClassPoints.getText().toString()));
-                currentPlayerSkill.setLevelUpPointsInvested(Integer.parseInt(getLevelUpPoints.getText().toString()));
+                currentSkill.setFavoredClassPointsInvested(Integer.parseInt(getFavoredClassPoints.getText().toString()));
+                currentSkill.setLevelUpPointsInvested(Integer.parseInt(getLevelUpPoints.getText().toString()));
 
-                repository.updatePlayerSkillEntity(currentPlayerSkill);
-                Intent returnIntent = new Intent().putExtra("UpdatedSkill", currentPlayerSkill);
+                Intent returnIntent = new Intent().putExtra("UpdatedSkill", currentSkill);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, returnIntent);
                 dismiss();
             }
         }
         });
-
-        deleteSkillButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
-                    {
-                        switch(which)
-                        {
-                            case DialogInterface.BUTTON_POSITIVE:
-                                repository.deletePlayerSkillEntity(currentPlayerSkill);
-                                Intent returnIntent = new Intent().putExtra("DeletedSkill", currentPlayerSkill);
-                                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, returnIntent);
-                                dismiss();
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                break;
-                        }
-                    }
-                };
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                builder.setMessage("Are you sure you want to delete the " + currentPlayerSkill.getSkillName() + " skill?")
-                       .setPositiveButton("Yes", dialogClickListener)
-                       .setNegativeButton("No", dialogClickListener)
-                       .show();
-            }
-        });
+        return rootView;
     }
 }

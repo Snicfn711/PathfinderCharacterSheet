@@ -92,6 +92,10 @@
     <string name="Weight">Weight</string>
     <string name="EquippedShort">E</string>
     <string name="Unequip">Unequip</string>
+    <string name="MainHand">Main Hand</string>
+    <string name="OffHand">Off Hand</string>
+    <string name="Armor">Armor</string>
+    <string name="Shield">Shield</string>
     <!--Spell Strings-->
     <string name="CastingTime">Casting Time</string>
     <string name="Targets">Targets</string>

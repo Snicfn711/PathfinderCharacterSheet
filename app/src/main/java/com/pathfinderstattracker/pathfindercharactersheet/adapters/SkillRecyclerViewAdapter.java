@@ -12,23 +12,26 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
+import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
+import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.SkillsReferenceFragment.OnListFragmentInteractionListener;
 
 import java.util.List;
 
 public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecyclerViewAdapter.ViewHolder>
 {
-    private final List<SkillForDisplay> mValues;
+    private final List<ISkill> mValues;
+    private final List<IAbilityScore> currentPlayerCharacterAbilityScores;
     private final OnListFragmentInteractionListener mListener;
     private final OnRollSkillCheckButtonClickedListener skillCheckButtonClickedListener;
     private final OnEditSkillLongClickListener editSkillLongClickListener;
     private Animation click;
 
-    public SkillRecyclerViewAdapter(List<SkillForDisplay> items, OnListFragmentInteractionListener listener, Fragment containingFragment)
+    public SkillRecyclerViewAdapter(List<ISkill> items, List<IAbilityScore> currentPlayerCharacterAbilityScores, OnListFragmentInteractionListener listener, Fragment containingFragment)
     {
         mValues = items;
         mListener = listener;
+        this.currentPlayerCharacterAbilityScores = currentPlayerCharacterAbilityScores;
         if(containingFragment instanceof OnRollSkillCheckButtonClickedListener)
         {
             skillCheckButtonClickedListener = (OnRollSkillCheckButtonClickedListener)containingFragment;
@@ -67,7 +70,7 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
         holder.mSkill = mValues.get(position);
         //holder.isClassSkill.setChecked(mValues.get(position).isProficiency());
         holder.skillName.setText(mValues.get(position).getSkillName());
-        holder.skillTotal.setText(Integer.toString(mValues.get(position).getTotalSkillScore()));
+        holder.skillTotal.setText(Integer.toString(getTotalSkillScore(mValues.get(position))));
         holder.skillStat.setText(mValues.get(position).getAddedStat().toString());
 
         holder.recycledRow.setOnLongClickListener(new View.OnLongClickListener()
@@ -75,12 +78,7 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
                 @Override
                 public boolean onLongClick (View v)
                 {
-                    SkillForDisplay skillForDisplay = new SkillForDisplay(holder.mSkill.getSkillID(),
-                            holder.mSkill.getAddedStat(),
-                            holder.mSkill.isArmorCheckPenaltyApplied(),
-                            holder.mSkill.getSkillName(),
-                            holder.mSkill.getTotalSkillScore());
-                    editSkillLongClickListener.onEditSkillLongClickActivated(skillForDisplay);
+                    editSkillLongClickListener.onEditSkillLongClickActivated(holder.mSkill);
                     return true;
                 }
             });
@@ -90,12 +88,8 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
             @Override
             public void onClick(View view)
             {
-                SkillForDisplay skillForDisplay = new SkillForDisplay(holder.mSkill.getSkillID(),
-                                                                      holder.mSkill.getAddedStat(),
-                                                                      holder.mSkill.isArmorCheckPenaltyApplied(),
-                                                                      holder.mSkill.getSkillName(),
-                                                                      holder.mSkill.getTotalSkillScore());
-                skillCheckButtonClickedListener.onRollSkillCheckButtonPressed(skillForDisplay);
+
+                skillCheckButtonClickedListener.onRollSkillCheckButtonPressed(holder.mSkill);
 
             }
         });
@@ -114,7 +108,7 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
         private final TextView skillName;
         private final TextView skillStat;
         private final TextView skillTotal;
-        private SkillForDisplay mSkill;
+        private ISkill mSkill;
 
         private ViewHolder(View view)
         {
@@ -135,11 +129,25 @@ public class SkillRecyclerViewAdapter extends RecyclerView.Adapter<SkillRecycler
 
     public interface OnRollSkillCheckButtonClickedListener
     {
-        void onRollSkillCheckButtonPressed(SkillForDisplay skillClicked);
+        void onRollSkillCheckButtonPressed(ISkill skillClicked);
     }
 
     public interface OnEditSkillLongClickListener
     {
-        void onEditSkillLongClickActivated(SkillForDisplay skillHeld);
+        void onEditSkillLongClickActivated(ISkill skillHeld);
+    }
+
+    private int getTotalSkillScore(ISkill skillTotalToCalculate)
+    {
+        int totalValue = 0;
+        totalValue += skillTotalToCalculate.getTotalInvestedPoints();
+        for (IAbilityScore abilityScore : currentPlayerCharacterAbilityScores)
+        {
+            if (abilityScore.getStat().equals(skillTotalToCalculate.getAddedStat()))
+            {
+                totalValue += abilityScore.calculateModifier();
+            }
+        }
+        return totalValue;
     }
 }

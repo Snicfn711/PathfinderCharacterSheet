@@ -16,6 +16,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.SkillEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
@@ -52,11 +53,21 @@ public class PathfinderRepository
         new insertPlayerCharacterAsyncTask(playerCharacterDao).execute(EntityToInsert);
     }
 
-    public void insertPlayerSkillEntity(InsertCustomSkillListener callingActivity, PlayerSkillsEntity playerSkillsEntity)
+    public void insertCustomSkill(InsertCustomSkillListener callingActivity, ISkill customSkill, UUID currentPlayerCharacterID)
     {
-        insertPlayerSkillsEntityAsyncTask task = new insertPlayerSkillsEntityAsyncTask(playerSkillsDao);
+        insertCustomSkillAsyncTask task = new insertCustomSkillAsyncTask(playerSkillsDao);
         task.delegate = callingActivity;
-        task.execute(playerSkillsEntity);
+
+        PlayerSkillsEntity playerSkillsEntityToInsert = new PlayerSkillsEntity();
+        playerSkillsEntityToInsert.setPlayerID(currentPlayerCharacterID);
+        playerSkillsEntityToInsert.setSkillID(customSkill.getSkillID());
+        playerSkillsEntityToInsert.setSkillName(customSkill.getSkillName());
+        playerSkillsEntityToInsert.setLevelUpPointsInvested(customSkill.getLevelUpPointsInvested());
+        playerSkillsEntityToInsert.setFavoredClassPointsInvested(customSkill.getFavoredClassPointsInvested());
+        playerSkillsEntityToInsert.setArmorCheckPenaltyApplied(customSkill.isArmorCheckPenaltyApplied());
+        playerSkillsEntityToInsert.setAddedStat(customSkill.getAddedStat());
+
+        task.execute(playerSkillsEntityToInsert);
     }
 
     public void insertPlayerArmorEntity(PlayerArmorEntity playerArmorEntity)
@@ -93,7 +104,7 @@ public class PathfinderRepository
         task.execute();
     }
 
-    public void requestPlayerSkillEntity(GetPlayerSkillEntityAsyncTaskFinishedListener callingActivity, UUID playerCharacterID)
+    public void requestPlayerSkills(GetPlayerSkillsAsyncTaskFinishedListener callingActivity, UUID playerCharacterID)
     {
         getPlayerSkillEntityAsyncTask task = new getPlayerSkillEntityAsyncTask(playerSkillsDao);
         task.delegate = callingActivity;
@@ -135,16 +146,36 @@ public class PathfinderRepository
         task.execute(playerArmorEntity);
     }
 
-    public void updatePlayerSkillEntity(PlayerSkillsEntity playerSkillsEntity)
+    public void updateSkill(ISkill skillToUpdate, UUID currentPlayerCharacterID)
     {
         updatePlayerSkillEntityAsyncTask task = new updatePlayerSkillEntityAsyncTask(playerSkillsDao);
-        task.execute(playerSkillsEntity);
+        
+        PlayerSkillsEntity playerSkillsEntityToUpdate = new PlayerSkillsEntity();
+        playerSkillsEntityToUpdate.setPlayerID(currentPlayerCharacterID);
+        playerSkillsEntityToUpdate.setSkillID(skillToUpdate.getSkillID());
+        playerSkillsEntityToUpdate.setSkillName(skillToUpdate.getSkillName());
+        playerSkillsEntityToUpdate.setLevelUpPointsInvested(skillToUpdate.getLevelUpPointsInvested());
+        playerSkillsEntityToUpdate.setFavoredClassPointsInvested(skillToUpdate.getFavoredClassPointsInvested());
+        playerSkillsEntityToUpdate.setArmorCheckPenaltyApplied(skillToUpdate.isArmorCheckPenaltyApplied());
+        playerSkillsEntityToUpdate.setAddedStat(skillToUpdate.getAddedStat());
+
+        task.execute(playerSkillsEntityToUpdate);
     }
 
-    public void deletePlayerSkillEntity(PlayerSkillsEntity playerSkillEntity)
+    public void deleteCustomSkill(ISkill customSkill, UUID currentPlayerCharacterID)
     {
         deletePlayerSkillEntityAsyncTask task = new deletePlayerSkillEntityAsyncTask(playerSkillsDao);
-        task.execute(playerSkillEntity);
+
+        PlayerSkillsEntity playerSkillsEntityToDelete = new PlayerSkillsEntity();
+        playerSkillsEntityToDelete.setPlayerID(currentPlayerCharacterID);
+        playerSkillsEntityToDelete.setSkillID(customSkill.getSkillID());
+        playerSkillsEntityToDelete.setSkillName(customSkill.getSkillName());
+        playerSkillsEntityToDelete.setLevelUpPointsInvested(customSkill.getLevelUpPointsInvested());
+        playerSkillsEntityToDelete.setFavoredClassPointsInvested(customSkill.getFavoredClassPointsInvested());
+        playerSkillsEntityToDelete.setArmorCheckPenaltyApplied(customSkill.isArmorCheckPenaltyApplied());
+        playerSkillsEntityToDelete.setAddedStat(customSkill.getAddedStat());
+        
+        task.execute(playerSkillsEntityToDelete);
     }
     //endregion
 
@@ -163,38 +194,49 @@ public class PathfinderRepository
         }
     }
 
-    private static class insertPlayerSkillsEntityAsyncTask extends AsyncTask<PlayerSkillsEntity, Void, PlayerSkillsEntity>
+    private static class insertCustomSkillAsyncTask extends AsyncTask<PlayerSkillsEntity, Void, ISkill>
     {
         private PlayerSkillsDao asyncPlayerSkillsDao;
         private Exception exception;
-        private PlayerSkillsEntity skillToAdd;
+        private PlayerSkillsEntity playerSkillsEntityToAdd;
+        private ISkill skillToAdd;
         private InsertCustomSkillListener delegate = null;
 
-        insertPlayerSkillsEntityAsyncTask(PlayerSkillsDao playerSkillsDao)
+        insertCustomSkillAsyncTask(PlayerSkillsDao playerSkillsDao)
         {
             asyncPlayerSkillsDao = playerSkillsDao;
         }
 
         @Override
-        protected PlayerSkillsEntity doInBackground(PlayerSkillsEntity... params)
+        protected ISkill doInBackground(PlayerSkillsEntity... params)
         {
-            skillToAdd = params[0];
+            playerSkillsEntityToAdd = params[0];
+            skillToAdd = new Skill();
+            
             try
             {
-                asyncPlayerSkillsDao.InsertPlayerSkill(skillToAdd);
+                asyncPlayerSkillsDao.InsertPlayerSkill(playerSkillsEntityToAdd);
             }
             catch(SQLiteConstraintException e)
             {
                 exception = e;
             }
+            
+            skillToAdd.setSkillID(params[0].getSkillID());
+            skillToAdd.setSkillName(params[0].getSkillName());
+            skillToAdd.setAddedStat(params[0].getAddedStat());
+            skillToAdd.setArmorCheckPenaltyApplied(params[0].isArmorCheckPenaltyApplied());
+            skillToAdd.setLevelUpPointsInvested(params[0].getLevelUpPointsInvested());
+            skillToAdd.setFavoredClassPointsInvested(params[0].getFavoredClassPointsInvested());
+            
             return skillToAdd;
         }
 
-        protected void onPostExecute(PlayerSkillsEntity playerSkillsEntityToReturn)
+        protected void onPostExecute(ISkill customSkillToReturn)
         {
             //We're relying on the database to error out if the user tries to add a duplicate custom skill.
-            //It's rudimentary since it's only checking for exacat name matches, but it should work for now.
-            delegate.onInsertCustomSkillAsyncTaskFinished(playerSkillsEntityToReturn, exception);
+            //It's rudimentary since it's only checking for exact name matches, but it should work for now.
+            delegate.onInsertCustomSkillAsyncTaskFinished(customSkillToReturn, exception);
         }
     }
 
@@ -310,7 +352,7 @@ public class PathfinderRepository
 
     private static class getPlayerSkillEntityAsyncTask extends AsyncTask<UUID, Void, List<PlayerSkillsEntity>> {
         private PlayerSkillsDao asyncPlayerSkillsDao;
-        private GetPlayerSkillEntityAsyncTaskFinishedListener delegate = null;
+        private GetPlayerSkillsAsyncTaskFinishedListener delegate = null;
 
         getPlayerSkillEntityAsyncTask(PlayerSkillsDao dao) {
             asyncPlayerSkillsDao = dao;
@@ -321,8 +363,24 @@ public class PathfinderRepository
             return asyncPlayerSkillsDao.GetPlayerSkillEntity(params[0]);
         }
 
-        protected void onPostExecute(List<PlayerSkillsEntity> result) {
-            delegate.onGetPlayerSkillEntityAsyncTaskFinished(result);
+        protected void onPostExecute(List<PlayerSkillsEntity> result)
+        {
+            List<ISkill> skillsToReturn = new ArrayList<>();
+            for(PlayerSkillsEntity entity : result)
+            {
+                ISkill tempSkill = new Skill();
+
+                tempSkill.setSkillID(entity.getSkillID());
+                tempSkill.setSkillName(entity.getSkillName());
+                tempSkill.setAddedStat(entity.getAddedStat());
+                tempSkill.setArmorCheckPenaltyApplied(entity.isArmorCheckPenaltyApplied());
+                tempSkill.setFavoredClassPointsInvested(entity.getFavoredClassPointsInvested());
+                tempSkill.setLevelUpPointsInvested(entity.getLevelUpPointsInvested());
+
+                skillsToReturn.add(tempSkill);
+            }
+
+            delegate.onGetPlayerSkillsAsyncTaskFinished(skillsToReturn);
         }
     }
 
@@ -459,7 +517,7 @@ public class PathfinderRepository
     //region Repository Listeners
     public interface InsertCustomSkillListener
     {
-        void onInsertCustomSkillAsyncTaskFinished(PlayerSkillsEntity insertedPlayerSkill, Exception thrownException);
+        void onInsertCustomSkillAsyncTaskFinished(ISkill insertedCustomSkill, Exception thrownException);
     }
 
     public interface InitializePlayerSkillsAsyncTaskFinishedListener
@@ -497,9 +555,9 @@ public class PathfinderRepository
         void onGetDefaultSkillsAsyncTaskFinished(List<ISkill> result);
     }
 
-    public interface GetPlayerSkillEntityAsyncTaskFinishedListener
+    public interface GetPlayerSkillsAsyncTaskFinishedListener
     {
-        void onGetPlayerSkillEntityAsyncTaskFinished(List<PlayerSkillsEntity> result);
+        void onGetPlayerSkillsAsyncTaskFinished(List<ISkill> result);
     }
 
     public interface UpdatePlayerArmorAsyncTaskFinishedListener

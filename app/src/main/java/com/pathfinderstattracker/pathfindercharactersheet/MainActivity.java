@@ -8,10 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.models.SkillForDisplay;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
@@ -92,7 +90,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onListFragmentInteraction(SkillForDisplay item)
+    public void onListFragmentInteraction(ISkill item)
     {
 
     }
@@ -147,7 +145,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onSkillsUpdated(PlayerSkillsEntity skillToUpdate)
+    public void onSkillsUpdated(ISkill skillToUpdate)
     {
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
         parentReferenceFragment.UpdateSkill(skillToUpdate);
@@ -161,14 +159,14 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onCustomSkillAdded(PlayerSkillsEntity skillToAdd)
+    public void onCustomSkillAdded(ISkill skillToAdd)
     {
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
         parentReferenceFragment.AddCustomSkill(skillToAdd);
     }
 
     @Override
-    public void onSkillDeleted(PlayerSkillsEntity skillToDelete)
+    public void onSkillDeleted(ISkill skillToDelete)
     {
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
         parentReferenceFragment.DeleteSkill(skillToDelete);

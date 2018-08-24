@@ -16,17 +16,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
+import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class AddCustomSkillDialog extends DialogFragment
 {
-    private UUID currentPlayerCharacterID;
-    private PathfinderRepository repository;
     private Spinner addedStatSpinner;
     private CheckBox armorCheckPenaltyCheckBox;
     private EditText customSkillNameEditText;
@@ -34,8 +32,6 @@ public class AddCustomSkillDialog extends DialogFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        repository = new PathfinderRepository(this.getActivity().getApplication());
-
         //Initialize our AbilityScoreEnum Array
         ArrayList<String> abilityScoreEnumList = new ArrayList<>();
         abilityScoreEnumList.add("Strength");
@@ -45,7 +41,6 @@ public class AddCustomSkillDialog extends DialogFragment
         abilityScoreEnumList.add("Wisdom");
         abilityScoreEnumList.add("Charisma");
 
-        currentPlayerCharacterID = (UUID)getArguments().getSerializable("CurrentPlayerCharacterID");
         //Initialize our view and bind our controls
         View rootView = inflater.inflate(R.layout.add_custom_skill_dialog_view, container, false);
         addedStatSpinner = rootView.findViewById(R.id.AddCustomSkillAddedStatSpinner);
@@ -79,38 +74,37 @@ public class AddCustomSkillDialog extends DialogFragment
         @Override
         public void onClick(View v)
         {
-                PlayerSkillsEntity playerSkillsEntityToInsert = new PlayerSkillsEntity();
-                playerSkillsEntityToInsert.setSkillID(UUID.randomUUID());
-                playerSkillsEntityToInsert.setPlayerID(currentPlayerCharacterID);
+                ISkill customSkillToInsert = new Skill();
+                customSkillToInsert.setSkillID(UUID.randomUUID());
                 switch((String)addedStatSpinner.getSelectedItem())
                 {
                     case "Strength":
-                        playerSkillsEntityToInsert.setAddedStat(AbilityScoreEnum.STR);
+                        customSkillToInsert.setAddedStat(AbilityScoreEnum.STR);
                         break;
                     case "Dexterity":
-                        playerSkillsEntityToInsert.setAddedStat(AbilityScoreEnum.DEX);
+                        customSkillToInsert.setAddedStat(AbilityScoreEnum.DEX);
                         break;
                     case "Constitution":
-                        playerSkillsEntityToInsert.setAddedStat(AbilityScoreEnum.CON);
+                        customSkillToInsert.setAddedStat(AbilityScoreEnum.CON);
                         break;
                     case "Intelligence":
-                        playerSkillsEntityToInsert.setAddedStat(AbilityScoreEnum.INT);
+                        customSkillToInsert.setAddedStat(AbilityScoreEnum.INT);
                         break;
                     case "Wisdom":
-                        playerSkillsEntityToInsert.setAddedStat(AbilityScoreEnum.WIS);
+                        customSkillToInsert.setAddedStat(AbilityScoreEnum.WIS);
                         break;
                     case "Charisma":
-                        playerSkillsEntityToInsert.setAddedStat(AbilityScoreEnum.CHA);
+                        customSkillToInsert.setAddedStat(AbilityScoreEnum.CHA);
                         break;
                     default:
                         throw new RuntimeException("An Invalid AbilityScoreEnum Was Selected in the AddCustomSkillDialog");
                 }
-                playerSkillsEntityToInsert.setArmorCheckPenaltyApplied(armorCheckPenaltyCheckBox.isChecked());
-                playerSkillsEntityToInsert.setSkillName(customSkillNameEditText.getText().toString());
-                playerSkillsEntityToInsert.setLevelUpPointsInvested(0);
-                playerSkillsEntityToInsert.setFavoredClassPointsInvested(0);
+                customSkillToInsert.setArmorCheckPenaltyApplied(armorCheckPenaltyCheckBox.isChecked());
+                customSkillToInsert.setSkillName(customSkillNameEditText.getText().toString());
+                customSkillToInsert.setLevelUpPointsInvested(0);
+                customSkillToInsert.setFavoredClassPointsInvested(0);
 
-                Intent i = new Intent().putExtra("CustomSkillAdded", playerSkillsEntityToInsert);
+                Intent i = new Intent().putExtra("CustomSkillAdded", customSkillToInsert);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
                 dismiss();
         }

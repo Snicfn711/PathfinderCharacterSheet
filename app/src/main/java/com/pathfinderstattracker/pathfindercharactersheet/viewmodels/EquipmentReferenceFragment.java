@@ -10,14 +10,20 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.EnchantableEquipmentRecyclerViewAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Shield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ShieldWeightCategoryEnum;
@@ -26,6 +32,8 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDam
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponFamilyEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView;
+import com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +101,33 @@ public class EquipmentReferenceFragment extends Fragment
     // TODO: Customize parameters
     private OnListFragmentInteractionListener mListener;
     private Animation click;
+    private TextView mainHandMagicBonus;
+    private TextView mainHandAbilities;
+    private TextView mainHandEquipmentName;
+    private TextView mainHandEquipmentLabel;
+    private WeaponDetailView mainHandWeaponDetailView;
+    private Button mainHandUnequipButton;
+    private TextView offHandMagicBonus;
+    private TextView offHandAbilities;
+    private TextView offHandEquipmentName;
+    private TextView offHandEquipmentLabel;
+    private WeaponDetailView offHandWeaponDetailView;
+    private Button offHandUnequipButton;
+    private TextView armorMagicBonus;
+    private TextView armorAbilities;
+    private TextView armorEquipmentName;
+    private TextView armorEquipmentLabel;
+    private ProtectionDetailView armorProtectionDetailView;
+    private Button armorUnequipButton;
+    private TextView shieldMagicBonus;
+    private TextView shieldAbilities;
+    private TextView shieldEquipmentName;
+    private TextView shieldEquipmentLabel;
+    private ProtectionDetailView shieldProtectionDetailView;
+    private Button shieldUnequipButton;
 
+    private ArrayList<PlayerArmorEntity> currentPlayerArmor;
+    
     public EquipmentReferenceFragment()
     {
         /**
@@ -130,6 +164,8 @@ public class EquipmentReferenceFragment extends Fragment
         TempEquipment.add(tower);
 
         super.onCreate(savedInstanceState);
+        currentPlayerArmor = (ArrayList<PlayerArmorEntity>)getArguments().getSerializable("PlayerArmor");
+        int f = 5;
     }
 
     @Override
@@ -139,12 +175,32 @@ public class EquipmentReferenceFragment extends Fragment
         View rootView = inflater.inflate(R.layout.equipment_fragment_view, container, false);
         Context context = rootView.getContext();
 
-        // Set the adapter
-        final RecyclerView recyclerView =  rootView.findViewById(R.id.EquipmentRecycler);
-        final EnchantableEquipmentRecyclerViewAdapter equipmentAdapter = new EnchantableEquipmentRecyclerViewAdapter(TempEquipment, mListener);
-        recyclerView.setAdapter(equipmentAdapter);
+        mainHandMagicBonus = rootView.findViewById(R.id.MainHandMagicBonus);
+        mainHandAbilities = rootView.findViewById(R.id.MainHandEquipmentAbilities);
+        mainHandEquipmentName = rootView.findViewById(R.id.MainHandEquipmentName);
+        mainHandEquipmentLabel = rootView.findViewById(R.id.MainHandEquipmentLabel);
+        mainHandWeaponDetailView = rootView.findViewById(R.id.MainHandWeaponDetailView);
+        mainHandUnequipButton = rootView.findViewById(R.id.MainHandEquipmentRowUnequipButton);
+        offHandMagicBonus = rootView.findViewById(R.id.OffHandMagicBonus);
+        offHandAbilities = rootView.findViewById(R.id.OffHandEquipmentAbilities);
+        offHandEquipmentName = rootView.findViewById(R.id.OffHandEquipmentName);
+        offHandEquipmentLabel = rootView.findViewById(R.id.OffHandEquipmentLabel);
+        offHandWeaponDetailView = rootView.findViewById(R.id.OffHandWeaponDetailView);
+        offHandUnequipButton = rootView.findViewById(R.id.OffHandEquipmentRowUnequipButton);
+        armorMagicBonus = rootView.findViewById(R.id.ArmorMagicBonus);
+        armorAbilities = rootView.findViewById(R.id.ArmorEquipmentAbilities);
+        armorEquipmentName = rootView.findViewById(R.id.ArmorEquipmentName);
+        armorEquipmentLabel = rootView.findViewById(R.id.ArmorEquipmentLabel);
+        armorProtectionDetailView = rootView.findViewById(R.id.ArmorProtectionDetailView);
+        armorUnequipButton = rootView.findViewById(R.id.ArmorEquipmentRowUnequipButton);
+        shieldMagicBonus = rootView.findViewById(R.id.ShieldMagicBonus);
+        shieldAbilities = rootView.findViewById(R.id.ShieldEquipmentAbilities);
+        shieldEquipmentName = rootView.findViewById(R.id.ShieldEquipmentName);
+        shieldEquipmentLabel = rootView.findViewById(R.id.ShieldEquipmentLabel);
+        shieldProtectionDetailView = rootView.findViewById(R.id.ShieldProtectionDetailView);
+        shieldUnequipButton = rootView.findViewById(R.id.ShieldEquipmentRowUnequipButton);
 
-        //Set up the animations for clicking our sort buttons
+        //Set up the animations for clicking our category buttons
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final Button armorAndWeaponsButton = rootView.findViewById(R.id.ArmorAndWeaponsButton);
         final Button wondrousItemsButton = rootView.findViewById(R.id.WondrousItemsButton);
@@ -205,5 +261,53 @@ public class EquipmentReferenceFragment extends Fragment
     {
         // TODO: Update argument type and name
         void onListFragmentInteraction(IEquipment item);
+    }
+
+    private String CreateEnchantmentString(IWeapon weapon)
+    {
+        List<IWeaponEnchantment> enchantments = weapon.getEnchantments();
+        StringBuilder enchantmentString = new StringBuilder();
+        if(enchantments != null && enchantments.size() >= 1) {
+            for (IWeaponEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
+            }
+            return enchantmentString.toString();
+        }
+        else
+        {
+            return "None";
+        }
+    }
+
+    private String CreateEnchantmentString(IArmor armor)
+    {
+        List<IArmorEnchantment> enchantments = armor.getEnchantments();
+        StringBuilder enchantmentString = new StringBuilder();
+        if(enchantments != null && enchantments.size() >= 1) {
+            for (IArmorEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
+            }
+            return enchantmentString.toString();
+        }
+        else
+        {
+            return "None";
+        }
+    }
+
+    private String CreateEnchantmentString(IShield shield)
+    {
+        List<IWeaponEnchantment> enchantments = shield.getEnchantments();
+        StringBuilder enchantmentString = new StringBuilder();
+        if(shield.getEnchantments() != null && enchantments.size() >= 1) {
+            for (IWeaponEnchantment enchantment : enchantments) {
+                enchantmentString.append(enchantment.getName()).append(" ");
+            }
+            return enchantmentString.toString();
+        }
+        else
+        {
+            return "None";
+        }
     }
 }
