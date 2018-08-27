@@ -7,17 +7,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.ISpell;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AddArmorToInventoryFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
@@ -45,8 +42,8 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
                                                               PathfinderRepository.GetDefaultSkillsAsyncTaskFinishedListener,
                                                               SkillsReferenceFragment.OnSkillsUpdatedListener,
                                                               AddArmorToInventoryFragment.OnListFragmentInteractionListener,
-                                                              InventoryReferenceFragment.OnPlayerArmorAddedListener,
-                                                              PathfinderRepository.GetAllArmorsAsyncTaskFinishedListener,
+                                                              InventoryReferenceFragment.OnMundaneProtectionAddedToPlayerInventoryListener,
+                                                              PathfinderRepository.GetAllMundaneProtectionsAsyncTaskFinishedListener,
                                                               PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener,
                                                               SkillsReferenceFragment.OnCustomSkillAddedListener,
                                                               SkillsReferenceFragment.OnSkillsDeletedListener
@@ -66,7 +63,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.MainActivity, characterListFragment).commit();
         repository.requestSkills(this);
-        repository.requestArmors(this);
+        repository.requestMundaneProtections(this);
     }
 
     //region Fragment Interaction Listeners
@@ -152,10 +149,10 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onPlayerArmorAdded(IProtection armorItemUpdated)
+    public void onMundaneProtectionAddedToPlayerInventory(IProtection protectionToAddToInventory)
     {
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
-        parentReferenceFragment.AddArmor(armorItemUpdated);
+        parentReferenceFragment.AddMundaneProtection(protectionToAddToInventory);
     }
 
     @Override
@@ -196,25 +193,14 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result)
+    public void onGetAllMundaneProtectionsAsyncTaskFinished(List<IProtection> result)
     {
-        ArrayList<IProtection> defaultArmorList = new ArrayList<IProtection>();
-        for(ArmorEntity entity : result)
-        {
-            if(entity.getArmorType() == ArmorTypesEnum.Armor)
-            {
-                defaultArmorList.add(DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(entity));
-            }
-            else if(entity.getArmorType() == ArmorTypesEnum.Shield)
-            {
-                defaultArmorList.add(DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(entity));
-            }
-        }
+        ArrayList<IProtection> defaultMundaneProtectionList = new ArrayList<IProtection>();
         if(bundle == null || bundle.isEmpty())
         {
             bundle = new Bundle();
         }
-        bundle.putSerializable("DefaultArmors", defaultArmorList);
+        bundle.putSerializable("DefaultMundaneProtection", defaultMundaneProtectionList);
     }
 
     @Override
@@ -233,4 +219,5 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.PlayerCharacterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
     }
+
 }

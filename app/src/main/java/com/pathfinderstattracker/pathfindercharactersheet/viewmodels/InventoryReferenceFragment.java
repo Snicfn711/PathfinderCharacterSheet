@@ -18,14 +18,12 @@ import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.InventoryRecyclerViewAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.AbsItem;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddItemToInventoryDialog;
 
 import java.util.ArrayList;
@@ -41,12 +39,13 @@ import java.util.List;
 public class InventoryReferenceFragment extends Fragment
 {
     private OnListFragmentInteractionListener mListener;
-    private OnPlayerArmorAddedListener armorUpdatedListener;
+    private OnMundaneProtectionAddedToPlayerInventoryListener mundaneProtectionUpdatedListener;
     private IPlayerCharacter currentPlayerCharacter;
     private Animation click;
     private View rootView;
     private List<IItem> currentInventory;
     private static final int ADD_ITEM_TO_INVENTORY = 1;
+    private PathfinderRepository repository;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -71,6 +70,7 @@ public class InventoryReferenceFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        repository = new PathfinderRepository(this.getActivity().getApplication());
     }
 
     @Override
@@ -171,14 +171,14 @@ public class InventoryReferenceFragment extends Fragment
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
-        if(context instanceof OnPlayerArmorAddedListener)
+        if(context instanceof OnMundaneProtectionAddedToPlayerInventoryListener)
         {
-            armorUpdatedListener = (OnPlayerArmorAddedListener)context;
+            mundaneProtectionUpdatedListener = (OnMundaneProtectionAddedToPlayerInventoryListener)context;
         }
         else
         {
             throw new RuntimeException(context.toString()
-                    + " must implement OnPlayerArmorUpdatedListener");
+                    + " must implement OnMundaneProtectionAddedListener");
         }
     }
 
@@ -219,7 +219,6 @@ public class InventoryReferenceFragment extends Fragment
     private void OpenAddItemToInventoryDialog()
     {
         Bundle args = new Bundle();
-        args.putSerializable("CurrentPlayerCharacterID", currentPlayerCharacter.getPlayerCharacterID());
 
         AddItemToInventoryDialog addItemToInventoryDialog = new AddItemToInventoryDialog();
         addItemToInventoryDialog.setArguments(args);
@@ -237,22 +236,16 @@ public class InventoryReferenceFragment extends Fragment
             case ADD_ITEM_TO_INVENTORY:
                 if (resultCode == Activity.RESULT_OK)
                 {
-                    ArmorEntity armorToConvert= (ArmorEntity)data.getExtras().getSerializable("ArmorToAddToInventory");
-                    if(armorToConvert.getArmorType() == ArmorTypesEnum.Armor)
-                    {
-                        armorUpdatedListener.onPlayerArmorAdded(DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(armorToConvert));
-                    }
-                    else if(armorToConvert.getArmorType() == ArmorTypesEnum.Shield)
-                    {
-                        armorUpdatedListener.onPlayerArmorAdded(DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(armorToConvert));
-                    }
+                    IProtection mundaneProtectionToAddToInventory= (IProtection) data.getExtras().getSerializable("MundaneProtectionToAddToInventory");
+                    repository.addMundaneProtectionToPlayerInventory(mundaneProtectionToAddToInventory, currentPlayerCharacter.getPlayerCharacterID());
+                    mundaneProtectionUpdatedListener.onMundaneProtectionAddedToPlayerInventory(mundaneProtectionToAddToInventory);
                 }
                 break;
         }
     }
 
-    public interface OnPlayerArmorAddedListener
+    public interface OnMundaneProtectionAddedToPlayerInventoryListener
     {
-        void onPlayerArmorAdded(IProtection protectionToAddToInventory);
+        void onMundaneProtectionAddedToPlayerInventory(IProtection protectionToAddToInventory);
     }
 }

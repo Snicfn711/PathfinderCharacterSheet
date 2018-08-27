@@ -12,24 +12,18 @@ import android.view.ViewGroup;
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.ReferenceFragmentAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
-import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ParentReferenceFragment extends Fragment implements PathfinderRepository.GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener,
-                                                                 PathfinderRepository.GetPlayerSkillsAsyncTaskFinishedListener,
-                                                                 PathfinderRepository.GetSingleArmorAsyncTaskFinishedListener
+public class ParentReferenceFragment extends Fragment implements PathfinderRepository.GetMundaneProtectionForCurrentPlayerAsyncTaskFinishedListener,
+                                                                 PathfinderRepository.GetPlayerSkillsAsyncTaskFinishedListener
 {
     private ReferenceFragmentAdapter referenceFragmentAdapter;
     private OnFragmentInteractionListener mListener;
@@ -39,9 +33,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     private ArrayList<ISkill> currentPlayerSkills;
     private ArrayList<IItem> currentPlayerInventory;
     private ArrayList<ISkill> defaultSkills;
-    private ArrayList<PlayerArmorEntity> currentPlayerArmor;
-    private int totalInventorySize;
-
+    private ArrayList<IProtection> currentPlayerArmor;
     public ParentReferenceFragment()
     {
         // Required empty public constructor
@@ -69,12 +61,10 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         currentPlayerCharacter = (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
         defaultSkills = (ArrayList<ISkill>)getPlayerCharacterBundle.getSerializable("DefaultSkillsList");
 
-        totalInventorySize = 0;
-
         //TODO: Like with MainActivity, we're likely going to be loading a fair amount of data here, so this could potentially use a loading screen.
         repository = new PathfinderRepository(this.getActivity().getApplication());
         repository.requestPlayerSkills(this, currentPlayerCharacter.getPlayerCharacterID());
-        repository.requestPlayerArmors(currentPlayerCharacter.getPlayerCharacterID(),this);
+        repository.requestMundaneProtectionForPlayer(currentPlayerCharacter.getPlayerCharacterID(),this);
     }
 
     @Override
@@ -135,40 +125,12 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     }
 
     @Override
-    public void onGetArmorEntityForCurrentPlayerAsyncTaskFinished(List<PlayerArmorEntity> result)
+    public void onGetMundaneProtectionForCurrentPlayerAsyncTaskFinished(List<IProtection> result)
     {
-        totalInventorySize += result.size();
         currentPlayerArmor.addAll(result);
-        if(result.size() != 0)
-        {
-            for (PlayerArmorEntity entity : result)
-            {
-                repository.requestSingleArmor(entity.getArmorID(), this);
-            }
-        }
-    }
-
-    @Override
-    public void onGetSingleArmorAsyncTaskFinished(ArmorEntity result)
-    {
-        if(result.getArmorType() == ArmorTypesEnum.Armor)
-        {
-            currentPlayerInventory.add(DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(result));
-        }
-        else if(result.getArmorType() == ArmorTypesEnum.Shield)
-        {
-            currentPlayerInventory.add(DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(result));
-        }
-        else
-        {
-            throw new RuntimeException("The current player character has been given an invalid shield or armor");
-        }
-        if(currentPlayerInventory.size() == totalInventorySize)
-        {
-
-            referenceFragmentAdapter.setArgs(createBundle());
-            ReloadScreen();
-        }
+        currentPlayerInventory.addAll(result);
+        referenceFragmentAdapter.setArgs(createBundle());
+        ReloadScreen();
     }
     //endregion
 
@@ -201,10 +163,9 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         ReloadScreen();
     }
 
-    public void AddArmor(IProtection armorToUpdate)
+    public void AddMundaneProtection(IProtection armorToUpdate)
     {
         currentPlayerInventory.add(armorToUpdate);
-        PlayerArmorEntity playerArmorEntityToUpdate = new PlayerArmorEntity();
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }

@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.EnchantableEquipmentRecyclerViewAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
@@ -22,6 +20,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmorEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeapon;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IWeaponEnchantment;
@@ -126,7 +125,7 @@ public class EquipmentReferenceFragment extends Fragment
     private ProtectionDetailView shieldProtectionDetailView;
     private Button shieldUnequipButton;
 
-    private ArrayList<PlayerArmorEntity> currentPlayerArmor;
+    private ArrayList<IProtection> currentPlayerArmor;
     
     public EquipmentReferenceFragment()
     {
@@ -164,7 +163,7 @@ public class EquipmentReferenceFragment extends Fragment
         TempEquipment.add(tower);
 
         super.onCreate(savedInstanceState);
-        currentPlayerArmor = (ArrayList<PlayerArmorEntity>)getArguments().getSerializable("PlayerArmor");
+        currentPlayerArmor = (ArrayList<IProtection>)getArguments().getSerializable("PlayerArmor");
         int f = 5;
     }
 

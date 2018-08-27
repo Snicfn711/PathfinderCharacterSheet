@@ -15,9 +15,9 @@ import com.pathfinderstattracker.pathfindercharactersheet.R;
 
 import java.util.List;
 
-public class AddArmorToInventorySpinnerAdapter extends ArrayAdapter<Object>
+public class AddMundaneProtectionToInventorySpinnerAdapter extends ArrayAdapter<Object>
 {
-    public AddArmorToInventorySpinnerAdapter(@NonNull Context context, int resource, @NonNull List<Object> items)
+    public AddMundaneProtectionToInventorySpinnerAdapter(@NonNull Context context, int resource, @NonNull List<Object> items)
     {
         super(context, resource, items);
     }

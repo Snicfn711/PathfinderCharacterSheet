@@ -19,12 +19,20 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Skill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.DatabaseInitializer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+
+import static com.pathfinderstattracker.pathfindercharactersheet.models.items.AbsItem.compareMundaneProtections;
 
 public class PathfinderRepository
 {
@@ -70,10 +78,18 @@ public class PathfinderRepository
         task.execute(playerSkillsEntityToInsert);
     }
 
-    public void insertPlayerArmorEntity(PlayerArmorEntity playerArmorEntity)
+    public void addMundaneProtectionToPlayerInventory(IProtection ProtectionToAdd, UUID currentPlayerCharacterID)
     {
-        insertPlayerArmorAsyncTask task = new insertPlayerArmorAsyncTask(playerArmorDao);
-        task.execute(playerArmorEntity);
+
+        addMundaneProtectionToPlayerInventoryAsyncTask task = new addMundaneProtectionToPlayerInventoryAsyncTask(playerArmorDao);
+
+        PlayerArmorEntity playerArmorEntityToAdd = new PlayerArmorEntity();
+        playerArmorEntityToAdd.setPlayerArmorID(UUID.randomUUID());
+        playerArmorEntityToAdd.setPlayerID(currentPlayerCharacterID);
+        playerArmorEntityToAdd.setArmorID(ProtectionToAdd.getItemID());
+        playerArmorEntityToAdd.setIsEquipped(false);
+
+        task.execute(playerArmorEntityToAdd);
     }
 
     public void initializePlayerSkill(InitializePlayerSkillsAsyncTaskFinishedListener callingActivity, IPlayerCharacter characterToInitialize, List<ISkill> skillsToInitialize)
@@ -111,23 +127,23 @@ public class PathfinderRepository
         task.execute(playerCharacterID);
     }
 
-    public void requestArmors(GetAllArmorsAsyncTaskFinishedListener callingActivity)
+    public void requestMundaneProtections(GetAllMundaneProtectionsAsyncTaskFinishedListener callingActivity)
     {
-        getAllArmorsAsyncTask task = new getAllArmorsAsyncTask(armorDao);
+        getAllMundaneProtectionsAsyncTask task = new getAllMundaneProtectionsAsyncTask(armorDao);
         task.delegate = callingActivity;
         task.execute();
     }
 
-    public void requestSingleArmor(UUID armorIDToGet, GetSingleArmorAsyncTaskFinishedListener callingActivity)
+    public void requestSingleMundaneProtection(UUID mundaneProtectionIDToGet, GetSingleMundaneProtectionAsyncTaskFinishedListener callingActivity)
     {
-        getSingleArmorAsyncTask task = new getSingleArmorAsyncTask(armorDao);
+        getSingleMundaneProtectionAsyncTask task = new getSingleMundaneProtectionAsyncTask(armorDao);
         task.delegate = callingActivity;
-        task.execute(armorIDToGet);
+        task.execute(mundaneProtectionIDToGet);
     }
 
-    public void requestPlayerArmors(UUID playerCharacterID, GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener callingActivity)
+    public void requestMundaneProtectionForPlayer(UUID playerCharacterID, GetMundaneProtectionForCurrentPlayerAsyncTaskFinishedListener callingActivity)
     {
-        getArmorEntityForPlayerCharacterAsyncTask task = new getArmorEntityForPlayerCharacterAsyncTask(playerArmorDao);
+        getMundaneProtectionForPlayerCharacterAsyncTask task = new getMundaneProtectionForPlayerCharacterAsyncTask(playerArmorDao, armorDao);
         task.delegate = callingActivity;
         task.execute(playerCharacterID);
     }
@@ -137,13 +153,6 @@ public class PathfinderRepository
         updatePlayerCharacterAsyncTask task = new updatePlayerCharacterAsyncTask(playerCharacterDao);
         task.delegate = callingActivity;
         task.execute(character);
-    }
-
-    public void updatePlayerArmorEntity(PlayerArmorEntity playerArmorEntity, UpdatePlayerArmorAsyncTaskFinishedListener callingActivity)
-    {
-        updatePlayerArmorAsyncTask task = new updatePlayerArmorAsyncTask(playerArmorDao);
-        task.delegate = callingActivity;
-        task.execute(playerArmorEntity);
     }
 
     public void updateSkill(ISkill skillToUpdate, UUID currentPlayerCharacterID)
@@ -240,11 +249,11 @@ public class PathfinderRepository
         }
     }
 
-    private static class insertPlayerArmorAsyncTask extends AsyncTask<PlayerArmorEntity, Void, Void>
+    private static class addMundaneProtectionToPlayerInventoryAsyncTask extends AsyncTask<PlayerArmorEntity, Void, Void>
     {
         private PlayerArmorDao asyncPlayerArmorDao;
 
-        insertPlayerArmorAsyncTask(PlayerArmorDao dao){asyncPlayerArmorDao = dao;}
+        addMundaneProtectionToPlayerInventoryAsyncTask(PlayerArmorDao dao){asyncPlayerArmorDao = dao;}
 
         @Override
         protected Void doInBackground(PlayerArmorEntity... params)
@@ -384,32 +393,58 @@ public class PathfinderRepository
         }
     }
 
-    private static class getAllArmorsAsyncTask extends AsyncTask<Void, Void, List<ArmorEntity>>
+    private static class getAllMundaneProtectionsAsyncTask extends AsyncTask<Void, Void, List<IProtection>>
     {
         private ArmorDao asyncArmorDao;
-        private GetAllArmorsAsyncTaskFinishedListener delegate;
+        private GetAllMundaneProtectionsAsyncTaskFinishedListener delegate;
 
-        getAllArmorsAsyncTask(ArmorDao dao){asyncArmorDao = dao;}
+        getAllMundaneProtectionsAsyncTask(ArmorDao dao){asyncArmorDao = dao;}
 
         @Override
-        protected List<ArmorEntity> doInBackground(Void... voids)
+        protected List<IProtection> doInBackground(Void... voids)
         {
-            return asyncArmorDao.getAllArmors();
+            List<ArmorEntity> returnedArmorEntities = asyncArmorDao.getAllArmors();
+            List<IProtection> protectionsToReturn = new ArrayList<>();
+            for(ArmorEntity entity:returnedArmorEntities)
+            {
+                if(entity.getArmorType() == ArmorTypesEnum.Armor)
+                {
+                    protectionsToReturn.add(DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(entity));
+                }
+                if(entity.getArmorType() == ArmorTypesEnum.Shield)
+                {
+                    protectionsToReturn.add(DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(entity));
+                }
+            }
+            Collections.sort(protectionsToReturn, compareMundaneProtections);
+            return protectionsToReturn;
         }
 
         @Override
-        protected void onPostExecute(List<ArmorEntity> result)
+        protected void onPostExecute(List<IProtection> result)
         {
-            delegate.onGetAllArmorsAsyncTaskFinished(result);
+            delegate.onGetAllMundaneProtectionsAsyncTaskFinished(result);
         }
     }
 
-    private static class getArmorEntityForPlayerCharacterAsyncTask extends AsyncTask<UUID, Void, List<PlayerArmorEntity>>
+    private static class getMundaneProtectionForPlayerCharacterAsyncTask extends AsyncTask<UUID, Void, List<PlayerArmorEntity>> implements GetSingleMundaneProtectionAsyncTaskFinishedListener
     {
-        private PlayerArmorDao asyncPlayerArmorDao;
-        private GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener delegate;
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //This is a hot mess. Rather than calling a method to get the PlayerArmorEntities then another one to constantly re-query the db to get all  the actual armor pieces  //
+        //we should just write a better query somewhere. But we have no idea how to write multi-table queries in room and this should work for now.                           //
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        getArmorEntityForPlayerCharacterAsyncTask(PlayerArmorDao dao){asyncPlayerArmorDao = dao;}
+        private PlayerArmorDao asyncPlayerArmorDao;
+        private ArmorDao asyncArmorDao;
+        private GetMundaneProtectionForCurrentPlayerAsyncTaskFinishedListener delegate;
+        private int playerMundaneProtectionsCount = 0;
+        private List<IProtection> protectionListToReturn = new ArrayList<>();
+
+        getMundaneProtectionForPlayerCharacterAsyncTask(PlayerArmorDao playerArmorDao, ArmorDao armorDao)
+        {
+            asyncPlayerArmorDao = playerArmorDao;
+            asyncArmorDao = armorDao;
+        }
 
 
         @Override
@@ -421,28 +456,54 @@ public class PathfinderRepository
         @Override
         protected void onPostExecute(List<PlayerArmorEntity> result)
         {
-            delegate.onGetArmorEntityForCurrentPlayerAsyncTaskFinished(result);
+            playerMundaneProtectionsCount = result.size();
+            for(PlayerArmorEntity entity : result)
+            {
+                getSingleMundaneProtectionAsyncTask task = new getSingleMundaneProtectionAsyncTask(asyncArmorDao);
+                task.delegate = this;
+                task.execute(entity.getArmorID());
+            }
+        }
+
+        @Override
+        public void onGetSingleMundaneProtectionAsyncTaskFinished(IProtection result)
+        {
+            protectionListToReturn.add(result);
+            if(protectionListToReturn.size() == playerMundaneProtectionsCount)
+            {
+                delegate.onGetMundaneProtectionForCurrentPlayerAsyncTaskFinished(protectionListToReturn);
+            }
         }
     }
 
-    private static class getSingleArmorAsyncTask extends AsyncTask<UUID, Void, ArmorEntity>
+    private static class getSingleMundaneProtectionAsyncTask extends AsyncTask<UUID, Void, IProtection>
     {
         private ArmorDao asyncArmorDao;
-        private GetSingleArmorAsyncTaskFinishedListener delegate;
+        private GetSingleMundaneProtectionAsyncTaskFinishedListener delegate;
 
-        getSingleArmorAsyncTask(ArmorDao dao){asyncArmorDao = dao;}
+        getSingleMundaneProtectionAsyncTask(ArmorDao dao){asyncArmorDao = dao;}
 
 
         @Override
-        protected ArmorEntity doInBackground(UUID... params)
+        protected IProtection doInBackground(UUID... params)
         {
-            return asyncArmorDao.getSingleArmor(params[0]);
+            ArmorEntity armorEntityToConvert = asyncArmorDao.getSingleArmor(params[0]);
+            if(armorEntityToConvert instanceof IArmor)
+            {
+                return DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(armorEntityToConvert);
+            }
+            else if (armorEntityToConvert instanceof IShield)
+            {
+                return DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(armorEntityToConvert);
+            }
+
+            throw new RuntimeException("The current player character has been given an invalid armor or shield");
         }
 
         @Override
-        protected void onPostExecute(ArmorEntity result)
+        protected void onPostExecute(IProtection result)
         {
-            delegate.onGetSingleArmorAsyncTaskFinished(result);
+            delegate.onGetSingleMundaneProtectionAsyncTaskFinished(result);
         }
     }
 
@@ -530,19 +591,19 @@ public class PathfinderRepository
         void onGetPlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter);
     }
 
-    public interface GetSingleArmorAsyncTaskFinishedListener
+    public interface GetSingleMundaneProtectionAsyncTaskFinishedListener
     {
-        void onGetSingleArmorAsyncTaskFinished(ArmorEntity result);
+        void onGetSingleMundaneProtectionAsyncTaskFinished(IProtection result);
     }
 
-    public interface GetArmorEntityForCurrentPlayerAsyncTaskFinishedListener
+    public interface GetMundaneProtectionForCurrentPlayerAsyncTaskFinishedListener
     {
-        void onGetArmorEntityForCurrentPlayerAsyncTaskFinished(List<PlayerArmorEntity> result);
+        void onGetMundaneProtectionForCurrentPlayerAsyncTaskFinished(List<IProtection> result);
     }
 
-    public interface GetAllArmorsAsyncTaskFinishedListener
+    public interface GetAllMundaneProtectionsAsyncTaskFinishedListener
     {
-        void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result);
+        void onGetAllMundaneProtectionsAsyncTaskFinished(List<IProtection> result);
     }
 
     public interface GetPlayerCharacterNamesAndIDsAsyncTaskFinishedListener

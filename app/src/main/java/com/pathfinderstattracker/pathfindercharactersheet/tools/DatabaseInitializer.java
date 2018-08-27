@@ -281,6 +281,7 @@ public class DatabaseInitializer
         reinforcedTunic.setName("Reinforced Tunic");
         reinforcedTunic.setDescription("Sometimes called a leine, this belted tunic has thick cords woven through it that cover vital areas. A reinforced tunic’s armor bonus is increased by 2 against attack rolls made to confirm critical hits against the wearer.");
         reinforcedTunic.setMaximumDexBonus(5);
+        reinforcedTunic.setAcBonus(1);
         reinforcedTunic.setArcaneSpellFailureChance(5);
 
         ArmorEntity silkenCeremonialArmor = new ArmorEntity(UUID.randomUUID());

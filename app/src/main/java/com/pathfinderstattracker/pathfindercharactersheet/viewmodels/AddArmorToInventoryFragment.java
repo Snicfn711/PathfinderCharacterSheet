@@ -11,17 +11,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddArmorToInventorySpinnerAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddMundaneProtectionToInventorySpinnerAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddArmorToInventoryFragment extends Fragment implements PathfinderRepository.GetAllArmorsAsyncTaskFinishedListener
+public class AddArmorToInventoryFragment extends Fragment implements PathfinderRepository.GetAllMundaneProtectionsAsyncTaskFinishedListener
 {
     private View rootView;
     private OnListFragmentInteractionListener mListener;
@@ -59,7 +59,7 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
         rootView.setTag("AddArmorRootView");
         Context context = rootView.getContext();
         PathfinderRepository repository = new PathfinderRepository(this.getActivity().getApplication());
-        repository.requestArmors(this);
+        repository.requestMundaneProtections(this);
 
         return rootView;
     }
@@ -103,47 +103,56 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
     }
 
     @Override
-    public void onGetAllArmorsAsyncTaskFinished(List<ArmorEntity> result)
+    public void onGetAllMundaneProtectionsAsyncTaskFinished(List<IProtection> result)
     {
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Unfortunately the process for getting section headers into our armor select dropdown is convoluted, since the adapter can't modify its data set easily  //
         //This means we end up having to modify it here in the fragment instead and pass the resulting List into the adapter.                                     //
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        final List<Object> armorEntityArrayWithSectionHeaders = new ArrayList<>();
+        final List<Object> mundaneProtectionArrayWithSectionHeaders = new ArrayList<>();
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Since we can't add empty spaces to our data set for the adapter to read as section headers and modify there,  //
         //we're instead forced to put the section header strings directly into the list and handle them in the adapter  //
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        armorEntityArrayWithSectionHeaders.add("Select An Item");
-        armorEntityArrayWithSectionHeaders.add("Light Armors");
+        mundaneProtectionArrayWithSectionHeaders.add("Select An Item");
+        mundaneProtectionArrayWithSectionHeaders.add("Light Armors");
 
         for (int i = 0; i < result.size() - 1; i++)
         {
-            armorEntityArrayWithSectionHeaders.add(result.get(i));
+            mundaneProtectionArrayWithSectionHeaders.add(result.get(i));
 
-            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Light &&
-                    result.get(i + 1).getWeightCategory() == ArmorWeightCategoryEnum.Medium)
+            if(result.get(i).getArmorType() == ArmorTypesEnum.Armor &&
+                    result.get(i + 1).getArmorType() == ArmorTypesEnum.Armor)
             {
-                armorEntityArrayWithSectionHeaders.add("Medium Armors");
+                IArmor currentArmor = (IArmor)result.get(i);
+                IArmor nextArmor = (IArmor)result.get(i + 1);
+
+                if (currentArmor.getWeightCategory() == ArmorWeightCategoryEnum.Light &&
+                        nextArmor.getWeightCategory() == ArmorWeightCategoryEnum.Medium)
+                {
+                    mundaneProtectionArrayWithSectionHeaders.add("Medium Armors");
+                }
+                if (currentArmor.getWeightCategory() == ArmorWeightCategoryEnum.Medium &&
+                        nextArmor.getWeightCategory() == ArmorWeightCategoryEnum.Heavy)
+                {
+                    mundaneProtectionArrayWithSectionHeaders.add("Heavy Armors");
+                }
             }
-            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Medium &&
-                    result.get(i + 1).getWeightCategory() == ArmorWeightCategoryEnum.Heavy)
-            {
-                armorEntityArrayWithSectionHeaders.add("Heavy Armors");
-            }
-            if (result.get(i).getWeightCategory() == ArmorWeightCategoryEnum.Heavy &&
+
+
+            if (result.get(i).getArmorType() == ArmorTypesEnum.Armor &&
                     result.get(i + 1).getArmorType() == ArmorTypesEnum.Shield)
             {
-                armorEntityArrayWithSectionHeaders.add("Shields");
+                mundaneProtectionArrayWithSectionHeaders.add("Shields");
             }
         }
 
-        Spinner armorSpinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
+        Spinner mundaneProtectionsSpinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
 
-        AddArmorToInventorySpinnerAdapter armorAdapter = new AddArmorToInventorySpinnerAdapter(this.getContext(), R.layout.dropdown_item_view, armorEntityArrayWithSectionHeaders);
-        armorSpinner.setAdapter(armorAdapter);
-        armorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        AddMundaneProtectionToInventorySpinnerAdapter mundaneProtectionAdapter = new AddMundaneProtectionToInventorySpinnerAdapter(this.getContext(), R.layout.dropdown_item_view, mundaneProtectionArrayWithSectionHeaders);
+        mundaneProtectionsSpinner.setAdapter(mundaneProtectionAdapter);
+        mundaneProtectionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
@@ -157,7 +166,7 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
                 TextView maxSpeedDisplay = rootView.findViewById(R.id.AddArmorToInventorySpeedDisplay);
                 TextView descriptionDisplay = rootView.findViewById(R.id.AddArmorToInventoryDescriptionDisplay);
 
-                if(armorEntityArrayWithSectionHeaders.get(position) instanceof String)
+                if(mundaneProtectionArrayWithSectionHeaders.get(position) instanceof String)
                 {
                     //Our spinner starts with a default string so we don't want to have our screen filled with unrelated information.
                     //This also allows us to more gracefully handle if our section headers are accidentally made selectable/tone is somehow seected
@@ -170,45 +179,45 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
                     maxSpeedDisplay.setText(getContext().getResources().getString(R.string.Emdash));
                     descriptionDisplay.setText(getContext().getResources().getString(R.string.Emdash));
                 }
-                else if(armorEntityArrayWithSectionHeaders.get(position) instanceof ArmorEntity)
+                else if(mundaneProtectionArrayWithSectionHeaders.get(position) instanceof IProtection)
                 {
-                    ArmorEntity armorToVerify = (ArmorEntity)armorEntityArrayWithSectionHeaders.get(position); 
-                    acBonusDisplay.setText(Integer.toString(armorToVerify.getAcBonus()));
-                    if (armorToVerify.getMaximumDexBonus() != null)
+                    IProtection mundaneProtectionToVerify = (IProtection)mundaneProtectionArrayWithSectionHeaders.get(position); 
+                    acBonusDisplay.setText(Integer.toString(mundaneProtectionToVerify.getACBonus()));
+                    if (mundaneProtectionToVerify.getMaximumDexBonus() != null)
                     {
-                        maxDexterityBonusDisplay.setText(Integer.toString(armorToVerify.getMaximumDexBonus()));
+                        maxDexterityBonusDisplay.setText(Integer.toString(mundaneProtectionToVerify.getMaximumDexBonus()));
                     }
                     else
                     {
                         maxDexterityBonusDisplay.setText(getString(R.string.Emdash));
                     }
-                    if (armorToVerify.getArmorCheckPenalty() != 0)
+                    if (mundaneProtectionToVerify.getArmorCheckPenalty() != 0)
                     {
-                        armorCheckPenaltyDisplay.setText(Integer.toString(armorToVerify.getArmorCheckPenalty()));
+                        armorCheckPenaltyDisplay.setText(Integer.toString(mundaneProtectionToVerify.getArmorCheckPenalty()));
                     }
                     else
                     {
                         armorCheckPenaltyDisplay.setText(getString(R.string.Emdash));
                     }
-                    if (armorToVerify.getArcaneSpellFailureChance() != 0)
+                    if (mundaneProtectionToVerify.getArcaneSpellFailureChance() != 0)
                     {
-                        arcaneSpellFailureDisplay.setText(Integer.toString(armorToVerify.getArcaneSpellFailureChance()));
+                        arcaneSpellFailureDisplay.setText(Integer.toString(mundaneProtectionToVerify.getArcaneSpellFailureChance()));
                     }
                     else
                     {
                         arcaneSpellFailureDisplay.setText("-");
                     }
-                    weightDisplay.setText(Double.toString(armorToVerify.getWeight()));
-                    costDisplay.setText(Double.toString(armorToVerify.getCost()));
-                    if (armorToVerify.getMaxSpeed() != null)
+                    weightDisplay.setText(Double.toString(mundaneProtectionToVerify.getCurrentWeight()));
+                    costDisplay.setText(Double.toString(mundaneProtectionToVerify.getCost()));
+                    maxSpeedDisplay.setText(getString(R.string.Emdash));
+                    if(mundaneProtectionToVerify instanceof IArmor)
                     {
-                        maxSpeedDisplay.setText(Integer.toString(armorToVerify.getMaxSpeed()));
+                        if (((IArmor) mundaneProtectionToVerify).getMaxSpeed() != null)
+                        {
+                            maxSpeedDisplay.setText(Integer.toString(((IArmor)mundaneProtectionToVerify).getMaxSpeed()));
+                        }
                     }
-                    else
-                    {
-                        maxSpeedDisplay.setText(getString(R.string.Emdash));
-                    }
-                    descriptionDisplay.setText(armorToVerify.getDescription());
+                    descriptionDisplay.setText(mundaneProtectionToVerify.getDescription());
                 }
                 else
                 {

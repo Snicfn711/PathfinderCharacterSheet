@@ -16,9 +16,7 @@ import android.widget.Spinner;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
 import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddItemToInventoryDialogAdapter;
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.ArmorEntity;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerArmorEntity;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AddArmorToInventoryFragment;
 
 import java.util.UUID;
@@ -27,21 +25,16 @@ public class AddItemToInventoryDialog extends DialogFragment
 {
     private AddItemToInventoryDialogAdapter addItemToInventoryDialogAdapter;
     private ViewPager viewPager;
-    private UUID currentPlayerCharacterID;
-    private PathfinderRepository repository;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        repository = new PathfinderRepository(this.getActivity().getApplication());
         View rootView = inflater.inflate(R.layout.add_item_to_inventory_dialog_view, container, false);
         addItemToInventoryDialogAdapter = new AddItemToInventoryDialogAdapter(getChildFragmentManager());
         viewPager = rootView.findViewById(R.id.AddItemToInventoryViewPager);
         viewPager.setAdapter(addItemToInventoryDialogAdapter);
         Button confirmButton = rootView.findViewById(R.id.AddItemToInventoryConfirmButton);
         confirmButton.setOnClickListener(new ConfirmButtonOnClickListener());
-
-        currentPlayerCharacterID = (UUID)getArguments().getSerializable("CurrentPlayerCharacterID");
 
         return rootView;
     }
@@ -74,16 +67,9 @@ public class AddItemToInventoryDialog extends DialogFragment
                 //It should easily transfer to weapons, but when we get to consumable goods we should use a different solution (twenty entries of potions would be a mess to look at)
                 View rootView = viewPager.findViewWithTag("AddArmorRootView");
                 Spinner spinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
-                ArmorEntity armorToSave = (ArmorEntity)spinner.getSelectedItem();
+                IProtection mundaneProtectionToSave = (IProtection) spinner.getSelectedItem();
 
-                PlayerArmorEntity playerArmorEntityToInsert = new PlayerArmorEntity();
-                playerArmorEntityToInsert.setPlayerArmorID(UUID.randomUUID());
-                playerArmorEntityToInsert.setArmorID(armorToSave.getArmorID());
-                playerArmorEntityToInsert.setPlayerID(currentPlayerCharacterID);
-                playerArmorEntityToInsert.setIsEquipped(false);
-                repository.insertPlayerArmorEntity(playerArmorEntityToInsert);
-
-                Intent i = new Intent().putExtra("ArmorToAddToInventory", armorToSave);
+                Intent i = new Intent().putExtra("MundaneProtectionToAddToInventory", mundaneProtectionToSave);
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
                 dismiss();
             }
