@@ -125,7 +125,7 @@ public class EquipmentReferenceFragment extends Fragment
     private ProtectionDetailView shieldProtectionDetailView;
     private Button shieldUnequipButton;
 
-    private ArrayList<IProtection> currentPlayerArmor;
+    private ArrayList<IEquipment> currentlyEquippedItems;
     
     public EquipmentReferenceFragment()
     {
@@ -163,8 +163,7 @@ public class EquipmentReferenceFragment extends Fragment
         TempEquipment.add(tower);
 
         super.onCreate(savedInstanceState);
-        currentPlayerArmor = (ArrayList<IProtection>)getArguments().getSerializable("PlayerArmor");
-        int f = 5;
+        currentlyEquippedItems = (ArrayList<IEquipment>)getArguments().getSerializable("CurrentlyEquippedItems");
     }
 
     @Override

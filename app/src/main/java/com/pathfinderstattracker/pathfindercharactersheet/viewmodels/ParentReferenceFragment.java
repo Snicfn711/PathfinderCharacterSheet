@@ -15,6 +15,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRep
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 
@@ -33,7 +34,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     private ArrayList<ISkill> currentPlayerSkills;
     private ArrayList<IItem> currentPlayerInventory;
     private ArrayList<ISkill> defaultSkills;
-    private ArrayList<IProtection> currentPlayerArmor;
+    private ArrayList<IEquipment> currentlyEquippedItems;
     public ParentReferenceFragment()
     {
         // Required empty public constructor
@@ -57,7 +58,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         //Initialize the data for our current player character
         currentPlayerSkills = new ArrayList<>();
         currentPlayerInventory = new ArrayList<>();
-        currentPlayerArmor = new ArrayList<>();
+        currentlyEquippedItems = new ArrayList<>();
         currentPlayerCharacter = (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
         defaultSkills = (ArrayList<ISkill>)getPlayerCharacterBundle.getSerializable("DefaultSkillsList");
 
@@ -127,7 +128,6 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     @Override
     public void onGetMundaneProtectionForCurrentPlayerAsyncTaskFinished(List<IProtection> result)
     {
-        currentPlayerArmor.addAll(result);
         currentPlayerInventory.addAll(result);
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
@@ -202,7 +202,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         bundleToPass.putSerializable("PlayerSkillsList", currentPlayerSkills);
         bundleToPass.putSerializable("PlayerCharacter", currentPlayerCharacter);
         bundleToPass.putSerializable("DefaultSkills", defaultSkills);
-        bundleToPass.putSerializable("PlayerArmor", currentPlayerArmor);
+        bundleToPass.putSerializable("CurrentlyEquippedItems", currentlyEquippedItems);
         return bundleToPass;
     }
     //endregion
