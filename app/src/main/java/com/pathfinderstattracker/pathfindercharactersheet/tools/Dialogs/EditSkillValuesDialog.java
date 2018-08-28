@@ -16,10 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
-import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerSkillsEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.models.ISkill;
-import com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher;
 
 import java.util.List;
 import java.util.UUID;

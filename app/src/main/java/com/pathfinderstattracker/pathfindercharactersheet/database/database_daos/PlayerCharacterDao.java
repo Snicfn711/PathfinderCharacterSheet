@@ -10,6 +10,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.database.database_enti
 import com.pathfinderstattracker.pathfindercharactersheet.database.database_entities.PlayerCharacterNameAndIDEntity;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.AbilityScoreConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.type_converters.UUIDConverter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 
 import java.util.UUID;
 import java.util.List;
@@ -26,7 +27,6 @@ public interface PlayerCharacterDao
     PlayerCharacterEntity getPlayerCharacterByID(UUID playerCharacterIDtoFind);
     @Update
     void updatePlayerCharacter(PlayerCharacterEntity character);
-    @Query("SELECT character_name, playerCharacterID " +
-           "FROM player_characters")
-    List<PlayerCharacterNameAndIDEntity> getListOfCharacterNames();
+    @Query("SELECT * FROM player_characters")
+    List<PlayerCharacterEntity> getListOfPlayerCharacters();
 }

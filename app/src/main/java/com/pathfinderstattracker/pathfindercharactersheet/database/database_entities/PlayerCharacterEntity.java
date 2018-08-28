@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
 @Entity(tableName = "player_characters")
 @TypeConverters({AlignmentEnumConverter.class,
                  HitPointsConverter.class,

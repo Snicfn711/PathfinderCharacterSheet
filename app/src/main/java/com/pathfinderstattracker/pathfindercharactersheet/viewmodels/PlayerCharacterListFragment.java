@@ -27,7 +27,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class PlayerCharacterListFragment extends Fragment implements PathfinderRepository.GetPlayerCharacterNamesAndIDsAsyncTaskFinishedListener
+public class PlayerCharacterListFragment extends Fragment implements PathfinderRepository.GetListOfPlayerCharactersAsyncTaskFinishedListener
 {
     private OnListFragmentInteractionListener mListener;
     private Animation click;
@@ -69,7 +69,7 @@ public class PlayerCharacterListFragment extends Fragment implements PathfinderR
 
         //Request a list of character names and their UUIDs from the db. The data is returned via listener callback below
         repository = new PathfinderRepository(this.getActivity().getApplication());
-        repository.requestPlayerNamesAndIDs(this);
+        repository.requestPlayerCharacterList(this);
 
         //Set our animation for adding new player characters
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
@@ -107,18 +107,9 @@ public class PlayerCharacterListFragment extends Fragment implements PathfinderR
     }
 
     @Override
-    public void onGetPlayerCharacterNamesAndIDsAsyncTaskFinished(List<PlayerCharacterNameAndIDEntity> playerCharacterNamesAndIDs)
+    public void onGetListOfPlayerCharacterAsyncTaskFinished(List<IPlayerCharacter> playerCharacters)
     {
-        List<IPlayerCharacter> characterListToDisplay = new ArrayList<IPlayerCharacter>();
-        List<PlayerCharacterNameAndIDEntity> characterNamesAndIDsFromDb = playerCharacterNamesAndIDs;
-
-        for(PlayerCharacterNameAndIDEntity entity : playerCharacterNamesAndIDs)
-        {
-            PlayerCharacter temp = new PlayerCharacter();
-            temp.setPlayerCharacterName(entity.PlayerCharacterName);
-            temp.setPlayerCharacterID(entity.PlayerCharacterID);
-            characterListToDisplay.add(temp);
-        }
+        List<IPlayerCharacter> characterListToDisplay = playerCharacters;
 
         final RecyclerView recyclerView =  rootView.findViewById(R.id.PlayerCharacterRecycler);
         final PlayerCharacterRecyclerViewAdapter playerCharacterAdapter = new PlayerCharacterRecyclerViewAdapter(characterListToDisplay, mListener);

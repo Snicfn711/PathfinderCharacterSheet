@@ -319,7 +319,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
                 }
                 break;
         }
-        repository.updatePlayerCharacter(DatabaseEntityObjectConverter.ConvertPlayerCharacterObjectToPlayerCharacterEntity(currentPlayerCharacter), this);
+        repository.updatePlayerCharacter(currentPlayerCharacter, this);
     }
 
     //region Open Dialog Methods
@@ -363,7 +363,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
 
     //region Repository Listener Methods
     @Override
-    public void onUpdatePlayerCharacterAsyncTaskFinished(PlayerCharacter playerCharacter)
+    public void onUpdatePlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter)
     {
         playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
     }

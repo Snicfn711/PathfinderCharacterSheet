@@ -3,7 +3,7 @@ package com.pathfinderstattracker.pathfindercharactersheet.database.database_ent
 import android.arch.persistence.room.ColumnInfo;
 
 import java.util.UUID;
-
+@Deprecated
 public class PlayerCharacterNameAndIDEntity
 {
    @ColumnInfo(name = "playerCharacterID")
