@@ -51,6 +51,7 @@ public class EditSkillValuesDialog extends DialogFragment
        currentSkill = (ISkill)getArguments().getSerializable("CurrentSkill");
        isCustomSkill = getArguments().getBoolean("isCustomSkill");
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {

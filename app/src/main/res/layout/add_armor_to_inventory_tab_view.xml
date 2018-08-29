@@ -64,7 +64,6 @@
         app:layout_constraintEnd_toStartOf="@id/AddArmorToInventoryNameVerticalGuideline"
         app:layout_constraintBottom_toTopOf="@id/AddArmorToInventoryNameHorizontalGuideline"
         android:gravity="center"/>
-
     <Spinner
         android:id="@+id/AddArmorToInventoryDropdown"
         style="@style/Base.Widget.AppCompat.Spinner.Underlined"

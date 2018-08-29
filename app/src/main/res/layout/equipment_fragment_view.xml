@@ -48,7 +48,8 @@
                 app:layout_constraintLeft_toLeftOf="@id/MainHandEquipmentLabel"
                 app:layout_constraintRight_toLeftOf="@id/MainHandEquipmentAbilities"
                 app:layout_constraintTop_toBottomOf="@id/MainHandEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/MainHandEquipmentAbilities"
                 android:layout_width="wrap_content"
@@ -61,7 +62,8 @@
                 app:layout_constraintLeft_toRightOf="@id/MainHandMagicBonus"
                 app:layout_constraintRight_toLeftOf="@id/MainHandEquipmentName"
                 app:layout_constraintTop_toBottomOf="@id/MainHandEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/MainHandEquipmentName"
                 android:layout_width="wrap_content"
@@ -77,7 +79,8 @@
                 android:textColor="@color/colorPlainText"
                 app:layout_constraintLeft_toRightOf="@id/MainHandEquipmentAbilities"
                 app:layout_constraintTop_toBottomOf="@id/MainHandEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView
                 android:id="@+id/MainHandWeaponDetailView"
                 android:layout_width="match_parent"
@@ -93,7 +96,7 @@
                 android:layout_height="wrap_content"
                 app:barrierDirection="bottom"
                 app:constraint_referenced_ids="MainHandWeaponDetailView"
-                app:layout_goneMarginTop="5dp" />
+                app:layout_goneMarginTop="5dp"/>
             <Button
                 android:id="@+id/MainHandEquipmentRowUnequipButton"
                 android:layout_width="0dp"
@@ -146,7 +149,8 @@
                 app:layout_constraintLeft_toLeftOf="@id/OffHandEquipmentLabel"
                 app:layout_constraintRight_toLeftOf="@id/OffHandEquipmentAbilities"
                 app:layout_constraintTop_toBottomOf="@id/OffHandEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/OffHandEquipmentAbilities"
                 android:layout_width="wrap_content"
@@ -159,7 +163,8 @@
                 app:layout_constraintLeft_toRightOf="@id/OffHandMagicBonus"
                 app:layout_constraintRight_toLeftOf="@id/OffHandEquipmentName"
                 app:layout_constraintTop_toBottomOf="@id/OffHandEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/OffHandEquipmentName"
                 android:layout_width="wrap_content"
@@ -175,7 +180,8 @@
                 android:textColor="@color/colorPlainText"
                 app:layout_constraintLeft_toRightOf="@id/OffHandEquipmentAbilities"
                 app:layout_constraintTop_toBottomOf="@id/OffHandEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView
                 android:id="@+id/OffHandWeaponDetailView"
                 android:layout_width="match_parent"
@@ -244,7 +250,8 @@
                 app:layout_constraintLeft_toLeftOf="@id/ArmorEquipmentLabel"
                 app:layout_constraintRight_toLeftOf="@id/ArmorEquipmentAbilities"
                 app:layout_constraintTop_toBottomOf="@id/ArmorEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/ArmorEquipmentAbilities"
                 android:layout_width="wrap_content"
@@ -257,7 +264,8 @@
                 app:layout_constraintLeft_toRightOf="@id/ArmorMagicBonus"
                 app:layout_constraintRight_toLeftOf="@id/ArmorEquipmentName"
                 app:layout_constraintTop_toBottomOf="@id/ArmorEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/ArmorEquipmentName"
                 android:layout_width="wrap_content"
@@ -273,7 +281,8 @@
                 android:textColor="@color/colorPlainText"
                 app:layout_constraintLeft_toRightOf="@id/ArmorEquipmentAbilities"
                 app:layout_constraintTop_toBottomOf="@id/ArmorEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView
                 android:id="@+id/ArmorProtectionDetailView"
                 android:layout_width="match_parent"
@@ -316,7 +325,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                app:layout_constraintGuide_percent=".75" />
+                app:layout_constraintGuide_percent=".75"/>
             <TextView
                 android:id="@+id/ShieldEquipmentLabel"
                 android:layout_width="match_parent"
@@ -327,7 +336,7 @@
                 android:text="@string/Shield"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
             <TextView
                 android:id="@+id/ShieldMagicBonus"
                 android:layout_width="wrap_content"
@@ -342,7 +351,8 @@
                 app:layout_constraintLeft_toLeftOf="@id/ShieldEquipmentLabel"
                 app:layout_constraintRight_toLeftOf="@id/ShieldEquipmentAbilities"
                 app:layout_constraintTop_toBottomOf="@id/ShieldEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/ShieldEquipmentAbilities"
                 android:layout_width="wrap_content"
@@ -355,7 +365,8 @@
                 app:layout_constraintLeft_toRightOf="@id/ShieldMagicBonus"
                 app:layout_constraintRight_toLeftOf="@id/ShieldEquipmentName"
                 app:layout_constraintTop_toBottomOf="@id/ShieldEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <TextView
                 android:id="@+id/ShieldEquipmentName"
                 android:layout_width="wrap_content"
@@ -371,7 +382,8 @@
                 android:textColor="@color/colorPlainText"
                 app:layout_constraintLeft_toRightOf="@id/ShieldEquipmentAbilities"
                 app:layout_constraintTop_toBottomOf="@id/ShieldEquipmentLabel"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:visibility="gone"/>
             <com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView
                 android:id="@+id/ShieldProtectionDetailView"
                 android:layout_width="match_parent"

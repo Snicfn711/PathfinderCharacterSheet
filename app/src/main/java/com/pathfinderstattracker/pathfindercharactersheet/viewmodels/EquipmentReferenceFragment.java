@@ -31,6 +31,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDam
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponFamilyEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView;
 
@@ -45,61 +46,9 @@ import java.util.List;
  */
 public class EquipmentReferenceFragment extends Fragment
 {
-
-    //region Temp Equipment List
-    private WeaponEnchantment flaming = new WeaponEnchantment("Flaming",new Damage(1,6), "Fire", +1, "");
-    private ArrayList<IWeaponEnchantment> tempEnchantments = new ArrayList<>();
-    private Weapon sword = new Weapon("Longsword",
-                                     WeaponFamilyEnum.Martial,
-                                     0,
-                                     null,
-                                     WeaponWeightClassEnum.OneHanded,
-                                     315,
-                                     new ArrayList<Damage>(),
-                                     2,
-                                     1,
-                                     new ArrayList<WeaponDamageTypeEnum>(),
-                                     "Steel",
-                                     true,
-                                     false,
-                                     1,
-                                     SizeCategoryEnum.Medium,
-                                     4,
-                                     0,
-                                      null);
-    private Armor plate = new Armor("Plate Armor",
-                                    1650,
-                                    9,
-                                    2,
-                                    1,
-                                    6,
-                                    35,
-                                    20,
-                                    ArmorWeightCategoryEnum.Heavy,
-                                    50,
-                                    SizeCategoryEnum.Medium,
-                                    false,
-                                    null);
-    private Shield tower = new Shield("Tower Shield",
-                                      180,
-                                      4,
-                                      2,
-                                      10,
-                                      50,
-                                      45,
-                                      ShieldWeightCategoryEnum.Tower,
-                                      SizeCategoryEnum.Medium,
-                                      false,
-                                      0,
-                                      true,
-                                      null);
-    private List<IEquipment> TempEquipment = new ArrayList<IEquipment>();
-    //endregion
-
-    // TODO: Customize parameter argument names
-    // TODO: Customize parameters
     private OnListFragmentInteractionListener mListener;
     private Animation click;
+
     private TextView mainHandMagicBonus;
     private TextView mainHandAbilities;
     private TextView mainHandEquipmentName;
@@ -125,7 +74,14 @@ public class EquipmentReferenceFragment extends Fragment
     private ProtectionDetailView shieldProtectionDetailView;
     private Button shieldUnequipButton;
 
-    private ArrayList<IEquipment> currentlyEquippedItems;
+
+    private ArrayList<IEquipment> currentEquipmentInventory = new ArrayList<>();
+    //We want to implemnt some logic for checking if an item is valid to equip so we need to keep track of not just what's in our inventory, but also what's already equipped
+    private ArrayList<IEquipment> currentlyEquippedItems = new ArrayList<>();
+
+
+    private IArmor currentlyEquippedArmor = new Armor();
+    private IShield currentlyEquippedShield = new Shield();
     
     public EquipmentReferenceFragment()
     {
@@ -150,20 +106,30 @@ public class EquipmentReferenceFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        ArrayList<WeaponDamageTypeEnum> typeList = new ArrayList<WeaponDamageTypeEnum>();
-        typeList.add(WeaponDamageTypeEnum.Slashing);
-        ArrayList<Damage> damageList = new ArrayList<Damage>();
-        damageList.add(new Damage(1,8));
-        tempEnchantments.add(flaming);
-        sword.setEnchantments(tempEnchantments);
-        sword.setDamageType(typeList);
-        sword.setDamage(damageList);
-        TempEquipment.add(sword);
-        TempEquipment.add(plate);
-        TempEquipment.add(tower);
-
         super.onCreate(savedInstanceState);
-        currentlyEquippedItems = (ArrayList<IEquipment>)getArguments().getSerializable("CurrentlyEquippedItems");
+        Bundle bundle = getArguments();
+        if(bundle.containsKey("CurrentlyEquippedItems"))
+        {
+            currentlyEquippedItems = (ArrayList<IEquipment>) getArguments().getSerializable("CurrentlyEquippedItems");
+        }
+        if(bundle.containsKey("CurrentEquipmentInventory"))
+        {
+            currentEquipmentInventory = (ArrayList<IEquipment>)getArguments().getSerializable("CurrentEquipmentInventory");
+        }
+        
+        //We don't want to constantly iterate through the list of currently equipped items when we're checking if specific slots are filled, 
+        //So we'll break down the list here.
+        for(IEquipment equipment : currentlyEquippedItems)
+        {
+            if(equipment instanceof IArmor)
+            {
+                currentlyEquippedArmor = (IArmor)equipment;
+            }
+            if(equipment instanceof IShield)
+            {
+                currentlyEquippedShield = (IShield)equipment;
+            }            
+        }
     }
 
     @Override
@@ -173,31 +139,77 @@ public class EquipmentReferenceFragment extends Fragment
         View rootView = inflater.inflate(R.layout.equipment_fragment_view, container, false);
         Context context = rootView.getContext();
 
+
         mainHandMagicBonus = rootView.findViewById(R.id.MainHandMagicBonus);
         mainHandAbilities = rootView.findViewById(R.id.MainHandEquipmentAbilities);
         mainHandEquipmentName = rootView.findViewById(R.id.MainHandEquipmentName);
         mainHandEquipmentLabel = rootView.findViewById(R.id.MainHandEquipmentLabel);
         mainHandWeaponDetailView = rootView.findViewById(R.id.MainHandWeaponDetailView);
         mainHandUnequipButton = rootView.findViewById(R.id.MainHandEquipmentRowUnequipButton);
+        
         offHandMagicBonus = rootView.findViewById(R.id.OffHandMagicBonus);
         offHandAbilities = rootView.findViewById(R.id.OffHandEquipmentAbilities);
         offHandEquipmentName = rootView.findViewById(R.id.OffHandEquipmentName);
         offHandEquipmentLabel = rootView.findViewById(R.id.OffHandEquipmentLabel);
         offHandWeaponDetailView = rootView.findViewById(R.id.OffHandWeaponDetailView);
         offHandUnequipButton = rootView.findViewById(R.id.OffHandEquipmentRowUnequipButton);
+        
         armorMagicBonus = rootView.findViewById(R.id.ArmorMagicBonus);
         armorAbilities = rootView.findViewById(R.id.ArmorEquipmentAbilities);
         armorEquipmentName = rootView.findViewById(R.id.ArmorEquipmentName);
         armorEquipmentLabel = rootView.findViewById(R.id.ArmorEquipmentLabel);
         armorProtectionDetailView = rootView.findViewById(R.id.ArmorProtectionDetailView);
         armorUnequipButton = rootView.findViewById(R.id.ArmorEquipmentRowUnequipButton);
+        if(currentlyEquippedArmor != null)
+        {
+            armorAbilities.setVisibility(View.VISIBLE);
+            armorEquipmentName.setVisibility(View.VISIBLE);
+            armorMagicBonus.setVisibility(View.VISIBLE);
+
+            armorProtectionDetailView.setValues(currentlyEquippedArmor);
+
+            armorEquipmentLabel.setOnClickListener((new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    VisibilitySwitcher.SwitchVisibility(armorAbilities);
+                    VisibilitySwitcher.SwitchVisibility(armorEquipmentName);
+                    VisibilitySwitcher.SwitchVisibility(armorMagicBonus);
+                    VisibilitySwitcher.SwitchVisibility(armorProtectionDetailView);
+                    VisibilitySwitcher.SwitchVisibility(armorUnequipButton);
+                }
+            }));
+        }
+        
         shieldMagicBonus = rootView.findViewById(R.id.ShieldMagicBonus);
         shieldAbilities = rootView.findViewById(R.id.ShieldEquipmentAbilities);
         shieldEquipmentName = rootView.findViewById(R.id.ShieldEquipmentName);
         shieldEquipmentLabel = rootView.findViewById(R.id.ShieldEquipmentLabel);
         shieldProtectionDetailView = rootView.findViewById(R.id.ShieldProtectionDetailView);
         shieldUnequipButton = rootView.findViewById(R.id.ShieldEquipmentRowUnequipButton);
+        if(currentlyEquippedShield != null)
+        {
+            shieldAbilities.setVisibility(View.VISIBLE);
+            shieldEquipmentName.setVisibility(View.VISIBLE);
+            shieldMagicBonus.setVisibility(View.VISIBLE);
 
+            shieldProtectionDetailView.setValues(currentlyEquippedShield);
+
+            shieldEquipmentLabel.setOnClickListener((new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    VisibilitySwitcher.SwitchVisibility(shieldAbilities);
+                    VisibilitySwitcher.SwitchVisibility(shieldEquipmentName);
+                    VisibilitySwitcher.SwitchVisibility(shieldMagicBonus);
+                    VisibilitySwitcher.SwitchVisibility(shieldProtectionDetailView);
+                    VisibilitySwitcher.SwitchVisibility(shieldUnequipButton);
+                }
+            }));
+        }
+        
         //Set up the animations for clicking our category buttons
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final Button armorAndWeaponsButton = rootView.findViewById(R.id.ArmorAndWeaponsButton);
