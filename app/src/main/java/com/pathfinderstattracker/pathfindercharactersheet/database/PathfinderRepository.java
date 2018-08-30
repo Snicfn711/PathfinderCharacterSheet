@@ -22,6 +22,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.characters.Play
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
@@ -84,7 +85,6 @@ public class PathfinderRepository
         addMundaneProtectionToPlayerInventoryAsyncTask task = new addMundaneProtectionToPlayerInventoryAsyncTask(playerArmorDao);
 
         PlayerArmorEntity playerArmorEntityToAdd = new PlayerArmorEntity();
-        playerArmorEntityToAdd.setPlayerArmorID(UUID.randomUUID());
         playerArmorEntityToAdd.setPlayerID(currentPlayerCharacterID);
         playerArmorEntityToAdd.setArmorID(ProtectionToAdd.getItemID());
         playerArmorEntityToAdd.setIsEquipped(false);
@@ -143,7 +143,7 @@ public class PathfinderRepository
 
     public void requestMundaneProtectionForPlayer(UUID playerCharacterID, GetMundaneProtectionForCurrentPlayerAsyncTaskFinishedListener callingActivity)
     {
-        getMundaneProtectionForPlayerCharacterAsyncTask task = new getMundaneProtectionForPlayerCharacterAsyncTask(playerArmorDao, armorDao);
+        getMundaneProtectionForPlayerCharacterAsyncTask task = new getMundaneProtectionForPlayerCharacterAsyncTask(playerArmorDao);
         task.delegate = callingActivity;
         task.execute(playerCharacterID);
     }
@@ -169,6 +169,18 @@ public class PathfinderRepository
         playerSkillsEntityToUpdate.setAddedStat(skillToUpdate.getAddedStat());
 
         task.execute(playerSkillsEntityToUpdate);
+    }
+
+    public void equipItem(IEquipment itemToEquip, UUID currentPlayerCharacterID)
+    {
+        updatePlayerArmorAsyncTask task = new updatePlayerArmorAsyncTask(playerArmorDao);
+
+        PlayerArmorEntity playerArmorEntityToUpdate = new PlayerArmorEntity();
+        playerArmorEntityToUpdate.setIsEquipped(true);
+        playerArmorEntityToUpdate.setArmorID(itemToEquip.getItemID());
+        playerArmorEntityToUpdate.setPlayerID(currentPlayerCharacterID);
+
+        task.execute(playerArmorEntityToUpdate);
     }
 
     public void deleteCustomSkill(ISkill customSkill, UUID currentPlayerCharacterID)
@@ -249,17 +261,51 @@ public class PathfinderRepository
         }
     }
 
-    private static class addMundaneProtectionToPlayerInventoryAsyncTask extends AsyncTask<PlayerArmorEntity, Void, Void>
+    private static class addMundaneProtectionToPlayerInventoryAsyncTask extends AsyncTask<PlayerArmorEntity, Void, Void> implements GetPlayerArmorEntityListAsyncTaskFinishedListener
     {
         private PlayerArmorDao asyncPlayerArmorDao;
+        private PlayerArmorEntity playerArmorEntityToInsert;
 
         addMundaneProtectionToPlayerInventoryAsyncTask(PlayerArmorDao dao){asyncPlayerArmorDao = dao;}
 
         @Override
         protected Void doInBackground(PlayerArmorEntity... params)
         {
-            asyncPlayerArmorDao.InsertPlayerArmor(params[0]);
+            playerArmorEntityToInsert = params[0];
+            //If we don't initialize the number in inventory to one, and there's no items of this type alread in the inventory,
+            //Our db doesn't properly track how many objects are actually in the inventory.
+            playerArmorEntityToInsert.setNumberInInventory(1);
+            getListOfPlayerArmorEntitiesAsyncTask task = new getListOfPlayerArmorEntitiesAsyncTask(asyncPlayerArmorDao);
+            task.delegate = this;
+            task.execute(params[0].getPlayerID());
             return null;
+        }
+
+        @Override
+        public void onGetPlayerArmorEntityListAsyncTaskFinished(List<PlayerArmorEntity> result)
+        {
+            //Before inserting an item in our inventory we need to see if it's already there.
+            //If it is, we should increment its number in inventory instead.
+            for(PlayerArmorEntity entity : result)
+            {
+                if(entity.getPlayerID().equals(playerArmorEntityToInsert.getPlayerID())
+                        && entity.getArmorID().equals(playerArmorEntityToInsert.getArmorID()))
+                {
+                    int numberInInventory = entity.getNumberInInventory();
+                    numberInInventory++;
+                    playerArmorEntityToInsert.setNumberInInventory(numberInInventory);
+                }
+            }
+            //This is ugly, but our design is making it difficult to insert a duplicate item into the database without first checking what's already there.
+            //Because of this we can't actually do the desired insert inside the proper doInBackground method, forcing us to use the AsyncTask.execute chunk seen below.
+            AsyncTask.execute(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    asyncPlayerArmorDao.InsertPlayerArmor(playerArmorEntityToInsert);
+                }
+            });
         }
     }
 
@@ -434,52 +480,62 @@ public class PathfinderRepository
         }
     }
 
-    private static class getMundaneProtectionForPlayerCharacterAsyncTask extends AsyncTask<UUID, Void, List<PlayerArmorEntity>> implements GetSingleMundaneProtectionAsyncTaskFinishedListener
+    private static class getMundaneProtectionForPlayerCharacterAsyncTask extends AsyncTask<UUID, Void, List<ArmorEntity>> implements GetPlayerArmorEntityListAsyncTaskFinishedListener
     {
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //This is a hot mess. Rather than calling a method to get the PlayerArmorEntities then another one to constantly re-query the db to get all  the actual armor pieces  //
-        //we should just write a better query somewhere. But we have no idea how to write multi-table queries in room and this should work for now.                           //
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         private PlayerArmorDao asyncPlayerArmorDao;
-        private ArmorDao asyncArmorDao;
         private GetMundaneProtectionForCurrentPlayerAsyncTaskFinishedListener delegate;
-        private int playerMundaneProtectionsCount = 0;
-        private List<IProtection> protectionListToReturn = new ArrayList<>();
+        private List<ArmorEntity> listOfArmorInPlayerInventory = new ArrayList<>();
+        private UUID playerCharacterIDToSearchFor;
 
-        getMundaneProtectionForPlayerCharacterAsyncTask(PlayerArmorDao playerArmorDao, ArmorDao armorDao)
+        getMundaneProtectionForPlayerCharacterAsyncTask(PlayerArmorDao playerArmorDao)
         {
             asyncPlayerArmorDao = playerArmorDao;
-            asyncArmorDao = armorDao;
+        }
+
+        @Override
+        protected List<ArmorEntity> doInBackground(UUID... params)
+        {
+            playerCharacterIDToSearchFor = params[0];
+            return asyncPlayerArmorDao.GetListOfArmorEntitiesForPlayer(playerCharacterIDToSearchFor);
+        }
+
+        @Override
+        protected void onPostExecute(List<ArmorEntity> result)
+        {
+            listOfArmorInPlayerInventory.addAll(result);
+            getListOfPlayerArmorEntitiesAsyncTask task = new getListOfPlayerArmorEntitiesAsyncTask(asyncPlayerArmorDao);
+            task.delegate = this;
+            task.execute(playerCharacterIDToSearchFor);
         }
 
 
         @Override
-        protected List<PlayerArmorEntity> doInBackground(UUID... params)
+        public void onGetPlayerArmorEntityListAsyncTaskFinished(List<PlayerArmorEntity> result)
         {
-            return asyncPlayerArmorDao.GetPlayerArmorEntity(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(List<PlayerArmorEntity> result)
-        {
-            playerMundaneProtectionsCount = result.size();
-            for(PlayerArmorEntity entity : result)
+            List<IProtection> mundaneProtectionsToReturn = new ArrayList<>();
+            //We need to match up the armor in our inventory with the corresponding information from the PlayerArmorEntity list we just got
+            //And if the PlayerArmorEntity item says an item has multiple copies in the inventory, then we need to add the armor multiple times.
+            for(PlayerArmorEntity playerArmorEntity:result)
             {
-                getSingleMundaneProtectionAsyncTask task = new getSingleMundaneProtectionAsyncTask(asyncArmorDao);
-                task.delegate = this;
-                task.execute(entity.getArmorID());
+                for(ArmorEntity armorEntity:listOfArmorInPlayerInventory)
+                {
+                    if(armorEntity.getArmorID().equals(playerArmorEntity.getArmorID()))
+                    {
+                        for (int i = 0; i < playerArmorEntity.getNumberInInventory(); i++)
+                        {
+                            if(armorEntity.getArmorType() == ArmorTypesEnum.Armor)
+                            {
+                                mundaneProtectionsToReturn.add(DatabaseEntityObjectConverter.ConvertArmorEntityToArmorObject(armorEntity));
+                            }
+                            if(armorEntity.getArmorType() == ArmorTypesEnum.Shield)
+                            {
+                                mundaneProtectionsToReturn.add(DatabaseEntityObjectConverter.ConvertArmorEntityToShieldObject(armorEntity));
+                            }
+                        }
+                    }
+                }
             }
-        }
-
-        @Override
-        public void onGetSingleMundaneProtectionAsyncTaskFinished(IProtection result)
-        {
-            protectionListToReturn.add(result);
-            if(protectionListToReturn.size() == playerMundaneProtectionsCount)
-            {
-                delegate.onGetMundaneProtectionForCurrentPlayerAsyncTaskFinished(protectionListToReturn);
-            }
+            delegate.onGetMundaneProtectionForCurrentPlayerAsyncTaskFinished(mundaneProtectionsToReturn);
         }
     }
 
@@ -550,7 +606,6 @@ public class PathfinderRepository
     private static class updatePlayerArmorAsyncTask extends AsyncTask<PlayerArmorEntity, Void, Void>
     {
         private PlayerArmorDao asyncPlayerArmorDao;
-        private UpdatePlayerArmorAsyncTaskFinishedListener delegate;
 
         updatePlayerArmorAsyncTask(PlayerArmorDao dao){asyncPlayerArmorDao = dao;}
 
@@ -559,12 +614,6 @@ public class PathfinderRepository
         {
             asyncPlayerArmorDao.UpdatePlayerArmorEntity(params[0]);
             return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void nothing)
-        {
-            delegate.onUpdatePlayerArmorAsyncTaskFinished();
         }
     }
 
@@ -578,6 +627,29 @@ public class PathfinderRepository
         {
             asyncPlayerSkillsDao.DeletePlayerSkill(params[0]);
             return null;
+        }
+    }
+
+    private static class getListOfPlayerArmorEntitiesAsyncTask extends AsyncTask<UUID, Void, List<PlayerArmorEntity>>
+    {
+        private PlayerArmorDao asyncPlayerArmorDao;
+        private GetPlayerArmorEntityListAsyncTaskFinishedListener delegate;
+
+        getListOfPlayerArmorEntitiesAsyncTask(PlayerArmorDao playerArmorDao)
+        {
+            asyncPlayerArmorDao = playerArmorDao;
+        }
+
+        @Override
+        protected List<PlayerArmorEntity> doInBackground(UUID... params)
+        {
+            return asyncPlayerArmorDao.GetListOfPlayerArmorEntities(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<PlayerArmorEntity> result)
+        {
+            delegate.onGetPlayerArmorEntityListAsyncTaskFinished(result);
         }
     }
     //endregion
@@ -628,9 +700,9 @@ public class PathfinderRepository
         void onGetPlayerSkillsAsyncTaskFinished(List<ISkill> result);
     }
 
-    public interface UpdatePlayerArmorAsyncTaskFinishedListener
+    public interface UpdatePlayerEquipmentAsyncTaskFinishedListener
     {
-        void onUpdatePlayerArmorAsyncTaskFinished();
+        void onUpdatePlayerEquipmentAsyncTaskFinished();
     }
 
     public interface UpdatePlayerCharacterAsyncTaskFinishedListener
@@ -641,6 +713,11 @@ public class PathfinderRepository
     public interface UpdatePlayerSkillAsyncTaskFinishedListener
     {
         void onUpdatePlayerSkillAsyncTaskFinished();
+    }
+
+    private interface GetPlayerArmorEntityListAsyncTaskFinishedListener
+    {
+        void onGetPlayerArmorEntityListAsyncTaskFinished(List<PlayerArmorEntity> result);
     }
     //endregion
 }

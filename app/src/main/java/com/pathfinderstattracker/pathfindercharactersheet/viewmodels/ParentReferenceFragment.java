@@ -34,6 +34,10 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     private ArrayList<ISkill> currentPlayerSkills;
     private ArrayList<IItem> currentPlayerInventory;
     private ArrayList<ISkill> defaultSkills;
+
+    //Rather than send our entire inventory to the equipment reference fragment and bog down that section of the code, we'll just track available equipment items
+    private ArrayList<IEquipment> currentEquipmentInventory;
+    //We want to implemnt some logic for checking if an item is valid to equip so we need to keep track of not just what's in our inventory, but also what's already equipped
     private ArrayList<IEquipment> currentlyEquippedItems;
     public ParentReferenceFragment()
     {
@@ -59,6 +63,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         currentPlayerSkills = new ArrayList<>();
         currentPlayerInventory = new ArrayList<>();
         currentlyEquippedItems = new ArrayList<>();
+        currentEquipmentInventory = new ArrayList<>();
         currentPlayerCharacter = (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
         defaultSkills = (ArrayList<ISkill>)getPlayerCharacterBundle.getSerializable("DefaultSkillsList");
 
@@ -129,6 +134,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     public void onGetMundaneProtectionForCurrentPlayerAsyncTaskFinished(List<IProtection> result)
     {
         currentPlayerInventory.addAll(result);
+        currentEquipmentInventory.addAll(result);
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }
@@ -166,6 +172,7 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
     public void AddMundaneProtection(IProtection armorToUpdate)
     {
         currentPlayerInventory.add(armorToUpdate);
+        currentEquipmentInventory.add(armorToUpdate);
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }
@@ -180,6 +187,13 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
                 iterator.remove();
             }
         }
+        referenceFragmentAdapter.setArgs(createBundle());
+        ReloadScreen();
+    }
+
+    public void EquipItem(IEquipment itemToEquip)
+    {
+        currentlyEquippedItems.add(itemToEquip);
         referenceFragmentAdapter.setArgs(createBundle());
         ReloadScreen();
     }
@@ -198,11 +212,11 @@ public class ParentReferenceFragment extends Fragment implements PathfinderRepos
         //(notice that all of our calls to this createBundle() method don't actually persist the bundle in this class)
         Bundle bundleToPass = new Bundle();
         bundleToPass.putSerializable("PlayerInventory", currentPlayerInventory);
-
         bundleToPass.putSerializable("PlayerSkillsList", currentPlayerSkills);
         bundleToPass.putSerializable("PlayerCharacter", currentPlayerCharacter);
         bundleToPass.putSerializable("DefaultSkills", defaultSkills);
         bundleToPass.putSerializable("CurrentlyEquippedItems", currentlyEquippedItems);
+        bundleToPass.putSerializable("CurrentEquipmentInventory", currentEquipmentInventory);
         return bundleToPass;
     }
     //endregion

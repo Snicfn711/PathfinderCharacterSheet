@@ -14,7 +14,7 @@ import java.util.UUID;
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 @Entity(tableName = "player_armor",
-        primaryKeys = {"playerArmorID"},
+        primaryKeys = {"playerCharacterID", "armorID"},
         foreignKeys = {@ForeignKey(entity=PlayerCharacterEntity.class,
                                    parentColumns = "playerCharacterID",
                                    childColumns = "playerCharacterID" ,
@@ -30,37 +30,41 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 public class PlayerArmorEntity
 {
     @NonNull
-    @ColumnInfo(name="playerArmorID")
-    private UUID playerArmorID = new UUID(0,0);
-
     @ColumnInfo(name="playerCharacterID")
     private UUID playerID = new UUID(0,0);
 
+    @NonNull
     @ColumnInfo(name="armorID")
     private UUID armorID = new UUID(0,0);
 
     @ColumnInfo(name = "is_equipped")
     private boolean isEquipped;
 
+    //We used to simply track each item individually by using a PlayerArmorID for each item.
+    //However, when it came time to equip specific armor pieces, this no longer worked.
+    //This was because we had no way to track which specific piece was being equipped without letting our repository entities out to pollute the rest of the code base.
+    //This means we now keep track of the number of each item in the characters inventory and if an item is equipped,
+    //we're working under the assumption that only a single item of a given type can be equipped at a time.
+    //We'll need to figure out a solution for weapons and shields equipped in both hands though, as this won't work for those.
+    @ColumnInfo(name="number_in_inventory")
+    private int numberInInventory;
+
     //region Getters and Setters
     @NonNull
-    public UUID getPlayerArmorID(){return playerArmorID;}
-
-    public void setPlayerArmorID(@NonNull UUID playerArmorID) {this.playerArmorID = playerArmorID;}
-
     public UUID getPlayerID(){return playerID;}
 
-    public void setPlayerID(UUID playerID)
+    public void setPlayerID(@NonNull UUID playerID)
     {
         this.playerID = playerID;
     }
 
+    @NonNull
     public UUID getArmorID()
     {
         return armorID;
     }
 
-    public void setArmorID(UUID armorID)
+    public void setArmorID(@NonNull UUID armorID)
     {
         this.armorID = armorID;
     }
@@ -68,6 +72,10 @@ public class PlayerArmorEntity
     public boolean isEquipped(){return isEquipped;}
 
     public void setIsEquipped(boolean isEquipped){this.isEquipped = isEquipped;}
+
+    public int getNumberInInventory(){return numberInInventory;}
+
+    public void setNumberInInventory(int numberInInventory){this.numberInInventory = numberInInventory;}
     //endregion
 
     public PlayerArmorEntity()

@@ -23,21 +23,18 @@ import java.util.List;
 public class EquipMundaneItemDialog extends DialogFragment
 {
     private Spinner mundaneEquipmentInInventorySpinner;
-    private TextView titleView;
     private TextView warningView;
-    private Button confirmButton;
 
-    private List<IEquipment> currentEquipmentInventory;
+    private List<IEquipment> currentRelevantEquipmentInventory;
     private List<IEquipment> currentlyEquippedItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        currentEquipmentInventory = (List<IEquipment>)getArguments().getSerializable("CurrentEquipmentInventory");
+        currentRelevantEquipmentInventory = (List<IEquipment>)getArguments().getSerializable("CurrentRelevantEquipmentInventory");
         //Eventually we'll need to implement some code around making sure that the items being equipped are valid together (shields with two handed weapons comes to mind)
         currentlyEquippedItems = (List<IEquipment>)getArguments().getSerializable("CurrentlyEquippedItems");
-        titleView.setText((String)getArguments().getSerializable("TitleString"));
     }
 
     @Override
@@ -46,12 +43,13 @@ public class EquipMundaneItemDialog extends DialogFragment
         //Initialize our view and bind our controls
         View rootView = inflater.inflate(R.layout.equip_mundane_equipment_dialog, container, false);
         mundaneEquipmentInInventorySpinner = rootView.findViewById(R.id.EquipMundaneItemDropdown);
-        titleView = rootView.findViewById(R.id.EquipMundaneItemTitle);
+        TextView titleView = rootView.findViewById(R.id.EquipMundaneItemTitle);
+        titleView.setText((String)getArguments().getSerializable("TitleString"));
         warningView = rootView.findViewById(R.id.EquipMundaneItemWarningText);
-        confirmButton = rootView.findViewById(R.id.EquipMundaneItemConfirmButton);
+        Button confirmButton = rootView.findViewById(R.id.EquipMundaneItemConfirmButton);
 
         //Create and bind our adapter
-        ArrayAdapter<IEquipment> equipmentArrayAdapter = new ArrayAdapter<>(this.getContext(), R.layout.dropdown_item_view, currentEquipmentInventory);
+        ArrayAdapter<IEquipment> equipmentArrayAdapter = new ArrayAdapter<>(this.getContext(), R.layout.dropdown_item_view, currentRelevantEquipmentInventory);
         mundaneEquipmentInInventorySpinner.setAdapter(equipmentArrayAdapter);
 
         //Set our on click listener
@@ -81,7 +79,7 @@ public class EquipMundaneItemDialog extends DialogFragment
         if(d != null)
         {
             //The app is locked into a portrait view, so we're not too worried about checking our orientation or adjusting accordingly
-            d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int)(displayHeight * .4));
+            d.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, (int)(displayHeight * .3));
         }
     }
 }

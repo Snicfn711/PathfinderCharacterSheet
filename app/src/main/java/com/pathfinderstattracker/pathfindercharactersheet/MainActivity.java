@@ -46,7 +46,8 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
                                                               PathfinderRepository.GetAllMundaneProtectionsAsyncTaskFinishedListener,
                                                               PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener,
                                                               SkillsReferenceFragment.OnCustomSkillAddedListener,
-                                                              SkillsReferenceFragment.OnSkillsDeletedListener
+                                                              SkillsReferenceFragment.OnSkillsDeletedListener,
+                                                              EquipmentReferenceFragment.OnItemEquippedListener
 {
     private PathfinderRepository repository;
     private ArrayList<ISkill> defaultSkillList;
@@ -168,6 +169,13 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
         parentReferenceFragment.DeleteSkill(skillToDelete);
     }
+
+    @Override
+    public void onItemEquipped(IEquipment itemEquipped)
+    {
+        ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
+        parentReferenceFragment.EquipItem(itemEquipped);
+    }
     //endregion
 
     //region Database Callback Methods
@@ -219,5 +227,4 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.PlayerCharacterListFragment, parentReferenceFragment, "ParentReferenceFragment").commit();
     }
-
 }

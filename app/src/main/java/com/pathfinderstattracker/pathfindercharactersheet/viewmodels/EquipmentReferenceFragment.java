@@ -1,7 +1,10 @@
 package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,7 +16,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.models.SizeCategoryEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.Damage;
@@ -31,12 +37,14 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponDam
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponEnchantment;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponFamilyEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EquipMundaneItemDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * A fragment representing a list of Items.
@@ -47,7 +55,9 @@ import java.util.List;
 public class EquipmentReferenceFragment extends Fragment
 {
     private OnListFragmentInteractionListener mListener;
+    private OnItemEquippedListener itemEquippedListener;
     private Animation click;
+    private PathfinderRepository repository;
 
     private TextView mainHandMagicBonus;
     private TextView mainHandAbilities;
@@ -74,14 +84,14 @@ public class EquipmentReferenceFragment extends Fragment
     private ProtectionDetailView shieldProtectionDetailView;
     private Button shieldUnequipButton;
 
+    private static final int EQUIP_ITEM = 1;
 
     private ArrayList<IEquipment> currentEquipmentInventory = new ArrayList<>();
     //We want to implemnt some logic for checking if an item is valid to equip so we need to keep track of not just what's in our inventory, but also what's already equipped
     private ArrayList<IEquipment> currentlyEquippedItems = new ArrayList<>();
-
-
-    private IArmor currentlyEquippedArmor = new Armor();
-    private IShield currentlyEquippedShield = new Shield();
+    private IArmor currentlyEquippedArmor;
+    private IShield currentlyEquippedShield;
+    private IPlayerCharacter currentPlayerCharacter;
     
     public EquipmentReferenceFragment()
     {
@@ -107,17 +117,28 @@ public class EquipmentReferenceFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        repository = new PathfinderRepository(this.getActivity().getApplication());
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
+    {
         Bundle bundle = getArguments();
         if(bundle.containsKey("CurrentlyEquippedItems"))
         {
-            currentlyEquippedItems = (ArrayList<IEquipment>) getArguments().getSerializable("CurrentlyEquippedItems");
+            currentlyEquippedItems = (ArrayList<IEquipment>) bundle.getSerializable("CurrentlyEquippedItems");
         }
         if(bundle.containsKey("CurrentEquipmentInventory"))
         {
-            currentEquipmentInventory = (ArrayList<IEquipment>)getArguments().getSerializable("CurrentEquipmentInventory");
+            currentEquipmentInventory = (ArrayList<IEquipment>)bundle.getSerializable("CurrentEquipmentInventory");
         }
-        
-        //We don't want to constantly iterate through the list of currently equipped items when we're checking if specific slots are filled, 
+        if(bundle.containsKey("PlayerCharacter"))
+        {
+            currentPlayerCharacter = (PlayerCharacter)bundle.get("PlayerCharacter");
+        }
+
+        //We don't want to constantly iterate through the list of currently equipped items when we're checking if specific slots are filled,
         //So we'll break down the list here.
         for(IEquipment equipment : currentlyEquippedItems)
         {
@@ -128,17 +149,11 @@ public class EquipmentReferenceFragment extends Fragment
             if(equipment instanceof IShield)
             {
                 currentlyEquippedShield = (IShield)equipment;
-            }            
+            }
         }
-    }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
-    {
         View rootView = inflater.inflate(R.layout.equipment_fragment_view, container, false);
         Context context = rootView.getContext();
-
 
         mainHandMagicBonus = rootView.findViewById(R.id.MainHandMagicBonus);
         mainHandAbilities = rootView.findViewById(R.id.MainHandEquipmentAbilities);
@@ -163,8 +178,19 @@ public class EquipmentReferenceFragment extends Fragment
         if(currentlyEquippedArmor != null)
         {
             armorAbilities.setVisibility(View.VISIBLE);
-            armorEquipmentName.setVisibility(View.VISIBLE);
-            armorMagicBonus.setVisibility(View.VISIBLE);
+            armorAbilities.setText(CreateEnchantmentString(currentlyEquippedArmor));
+
+            if(currentlyEquippedArmor.getEnchantments() != null)
+            {
+                armorEquipmentName.setText(currentlyEquippedArmor.getName());
+                armorEquipmentName.setVisibility(View.VISIBLE);
+            }
+
+            if(currentlyEquippedArmor.getMagicBonus() != 0)
+            {
+                armorMagicBonus.setVisibility(View.VISIBLE);
+                armorMagicBonus.setText(Integer.toString(currentlyEquippedArmor.getMagicBonus()));
+            }
 
             armorProtectionDetailView.setValues(currentlyEquippedArmor);
 
@@ -181,6 +207,26 @@ public class EquipmentReferenceFragment extends Fragment
                 }
             }));
         }
+        else if(currentlyEquippedArmor == null)
+        {
+            armorEquipmentLabel.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View v)
+                {
+                    ArrayList<IEquipment> relevantEquipmentInventory = new ArrayList<>();
+                    for(IEquipment equipment : currentEquipmentInventory)
+                    {
+                        if(equipment instanceof IArmor)
+                        {
+                            relevantEquipmentInventory.add(equipment);
+                        }
+                    }
+                    OpenEquipItemDialog("Equip Armor", relevantEquipmentInventory);
+                    return true;
+                }
+            });
+        }
         
         shieldMagicBonus = rootView.findViewById(R.id.ShieldMagicBonus);
         shieldAbilities = rootView.findViewById(R.id.ShieldEquipmentAbilities);
@@ -190,9 +236,20 @@ public class EquipmentReferenceFragment extends Fragment
         shieldUnequipButton = rootView.findViewById(R.id.ShieldEquipmentRowUnequipButton);
         if(currentlyEquippedShield != null)
         {
-            shieldAbilities.setVisibility(View.VISIBLE);
             shieldEquipmentName.setVisibility(View.VISIBLE);
-            shieldMagicBonus.setVisibility(View.VISIBLE);
+            shieldEquipmentName.setText(currentlyEquippedShield.getName());
+
+            if(currentlyEquippedShield.getEnchantments() != null)
+            {
+                shieldAbilities.setVisibility(View.VISIBLE);
+                shieldAbilities.setText(CreateEnchantmentString(currentlyEquippedShield));
+            }
+
+            if(currentlyEquippedShield.getMagicBonus() != 0)
+            {
+                shieldMagicBonus.setVisibility(View.VISIBLE);
+                shieldMagicBonus.setText(Integer.toString(currentlyEquippedShield.getMagicBonus()));
+            }
 
             shieldProtectionDetailView.setValues(currentlyEquippedShield);
 
@@ -208,6 +265,26 @@ public class EquipmentReferenceFragment extends Fragment
                     VisibilitySwitcher.SwitchVisibility(shieldUnequipButton);
                 }
             }));
+        }
+        else if(currentlyEquippedShield == null)
+        {
+            shieldEquipmentLabel.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View v)
+                {
+                    ArrayList<IEquipment> relevantEquipmentInventory = new ArrayList<>();
+                    for (IEquipment equipment : currentEquipmentInventory)
+                    {
+                        if (equipment instanceof IShield)
+                        {
+                            relevantEquipmentInventory.add(equipment);
+                        }
+                    }
+                    OpenEquipItemDialog("Equip Shield", relevantEquipmentInventory);
+                    return true;
+                }
+            });
         }
         
         //Set up the animations for clicking our category buttons
@@ -248,6 +325,15 @@ public class EquipmentReferenceFragment extends Fragment
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
+        if(context instanceof OnItemEquippedListener)
+        {
+            itemEquippedListener = (OnItemEquippedListener) context;
+        }
+        else
+        {
+            throw new RuntimeException(context.toString()
+                    +" must implement OnItemEquippedListener");
+        }
     }
 
     @Override
@@ -273,6 +359,23 @@ public class EquipmentReferenceFragment extends Fragment
         void onListFragmentInteraction(IEquipment item);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        switch(requestCode)
+        {
+            case EQUIP_ITEM:
+                if (resultCode == Activity.RESULT_OK)
+                {
+                    IEquipment mundaneProtectionToEquip= (IEquipment) data.getExtras().getSerializable("ItemToEquip");
+                    repository.equipItem(mundaneProtectionToEquip, currentPlayerCharacter.getPlayerCharacterID());
+                    itemEquippedListener.onItemEquipped(mundaneProtectionToEquip);
+                }
+                break;
+        }
+    }
+
+    //region Private Methods
     private String CreateEnchantmentString(IWeapon weapon)
     {
         List<IWeaponEnchantment> enchantments = weapon.getEnchantments();
@@ -319,5 +422,26 @@ public class EquipmentReferenceFragment extends Fragment
         {
             return "None";
         }
+    }
+    
+    private void OpenEquipItemDialog(String titleString, ArrayList<IEquipment> relevantEquipmentInventory)
+    {
+        Bundle args = new Bundle();
+        args.putSerializable("CurrentRelevantEquipmentInventory", relevantEquipmentInventory);
+        args.putSerializable("CurrentlyEquippedItems", currentlyEquippedItems);
+        args.putSerializable("TitleString", titleString);
+
+        EquipMundaneItemDialog equipMundaneItemDialog = new EquipMundaneItemDialog();
+        equipMundaneItemDialog.setArguments(args);
+
+        equipMundaneItemDialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        equipMundaneItemDialog.setTargetFragment(this, EQUIP_ITEM);
+        equipMundaneItemDialog.show(this.getFragmentManager(),"Equip Item");
+    }
+    //endregion
+
+    public interface OnItemEquippedListener
+    {
+        void onItemEquipped(IEquipment itemEquipped);
     }
 }
