@@ -64,14 +64,21 @@ public class AddItemToInventoryDialog extends DialogFragment
             if(currentFragment instanceof AddArmorToInventoryFragment)
             {
                 //We can now properly handle adding duplicate armors to out inventory, however the solution is armor specific
-                //It should easily transfer to weapons, but when we get to consumable goods we should use a different solution (twenty entries of potions would be a mess to look at)
+                //With how weapons and shields can equip one in each hand though, it won't quite work.
+                //It should also be reworked for consumables so that the inventory list doesn't get polluted with 20 potions at a time
                 View rootView = viewPager.findViewWithTag("AddArmorRootView");
                 Spinner spinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
-                IProtection mundaneProtectionToSave = (IProtection) spinner.getSelectedItem();
 
-                Intent i = new Intent().putExtra("MundaneProtectionToAddToInventory", mundaneProtectionToSave);
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
-                dismiss();
+                //If a user opens the dialog and immediately taps the confirm button, their selected item is going to be the "Select An Item String"
+                //This causes the application to crash after it tries casting the string to IEquipment and so we need to check for it.
+                if(spinner.getSelectedItem() instanceof IProtection)
+                {
+                    IProtection mundaneProtectionToSave = (IProtection) spinner.getSelectedItem();
+
+                    Intent i = new Intent().putExtra("ItemToAddToInventory", mundaneProtectionToSave);
+                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+                    dismiss();
+                }
             }
         }
     }

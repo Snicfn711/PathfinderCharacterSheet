@@ -23,6 +23,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.Armor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IArmor;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IShield;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
@@ -79,17 +80,24 @@ public class PathfinderRepository
         task.execute(playerSkillsEntityToInsert);
     }
 
-    public void addMundaneProtectionToPlayerInventory(IProtection ProtectionToAdd, UUID currentPlayerCharacterID)
+    public void addItemToPlayerInventory(IItem itemToAdd, UUID currentPlayerCharacterID)
     {
 
-        addMundaneProtectionToPlayerInventoryAsyncTask task = new addMundaneProtectionToPlayerInventoryAsyncTask(playerArmorDao);
+        if(itemToAdd instanceof IProtection)
+        {
+            addMundaneProtectionToPlayerInventoryAsyncTask task = new addMundaneProtectionToPlayerInventoryAsyncTask(playerArmorDao);
 
-        PlayerArmorEntity playerArmorEntityToAdd = new PlayerArmorEntity();
-        playerArmorEntityToAdd.setPlayerID(currentPlayerCharacterID);
-        playerArmorEntityToAdd.setArmorID(ProtectionToAdd.getItemID());
-        playerArmorEntityToAdd.setIsEquipped(false);
+            PlayerArmorEntity playerArmorEntityToAdd = new PlayerArmorEntity();
+            playerArmorEntityToAdd.setPlayerID(currentPlayerCharacterID);
+            playerArmorEntityToAdd.setArmorID(itemToAdd.getItemID());
+            playerArmorEntityToAdd.setIsEquipped(false);
 
-        task.execute(playerArmorEntityToAdd);
+            task.execute(playerArmorEntityToAdd);
+        }
+        else
+        {
+            throw new RuntimeException("An item type that hasn't been implemented yet was added to the database");
+        }
     }
 
     public void initializePlayerSkill(InitializePlayerSkillsAsyncTaskFinishedListener callingActivity, IPlayerCharacter characterToInitialize, List<ISkill> skillsToInitialize)

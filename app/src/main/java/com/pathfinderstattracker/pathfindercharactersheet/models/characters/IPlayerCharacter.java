@@ -5,6 +5,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AlignmentEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.feats.IFeat;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.races.IRace;
 
 import java.io.Serializable;
@@ -65,4 +66,7 @@ public interface IPlayerCharacter extends Serializable
     void setWillSave(int willSave);
     int getWillSave();
     IAbilityScore GetStat(AbilityScoreEnum scoreToFind);
+    List<IItem> getInventory();
+    void setInventory(List<IItem> inventory);
+    void addItemToInventory(IItem itemToAdd);
 }

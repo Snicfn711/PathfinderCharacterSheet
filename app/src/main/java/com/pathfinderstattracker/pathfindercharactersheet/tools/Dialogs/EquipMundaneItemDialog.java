@@ -9,15 +9,14 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.ObjectArrayListWithSectionHeadersSpinnerAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EquipMundaneItemDialog extends DialogFragment
@@ -25,16 +24,17 @@ public class EquipMundaneItemDialog extends DialogFragment
     private Spinner mundaneEquipmentInInventorySpinner;
     private TextView warningView;
 
-    private List<IEquipment> currentRelevantEquipmentInventory;
+    private List<Object> currentRelevantEquipmentInventory;
     private List<IEquipment> currentlyEquippedItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        currentRelevantEquipmentInventory = (List<IEquipment>)getArguments().getSerializable("CurrentRelevantEquipmentInventory");
+        currentRelevantEquipmentInventory = (List<Object>)getArguments().getSerializable("CurrentRelevantEquipmentInventory");
         //Eventually we'll need to implement some code around making sure that the items being equipped are valid together (shields with two handed weapons comes to mind)
         currentlyEquippedItems = (List<IEquipment>)getArguments().getSerializable("CurrentlyEquippedItems");
+        currentRelevantEquipmentInventory.add(0, "Select An Item");
     }
 
     @Override
@@ -49,7 +49,7 @@ public class EquipMundaneItemDialog extends DialogFragment
         Button confirmButton = rootView.findViewById(R.id.EquipMundaneItemConfirmButton);
 
         //Create and bind our adapter
-        ArrayAdapter<IEquipment> equipmentArrayAdapter = new ArrayAdapter<>(this.getContext(), R.layout.dropdown_item_view, currentRelevantEquipmentInventory);
+        ObjectArrayListWithSectionHeadersSpinnerAdapter equipmentArrayAdapter = new ObjectArrayListWithSectionHeadersSpinnerAdapter(this.getContext(), R.layout.dropdown_item_view, currentRelevantEquipmentInventory);
         mundaneEquipmentInInventorySpinner.setAdapter(equipmentArrayAdapter);
 
         //Set our on click listener
@@ -58,10 +58,18 @@ public class EquipMundaneItemDialog extends DialogFragment
             @Override
             public void onClick(View v)
             {
-                IEquipment itemToEquip = (IEquipment)mundaneEquipmentInInventorySpinner.getSelectedItem();
-                Intent i = new Intent().putExtra("ItemToEquip", itemToEquip);
-                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
-                dismiss();
+                //If a user opens the dialog and immediately taps the confirm button, their selected item is going to be the "Select An Item String"
+                //This causes the application to crash after it tries casting the string to IEquipment and so we need to check for it.
+                if(mundaneEquipmentInInventorySpinner.getSelectedItem() instanceof IEquipment)
+                {
+                    IEquipment itemToEquip = (IEquipment) mundaneEquipmentInInventorySpinner.getSelectedItem();
+                    if (itemToEquip != null)
+                    {
+                        Intent i = new Intent().putExtra("ItemToEquip", itemToEquip);
+                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+                        dismiss();
+                    }
+                }
             }
         });
 

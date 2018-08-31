@@ -189,9 +189,12 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         return Equipment;
     }
 
-    public void setEquipment(List<IEquipment> equippedArmor)
+    public void setEquipment(List<IEquipment> equippedItems)
     {
-        Equipment = equippedArmor;
+        Equipment = equippedItems;
+        CalculateTotalAC();
+        CalculateFlatFootedAC();
+        CalculateTouchAC();
     }
 
     public IDamageReduction getDamageReduction()
@@ -296,7 +299,16 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
     }
     public List<IItem> getInventory(){return Inventory;}
     public void setInventory(List<IItem> inventory){Inventory = inventory;}
-
+    //Not technically a getter/setter, but it serves a similar function.
+    //This way we can add single items to our inventory without constantly getting/setting our entire inventory
+    public void addItemToInventory(IItem itemToAdd)
+    {
+        if (Inventory == null)
+        {
+            Inventory = new ArrayList<>();
+        }
+        Inventory.add(itemToAdd);
+    }
 
     //endregion
 
@@ -323,15 +335,16 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         CreatedPlayerCharacter.setFortitudeSave(0);
         CreatedPlayerCharacter.setReflexSave(0);
         CreatedPlayerCharacter.setWillSave(0);
-        //If we don't create an empty equipment list for our default player character, CalculateTouchAC and CalculateFlatFootedAC will
-        //return null references.
-        CreatedPlayerCharacter.setEquipment(new ArrayList<IEquipment>());
         CreatedPlayerCharacter.setAbilityScores(new ArrayList<IAbilityScore>(Arrays.asList(new AbilityScore(AbilityScoreEnum.STR,10),
                                                                                            new AbilityScore(AbilityScoreEnum.DEX, 10),
                                                                                            new AbilityScore(AbilityScoreEnum.CON, 10),
                                                                                            new AbilityScore(AbilityScoreEnum.INT, 10),
                                                                                            new AbilityScore(AbilityScoreEnum.WIS, 10),
                                                                                            new AbilityScore(AbilityScoreEnum.CHA, 10))));
+        //If we don't create an empty equipment list for our default player character, CalculateTouchAC and CalculateFlatFootedAC will
+        //return null references.
+        CreatedPlayerCharacter.setEquipment(new ArrayList<IEquipment>());
+        CreatedPlayerCharacter.setInventory(new ArrayList<IItem>());
         return CreatedPlayerCharacter;
     }
 
@@ -691,4 +704,5 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         }
         return statToReturn;
     }
+
 }

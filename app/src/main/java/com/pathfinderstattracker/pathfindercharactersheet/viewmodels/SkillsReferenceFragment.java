@@ -79,18 +79,18 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
                              Bundle savedInstanceState)
     {
         repository = new PathfinderRepository(this.getActivity().getApplication());
-        Bundle getCurrentCharacterBundle = getArguments();
-        if(getCurrentCharacterBundle != null)
+        Bundle bundle = getArguments();
+        if(bundle != null)
         {
-            currentPlayerCharacter = (PlayerCharacter)getCurrentCharacterBundle.get("PlayerCharacter");
-            if(getCurrentCharacterBundle.containsKey("PlayerSkillsList"))
+            currentPlayerCharacter = (PlayerCharacter)bundle.get("PlayerCharacter");
+            if(bundle.containsKey("PlayerSkillsList"))
             {
-                currentPlayerCharacterSkills = (ArrayList<ISkill>)getCurrentCharacterBundle.get("PlayerSkillsList");
+                currentPlayerCharacterSkills = (ArrayList<ISkill>)bundle.get("PlayerSkillsList");
                 Collections.sort(currentPlayerCharacterSkills);
             }
-            if(getCurrentCharacterBundle.containsKey("DefaultSkills"))
+            if(bundle.containsKey("DefaultSkills"))
             {
-                defaultSkills = (ArrayList<ISkill>)getCurrentCharacterBundle.get("DefaultSkills");
+                defaultSkills = (ArrayList<ISkill>)bundle.get("DefaultSkills");
             }
         }
         View rootView = inflater.inflate(R.layout.skill_fragment_view, container, false);

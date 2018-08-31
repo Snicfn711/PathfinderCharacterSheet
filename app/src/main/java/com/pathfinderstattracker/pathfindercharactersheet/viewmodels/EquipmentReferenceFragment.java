@@ -118,6 +118,7 @@ public class EquipmentReferenceFragment extends Fragment
     {
         super.onCreate(savedInstanceState);
         repository = new PathfinderRepository(this.getActivity().getApplication());
+        currentlyEquippedItems = new ArrayList<>();
     }
 
     @Override
@@ -125,10 +126,6 @@ public class EquipmentReferenceFragment extends Fragment
                              Bundle savedInstanceState)
     {
         Bundle bundle = getArguments();
-        if(bundle.containsKey("CurrentlyEquippedItems"))
-        {
-            currentlyEquippedItems = (ArrayList<IEquipment>) bundle.getSerializable("CurrentlyEquippedItems");
-        }
         if(bundle.containsKey("CurrentEquipmentInventory"))
         {
             currentEquipmentInventory = (ArrayList<IEquipment>)bundle.getSerializable("CurrentEquipmentInventory");
@@ -136,6 +133,10 @@ public class EquipmentReferenceFragment extends Fragment
         if(bundle.containsKey("PlayerCharacter"))
         {
             currentPlayerCharacter = (PlayerCharacter)bundle.get("PlayerCharacter");
+            if(currentPlayerCharacter.getEquipment() != null)
+            {
+                currentlyEquippedItems.addAll(currentPlayerCharacter.getEquipment());
+            }
         }
 
         //We don't want to constantly iterate through the list of currently equipped items when we're checking if specific slots are filled,
@@ -177,13 +178,13 @@ public class EquipmentReferenceFragment extends Fragment
         armorUnequipButton = rootView.findViewById(R.id.ArmorEquipmentRowUnequipButton);
         if(currentlyEquippedArmor != null)
         {
-            armorAbilities.setVisibility(View.VISIBLE);
-            armorAbilities.setText(CreateEnchantmentString(currentlyEquippedArmor));
+            armorEquipmentName.setText(currentlyEquippedArmor.getName());
+            armorEquipmentName.setVisibility(View.VISIBLE);
 
             if(currentlyEquippedArmor.getEnchantments() != null)
             {
-                armorEquipmentName.setText(currentlyEquippedArmor.getName());
-                armorEquipmentName.setVisibility(View.VISIBLE);
+                armorAbilities.setVisibility(View.VISIBLE);
+                armorAbilities.setText(CreateEnchantmentString(currentlyEquippedArmor));
             }
 
             if(currentlyEquippedArmor.getMagicBonus() != 0)
@@ -367,9 +368,9 @@ public class EquipmentReferenceFragment extends Fragment
             case EQUIP_ITEM:
                 if (resultCode == Activity.RESULT_OK)
                 {
-                    IEquipment mundaneProtectionToEquip= (IEquipment) data.getExtras().getSerializable("ItemToEquip");
-                    repository.equipItem(mundaneProtectionToEquip, currentPlayerCharacter.getPlayerCharacterID());
-                    itemEquippedListener.onItemEquipped(mundaneProtectionToEquip);
+                    IEquipment itemToEquip= (IEquipment) data.getExtras().getSerializable("ItemToEquip");
+                    repository.equipItem(itemToEquip, currentPlayerCharacter.getPlayerCharacterID());
+                    itemEquippedListener.onItemEquipped(itemToEquip);
                 }
                 break;
         }

@@ -42,7 +42,7 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
                                                               PathfinderRepository.GetDefaultSkillsAsyncTaskFinishedListener,
                                                               SkillsReferenceFragment.OnSkillsUpdatedListener,
                                                               AddArmorToInventoryFragment.OnListFragmentInteractionListener,
-                                                              InventoryReferenceFragment.OnMundaneProtectionAddedToPlayerInventoryListener,
+                                                              InventoryReferenceFragment.OnItemAddedToPlayerInventoryListener,
                                                               PathfinderRepository.GetAllMundaneProtectionsAsyncTaskFinishedListener,
                                                               PathfinderRepository.InitializePlayerSkillsAsyncTaskFinishedListener,
                                                               SkillsReferenceFragment.OnCustomSkillAddedListener,
@@ -150,10 +150,10 @@ public class MainActivity extends FragmentActivity implements StatsReferenceFrag
     }
 
     @Override
-    public void onMundaneProtectionAddedToPlayerInventory(IProtection protectionToAddToInventory)
+    public void onItemAddedToPlayerInventory(IItem itemToAddToInventory)
     {
         ParentReferenceFragment parentReferenceFragment = (ParentReferenceFragment)getSupportFragmentManager().findFragmentByTag("ParentReferenceFragment");
-        parentReferenceFragment.AddMundaneProtection(protectionToAddToInventory);
+        parentReferenceFragment.AddItemToInventory(itemToAddToInventory);
     }
 
     @Override

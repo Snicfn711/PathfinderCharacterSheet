@@ -1,6 +1,7 @@
 package com.pathfinderstattracker.pathfindercharactersheet.viewmodels;
 
 import android.app.Activity;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityScoreEnu
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbilityScore;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
 import com.pathfinderstattracker.pathfindercharactersheet.models.characters.PlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.models.items.IEquipment;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.DatabaseEntityObjectConverter;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddNameDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditAbilityScoresDialog;
@@ -53,6 +55,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     private Animation click;
 
     private IPlayerCharacter currentPlayerCharacter;
+    private List<IEquipment> currentlyEquippedItems;
 
     //Used later in the code to determine which dialog is returning data to this fragment
     private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;
@@ -80,7 +83,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         click = AnimationUtils.loadAnimation(this.getContext(), R.anim.roll_button_click);
         repository = new PathfinderRepository(this.getActivity().getApplication());
 
-        Bundle getPlayerCharacterBundle = this.getArguments();
+        Bundle getPlayerCharacterBundle = getArguments();
         currentPlayerCharacter =  (PlayerCharacter)getPlayerCharacterBundle.getSerializable("PlayerCharacter");
 
         if(currentPlayerCharacter.getPlayerCharacterName() == null || currentPlayerCharacter.getPlayerCharacterName().isEmpty())
@@ -96,6 +99,10 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
+        if(currentPlayerCharacter != null)
+        {
+            currentPlayerCharacter = (PlayerCharacter)getArguments().getSerializable("PlayerCharacter");
+        }
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
 
@@ -368,4 +375,17 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
     }
     //endregion
+
+    private Bundle createBundle()
+    {
+        //We can't maintain a bundle at all times since they end up being too large, causing the application to fail when paused.
+        //By recreating the bundle, it only exists for the short period we need it for and then passes out of scope
+        //(notice that all of our calls to this createBundle() method don't actually persist the bundle in this class)
+        Bundle bundleToPass = new Bundle();
+        bundleToPass.putSerializable("PlayerSkillsList", getArguments().getSerializable("PlayerSkillsList"));
+        bundleToPass.putSerializable("PlayerCharacter", currentPlayerCharacter);
+        bundleToPass.putSerializable("DefaultSkills", getArguments().getSerializable("DefaultSkills"));
+        bundleToPass.putSerializable("CurrentEquipmentInventory", getArguments().getSerializable("CurrentEquipmentInventory"));
+        return bundleToPass;
+    }
 }

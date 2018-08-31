@@ -11,7 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pathfinderstattracker.pathfindercharactersheet.R;
-import com.pathfinderstattracker.pathfindercharactersheet.adapters.AddMundaneProtectionToInventorySpinnerAdapter;
+import com.pathfinderstattracker.pathfindercharactersheet.adapters.ObjectArrayListWithSectionHeadersSpinnerAdapter;
 import com.pathfinderstattracker.pathfindercharactersheet.database.PathfinderRepository;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorTypesEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.ArmorWeightCategoryEnum;
@@ -150,7 +150,7 @@ public class AddArmorToInventoryFragment extends Fragment implements PathfinderR
 
         Spinner mundaneProtectionsSpinner = rootView.findViewById(R.id.AddArmorToInventoryDropdown);
 
-        AddMundaneProtectionToInventorySpinnerAdapter mundaneProtectionAdapter = new AddMundaneProtectionToInventorySpinnerAdapter(this.getContext(), R.layout.dropdown_item_view, mundaneProtectionArrayWithSectionHeaders);
+        ObjectArrayListWithSectionHeadersSpinnerAdapter mundaneProtectionAdapter = new ObjectArrayListWithSectionHeadersSpinnerAdapter(this.getContext(), R.layout.dropdown_item_view, mundaneProtectionArrayWithSectionHeaders);
         mundaneProtectionsSpinner.setAdapter(mundaneProtectionAdapter);
         mundaneProtectionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {

@@ -39,7 +39,7 @@ import java.util.List;
 public class InventoryReferenceFragment extends Fragment
 {
     private OnListFragmentInteractionListener mListener;
-    private OnMundaneProtectionAddedToPlayerInventoryListener mundaneProtectionUpdatedListener;
+    private OnItemAddedToPlayerInventoryListener inventoryUpdatedListener;
     private IPlayerCharacter currentPlayerCharacter;
     private Animation click;
     private View rootView;
@@ -77,18 +77,19 @@ public class InventoryReferenceFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        Bundle getCurrentPlayerCharacterBundle = this.getArguments();
-        if(getCurrentPlayerCharacterBundle != null)
+        Bundle bundle = getArguments();
+        if(bundle != null)
         {
-            currentPlayerCharacter = (PlayerCharacter)getCurrentPlayerCharacterBundle.get("PlayerCharacter");
+            currentPlayerCharacter = (PlayerCharacter)bundle.get("PlayerCharacter");
             //If the player character has an empty inventory, the ParentReferenceFragment won't pass anything, so we need to handle this case.
-            if(getCurrentPlayerCharacterBundle.get("PlayerInventory") == null)
+            //Also, we could replace currentInventory with calls to currentPlayerCharacter.getInventory() but we're using a separate field to save some calls.
+            if(currentPlayerCharacter.getInventory() == null)
             {
                 currentInventory = new ArrayList<>();
             }
             else
             {
-                currentInventory = (List<IItem>) getCurrentPlayerCharacterBundle.get("PlayerInventory");
+                currentInventory = currentPlayerCharacter.getInventory();
             }
         }
 
@@ -171,9 +172,9 @@ public class InventoryReferenceFragment extends Fragment
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
         }
-        if(context instanceof OnMundaneProtectionAddedToPlayerInventoryListener)
+        if(context instanceof OnItemAddedToPlayerInventoryListener)
         {
-            mundaneProtectionUpdatedListener = (OnMundaneProtectionAddedToPlayerInventoryListener)context;
+            inventoryUpdatedListener = (OnItemAddedToPlayerInventoryListener)context;
         }
         else
         {
@@ -236,16 +237,16 @@ public class InventoryReferenceFragment extends Fragment
             case ADD_ITEM_TO_INVENTORY:
                 if (resultCode == Activity.RESULT_OK)
                 {
-                    IProtection mundaneProtectionToAddToInventory= (IProtection) data.getExtras().getSerializable("MundaneProtectionToAddToInventory");
-                    repository.addMundaneProtectionToPlayerInventory(mundaneProtectionToAddToInventory, currentPlayerCharacter.getPlayerCharacterID());
-                    mundaneProtectionUpdatedListener.onMundaneProtectionAddedToPlayerInventory(mundaneProtectionToAddToInventory);
+                    IItem itemToAddToInventory= (IItem) data.getExtras().getSerializable("ItemToAddToInventory");
+                    repository.addItemToPlayerInventory(itemToAddToInventory, currentPlayerCharacter.getPlayerCharacterID());
+                    inventoryUpdatedListener.onItemAddedToPlayerInventory(itemToAddToInventory);
                 }
                 break;
         }
     }
 
-    public interface OnMundaneProtectionAddedToPlayerInventoryListener
+    public interface OnItemAddedToPlayerInventoryListener
     {
-        void onMundaneProtectionAddedToPlayerInventory(IProtection protectionToAddToInventory);
+        void onItemAddedToPlayerInventory(IItem protectionToAddToInventory);
     }
 }
