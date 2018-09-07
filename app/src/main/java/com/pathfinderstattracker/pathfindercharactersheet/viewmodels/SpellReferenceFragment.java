@@ -26,6 +26,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellAre
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellDuration;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellDurationEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.spells.SpellRangeEnum;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.UpdateFragmentInterface;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ import static com.pathfinderstattracker.pathfindercharactersheet.tools.Visibilit
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class SpellReferenceFragment extends Fragment
+public class SpellReferenceFragment extends Fragment implements UpdateFragmentInterface
 {
     //region Temp Spells
     private Spell acidSplash = new Spell("Acid Splash",
@@ -267,6 +268,12 @@ public class SpellReferenceFragment extends Fragment
     {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void Update(Bundle args)
+    {
+        //Todo:Implement Spells
     }
 
     /**

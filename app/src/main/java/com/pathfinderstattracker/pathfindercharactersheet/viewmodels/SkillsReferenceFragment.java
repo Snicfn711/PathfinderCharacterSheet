@@ -29,6 +29,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.characters.Play
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddCustomSkillDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditSkillValuesDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.UpdateFragmentInterface;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +37,8 @@ import java.util.List;
 
 public class SkillsReferenceFragment extends Fragment implements SkillRecyclerViewAdapter.OnRollSkillCheckButtonClickedListener,
                                                                  SkillRecyclerViewAdapter.OnEditSkillLongClickListener,
-                                                                 PathfinderRepository.InsertCustomSkillListener
+                                                                 PathfinderRepository.InsertCustomSkillListener,
+                                                                 UpdateFragmentInterface
 {
     private SkillRecyclerViewAdapter skillAdapter;
     private PathfinderRepository repository;
@@ -269,6 +271,23 @@ public class SkillsReferenceFragment extends Fragment implements SkillRecyclerVi
         else
         {
             customSkillAddedListener.onCustomSkillAdded(insertedPlayerSkill);
+        }
+    }
+
+    @Override
+    public void Update(Bundle args)
+    {
+        if(args.containsKey("PlayerSkillsList"))
+        {
+            currentPlayerCharacterSkills = (ArrayList<ISkill>)args.getSerializable("PlayerSkillsList");
+        }
+        if(args.containsKey("DefaultSkills"))
+        {
+            defaultSkills = (ArrayList<ISkill>)args.getSerializable("DefaultSkills");
+        }
+        if(args.containsKey("PlayerCharacter"))
+        {
+            currentPlayerCharacter = (IPlayerCharacter)args.getSerializable("PlayerCharacter");
         }
     }
     //endregion

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.pathfinderstattracker.pathfindercharactersheet.tools.UpdateFragmentInterface;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.AbilityReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.EquipmentReferenceFragment;
 import com.pathfinderstattracker.pathfindercharactersheet.viewmodels.InventoryReferenceFragment;
@@ -99,6 +100,10 @@ public class ReferenceFragmentAdapter extends FragmentPagerAdapter
 
     public int getItemPosition(Object item)
     {
-        return POSITION_NONE;
+        if(item instanceof UpdateFragmentInterface)
+        {
+            ((UpdateFragmentInterface) item).Update(this.args);
+        }
+        return super.getItemPosition(item);
     }
 }

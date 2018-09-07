@@ -260,7 +260,7 @@ public class DatabaseInitializer
         ArmorEntity padded = new ArmorEntity(UUID.randomUUID());
         padded.setCost(5);
         padded.setWeight(10);
-        padded.setName("Padded");
+        padded.setName("Padded Armor");
         padded.setDescription("More than simple clothing, padded armor combines heavy, quilted cloth and layers of densely packed stuffing to create a cheap and basic protection. It is typically worn by those not intending to face lethal combat or those who wish their maneuverability to be impacted as little as possible");
         padded.setAcBonus(1);
         padded.setMaximumDexBonus(8);
@@ -269,7 +269,7 @@ public class DatabaseInitializer
         ArmorEntity quiltedCloth = new ArmorEntity(UUID.randomUUID());
         quiltedCloth.setCost(100);
         quiltedCloth.setWeight(15);
-        quiltedCloth.setName("Quilted Cloth");
+        quiltedCloth.setName("Quilted Cloth Armor");
         quiltedCloth.setDescription("This enhanced form of padded armor has internal layers specifically designed to trap arrows, bolts, darts, shuriken, thrown daggers, and other small ranged piercing weapons. When these kinds of weapons strike you, they tend to become snagged in these layers and fail to harm you. Wearing quilted cloth armor gives you DR 3/— against attacks of this kind. The special layers of the armor have no effect on other kinds of weapons.");
         quiltedCloth.setAcBonus(1);
         quiltedCloth.setMaximumDexBonus(8);
@@ -303,7 +303,7 @@ public class DatabaseInitializer
         ArmorEntity leather = new ArmorEntity(UUID.randomUUID());
         leather.setCost(10);
         leather.setWeight(15);
-        leather.setName("Leather");
+        leather.setName("Leather Armor");
         leather.setDescription("Leather armor is made up of multiple overlapping pieces of leather, boiled to increase their natural toughness and then deliberately stitched together. Although not as sturdy as metal armor, the flexibility it allows wearers makes it among the most widely used types of armor.");
         leather.setAcBonus(2);
         leather.setMaximumDexBonus(6);
@@ -321,7 +321,7 @@ public class DatabaseInitializer
         ArmorEntity hellKnightLeather = new ArmorEntity(UUID.randomUUID());
         hellKnightLeather.setCost(30);
         hellKnightLeather.setWeight(25);
-        hellKnightLeather.setName("Hell Knight Leather");
+        hellKnightLeather.setName("Hell Knight Leather Armor");
         hellKnightLeather.setDescription("There are instances where wearing full plate armor can jeopardize a Hell Knight’s life. Primarily worn by Hell Knight sailors, this studded leather armor includes heavy gloves and a helm of sculpted leather designed to look like a skull-either a human’s or that of some aquatic creature. Hell Knight leather’s statistics are identical to those of studded leather, except it costs 5 gp more and weighs 5 pounds more.");
         hellKnightLeather.setAcBonus(3);
         hellKnightLeather.setMaximumDexBonus(5);
@@ -370,7 +370,7 @@ public class DatabaseInitializer
         ArmorEntity studdedLeather = new ArmorEntity(UUID.randomUUID());
         studdedLeather.setCost(25);
         studdedLeather.setWeight(20);
-        studdedLeather.setName("Studded Leather");
+        studdedLeather.setName("Studded Leather Armor");
         studdedLeather.setDescription("An improved form of leather armor, studded leather armor is covered with dozens of metal protuberances. While these rounded studs offer little defense individually, in the numbers they are arrayed in upon such armor, they help catch lethal edges and channel them away from vital spots. The rigidity caused by the additional metal does, however, result in less mobility than is afforded by a suit of normal leather armor.");
         studdedLeather.setAcBonus(3);
         studdedLeather.setMaximumDexBonus(5);
@@ -380,7 +380,7 @@ public class DatabaseInitializer
         ArmorEntity wooden = new ArmorEntity(UUID.randomUUID());
         wooden.setCost(20);
         wooden.setWeight(25);
-        wooden.setName("Wooden");
+        wooden.setName("Wooden Armor");
         wooden.setDescription("This suit of leather armor has plates of fire-treated wood sewn over vital areas. Though not as effective as metal armor, it offers better protection than leather alone. Unlike metal armor, the wood is slightly buoyant, and the armor check penalty for swimming in this armor is 0.");
         wooden.setAcBonus(3);
         wooden.setMaximumDexBonus(3);
@@ -400,7 +400,7 @@ public class DatabaseInitializer
         ArmorEntity lamellarLeather = new ArmorEntity(UUID.randomUUID());
         lamellarLeather.setCost(60);
         lamellarLeather.setWeight(25);
-        lamellarLeather.setName("Leather Lamellar");
+        lamellarLeather.setName("Leather Lamellar Armor");
         lamellarLeather.setDescription("Lamellar is a type of armor in which small plates of various types of materials are strung together in parallel rows using fine cord. Lamellar plates can be constructed from lacquered leather, horn, or even stone, though suits of iron and steel are the most common. Lamellar armor can be crafted into various shapes, including partial pieces such as breastplates, greaves, or even entire coats. The properties of specific suits and pieces of lamellar armor are determined by their material.");
         lamellarLeather.setAcBonus(4);
         lamellarLeather.setMaximumDexBonus(3);
@@ -436,7 +436,7 @@ public class DatabaseInitializer
         ArmorEntity hide = new ArmorEntity(UUID.randomUUID());
         hide.setCost(15);
         hide.setWeight(25);
-        hide.setName("Hide");
+        hide.setName("Hide Armor");
         hide.setDescription("Hide armor is made from the tanned skin of particularly thick-hided beasts, stitched with either multiple overlapping layers of crude leather or exterior pieces of leather stuffed with padding or fur. Damage to the armor is typically repaired by restitching gashes or adding new pieces of hide, giving the most heavily used suits a distinctively patchwork quality.");
         hide.setAcBonus(4);
         hide.setMaximumDexBonus(4);
@@ -484,7 +484,7 @@ public class DatabaseInitializer
         ArmorEntity hornLamellar = new ArmorEntity(UUID.randomUUID());
         hornLamellar.setCost(100);
         hornLamellar.setWeight(30);
-        hornLamellar.setName("Horn Lamellar");
+        hornLamellar.setName("Horn Lamellar Armor");
         hornLamellar.setDescription("Lamellar is a type of armor in which small plates of various types of materials are strung together in parallel rows using fine cord. Lamellar plates can be constructed from lacquered leather, horn, or even stone, though suits of iron and steel are the most common. Lamellar armor can be crafted into various shapes, including partial pieces such as breastplates, greaves, or even entire coats. The properties of specific suits and pieces of lamellar armor are determined by their material.");
         hornLamellar.setAcBonus(5);
         hornLamellar.setMaximumDexBonus(3);
@@ -556,7 +556,7 @@ public class DatabaseInitializer
         ArmorEntity steelLamellar = new ArmorEntity(UUID.randomUUID());
         steelLamellar.setCost(150);
         steelLamellar.setWeight(35);
-        steelLamellar.setName("Steel Lamellar");
+        steelLamellar.setName("Steel Lamellar Armor");
         steelLamellar.setDescription("Lamellar is a type of armor in which small plates of various types of materials are strung together in parallel rows using fine cord. Lamellar plates can be constructed from lacquered leather, horn, or even stone, though suits of iron and steel are the most common. Lamellar armor can be crafted into various shapes, including partial pieces such as breastplates, greaves, or even entire coats. The properties of specific suits and pieces of lamellar armor are determined by their material.");
         steelLamellar.setAcBonus(6);
         steelLamellar.setMaximumDexBonus(3);
@@ -582,7 +582,7 @@ public class DatabaseInitializer
         ArmorEntity bandedMail = new ArmorEntity(UUID.randomUUID());
         bandedMail.setCost(250);
         bandedMail.setWeight(35);
-        bandedMail.setName("Banded Mail");
+        bandedMail.setName("Banded Mail Armor");
         bandedMail.setDescription("");
         bandedMail.setAcBonus(7);
         bandedMail.setMaximumDexBonus(1);
@@ -594,7 +594,7 @@ public class DatabaseInitializer
         ArmorEntity fieldPlate = new ArmorEntity(UUID.randomUUID());
         fieldPlate.setCost(1200);
         fieldPlate.setWeight(50);
-        fieldPlate.setName("Field Plate");
+        fieldPlate.setName("Field Plate Armor");
         fieldPlate.setDescription("This heavy armor is similar to full plate but lighter in construction, sacrificing a bit of protection for greater flexibility and mobility.");
         fieldPlate.setAcBonus(7);
         fieldPlate.setMaximumDexBonus(1);
@@ -618,7 +618,7 @@ public class DatabaseInitializer
         ArmorEntity ironLamellar = new ArmorEntity(UUID.randomUUID());
         ironLamellar.setCost(200);
         ironLamellar.setWeight(50);
-        ironLamellar.setName("Iron Lamellar");
+        ironLamellar.setName("Iron Lamellar Armor");
         ironLamellar.setDescription("Lamellar is a type of armor in which small plates of various types of materials are strung together in parallel rows using fine cord. Lamellar plates can be constructed from lacquered leather, horn, or even stone, though suits of iron and steel are the most common. Lamellar armor can be crafted into various shapes, including partial pieces such as breastplates, greaves, or even entire coats. The properties of specific suits and pieces of lamellar armor are determined by their material.");
         ironLamellar.setAcBonus(7);
         ironLamellar.setMaximumDexBonus(0);
@@ -630,7 +630,7 @@ public class DatabaseInitializer
         ArmorEntity splintMail = new ArmorEntity(UUID.randomUUID());
         splintMail.setCost(200);
         splintMail.setWeight(45);
-        splintMail.setName("Splint Mail");
+        splintMail.setName("Splint Mail Armor");
         splintMail.setDescription("Splint mail is made up of overlapping layers of metal strips attached to a backing of leather or sturdy fabric. These splints are of greater size and durability than those that compose a suit of scale mail, improving the protection they afford the wearer, but at the cost of flexibility. A suit of splint mail includes gauntlets.");
         splintMail.setAcBonus(7);
         splintMail.setMaximumDexBonus(0);
@@ -654,7 +654,7 @@ public class DatabaseInitializer
         ArmorEntity fortressPlate = new ArmorEntity(UUID.randomUUID());
         fortressPlate.setCost(2100);
         fortressPlate.setWeight(75);
-        fortressPlate.setName("Fortress Plate");
+        fortressPlate.setName("Fortress Plate Armor");
         fortressPlate.setDescription("This dwarf-forged armor features layers of overlapping plates molded to deflect projectiles—especially those from firearms. Whenever you are the target of a ranged weapon attack that would ignore your armor bonus to AC, you add half the fortress plate’s armor bonus (including enhancement bonuses) to your AC against that attack. This benefit does not apply to energy attacks or magical touch attacks such as rays. Because the armor is designed with dwarves in mind, If you have the dwarf’s weapon familiarity racial trait, you increase this projectile-only bonus by 1. Fortress plate is incredibly bulky, and its armor category can’t be reduced by any effect (including by special materials, such as mithral). Fortress plate includes gauntlets and a helm.");
         fortressPlate.setAcBonus(8);
         fortressPlate.setMaximumDexBonus(0);
@@ -666,7 +666,7 @@ public class DatabaseInitializer
         ArmorEntity halfPlate = new ArmorEntity(UUID.randomUUID());
         halfPlate.setCost(600);
         halfPlate.setWeight(50);
-        halfPlate.setName("Half-Plate");
+        halfPlate.setName("Half-Plate Armor");
         halfPlate.setDescription("Half-plate armor combines elements of full plate and chainmail, incorporating several sizable plates of sculpted metal with an underlying mesh of chain links. While this suit protects vital areas with several layers of armor, it is not sculpted to a single individual’s frame, reducing its wearer’s mobility even more than a suit of full plate. Half-plate armor includes gauntlets and a helm.");
         halfPlate.setAcBonus(8);
         halfPlate.setMaximumDexBonus(0);
@@ -678,7 +678,7 @@ public class DatabaseInitializer
         ArmorEntity agileHalfPlate = new ArmorEntity(UUID.randomUUID());
         agileHalfPlate.setCost(850);
         agileHalfPlate.setWeight(55);
-        agileHalfPlate.setName("Agile Half-Plate");
+        agileHalfPlate.setName("Agile Half-Plate Armor");
         agileHalfPlate.setDescription("This style of half-plate is specially crafted in a manner that allows extra maneuverability for some physical activities. The armor check penalty for Climb checks and jump checks is only –4 (masterwork and mithral versions of this armor reduce this penalty as well as the normal penalty). In addition, unlike with most heavy armors, the wearer can still run at quadruple speed instead of triple speed.");
         agileHalfPlate.setAcBonus(8);
         agileHalfPlate.setMaximumDexBonus(0);
@@ -690,7 +690,7 @@ public class DatabaseInitializer
         ArmorEntity hellKnightHalfPlate = new ArmorEntity(UUID.randomUUID());
         hellKnightHalfPlate.setCost(850);
         hellKnightHalfPlate.setWeight(50);
-        hellKnightHalfPlate.setName("Hell Knight Half-Plate");
+        hellKnightHalfPlate.setName("Hell Knight Half-Plate Armor");
         hellKnightHalfPlate.setDescription("The armor worn by a Hell Knight signifer is a vestment of armored plates, chain, and dark fabric. It functions as half-plate, but it can be donned and removed as though it were medium armor. Any spellcaster who wears this armor is treated as if he were wearing Hell Knight plate for the purposes of any feats and effects that require it. This armor includes a signifer mask, though signifer masks can also be purchased separately.");
         hellKnightHalfPlate.setAcBonus(8);
         hellKnightHalfPlate.setMaximumDexBonus(0);
@@ -702,7 +702,7 @@ public class DatabaseInitializer
         ArmorEntity stoneCoatLamellar = new ArmorEntity(UUID.randomUUID());
         stoneCoatLamellar.setCost(500);
         stoneCoatLamellar.setWeight(45);
-        stoneCoatLamellar.setName("Stone Coat Lamellar");
+        stoneCoatLamellar.setName("Stone Coat Lamellar Armor");
         stoneCoatLamellar.setDescription("Lamellar is a type of armor in which small plates of various types of materials are strung together in parallel rows using fine cord. Lamellar plates can be constructed from lacquered leather, horn, or even stone, though suits of iron and steel are the most common. Lamellar armor can be crafted into various shapes, including partial pieces such as breastplates, greaves, or even entire coats. The properties of specific suits and pieces of lamellar armor are determined by their material. This weighty breastplate consists of lamellar crafted from stones. It is worn in conjunction with kikko leg protectors.");
         stoneCoatLamellar.setAcBonus(8);
         stoneCoatLamellar.setMaximumDexBonus(0);
@@ -726,7 +726,7 @@ public class DatabaseInitializer
         ArmorEntity fullPlate = new ArmorEntity(UUID.randomUUID());
         fullPlate.setCost(1500);
         fullPlate.setWeight(50);
-        fullPlate.setName("Full Plate");
+        fullPlate.setName("Full Plate Armor");
         fullPlate.setDescription("This metal suit comprises multiple pieces of interconnected and overlaying metal plates, incorporating the benefits of numerous types of lesser armor. A complete suit of full plate (or platemail, as it is often called) includes gauntlets, heavy leather boots, a visored helmet, and a thick layer of padding that is worn underneath the armor. Each suit of full plate must be individually fitted to its owner by a master armorsmith, although a captured suit can be resized to fit a new owner at a cost of 200 to 800 (2d4 100) gold pieces.");
         fullPlate.setAcBonus(9);
         fullPlate.setMaximumDexBonus(1);
@@ -738,7 +738,7 @@ public class DatabaseInitializer
         ArmorEntity grayMaidenPlate = new ArmorEntity(UUID.randomUUID());
         grayMaidenPlate.setCost(1500);
         grayMaidenPlate.setWeight(50);
-        grayMaidenPlate.setName("Gray Maiden Plate");
+        grayMaidenPlate.setName("Gray Maiden Plate Armor");
         grayMaidenPlate.setDescription("The Gray Maidens’ distinctive armor is one of their most iconic identifiers. Gray Maiden plate is mechanically identical to full plate, and any effect that functions with full plate functions with Gray Maiden plate. Certain options for Gray Maidens function only when they wear Gray Maiden plate.");
         grayMaidenPlate.setAcBonus(9);
         grayMaidenPlate.setMaximumDexBonus(1);
@@ -750,7 +750,7 @@ public class DatabaseInitializer
         ArmorEntity hellKnightPlate = new ArmorEntity(UUID.randomUUID());
         hellKnightPlate.setCost(2000);
         hellKnightPlate.setWeight(50);
-        hellKnightPlate.setName("Hell Knight Plate");
+        hellKnightPlate.setName("Hell Knight Plate Armor");
         hellKnightPlate.setDescription("These distinctive suits of armor are a special type of masterwork full plate that grant additional effects when worn by a character with levels in the Hell Knight prestige class. Apart from its distinctive look (each order of Hell Knights has its own style of armor), a suit of Hell Knight plate functions the same as a suit of masterwork full plate.");
         hellKnightPlate.setAcBonus(9);
         hellKnightPlate.setMaximumDexBonus(1);
@@ -762,7 +762,7 @@ public class DatabaseInitializer
         ArmorEntity stonePlate = new ArmorEntity(UUID.randomUUID());
         stonePlate.setCost(1800);
         stonePlate.setWeight(75);
-        stonePlate.setName("Stone Plate");
+        stonePlate.setName("Stone Plate Armor");
         stonePlate.setDescription("This armor is crafted by dwarven stonesmiths from alchemically strengthened plates of basalt. Stoneplate is heavy and unwieldy, but offers incredible protection to its wearer. It is primarily used by dwarven druids who cannot wear metal armor.");
         stonePlate.setAcBonus(9);
         stonePlate.setMaximumDexBonus(1);

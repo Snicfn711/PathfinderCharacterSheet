@@ -26,6 +26,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.tools.Converters.Datab
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddNameDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EditAbilityScoresDialog;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.RollD20Dialog;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.UpdateFragmentInterface;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ACReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.CombatManeuverReferenceBlockView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.HP_BAB_ReferenceBlockView;
@@ -47,7 +48,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 
-public class StatsReferenceFragment extends Fragment implements PathfinderRepository.UpdatePlayerCharacterAsyncTaskFinishedListener
+public class StatsReferenceFragment extends Fragment implements UpdateFragmentInterface
 {
     private PathfinderRepository repository;
     private OnFragmentInteractionListener mListener;
@@ -55,11 +56,19 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     private Animation click;
 
     private IPlayerCharacter currentPlayerCharacter;
-    private List<IEquipment> currentlyEquippedItems;
 
     //Used later in the code to determine which dialog is returning data to this fragment
     private static final int ADD_NEW_CHARACTER_NAME_DIALOG = 1;
     private static final int UPDATE_ABILITY_SCORES_DIALOG = 2;
+
+    private MovementReferenceBlockView movementView;
+    private AbilityScoreReferenceBlockView statsView;
+    private InitiativeReferenceBlockView initiativeView;
+    private CombatManeuverReferenceBlockView combatManeuverView;
+    private SavesReferenceBlockView savesView;
+    private ACReferenceBlockView armorView;
+    private HP_BAB_ReferenceBlockView hp_BAB_SRView;
+    SpellResistanceReferenceBlockView spellResistanceReferenceBlockView;
 
     public StatsReferenceFragment()
     {
@@ -99,17 +108,13 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        if(currentPlayerCharacter != null)
-        {
-            currentPlayerCharacter = (PlayerCharacter)getArguments().getSerializable("PlayerCharacter");
-        }
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.stats_screen_fragment_view, container, false);
 
         //region Create and set our View Adapters
+
         //Populate and bind our stats list
-        AbilityScoreReferenceBlockView statsView = rootView.findViewById(R.id.statsList);
-        statsView.setValues(currentPlayerCharacter.getAbilityScores());
+        statsView = rootView.findViewById(R.id.statsList);
 
         final ImageButton editStatsButton = statsView.findViewById(R.id.EditStatsButton);
         final ImageButton rollStrength = statsView.findViewById(R.id.RollStrengthCheck);
@@ -185,11 +190,10 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         });
 
         //Populate and bind our movement list
-        MovementReferenceBlockView movementView = rootView.findViewById(R.id.movementList);
+        movementView = rootView.findViewById(R.id.movementList);
 
         //Populate and bind our initiative section
-        InitiativeReferenceBlockView initiativeView = rootView.findViewById(R.id.initiativeList);
-        initiativeView.setValues(currentPlayerCharacter.getInitiative());
+        initiativeView = rootView.findViewById(R.id.initiativeList);
         final ImageButton rollInitiative = initiativeView.findViewById(R.id.RollInitiative);
         rollInitiative.setOnClickListener(new View.OnClickListener()
         {
@@ -202,8 +206,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         });
 
         //Populate and bind our combat Maneuver list
-        CombatManeuverReferenceBlockView combatManeuverView = rootView.findViewById(R.id.combatManeuverList);
-        combatManeuverView.setValues(currentPlayerCharacter.getCombatManeuverStats());
+        combatManeuverView = rootView.findViewById(R.id.combatManeuverList);
         final ImageButton rollCombatManeuver = combatManeuverView.findViewById(R.id.RollCombatManeuver);
         rollCombatManeuver.setOnClickListener(new View.OnClickListener()
         {
@@ -216,8 +219,7 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         });
 
         //Populate and bind our saves list
-        SavesReferenceBlockView savesView = rootView.findViewById(R.id.savesList);
-        savesView.setValues(currentPlayerCharacter.getFortitudeSave(), currentPlayerCharacter.getReflexSave(), currentPlayerCharacter.getWillSave());
+        savesView = rootView.findViewById(R.id.savesList);
         final ImageButton rollFortitudeSave = savesView.findViewById(R.id.RollFortSave);
         final ImageButton rollReflexSave = savesView.findViewById(R.id.RollReflexSave);
         final ImageButton rollWillSave = savesView.findViewById(R.id.RollWillSave);
@@ -253,15 +255,14 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
         });
 
         //Populate and bind our AC list
-        ACReferenceBlockView armorView = rootView.findViewById(R.id.armorList);
-        armorView.setValues(currentPlayerCharacter.getTotalAC(), currentPlayerCharacter.getTouchAC(), currentPlayerCharacter.getFlatFootedAC());
+        armorView = rootView.findViewById(R.id.armorList);
 
         //Populate and bind our HP, BAB, SR section
-        HP_BAB_ReferenceBlockView hp_BAB_SRView = rootView.findViewById(R.id.hp_bab_srList);
-        SpellResistanceReferenceBlockView spellResistanceReferenceBlockView = rootView.findViewById(R.id.spellResistanceView);
-        hp_BAB_SRView.setValues(currentPlayerCharacter.getCalculatedHitPoints(),currentPlayerCharacter.getTotalBaseAttackBonus());
-        spellResistanceReferenceBlockView.setValues(currentPlayerCharacter.getSpellResistance());
+        hp_BAB_SRView = rootView.findViewById(R.id.hp_bab_srList);
+        spellResistanceReferenceBlockView = rootView.findViewById(R.id.spellResistanceView);
         //endregion
+
+        BindViews();
 
         return rootView;
     }
@@ -326,7 +327,8 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
                 }
                 break;
         }
-        repository.updatePlayerCharacter(currentPlayerCharacter, this);
+        repository.updatePlayerCharacter(currentPlayerCharacter);
+        playerCharacterUpdatedListener.onPlayerCharacterUpdated(currentPlayerCharacter);
     }
 
     //region Open Dialog Methods
@@ -368,24 +370,25 @@ public class StatsReferenceFragment extends Fragment implements PathfinderReposi
     }
     //endregion
 
-    //region Repository Listener Methods
     @Override
-    public void onUpdatePlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter)
+    public void Update(Bundle args)
     {
-        playerCharacterUpdatedListener.onPlayerCharacterUpdated(playerCharacter);
+        if(args.containsKey("PlayerCharacter"))
+        {
+            currentPlayerCharacter = (IPlayerCharacter)args.getSerializable("PlayerCharacter");
+            BindViews();
+        }
     }
-    //endregion
 
-    private Bundle createBundle()
+    private void BindViews()
     {
-        //We can't maintain a bundle at all times since they end up being too large, causing the application to fail when paused.
-        //By recreating the bundle, it only exists for the short period we need it for and then passes out of scope
-        //(notice that all of our calls to this createBundle() method don't actually persist the bundle in this class)
-        Bundle bundleToPass = new Bundle();
-        bundleToPass.putSerializable("PlayerSkillsList", getArguments().getSerializable("PlayerSkillsList"));
-        bundleToPass.putSerializable("PlayerCharacter", currentPlayerCharacter);
-        bundleToPass.putSerializable("DefaultSkills", getArguments().getSerializable("DefaultSkills"));
-        bundleToPass.putSerializable("CurrentEquipmentInventory", getArguments().getSerializable("CurrentEquipmentInventory"));
-        return bundleToPass;
+        //By binding our  views in a separate function we can more easily call it for both the initial binding and binding on updates to our underlying data
+        statsView.setValues(currentPlayerCharacter.getAbilityScores());
+        initiativeView.setValues(currentPlayerCharacter.getInitiative());
+        combatManeuverView.setValues(currentPlayerCharacter.getCombatManeuverStats());
+        savesView.setValues(currentPlayerCharacter.getFortitudeSave(), currentPlayerCharacter.getReflexSave(), currentPlayerCharacter.getWillSave());
+        armorView.setValues(currentPlayerCharacter.getTotalAC(), currentPlayerCharacter.getTouchAC(), currentPlayerCharacter.getFlatFootedAC());
+        hp_BAB_SRView.setValues(currentPlayerCharacter.getCalculatedHitPoints(),currentPlayerCharacter.getTotalBaseAttackBonus());
+        spellResistanceReferenceBlockView.setValues(currentPlayerCharacter.getSpellResistance());
     }
 }

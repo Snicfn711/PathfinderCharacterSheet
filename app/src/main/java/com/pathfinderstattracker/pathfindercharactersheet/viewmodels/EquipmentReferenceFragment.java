@@ -38,6 +38,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponEnc
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponFamilyEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.WeaponWeightClassEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.EquipMundaneItemDialog;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.UpdateFragmentInterface;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.VisibilitySwitcher;
 import com.pathfinderstattracker.pathfindercharactersheet.views.ProtectionDetailView;
 import com.pathfinderstattracker.pathfindercharactersheet.views.WeaponDetailView;
@@ -52,7 +53,7 @@ import java.util.UUID;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class EquipmentReferenceFragment extends Fragment
+public class EquipmentReferenceFragment extends Fragment implements UpdateFragmentInterface
 {
     private OnListFragmentInteractionListener mListener;
     private OnItemEquippedListener itemEquippedListener;
@@ -87,7 +88,7 @@ public class EquipmentReferenceFragment extends Fragment
     private static final int EQUIP_ITEM = 1;
 
     private ArrayList<IEquipment> currentEquipmentInventory = new ArrayList<>();
-    //We want to implemnt some logic for checking if an item is valid to equip so we need to keep track of not just what's in our inventory, but also what's already equipped
+    //We want to implement some logic for checking if an item is valid to equip so we need to keep track of not just what's in our inventory, but also what's already equipped
     private ArrayList<IEquipment> currentlyEquippedItems = new ArrayList<>();
     private IArmor currentlyEquippedArmor;
     private IShield currentlyEquippedShield;
@@ -135,6 +136,7 @@ public class EquipmentReferenceFragment extends Fragment
             currentPlayerCharacter = (PlayerCharacter)bundle.get("PlayerCharacter");
             if(currentPlayerCharacter.getEquipment() != null)
             {
+                currentlyEquippedItems.clear();
                 currentlyEquippedItems.addAll(currentPlayerCharacter.getEquipment());
             }
         }
@@ -176,118 +178,14 @@ public class EquipmentReferenceFragment extends Fragment
         armorEquipmentLabel = rootView.findViewById(R.id.ArmorEquipmentLabel);
         armorProtectionDetailView = rootView.findViewById(R.id.ArmorProtectionDetailView);
         armorUnequipButton = rootView.findViewById(R.id.ArmorEquipmentRowUnequipButton);
-        if(currentlyEquippedArmor != null)
-        {
-            armorEquipmentName.setText(currentlyEquippedArmor.getName());
-            armorEquipmentName.setVisibility(View.VISIBLE);
 
-            if(currentlyEquippedArmor.getEnchantments() != null)
-            {
-                armorAbilities.setVisibility(View.VISIBLE);
-                armorAbilities.setText(CreateEnchantmentString(currentlyEquippedArmor));
-            }
-
-            if(currentlyEquippedArmor.getMagicBonus() != 0)
-            {
-                armorMagicBonus.setVisibility(View.VISIBLE);
-                armorMagicBonus.setText(Integer.toString(currentlyEquippedArmor.getMagicBonus()));
-            }
-
-            armorProtectionDetailView.setValues(currentlyEquippedArmor);
-
-            armorEquipmentLabel.setOnClickListener((new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    VisibilitySwitcher.SwitchVisibility(armorAbilities);
-                    VisibilitySwitcher.SwitchVisibility(armorEquipmentName);
-                    VisibilitySwitcher.SwitchVisibility(armorMagicBonus);
-                    VisibilitySwitcher.SwitchVisibility(armorProtectionDetailView);
-                    VisibilitySwitcher.SwitchVisibility(armorUnequipButton);
-                }
-            }));
-        }
-        else if(currentlyEquippedArmor == null)
-        {
-            armorEquipmentLabel.setOnLongClickListener(new View.OnLongClickListener()
-            {
-                @Override
-                public boolean onLongClick(View v)
-                {
-                    ArrayList<IEquipment> relevantEquipmentInventory = new ArrayList<>();
-                    for(IEquipment equipment : currentEquipmentInventory)
-                    {
-                        if(equipment instanceof IArmor)
-                        {
-                            relevantEquipmentInventory.add(equipment);
-                        }
-                    }
-                    OpenEquipItemDialog("Equip Armor", relevantEquipmentInventory);
-                    return true;
-                }
-            });
-        }
-        
         shieldMagicBonus = rootView.findViewById(R.id.ShieldMagicBonus);
         shieldAbilities = rootView.findViewById(R.id.ShieldEquipmentAbilities);
         shieldEquipmentName = rootView.findViewById(R.id.ShieldEquipmentName);
         shieldEquipmentLabel = rootView.findViewById(R.id.ShieldEquipmentLabel);
         shieldProtectionDetailView = rootView.findViewById(R.id.ShieldProtectionDetailView);
         shieldUnequipButton = rootView.findViewById(R.id.ShieldEquipmentRowUnequipButton);
-        if(currentlyEquippedShield != null)
-        {
-            shieldEquipmentName.setVisibility(View.VISIBLE);
-            shieldEquipmentName.setText(currentlyEquippedShield.getName());
 
-            if(currentlyEquippedShield.getEnchantments() != null)
-            {
-                shieldAbilities.setVisibility(View.VISIBLE);
-                shieldAbilities.setText(CreateEnchantmentString(currentlyEquippedShield));
-            }
-
-            if(currentlyEquippedShield.getMagicBonus() != 0)
-            {
-                shieldMagicBonus.setVisibility(View.VISIBLE);
-                shieldMagicBonus.setText(Integer.toString(currentlyEquippedShield.getMagicBonus()));
-            }
-
-            shieldProtectionDetailView.setValues(currentlyEquippedShield);
-
-            shieldEquipmentLabel.setOnClickListener((new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View view)
-                {
-                    VisibilitySwitcher.SwitchVisibility(shieldAbilities);
-                    VisibilitySwitcher.SwitchVisibility(shieldEquipmentName);
-                    VisibilitySwitcher.SwitchVisibility(shieldMagicBonus);
-                    VisibilitySwitcher.SwitchVisibility(shieldProtectionDetailView);
-                    VisibilitySwitcher.SwitchVisibility(shieldUnequipButton);
-                }
-            }));
-        }
-        else if(currentlyEquippedShield == null)
-        {
-            shieldEquipmentLabel.setOnLongClickListener(new View.OnLongClickListener()
-            {
-                @Override
-                public boolean onLongClick(View v)
-                {
-                    ArrayList<IEquipment> relevantEquipmentInventory = new ArrayList<>();
-                    for (IEquipment equipment : currentEquipmentInventory)
-                    {
-                        if (equipment instanceof IShield)
-                        {
-                            relevantEquipmentInventory.add(equipment);
-                        }
-                    }
-                    OpenEquipItemDialog("Equip Shield", relevantEquipmentInventory);
-                    return true;
-                }
-            });
-        }
-        
         //Set up the animations for clicking our category buttons
         click = AnimationUtils.loadAnimation(context, R.anim.roll_button_click);
         final Button armorAndWeaponsButton = rootView.findViewById(R.id.ArmorAndWeaponsButton);
@@ -309,6 +207,8 @@ public class EquipmentReferenceFragment extends Fragment
                 wondrousItemsButton.startAnimation(click);
             }
         }));
+
+        BindViews();
 
         return rootView;
     }
@@ -342,6 +242,39 @@ public class EquipmentReferenceFragment extends Fragment
     {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void Update(Bundle args)
+    {
+        if(args.containsKey("PlayerCharacter"))
+        {
+            currentPlayerCharacter = (IPlayerCharacter)args.getSerializable("PlayerCharacter");
+            if(currentPlayerCharacter.getEquipment() != null)
+            {
+                currentlyEquippedItems.clear();
+                currentlyEquippedItems.addAll(currentPlayerCharacter.getEquipment());
+            }
+            //We don't want to constantly iterate through the list of currently equipped items when we're checking if specific slots are filled,
+            //So we'll break down the list here.
+            for(IEquipment equipment : currentlyEquippedItems)
+            {
+                if(equipment instanceof IArmor)
+                {
+                    currentlyEquippedArmor = (IArmor)equipment;
+                }
+                if(equipment instanceof IShield)
+                {
+                    currentlyEquippedShield = (IShield)equipment;
+                }
+            }
+        }
+        if(args.containsKey("CurrentEquipmentInventory"))
+        {
+            currentEquipmentInventory = (ArrayList<IEquipment>)args.getSerializable("CurrentEquipmentInventory");
+        }
+
+        BindViews();
     }
 
     /**
@@ -444,5 +377,126 @@ public class EquipmentReferenceFragment extends Fragment
     public interface OnItemEquippedListener
     {
         void onItemEquipped(IEquipment itemEquipped);
+    }
+
+    private void BindViews()
+    {
+        if(currentlyEquippedArmor != null)
+        {
+            armorEquipmentName.setText(currentlyEquippedArmor.getName());
+            armorEquipmentName.setVisibility(View.VISIBLE);
+
+            if(currentlyEquippedArmor.getEnchantments() != null)
+            {
+                armorAbilities.setVisibility(View.VISIBLE);
+                armorAbilities.setText(CreateEnchantmentString(currentlyEquippedArmor));
+            }
+
+            if(currentlyEquippedArmor.getMagicBonus() != 0)
+            {
+                armorMagicBonus.setVisibility(View.VISIBLE);
+                armorMagicBonus.setText(Integer.toString(currentlyEquippedArmor.getMagicBonus()));
+            }
+
+            armorProtectionDetailView.setValues(currentlyEquippedArmor);
+
+            armorEquipmentLabel.setOnClickListener((new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    if(currentlyEquippedArmor.getEnchantments() != null)
+                    {
+                        VisibilitySwitcher.SwitchVisibility(armorAbilities);
+                    }
+                    VisibilitySwitcher.SwitchVisibility(armorEquipmentName);
+                    if(currentlyEquippedArmor.getMagicBonus() != 0)
+                    {
+                        VisibilitySwitcher.SwitchVisibility(armorMagicBonus);
+                    }
+                    VisibilitySwitcher.SwitchVisibility(armorProtectionDetailView);
+                    VisibilitySwitcher.SwitchVisibility(armorUnequipButton);
+                }
+            }));
+        }
+        else if(currentlyEquippedArmor == null)
+        {
+            armorEquipmentLabel.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View v)
+                {
+                    ArrayList<IEquipment> relevantEquipmentInventory = new ArrayList<>();
+                    for(IEquipment equipment : currentEquipmentInventory)
+                    {
+                        if(equipment instanceof IArmor)
+                        {
+                            relevantEquipmentInventory.add(equipment);
+                        }
+                    }
+                    OpenEquipItemDialog("Equip Armor", relevantEquipmentInventory);
+                    return true;
+                }
+            });
+        }
+
+        if(currentlyEquippedShield != null)
+        {
+            shieldEquipmentName.setVisibility(View.VISIBLE);
+            shieldEquipmentName.setText(currentlyEquippedShield.getName());
+
+            if(currentlyEquippedShield.getEnchantments() != null)
+            {
+                shieldAbilities.setVisibility(View.VISIBLE);
+                shieldAbilities.setText(CreateEnchantmentString(currentlyEquippedShield));
+            }
+
+            if(currentlyEquippedShield.getMagicBonus() != 0)
+            {
+                shieldMagicBonus.setVisibility(View.VISIBLE);
+                shieldMagicBonus.setText(Integer.toString(currentlyEquippedShield.getMagicBonus()));
+            }
+
+            shieldProtectionDetailView.setValues(currentlyEquippedShield);
+
+            shieldEquipmentLabel.setOnClickListener((new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    if(currentlyEquippedShield.getEnchantments() != null)
+                    {
+                        VisibilitySwitcher.SwitchVisibility(shieldAbilities);
+                    }
+                    VisibilitySwitcher.SwitchVisibility(shieldEquipmentName);
+                    if(currentlyEquippedShield.getMagicBonus() != 0)
+                    {
+                        VisibilitySwitcher.SwitchVisibility(shieldMagicBonus);
+                    }
+                    VisibilitySwitcher.SwitchVisibility(shieldProtectionDetailView);
+                    VisibilitySwitcher.SwitchVisibility(shieldUnequipButton);
+                }
+            }));
+        }
+        else if(currentlyEquippedShield == null)
+        {
+            shieldEquipmentLabel.setOnLongClickListener(new View.OnLongClickListener()
+            {
+                @Override
+                public boolean onLongClick(View v)
+                {
+                    ArrayList<IEquipment> relevantEquipmentInventory = new ArrayList<>();
+                    for (IEquipment equipment : currentEquipmentInventory)
+                    {
+                        if (equipment instanceof IShield)
+                        {
+                            relevantEquipmentInventory.add(equipment);
+                        }
+                    }
+                    OpenEquipItemDialog("Equip Shield", relevantEquipmentInventory);
+                    return true;
+                }
+            });
+        }
     }
 }

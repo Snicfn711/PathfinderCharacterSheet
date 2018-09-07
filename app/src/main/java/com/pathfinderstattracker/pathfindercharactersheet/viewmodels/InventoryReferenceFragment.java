@@ -25,6 +25,7 @@ import com.pathfinderstattracker.pathfindercharactersheet.models.items.AbsItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IItem;
 import com.pathfinderstattracker.pathfindercharactersheet.models.items.IProtection;
 import com.pathfinderstattracker.pathfindercharactersheet.tools.Dialogs.AddItemToInventoryDialog;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.UpdateFragmentInterface;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -36,7 +37,7 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class InventoryReferenceFragment extends Fragment
+public class InventoryReferenceFragment extends Fragment implements UpdateFragmentInterface
 {
     private OnListFragmentInteractionListener mListener;
     private OnItemAddedToPlayerInventoryListener inventoryUpdatedListener;
@@ -46,6 +47,7 @@ public class InventoryReferenceFragment extends Fragment
     private List<IItem> currentInventory;
     private static final int ADD_ITEM_TO_INVENTORY = 1;
     private PathfinderRepository repository;
+    private InventoryRecyclerViewAdapter inventoryRecyclerViewAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -108,7 +110,7 @@ public class InventoryReferenceFragment extends Fragment
         }));
 
         final RecyclerView inventoryRecyclerView = rootView.findViewById(R.id.InventoryRecycler);
-        final InventoryRecyclerViewAdapter inventoryRecyclerViewAdapter = new InventoryRecyclerViewAdapter(currentInventory, mListener);
+        inventoryRecyclerViewAdapter = new InventoryRecyclerViewAdapter(currentInventory, mListener);
         inventoryRecyclerView.setAdapter(inventoryRecyclerViewAdapter);
 
         //Set up the click animations for our sort/add buttons
@@ -188,6 +190,17 @@ public class InventoryReferenceFragment extends Fragment
     {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void Update(Bundle args)
+    {
+        if(args.containsKey("PlayerCharacter"))
+        {
+            currentPlayerCharacter = (IPlayerCharacter)args.getSerializable("PlayerCharacter");
+            currentInventory = currentPlayerCharacter.getInventory();
+            inventoryRecyclerViewAdapter.notifyDataSetChanged();
+        }
     }
 
     public interface OnListFragmentInteractionListener

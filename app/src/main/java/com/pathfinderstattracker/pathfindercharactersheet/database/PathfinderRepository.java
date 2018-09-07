@@ -156,10 +156,9 @@ public class PathfinderRepository
         task.execute(playerCharacterID);
     }
 
-    public void updatePlayerCharacter(IPlayerCharacter character, UpdatePlayerCharacterAsyncTaskFinishedListener callingActivity)
+    public void updatePlayerCharacter(IPlayerCharacter character)
     {
         updatePlayerCharacterAsyncTask task = new updatePlayerCharacterAsyncTask(playerCharacterDao);
-        task.delegate = callingActivity;
         task.execute(DatabaseEntityObjectConverter.ConvertPlayerCharacterObjectToPlayerCharacterEntity(character));
     }
 
@@ -280,7 +279,7 @@ public class PathfinderRepository
         protected Void doInBackground(PlayerArmorEntity... params)
         {
             playerArmorEntityToInsert = params[0];
-            //If we don't initialize the number in inventory to one, and there's no items of this type alread in the inventory,
+            //If we don't initialize the number in inventory to one, and there's no items of this type already in the inventory,
             //Our db doesn't properly track how many objects are actually in the inventory.
             playerArmorEntityToInsert.setNumberInInventory(1);
             getListOfPlayerArmorEntitiesAsyncTask task = new getListOfPlayerArmorEntitiesAsyncTask(asyncPlayerArmorDao);
@@ -578,23 +577,19 @@ public class PathfinderRepository
         }
     }
 
-    private static class updatePlayerCharacterAsyncTask extends AsyncTask<PlayerCharacterEntity, Void, PlayerCharacterEntity> {
+    private static class updatePlayerCharacterAsyncTask extends AsyncTask<PlayerCharacterEntity, Void, Void> {
         private PlayerCharacterDao asyncPlayerCharacterDao;
-        private UpdatePlayerCharacterAsyncTaskFinishedListener delegate = null;
 
         updatePlayerCharacterAsyncTask(PlayerCharacterDao dao) {
             asyncPlayerCharacterDao = dao;
         }
 
         @Override
-        protected PlayerCharacterEntity doInBackground(final PlayerCharacterEntity... params) {
+        protected Void doInBackground(final PlayerCharacterEntity... params) {
             asyncPlayerCharacterDao.updatePlayerCharacter(params[0]);
-            return params[0];
+            return null;
         }
 
-        protected void onPostExecute(PlayerCharacterEntity result) {
-            delegate.onUpdatePlayerCharacterAsyncTaskFinished((PlayerCharacter) DatabaseEntityObjectConverter.ConverterPlayerCharacterEntityToPlayerCharacterObject(result));
-        }
     }
 
     private static class updatePlayerSkillEntityAsyncTask extends AsyncTask<PlayerSkillsEntity, Void, Void> {
@@ -711,11 +706,6 @@ public class PathfinderRepository
     public interface UpdatePlayerEquipmentAsyncTaskFinishedListener
     {
         void onUpdatePlayerEquipmentAsyncTaskFinished();
-    }
-
-    public interface UpdatePlayerCharacterAsyncTaskFinishedListener
-    {
-        void onUpdatePlayerCharacterAsyncTaskFinished(IPlayerCharacter playerCharacter);
     }
 
     public interface UpdatePlayerSkillAsyncTaskFinishedListener

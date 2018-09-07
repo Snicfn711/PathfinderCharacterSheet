@@ -355,6 +355,7 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         int shieldBonus = 0;
         int dodgeBonus = 0;
         int dexterityBonus = 0;
+        Integer maximumDexterityBonus = CalculateMaximumDexterityBonus();
 
         if(Equipment != null)
         {
@@ -419,6 +420,10 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
             switch (x.getStat()) {
                 case DEX:
                     dexterityBonus = x.calculateModifier();
+                    if(maximumDexterityBonus != null && maximumDexterityBonus < dexterityBonus)
+                    {
+                       dexterityBonus = maximumDexterityBonus;
+                    }
                     break;
             }
         }
@@ -431,6 +436,7 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         int armorBonus = 0;
         int naturalArmorBonus = 0;
         int shieldBonus = 0;
+
         if(Equipment != null)
         {
             for(IEquipment x:Equipment)
@@ -479,17 +485,19 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
                             shieldBonus = ((IWondrousItems) x).getACBonus();
                             break;
                     }
-                    //Since we don't care about the other armor types, we'll leave out a default case
                 }
             }
         }
-        TouchAC = TotalAC - armorBonus - naturalArmorBonus - shieldBonus;
+
+        TouchAC = 10 + armorBonus + naturalArmorBonus + shieldBonus;
     }
 
     private void CalculateFlatFootedAC()
     {
         int dodgeBonus = 0;
         int dexterityBonus = 0;
+        Integer maximumDexterityBonus = CalculateMaximumDexterityBonus();
+
         if(Equipment != null)
         {
             for(IEquipment x:Equipment)
@@ -503,6 +511,7 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
                             dodgeBonus += ((IProtection) x).getACBonus();
                             break;
                     }
+                    //Since we don't care about the other armor types, we'll leave out a default case
                 }
                 else if(x instanceof IWondrousItems)
                 {
@@ -513,20 +522,22 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
                             break;
                     }
                 }
-                //Since we don't care about the other armor types, we'll leave out a default case
             }
         }
         for(IAbilityScore x:AbilityScores)
         {
-            switch (x.getStat())
-            {
+            switch (x.getStat()) {
                 case DEX:
                     dexterityBonus = x.calculateModifier();
+                    if(maximumDexterityBonus != null && maximumDexterityBonus < dexterityBonus)
+                    {
+                        dexterityBonus = maximumDexterityBonus;
+                    }
                     break;
             }
-            //Again, we don't care about other stats
         }
-        FlatFootedAC = TotalAC - dodgeBonus - dexterityBonus;
+        //Again, we don't care about other stats
+        FlatFootedAC = 10 + dodgeBonus + dexterityBonus;
     }
 
     private void CalculateFortitudeSave()
@@ -705,4 +716,27 @@ public class PlayerCharacter implements IPlayerCharacter, Serializable
         return statToReturn;
     }
 
+    private Integer CalculateMaximumDexterityBonus()
+    {
+        Integer maximumDexterityBonus = null;
+
+        if(Equipment != null)
+        {
+            for (IEquipment x : Equipment)
+            {
+                if (x instanceof IProtection && ((IProtection) x).getMaximumDexBonus() != null)
+                {
+                    if (maximumDexterityBonus == null)
+                    {
+                        maximumDexterityBonus = ((IProtection) x).getMaximumDexBonus();
+                    }
+                    else if (maximumDexterityBonus > ((IProtection) x).getMaximumDexBonus())
+                    {
+                        maximumDexterityBonus = ((IProtection) x).getMaximumDexBonus();
+                    }
+                }
+            }
+        }
+        return maximumDexterityBonus;
+    }
 }

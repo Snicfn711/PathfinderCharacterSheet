@@ -16,11 +16,13 @@ import com.pathfinderstattracker.pathfindercharactersheet.adapters.AbilityRecycl
 import com.pathfinderstattracker.pathfindercharactersheet.models.Ability;
 import com.pathfinderstattracker.pathfindercharactersheet.models.AbilityTypeEnum;
 import com.pathfinderstattracker.pathfindercharactersheet.models.IAbility;
+import com.pathfinderstattracker.pathfindercharactersheet.models.characters.IPlayerCharacter;
+import com.pathfinderstattracker.pathfindercharactersheet.tools.UpdateFragmentInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AbilityReferenceFragment extends Fragment
+public class AbilityReferenceFragment extends Fragment implements UpdateFragmentInterface
 {
     //region Temp Abilities
     private Ability punch = new Ability("Punch", AbilityTypeEnum.ExtraOrdinary, "Punch People IN THE FACE for 1 million damage", null, null, null,"Punch");
@@ -105,6 +107,12 @@ public class AbilityReferenceFragment extends Fragment
     {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void Update(Bundle args)
+    {
+        //Todo:Implement Abilities
     }
 
     /**
